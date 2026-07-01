@@ -4,7 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SE-AM Enablers Hub — FY2569</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'Anakotmai';font-weight:300;font-style:normal;src:url('https://pdee-hub.github.io/Enablers-Link-Document-69/Anakotmai/webfont/anakotmai-light.woff2') format('woff2');}
+@font-face{font-family:'Anakotmai';font-weight:500;font-style:normal;src:url('https://pdee-hub.github.io/Enablers-Link-Document-69/Anakotmai/webfont/anakotmai-medium.woff2') format('woff2');}
+@font-face{font-family:'Anakotmai';font-weight:700;font-style:normal;src:url('https://pdee-hub.github.io/Enablers-Link-Document-69/Anakotmai/webfont/anakotmai-bold.woff2') format('woff2');}
+</style>
 <style>
 :root{
   --bg:#f8f7f4;--bg2:#f0ede6;--card:#ffffff;
@@ -17,8 +21,8 @@
   --r:6px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;}
-.mono{font-family:'Inter','Noto Sans Thai',sans-serif;}
+body{font-family:'Anakotmai',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;}
+.mono{font-family:'Anakotmai',sans-serif;}
 
 /* ── HEADER ── */
 .hd{background:var(--navy);height:60px;display:flex;align-items:center;padding:0 40px;gap:12px;}
@@ -40,12 +44,12 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .score-card{background:var(--navy);border-radius:var(--r);padding:32px 28px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;}
 .score-card::after{content:'';position:absolute;bottom:-24px;right:-24px;width:110px;height:110px;border-radius:50%;background:rgba(184,134,47,.09);}
 .sc-lbl{font-size:11px;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
-.sc-num{font-family:'Inter',sans-serif;font-size:48px;font-weight:800;color:#fff;line-height:1;font-variant-numeric:tabular-nums;}
+.sc-num{font-family:'Anakotmai',sans-serif;font-size:48px;font-weight:800;color:#fff;line-height:1;font-variant-numeric:tabular-nums;}
 .sc-denom{font-size:16px;font-weight:400;color:rgba(255,255,255,.28);margin-left:3px;}
 .sc-badge{display:inline-block;margin-top:12px;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;}
 .sc-note{font-size:11px;color:rgba(255,255,255,.28);margin-top:6px;}
 .sc-stats{display:flex;gap:20px;margin-top:18px;padding-top:18px;border-top:1px solid rgba(255,255,255,.1);}
-.sst-n{font-family:'Inter',sans-serif;font-size:22px;font-weight:700;color:#fff;}
+.sst-n{font-family:'Anakotmai',sans-serif;font-size:22px;font-weight:700;color:#fff;}
 .sst-l{font-size:10px;color:rgba(255,255,255,.35);margin-top:2px;}
 .sst-red .sst-n{color:#f87171;}
 .sst-yellow .sst-n{color:#fbbf24;}
@@ -109,8 +113,8 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .dc-name-en{font-size:10px;color:var(--text3);margin-top:1px;}
 
 .dc-score-row{display:flex;align-items:baseline;gap:4px;}
-.dc-score{font-family:'Inter',sans-serif;font-size:24px;font-weight:700;line-height:1;}
-.dc-score-na{font-family:'Inter',sans-serif;font-size:20px;color:var(--border);}
+.dc-score{font-family:'Anakotmai',sans-serif;font-size:24px;font-weight:700;line-height:1;}
+.dc-score-na{font-family:'Anakotmai',sans-serif;font-size:20px;color:var(--border);}
 .dc-unit{font-size:10px;color:var(--text3);}
 
 .dc-yoy{font-size:11px;}
@@ -135,7 +139,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .p-name{font-size:16px;font-weight:700;color:#fff;line-height:1.3;}
 .p-en{font-size:12px;color:rgba(255,255,255,.4);margin-top:3px;}
 .p-score-row{display:flex;align-items:center;gap:14px;margin-top:14px;}
-.p-score{font-family:'Inter',sans-serif;font-size:30px;font-weight:700;color:#fff;}
+.p-score{font-family:'Anakotmai',sans-serif;font-size:30px;font-weight:700;color:#fff;}
 .p-score-meta{font-size:11px;color:rgba(255,255,255,.38);}
 .p-close{position:absolute;top:14px;right:14px;width:28px;height:28px;background:rgba(255,255,255,.1);border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.6);font-size:15px;transition:background .15s;}
 .p-close:hover{background:rgba(255,255,255,.2);}
@@ -147,7 +151,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .issue-item{display:flex;gap:9px;padding:10px 12px;background:var(--bg);border-radius:5px;margin-bottom:7px;border-left:3px solid var(--border);}
 .issue-item.crit{border-left-color:#b91c1c;background:rgba(185,28,28,.04);}
 .issue-item.warn{border-left-color:#c2610f;background:rgba(194,97,15,.04);}
-.issue-score{flex-shrink:0;font-family:'Inter',sans-serif;font-size:11px;font-weight:700;padding:2px 6px;border-radius:4px;background:var(--bg2);color:var(--text2);align-self:flex-start;margin-top:2px;}
+.issue-score{flex-shrink:0;font-family:'Anakotmai',sans-serif;font-size:11px;font-weight:700;padding:2px 6px;border-radius:4px;background:var(--bg2);color:var(--text2);align-self:flex-start;margin-top:2px;}
 .issue-body{}
 .issue-name{font-size:12px;font-weight:700;color:var(--text);line-height:1.3;}
 .issue-text{font-size:12px;color:var(--text2);margin-top:3px;line-height:1.5;}
