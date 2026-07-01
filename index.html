@@ -11,32 +11,40 @@
 </style>
 <style>
 :root{
-  --bg:#f8f7f4;--bg2:#f0ede6;--card:#ffffff;
-  --border:#e6e3dc;--border-s:#ece9e1;
-  --text:#1c1f24;--text2:#5a5f68;--text3:#9a9da3;
-  --navy:#1e3a5c;--gold:#b8862f;
-  --green:#1f9d6f;--yellow:#c2610f;--red:#b91c1c;
-  --shadow-sm:0 1px 3px rgba(28,31,36,.07);
-  --shadow-md:0 4px 16px rgba(28,31,36,.11);
-  --r:6px;
+  --bg:#f8f7f4; --bg2:#f1efe9; --card:#ffffff;
+  --border:#e6e3dc; --border-s:#ece9e1; --border2:#ccc9bf;
+  --text:#1c1f24; --text2:#5a5f68; --text3:#9a9da3;
+  --navy:#1e3a5c; --gold:#b8862f; --gold-lt:#f6eed9;
+  --green:#1f9d6f; --yellow:#c2610f; --red:#b91c1c;
+  --shadow-sm:0 1px 2px rgba(28,31,36,.06),0 0 0 1px rgba(28,31,36,.04);
+  --shadow-md:0 4px 14px rgba(28,31,36,.1),0 0 0 1px rgba(28,31,36,.05);
+  --r:6px; --mono:'IBM Plex Mono',monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Anakotmai',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;}
-.mono{font-family:'Anakotmai',sans-serif;}
+body{font-family:'Anakotmai',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.55;}
 
-/* ── HEADER ── */
-.hd{background:var(--navy);height:60px;display:flex;align-items:center;padding:0 40px;gap:12px;}
-.hd-logo{display:flex;align-items:center;gap:8px;text-decoration:none;}
-.hd-logo svg{width:30px;height:30px;}
-.hd-name{font-size:14px;font-weight:700;color:#fff;}
-.hd-sub{font-size:10px;color:rgba(255,255,255,.4);}
-.hd-sep{width:1px;height:24px;background:rgba(255,255,255,.14);margin:0 6px;}
-.hd-title{font-size:14px;font-weight:600;color:rgba(255,255,255,.88);}
-.hd-pill{margin-left:auto;font-size:11px;background:rgba(184,134,47,.22);color:var(--gold);padding:3px 10px;border-radius:20px;font-weight:700;}
-.hd-bar{height:3px;background:linear-gradient(90deg,var(--gold) 0%,transparent 55%);}
+/* ── NAV ── */
+.hd{background:var(--navy);height:52px;display:flex;align-items:center;padding:0 40px;gap:14px;position:sticky;top:0;z-index:60;}
+.hd-logo{display:flex;align-items:center;gap:9px;text-decoration:none;}
+.hd-logo svg{width:26px;height:26px;}
+.hd-name{font-size:13px;font-weight:700;color:#fff;}
+.hd-sub{font-size:9px;color:rgba(255,255,255,.38);margin-top:1px;}
+.hd-sep{width:1px;height:22px;background:rgba(255,255,255,.14);}
+.hd-title{font-size:13px;font-weight:600;color:rgba(255,255,255,.82);}
+.hd-pill{margin-left:auto;font-family:var(--mono);font-size:10px;background:rgba(184,134,47,.14);color:var(--gold);padding:3px 10px;border-radius:20px;letter-spacing:.5px;}
+.hd-bar{height:2px;background:linear-gradient(90deg,var(--gold) 0%,rgba(184,134,47,.3) 40%,transparent 65%);}
+
+/* ── BANNER ── */
+.banner{background:var(--bg);border-bottom:1px solid var(--border);padding:32px 40px 28px;}
+.banner-in{max-width:1160px;margin:0 auto;}
+.banner-kicker{font-family:var(--mono);font-size:10px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.banner-kicker::before{content:'';width:20px;height:2px;background:var(--gold);flex-shrink:0;}
+.banner-h{font-size:28px;font-weight:700;color:var(--navy);line-height:1.15;letter-spacing:-0.015em;margin-bottom:6px;}
+.banner-h .g{color:var(--gold);}
+.banner-sub{font-size:13px;color:var(--text2);}
 
 /* ── LAYOUT ── */
-.wrap{max-width:1160px;margin:0 auto;padding:36px 40px;}
+.wrap{max-width:1160px;margin:0 auto;padding:32px 40px;}
 
 /* ── HERO ── */
 .hero{display:grid;grid-template-columns:268px 1fr;gap:20px;margin-bottom:28px;align-items:stretch;}
@@ -61,16 +69,16 @@ body{font-family:'Anakotmai',sans-serif;background:var(--bg);color:var(--text);f
 #radar-container svg{width:100%;height:280px;}
 
 /* ── TOOLBAR ── */
-.toolbar{display:flex;align-items:center;gap:8px;margin-bottom:20px;flex-wrap:wrap;}
-.fb{padding:7px 15px;border-radius:var(--r);font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--card);color:var(--text2);transition:all .15s;font-family:inherit;}
+.toolbar{display:flex;align-items:center;gap:8px;margin-bottom:24px;flex-wrap:wrap;}
+.fb{padding:6px 14px;border-radius:var(--r);font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--card);color:var(--text2);transition:all .15s;font-family:inherit;box-shadow:var(--shadow-sm);}
 .fb:hover{border-color:var(--navy);color:var(--navy);}
-.fb.active{background:var(--navy);border-color:var(--navy);color:#fff;}
+.fb.active{background:var(--navy);border-color:var(--navy);color:#fff;box-shadow:none;}
 .fb.f-red.active{background:#991b1b;border-color:#991b1b;}
 .fb.f-yellow.active{background:#92400e;border-color:#92400e;}
 .fb.f-green.active{background:#065f46;border-color:#065f46;}
-.sep-v{width:1px;height:28px;background:var(--border);margin:0 2px;}
+.sep-v{width:1px;height:24px;background:var(--border);margin:0 4px;}
 .yr-toggle{display:flex;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-left:auto;}
-.yr-btn{padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--text3);transition:all .15s;font-family:inherit;}
+.yr-btn{padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--text3);transition:all .15s;font-family:inherit;}
 .yr-btn.active{background:var(--navy);color:#fff;}
 
 /* ── SEC HEADER ── */
@@ -89,7 +97,7 @@ body{font-family:'Anakotmai',sans-serif;background:var(--bg);color:var(--text);f
 .sq-red   {background:#fca5a5;}
 
 /* ── GRID ── */
-.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;}
 
 /* ── CARD ── */
 .dc{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:18px 16px;cursor:pointer;transition:box-shadow .2s,border-color .15s,transform .2s;position:relative;display:flex;flex-direction:column;gap:9px;box-shadow:var(--shadow-sm);min-width:0;}
@@ -158,28 +166,34 @@ body{font-family:'Anakotmai',sans-serif;background:var(--bg);color:var(--text);f
 .no-issues{padding:20px;text-align:center;color:var(--text3);font-size:13px;}
 
 /* ── FOOTER ── */
-.pg-foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);font-size:12px;color:var(--text3);display:flex;justify-content:space-between;}
+.pg-foot{margin-top:64px;padding-top:16px;border-top:1px solid var(--border);font-size:11px;color:var(--text3);display:flex;justify-content:space-between;font-family:var(--mono);}
 </style>
 </head>
 <body>
 
 <header class="hd">
   <a class="hd-logo" href="#">
-    <svg viewBox="0 0 30 30" fill="none">
-      <circle cx="15" cy="6.5" r="2.6" stroke="white" stroke-width="1.4" fill="none"/>
-      <line x1="15" y1="9.1" x2="15" y2="23.5" stroke="white" stroke-width="1.4" stroke-linecap="round"/>
-      <line x1="8.5" y1="13" x2="21.5" y2="13" stroke="white" stroke-width="1.4" stroke-linecap="round"/>
-      <path d="M8.5 13 C7.5 17.5 9.5 23 15 24.8 C20.5 23 22.5 17.5 21.5 13" stroke="white" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-      <line x1="8.5" y1="24.5" x2="11" y2="24.5" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
-      <line x1="19" y1="24.5" x2="21.5" y2="24.5" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+    <svg viewBox="0 0 28 28" fill="none">
+      <circle cx="14" cy="6" r="2.5" stroke="white" stroke-width="1.4" fill="none"/>
+      <line x1="14" y1="8.5" x2="14" y2="22" stroke="white" stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="8" y1="12" x2="20" y2="12" stroke="white" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M8 12 C7 16.5 9 21 14 22.5 C19 21 21 16.5 20 12" stroke="white" stroke-width="1.4" fill="none" stroke-linecap="round"/>
     </svg>
     <div><div class="hd-name">กทท.</div><div class="hd-sub">การท่าเรือแห่งประเทศไทย</div></div>
   </a>
   <div class="hd-sep"></div>
-  <span class="hd-title">SE-AM Enablers — ภาพรวมผลคะแนน FY2569</span>
-  <span class="hd-pill">10 ด้าน</span>
+  <span class="hd-title">SE-AM Enablers</span>
+  <span class="hd-pill">FY 2569</span>
 </header>
 <div class="hd-bar"></div>
+
+<div class="banner">
+  <div class="banner-in">
+    <div class="banner-kicker">SE-AM Enablers · กองประเมินผลองค์กร</div>
+    <h1 class="banner-h">ภาพรวม Enablers <span class="g">10 ด้าน</span></h1>
+    <p class="banner-sub">คลิกการ์ดเพื่อดูประเด็นที่ต้องแก้ไขและเปิด Dashboard รายด้าน</p>
+  </div>
+</div>
 
 <main class="wrap">
 
@@ -206,11 +220,11 @@ body{font-family:'Anakotmai',sans-serif;background:var(--bg);color:var(--text);f
 
   <div class="toolbar">
     <button class="fb active" data-filter="all">ทั้งหมด (10)</button>
-    <button class="fb f-red" data-filter="red">เสี่ยงสูง (&lt;2.50)</button>
-    <button class="fb f-yellow" data-filter="yellow">ปานกลาง (2.50–2.99)</button>
-    <button class="fb f-green" data-filter="green">ดี (≥3.00)</button>
+    <button class="fb f-red" data-filter="red">เสี่ยงสูง &lt;2.50</button>
+    <button class="fb f-yellow" data-filter="yellow">ปานกลาง 2.50–2.99</button>
+    <button class="fb f-green" data-filter="green">ดี ≥3.00</button>
     <div class="sep-v"></div>
-    <a class="fb" href="https://pdee-hub.github.io/Enablers-Link-Document-69/" target="_blank" style="text-decoration:none">🔗 Linkage Map ↗</a>
+    <a class="fb" href="https://pdee-hub.github.io/Enablers-Link-Document-69/" target="_blank" style="text-decoration:none">Linkage Exchange ↗</a>
     <div class="yr-toggle">
       <button class="yr-btn active" data-year="68">ปี 2568</button>
       <button class="yr-btn" data-year="69">เทียบ 2569</button>
@@ -218,7 +232,7 @@ body{font-family:'Anakotmai',sans-serif;background:var(--bg);color:var(--text);f
   </div>
 
   <div class="sec-hd">
-    <span class="sec-title">10 ด้าน Enablers — คลิกการ์ดเพื่อดูประเด็น</span>
+    <span class="sec-title">10 ด้าน Enablers</span>
     <div class="legend">
       <span><span class="ld l-red"></span>&lt;2.50 เสี่ยงสูง</span>
       <span><span class="ld l-yellow"></span>2.50–2.99 ปานกลาง</span>
