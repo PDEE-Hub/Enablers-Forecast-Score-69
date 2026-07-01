@@ -400,7 +400,7 @@ function buildRadar(){
   [1,2,3,4,5].forEach(l=>{
     const r=maxR*l/5;
     const p=pt(r,ang(2)+0.06);
-    svg+=`<text x="${p.x.toFixed(1)}" y="${p.y.toFixed(1)}" font-size="8" fill="#bbb" font-family="Inter,sans-serif" text-anchor="start" dominant-baseline="middle">${l}</text>`;
+    svg+=`<text x="${p.x.toFixed(1)}" y="${p.y.toFixed(1)}" font-size="8" fill="#bbb" font-family="Anakotmai,sans-serif" text-anchor="start" dominant-baseline="middle">${l}</text>`;
   });
 
   // axes
@@ -452,15 +452,15 @@ function buildRadar(){
     const base=sv>0.25?'hanging':sv<-0.25?'auto':'middle';
     const col=riskColor(activeYear==='69'?(d.score_69??d.score_68):d.score_68);
     const score=activeYear==='69'?(d.score_69??d.score_68):d.score_68;
-    svg+=`<text x="${lx}" y="${ly}" font-size="10" font-weight="700" fill="${col}" font-family="Inter,sans-serif" text-anchor="${anchor}" dominant-baseline="${base}">${d.label}</text>`;
+    svg+=`<text x="${lx}" y="${ly}" font-size="10" font-weight="700" fill="${col}" font-family="Anakotmai,sans-serif" text-anchor="${anchor}" dominant-baseline="${base}">${d.label}</text>`;
     const ly2=(cy+(maxR+35)*Math.sin(a)).toFixed(1);
-    svg+=`<text x="${lx}" y="${ly2}" font-size="8" fill="#aaa" font-family="Inter,sans-serif" text-anchor="${anchor}" dominant-baseline="${base}">${f2(score)}</text>`;
+    svg+=`<text x="${lx}" y="${ly2}" font-size="8" fill="#aaa" font-family="Anakotmai,sans-serif" text-anchor="${anchor}" dominant-baseline="${base}">${f2(score)}</text>`;
   });
 
   // year legend when comparing
   if(activeYear==='69'&&has69){
-    svg+=`<rect x="10" y="8" width="10" height="3" fill="#1e3a5c" rx="1"/><text x="24" y="11" font-size="9" fill="#666" font-family="Inter,sans-serif" dominant-baseline="middle">2568</text>`;
-    svg+=`<rect x="10" y="18" width="10" height="3" fill="#b8862f" rx="1"/><text x="24" y="21" font-size="9" fill="#666" font-family="Inter,sans-serif" dominant-baseline="middle">2569</text>`;
+    svg+=`<rect x="10" y="8" width="10" height="3" fill="#1e3a5c" rx="1"/><text x="24" y="11" font-size="9" fill="#666" font-family="Anakotmai,sans-serif" dominant-baseline="middle">2568</text>`;
+    svg+=`<rect x="10" y="18" width="10" height="3" fill="#b8862f" rx="1"/><text x="24" y="21" font-size="9" fill="#666" font-family="Anakotmai,sans-serif" dominant-baseline="middle">2569</text>`;
   }
 
   return `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${svg}</svg>`;
