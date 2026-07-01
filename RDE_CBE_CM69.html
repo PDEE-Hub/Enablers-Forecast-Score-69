@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CBE Enablers — CM การมุ่งเน้นลูกค้า ปี 2569</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── PAT Editorial Light ── */
+:root{
+  --bg:#f8f7f4;--bg2:#f1efe9;--card:#ffffff;
+  --border:#e6e3dc;--border-s:#ece9e1;
+  --text:#1c1f24;--text2:#5a5f68;--text3:#9a9da3;
+  --navy:#1e3a5c;--gold:#b8862f;
+  --lv1:#e2554f;--lv2:#ef9483;--lv3:#e3a82e;--lv4:#5bc69a;--lv5:#1f9d6f;
+  --shadow:0 1px 3px rgba(28,31,36,.06);
+  --shadow-h:0 4px 12px rgba(28,31,36,.10);
+  --radius:6px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;font-size:14px;background:var(--bg);color:var(--text);line-height:1.6;}
+.sub-num,.sub-wt,.sub-now,.target-inp,.cg-raw,.cg-wt,.doc-file-code,.grp-id,.grp-wt,.cg-sect-lbl,.doc-grp-lbl,.doc-lvl-count{font-family:'Inter','Noto Sans Thai',sans-serif;}
+
+/* TOP NAV */
+.top-nav{background:var(--navy);color:#fff;padding:0 24px;height:48px;display:flex;align-items:center;gap:8px;border-bottom:3px solid var(--gold);}
+.top-nav a{color:rgba(255,255,255,.55);text-decoration:none;font-size:13px;transition:color .15s;}
+.top-nav a:hover{color:#fff;}
+.top-nav h1{font-size:13px;font-weight:600;color:rgba(255,255,255,.9);margin-left:2px;}
+.top-nav .sep{color:rgba(255,255,255,.2);font-size:13px;}
+
+/* DIM HEADER */
+.dim-hd{background:var(--card);border-bottom:1px solid var(--border);padding:10px 24px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;box-shadow:var(--shadow);}
+
+/* CHIPS */
+.chip{font-size:12px;padding:3px 10px;border-radius:20px;font-weight:600;white-space:nowrap;}
+.cn{background:var(--bg2);color:var(--text2);}
+.ct{background:rgba(31,157,111,.12);color:#0f7a55;}
+.cr{background:rgba(226,85,79,.10);color:#b91c1c;}
+
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:46% 54%;height:calc(100vh - 97px);overflow:hidden;}
+
+/* LEFT */
+.left{display:flex;flex-direction:column;overflow:hidden;border-right:1px solid var(--border);background:var(--bg);}
+.left-hd{padding:10px 16px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;flex-shrink:0;background:var(--navy);color:rgba(255,255,255,.9);letter-spacing:.2px;}
+.left-body{flex:1;overflow-y:auto;}
+
+/* GROUP HEADER — 2 rows */
+.grp{display:flex;flex-direction:column;gap:3px;padding:7px 16px;background:var(--bg2);border-bottom:1px solid var(--border);border-top:1px solid var(--border);position:sticky;top:0;z-index:2;}
+.grp-row1{display:flex;align-items:center;gap:6px;}
+.grp-row2{display:flex;align-items:center;gap:6px;padding-left:20px;}
+.grp-id{font-size:12px;font-weight:700;color:var(--navy);min-width:16px;}
+.grp-name{font-size:12px;font-weight:600;flex:1;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.grp-wt{font-size:11px;color:var(--text3);white-space:nowrap;}
+.grp-scores{display:flex;align-items:center;gap:4px;flex-shrink:0;}
+.grp-chk{font-size:9px;font-weight:500;padding:1px 6px;border-radius:10px;white-space:nowrap;flex-shrink:0;}
+.chk-all{background:#e4f5e4;color:#0891b2;}
+.chk-part{background:#fef8e0;color:#92400e;}
+.chk-none{background:#ebe8e0;color:var(--text3);}
+.grp-score2{font-size:10px;color:var(--text2);display:flex;align-items:center;gap:4px;flex:1;white-space:nowrap;}
+.grp-prog{width:48px;height:4px;background:#d8d4cc;border-radius:2px;overflow:hidden;flex-shrink:0;}
+.grp-prog-fill{height:100%;border-radius:2px;transition:width .3s;}
+
+/* SUB ROWS */
+.sub{display:flex;align-items:stretch;cursor:pointer;border-bottom:1px solid var(--border-s);transition:background .12s;}
+.sub:hover{background:rgba(30,58,92,.04);}
+.sub.focus-cg{background:rgba(30,58,92,.07);border-left:3px solid var(--navy);}
+.sub.focus-cg .sub-target{border-left-color:var(--navy);}
+.sub-left{display:flex;align-items:center;padding:10px 10px 10px 20px;flex:1;min-width:0;}
+.sub-meta{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;min-width:0;}
+.sub-num{font-size:11px;color:var(--text3);flex-shrink:0;}
+.sub-wt{font-size:11px;color:var(--text3);flex-shrink:0;}
+.sub-now{font-size:11px;color:var(--text2);flex-shrink:0;}
+.sub-name{font-size:13px;color:var(--text);flex:1;min-width:0;line-height:1.4;}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.dg{background:var(--lv5);}.da{background:var(--lv3);}.dr{background:var(--lv1);}
+
+/* TARGET INPUT */
+.sub-target{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px 12px;flex-shrink:0;border-left:2px solid var(--border);width:96px;min-width:96px;background:var(--card);}
+.target-lbl{font-size:10px;color:var(--text3);font-weight:500;letter-spacing:.3px;}
+.target-inp{width:78px;font-size:12px;font-weight:700;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg2);color:var(--navy);text-align:center;transition:border-color .15s,box-shadow .15s;}
+.target-inp:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 2px rgba(30,58,92,.12);background:#fff;}
+
+/* SSTRIP */
+.sstrip{padding:6px 12px 6px 24px;border-bottom:1px solid var(--border-s);display:flex;align-items:center;gap:8px;background:var(--card);cursor:pointer;transition:background .12s;}
+.sstrip:hover{background:var(--bg2);}
+.sbadge{font-size:11px;padding:2px 9px;border-radius:20px;font-weight:600;white-space:nowrap;}
+.s0{background:var(--bg2);color:var(--text3);}
+.s1{background:rgba(227,168,46,.15);color:#92400e;}
+.s2{background:rgba(31,157,111,.12);color:#0f7a55;}
+
+/* CHECKLIST */
+.cl-wrap{padding:12px 16px;border-top:2px solid var(--navy);background:var(--card);flex-shrink:0;box-shadow:0 -2px 8px rgba(28,31,36,.04);}
+.cl-title{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:8px;}
+.cl-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text);margin-bottom:7px;line-height:1.55;}
+.cl-item input{flex-shrink:0;margin-top:3px;accent-color:var(--navy);width:14px;height:14px;}
+.cl-note{font-size:11px;color:var(--text3);padding-top:6px;border-top:1px solid var(--border-s);margin-top:6px;}
+
+/* TOTAL BAR */
+.total{display:flex;align-items:center;gap:8px;padding:10px 16px;background:var(--navy);color:#fff;flex-shrink:0;}
+.total-lbl{font-size:13px;font-weight:600;flex:1;}
+.total-note{font-size:11px;color:rgba(255,255,255,.45);}
+
+/* RIGHT */
+.right{display:flex;flex-direction:column;overflow:hidden;background:var(--card);}
+.right-body{flex:1;overflow-y:auto;display:flex;flex-direction:column;}
+.frame{border-bottom:1px solid var(--border);}
+.frame-hd{padding:8px 16px;font-size:12px;font-weight:700;border-bottom:1px solid rgba(0,0,0,.06);display:flex;align-items:center;gap:8px;}
+.frame-bd{padding:12px 16px;font-size:13px;line-height:1.65;}
+.ftag{font-size:11px;padding:2px 8px;border-radius:20px;font-weight:700;}
+.fa-hd{background:rgba(30,58,92,.06);}.fa-tag{background:rgba(30,58,92,.14);color:var(--navy);}
+.fb-hd{background:rgba(2,132,199,.06);}.fb-tag{background:rgba(2,132,199,.14);color:#0369a1;}
+.fc-hd{background:rgba(184,134,47,.08);}.fc-tag{background:rgba(184,134,47,.18);color:#92400e;}
+.fd-hd{background:rgba(71,85,105,.06);}.fd-tag{background:rgba(71,85,105,.14);color:#475569;}
+.fe-hd{background:rgba(31,157,111,.07);}.fe-tag{background:rgba(31,157,111,.14);color:#0f7a55;}
+
+.box{border-radius:5px;padding:8px 12px;margin-bottom:6px;font-size:13px;line-height:1.55;}
+.box-red{background:rgba(226,85,79,.08);color:#7a1010;border-left:3px solid var(--lv1);}
+.box-gray{background:var(--bg2);color:var(--text2);}
+.match-row{display:flex;align-items:flex-start;gap:6px;font-size:13px;padding:3px 0;}
+.m-ok{color:var(--lv5);}.m-no{color:var(--lv1);}
+.exp-btn{border:1px solid var(--border);background:var(--bg2);cursor:pointer;color:var(--navy);font-size:11px;padding:1px 8px;border-radius:20px;line-height:1.8;white-space:nowrap;transition:background .12s;}
+.exp-btn:hover{background:var(--border);}
+
+/* SIMULATOR */
+.cg-sim{padding:12px 16px;background:var(--bg);border-bottom:1px solid var(--border);}
+.cg-sim-hd{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.cg-scope-box{background:rgba(30,58,92,.05);border-left:3px solid var(--navy);border-radius:0 5px 5px 0;padding:8px 12px;font-size:13px;line-height:1.6;color:var(--text);margin-bottom:10px;}
+.cg-lvl-row{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:8px;overflow:hidden;transition:opacity .2s,box-shadow .15s;background:var(--card);}
+.cg-lvl-row:not(.blocked):hover{box-shadow:var(--shadow-h);}
+.cg-lvl-row.blocked{opacity:.3;pointer-events:none;}
+.cg-lvl-hd{display:flex;align-items:center;gap:8px;padding:8px 12px;cursor:pointer;transition:background .12s;}
+.cg-lvl-hd:hover{background:var(--bg2);}
+.cg-lvl-num{font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;background:var(--navy);color:#fff;flex-shrink:0;}
+.cg-lvl-summ{font-size:13px;color:var(--text);flex:1;line-height:1.4;display:flex;align-items:center;gap:5px;overflow:hidden;min-width:0;}
+.cg-lvl-summ .kt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;max-width:100%;}
+.cg-toggle{background:none;border:1px solid #c0b0e0;border-radius:4px;cursor:pointer;font-size:11px;color:#5a20a0;padding:1px 6px;flex-shrink:0;transition:background .1s;}
+.cg-toggle:hover{background:#ece6ff;}
+.cl-short{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.5;}
+.cl-exp-btn{font-size:9.5px;color:#5a20a0;cursor:pointer;user-select:none;margin-top:2px;display:inline-block;}
+.dep-count-bar{display:flex;flex-wrap:wrap;gap:5px;align-items:center;padding:6px 12px 5px;background:#f8f5ff;border-bottom:1px solid #d8ccee;}
+.dep-pill{display:inline-flex;align-items:center;gap:3px;font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;color:#fff;white-space:nowrap;}
+.dep-pill span{font-weight:400;opacity:.85;}
+.cg-lvl-summ .kt{font-weight:700;color:var(--navy);}
+.cg-lvl-detail{padding:8px 14px 10px;background:rgba(30,58,92,.04);border-top:1px dashed var(--border);font-size:13px;color:var(--text2);line-height:1.7;display:none;}
+.cg-lvl-detail.open{display:block;}
+.cg-lvl-body{padding:8px 12px 12px;background:var(--card);border-top:1px solid var(--border-s);}
+.cg-sect-lbl{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin:10px 0 6px;}
+.cg-req-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text);margin-bottom:6px;line-height:1.55;padding:6px 10px;border-radius:5px;transition:background .1s;}
+.cg-req-item:hover{background:var(--bg2);}
+.cg-req-item input[type=checkbox]{flex-shrink:0;margin-top:2px;accent-color:var(--navy);width:15px;height:15px;cursor:pointer;}
+.cg-int-link{display:inline-flex;align-items:center;gap:3px;font-size:10px;padding:2px 8px;border-radius:20px;background:var(--navy);color:#fff;font-weight:600;text-decoration:none;white-space:nowrap;flex-shrink:0;transition:opacity .15s;}
+.cg-int-link:hover{opacity:.8;}
+.cg-radio-grp{display:flex;flex-direction:column;gap:4px;}
+.cg-radio-grp label{display:flex;align-items:center;gap:8px;font-size:13px;padding:6px 10px;border-radius:5px;cursor:pointer;transition:background .12s;line-height:1.4;}
+.cg-radio-grp label:hover{background:var(--bg2);}
+.cg-radio-grp input[type=radio]{accent-color:var(--navy);flex-shrink:0;width:15px;height:15px;}
+.cg-trap{font-size:13px;color:#7a2800;margin-bottom:6px;padding:5px 10px 5px 12px;border-left:3px solid var(--lv1);border-radius:0 4px 4px 0;background:rgba(226,85,79,.05);line-height:1.55;}
+.cg-prog-bar{height:4px;background:var(--border);border-radius:2px;margin-bottom:8px;}
+.cg-prog-fill{height:4px;border-radius:2px;transition:width .3s ease;}
+.cg-total-bar{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--bg2);border-radius:5px;border:1px solid var(--border);margin-top:8px;}
+.cg-total-lbl{font-size:12px;color:var(--text2);flex:1;}
+.cg-raw{font-size:16px;font-weight:700;color:var(--navy);}
+.cg-wt{font-size:12px;color:var(--text3);}
+
+/* FRAME B — Documents */
+.doc-lvl-block{margin-bottom:10px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+.doc-lvl-hd{display:flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(2,132,199,.06);cursor:pointer;transition:background .12s;}
+.doc-lvl-hd:hover{background:rgba(2,132,199,.10);}
+.doc-lvl-badge{font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;background:#0369a1;color:#fff;flex-shrink:0;}
+.doc-lvl-title{font-size:13px;font-weight:600;color:#0369a1;flex:1;}
+.doc-lvl-count{font-size:11px;color:var(--text3);}
+.doc-lvl-body{padding:8px 12px 12px;display:none;background:var(--bg);border-top:1px solid var(--border);}
+.doc-lvl-body.open{display:block;}
+.doc-grp{margin-bottom:8px;}
+.doc-grp-lbl{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin:6px 0 4px;display:flex;align-items:center;gap:6px;}
+.doc-file{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--text);padding:3px 0 3px 8px;line-height:1.5;}
+.doc-file-code{color:#0369a1;font-weight:700;flex-shrink:0;font-family:'Inter',monospace;font-size:11px;}
+.doc-file-name{color:var(--text2);flex:1;}
+.doc-missing{background:rgba(184,134,47,.08);border:1px dashed rgba(184,134,47,.4);border-radius:5px;padding:8px 12px;font-size:13px;color:#92400e;}
+.doc-missing-req{background:rgba(30,58,92,.05);border:1px solid rgba(30,58,92,.15);border-radius:5px;padding:8px 12px;font-size:13px;color:var(--navy);margin-top:8px;}
+.doc-all-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 12px;border-radius:20px;background:#0369a1;color:#fff;text-decoration:none;font-weight:600;margin-top:8px;cursor:pointer;border:none;transition:opacity .15s;}
+.doc-all-btn:hover{opacity:.85;}
+.fb-prog-bar{display:flex;align-items:center;gap:8px;padding:8px 12px;margin-bottom:8px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);}
+.fb-prog-track{flex:1;height:4px;background:#e0ddd8;border-radius:2px;overflow:hidden;}
+.fb-item{display:flex;align-items:flex-start;gap:8px;padding:5px 8px;border-radius:5px;cursor:pointer;font-size:12.5px;line-height:1.55;margin:2px 0;border:1px solid transparent;transition:background .12s;}
+.fb-item:hover{background:rgba(2,132,199,.05);}
+.fb-item-done{background:#f0faf0 !important;border-color:#c3e6cb !important;}
+.fb-item-done .fb-item-text{color:#0891b2;text-decoration:line-through;opacity:.7;}
+.fb-item-gap{border-left:3px solid #d97706;}
+.fb-gap-tag{font-size:10px;font-weight:700;color:#92400e;background:#fef3c7;padding:1px 5px;border-radius:10px;flex-shrink:0;white-space:nowrap;margin-top:1px;}
+.fb-item input[type=checkbox]{margin-top:2px;flex-shrink:0;accent-color:#0369a1;width:14px;height:14px;cursor:pointer;}
+.fb-item-text{color:var(--text2);flex:1;}
+
+/* FRAME E — Self-Assessment Input + Gen */
+.fe-sim-row{display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;flex-wrap:wrap;}
+.fe-sect-lbl{font-size:10.5px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin:10px 0 5px;}
+.fe-lvl-block{margin-bottom:5px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+.fe-lvl-active{border-color:#86efac;}
+.fe-lvl-hd{display:flex;align-items:center;gap:7px;padding:7px 11px;cursor:pointer;transition:background .12s;background:var(--bg2);}
+.fe-lvl-hd:hover{background:rgba(0,0,0,.03);}
+.fe-lvl-badge{font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;color:#fff;flex-shrink:0;}
+.fe-lvl-title{font-size:12px;font-weight:600;color:var(--text);flex:1;}
+.fe-doc-ref{font-size:11px;color:#0369a1;font-weight:600;flex-shrink:0;}
+.fe-lvl-body{padding:8px 11px 10px;display:none;border-top:1px solid var(--border);background:var(--bg);}
+.fe-lvl-body.open{display:block;}
+.fe-textarea{width:100%;box-sizing:border-box;padding:7px 10px;font-size:12.5px;line-height:1.65;border:1px solid var(--border);border-radius:5px;background:var(--card);color:var(--text);font-family:'Noto Sans Thai',sans-serif;resize:vertical;transition:border-color .15s;}
+.fe-textarea:focus{outline:none;border-color:#0369a1;box-shadow:0 0 0 2px rgba(3,105,161,.1);}
+.fe-gap-item{padding:8px 11px 10px;margin-bottom:5px;background:rgba(217,119,6,.05);border:1px solid rgba(217,119,6,.22);border-radius:var(--radius);}
+.fe-gap-text{font-size:12.5px;color:#92400e;margin-bottom:6px;line-height:1.55;}
+.fe-gap-status{display:flex;gap:14px;margin-bottom:7px;}
+.fe-radio-lbl{font-size:12px;cursor:pointer;display:flex;align-items:center;gap:4px;color:var(--text2);}
+.fe-radio-lbl input{accent-color:#0891b2;cursor:pointer;}
+.fe-gen-btn{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;padding:8px 20px;border-radius:20px;background:#1e3a5c;color:#fff;font-weight:600;cursor:pointer;border:none;transition:opacity .15s;}
+.fe-gen-btn:hover{opacity:.85;}
+.fe-output{width:100%;box-sizing:border-box;padding:10px 12px;font-size:12px;line-height:1.75;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-family:'Noto Sans Thai',sans-serif;resize:vertical;}
+.fe-copy-btn{display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:5px 14px;border-radius:20px;background:#0369a1;color:#fff;font-weight:600;cursor:pointer;border:none;transition:opacity .15s;margin-top:6px;}
+.fe-copy-btn:hover{opacity:.85;}
+
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--bg2);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:#c9c5bc;}
+
+/* ── Cross-Dimension Linkage Badges ── */
+.dim-badge{display:inline-flex;align-items:center;font-size:8.5px;font-weight:700;padding:1px 6px;border-radius:4px;color:#fff;letter-spacing:.4px;white-space:nowrap;flex-shrink:0;cursor:pointer;transition:opacity .15s;}
+.dim-badge:hover{opacity:.75;}
+.dim-gap-tag{font-size:9px;font-weight:700;color:#b05000;padding:1px 5px;border-radius:3px;background:#fff3e0;border:1px solid #e07000;white-space:nowrap;}
+.crosslink-summ{display:flex;align-items:center;gap:5px;flex-wrap:wrap;padding:5px 12px;background:#f5f0ff;border-bottom:1px solid #d8ccee;font-size:9.5px;color:#4a3a6a;}
+.lvl-dim-strip{display:flex;gap:3px;flex-wrap:wrap;padding:3px 12px 4px;background:rgba(240,235,255,.6);border-bottom:1px solid #e8e0f8;}
+.cg-lvl-row.is-gap>.cg-lvl-hd{border-left:3px solid #e07000;}
+</style>
+
+<style>
+/* ── SM dimension accent: green ── */
+:root{--dim:#0891b2;--dim-lt:rgba(26,122,74,.12);}
+/* structural: ใช้ navy เหมือน CG — สม่ำเสมอ ไม่ฉูดฉาด */
+/* accent เฉพาะ small elements เท่านั้น */
+.sub.focus-cg{border-left-color:var(--dim)!important;}
+.cg-scope-box{border-left-color:var(--dim)!important;}
+.cg-prog-fill{background:var(--dim)!important;}
+.cg-req-item input[type=checkbox]{accent-color:var(--dim)!important;}
+.cg-radio-grp input[type=radio]{accent-color:var(--dim)!important;}
+.cl-item input{accent-color:var(--dim)!important;}
+/* IM dimension badge in header */
+.left-hd .sm-badge{background:var(--dim);color:#fff;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700;}
+</style>
+
+
+<body>
+<div class="top-nav">
+  <a href="index.html">← หน้าหลัก</a>
+  <span class="sep">|</span>
+  <h1>CM — การมุ่งเน้นลูกค้า ปี 2569</h1>
+  <span style="margin-left:auto;display:flex;align-items:center;gap:6px;">
+    <button onclick="exportProgress()" style="font-size:11px;padding:3px 11px;border:1px solid #86efac;border-radius:5px;background:#f0faf4;cursor:pointer;color:#166534;font-weight:600;">📤 Export</button>
+    <label style="font-size:11px;padding:3px 11px;border:1px solid #bfdbfe;border-radius:5px;background:#eff6ff;cursor:pointer;color:#1e40af;font-weight:600;">
+      📥 Import<input type="file" accept=".json" style="display:none;" onchange="importProgress(this)">
+    </label>
+  </span>
+</div>
+<div class="dim-hd">
+  <span id="dimTitle" style="font-size:13px;font-weight:600;"></span>
+  <span class="chip cn" id="dimOrig"></span>
+  <span style="color:var(--text3);font-size:13px;">→</span>
+  <span class="chip ct" id="totalChip">คาดการณ์ —</span>
+  <span style="font-size:11px;font-weight:600;margin-left:auto;" id="deltaChip"></span>
+</div>
+<div id="depTotalBar" style="padding:0 14px 2px;background:#f8f7f4;"></div>
+<div class="layout">
+  <div class="left">
+    <div class="left-hd">
+      <span style="font-size:11px;padding:2px 9px;border-radius:20px;font-weight:700;background:var(--navy);color:#fff;">CM</span>
+      &nbsp;Sequential Gating Simulator &amp; Action Checklist
+    </div>
+    <div class="left-body" id="leftBody"></div>
+    <div class="cl-wrap">
+      <div class="cl-title" id="clTitle">เลือก sub-item เพื่อดู Action Checklist</div>
+      <div id="clItems"></div>
+      <div class="cl-note">คลิก sub-item → checklist และ panel ขวาอัปเดตตาม</div>
+    </div>
+    <div class="total">
+      <span class="total-lbl" id="totalLbl">คะแนนรวม CM</span>
+      <span class="total-note">sub → ข้อ → ด้าน</span>
+      <span class="chip cn" style="font-size:11px;" id="totalOrig"></span>
+      <span style="font-size:14px;color:rgba(255,255,255,.5);">→</span>
+      <span class="chip ct" style="font-size:13px;font-weight:700;" id="totalFooter">—</span>
+      <span style="font-size:12px;color:#5bc69a;font-weight:700;" id="deltaFooter"></span>
+    </div>
+  </div>
+  <div class="right">
+    <div class="right-body" id="rightBody">
+      <div style="display:flex;align-items:center;justify-content:center;height:100%;color:#aaa;font-size:13px;">คลิก sub-item ด้านซ้ายเพื่อดูรายละเอียด</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const LINK_URL='https://pdee-hub.github.io/Enablers-Link-Document-69/';
+const DOC_DETAIL_URL='SM_Documents.html';
+const LS_KEY='cm_ck_69';
+
+// ── DATA ─────────────────────────────────────────────────────────────
+const DATA={ cm: {
+  dimId:"CM",
+  dimName:"การมุ่งเน้นลูกค้า",
+  orig:3.4225,
+  color:"#0891b2",
+  subs:[
+  {id:"1.1",grp:"1",gname:"ยุทธศาสตร์ด้านลูกค้าและตลาด",gw:10.0,gs68:3.5,name:"ยุทธศาสตร์ด้านลูกค้าและตลาด",w:10.0,s68:3.5,status:"ยังไม่เริ่ม",statusNote:"",scope:"มิตินี้มุ่งเน้นประเมินความสามารถขององค์กรในการนำข้อมูลสารสนเทศที่เกี่ยวกับลูกค้าและตลาด มาวิเคราะห์สภาพแวดล้อมเพื่อกำหนดทิศทางเชิงยุทธศาสตร์ระยะยาว พร้อมทั้งแปลงแผนไปสู่การปฏิบัติ สื่อสารถ่ายทอดเป้าหมาย และติดตามผลลัพธ์อย่างเป็นระบบ รวมถึงบูรณาการกับแผนงานอื่นๆ ขององค์กร",levelSumm:["Level 1 (ความครอบคลุมของข้อมูล): องค์กรมีแผนยุทธศาสตร์ และมีหลักฐานว่ามีการรวบรวมข้อมูลสารสนเทศต่างๆ ของลูกค้ามาเป็นพื้นฐานในการทำแผน","Level 2 (การวิเคราะห์เชิงกลยุทธ์): องค์กรสามารถนำข้อมูลสารสนเทศจาก Level 1 มาวิเคราะห์จุดแข็ง จุดอ่อน โอกาส และอุปสรรค (SWOT Analysis) เพื่อนำไปกำหนดทิศทางยุทธศาสตร์ลูกค้าได้","Level 3 (การอนุมัติ การถ่ายทอด และการวัดผล): แผนยุทธศาสตร์ต้องได้รับไฟเขียวจากบอร์ดบริหาร และถูกแปลงเป็นแผนปฏิบัติการประจำปี (Action Plan) มีการนำไปสื่อสารให้ผู้ที่เกี่ยวข้องนำไปปฏิบัติ และต้องมีกระบวนการติดตามผลสัมฤทธิ์ที่ทำได้ตามเป้า","Level 4 (การบูรณาการและการทบทวนกระบวนการ): ยุทธศาสตร์ลูกค้าต้องไม่แยกส่วน แต่ต้องมีความเชื่อมโยง (Alignment) ไปขับเคลื่อนยุทธศาสตร์และแผนแม่บทด้านอื่นๆ ขององค์กร และมีการทบทวนกระบวนการจัดทำแผน","Level 5 (นวัตกรรมและการจัดเก็บความรู้): องค์กรมีการถอดบทเรียน (AAR) จากการทำยุทธศาสตร์ และนำข้อค้นพบไปจัดเก็บในระบบดิจิทัลเพื่อสร้างเป็นองค์ความรู้หรือนวัตกรรมกระบวนการต่อไป"],good:["การจัดทำแผนยุทธศาสตร์ที่ครอบคลุม: กทท. มีการวิเคราะห์ปัจจัยนำเข้า (SWOT), กำหนดความท้าทาย/ความได้เปรียบเชิงยุทธศาสตร์, และเป้าหมายตามแผนยุทธศาสตร์ด้านลูกค้าและตลาดปี 2566-2570 ที่ชัดเจน","การบูรณาการแผนงาน: มีการระบุความสอดคล้องกับแผนวิสาหกิจและแผนแม่บทอื่น ๆ เช่น แผนด้านผู้มีส่วนได้ส่วนเสีย, ทรัพยากรบุคคล (HCM), การจัดการความรู้ (KM) และดิจิทัล (DT)","การอนุมัติและการถ่ายทอดเป้าหมาย: แผนยุทธศาสตร์ผ่านความเห็นชอบจากคณะกรรมการ กทท. อย่างเป็นทางการ มีการถ่ายทอดตัวชี้วัด (KPI) ลงสู่ระดับหน่วยงานและรายบุคคล รวมถึงสื่อสารให้ผู้มีส่วนได้ส่วนเสียภายนอกรับทราบ"],gaps:["การบูรณาการโดยใช้แผนลูกค้าเป็น \"ตัวตั้ง\": การเชื่อมโยงกับยุทธศาสตร์อื่นๆ ยังขาดความชัดเจนในการนำยุทธศาสตร์ลูกค้าและตลาดมาเป็นศูนย์กลาง (Customer-centric) ในการขับเคลื่อนแผนแม่บทอื่น","ความสอดคล้องของเป้าหมายและตัวชี้วัดในการปรับปรุงกระบวนการ: การกำหนดวัตถุประสงค์ เป้าหมาย และตัวชี้วัดในการทบทวนหรือพัฒนานวัตกรรมกระบวนการจัดทำแผนฯ ยังขาดความสอดคล้องกัน"],results:["กทท. ส่งเอกสารครอบคลุมตั้งแต่ระดับ 1-5 เช่น ผังกระบวนการ (SIPOC) การจัดทำแผน, แผนยุทธศาสตร์ด้านลูกค้าฯ 2566-2570 และแผนปฏิบัติการปี 2569, มติบอร์ดอนุมัติแผน, ระบบติดตามรายงานแผน (Dashboard), และการถอดบทเรียนด้วย AAR (AAR_1.1_แผนยุทธศาสตร์ลูกค้า) ลงระบบ KM Portal"],tris:["การติดตามและปรับปรุงกลยุทธ์: กทท. มีการรายงานผล แต่ยังขาดกระบวนการพยากรณ์หรือคาดการณ์ (Forecasting) ผลสำเร็จล่วงหน้าอย่างเป็นระบบ เพื่อนำข้อมูลมาใช้ตัดสินใจปรับเปลี่ยนกลยุทธ์หากแนวโน้มผลการดำเนินงานไม่เป็นไปตามเป้าหมาย","ความสอดคล้องของกรอบเวลา: การทบทวนแผนงานยังขาดความสอดคล้องกับกรอบเวลาของกระบวนการวางแผนเชิงกลยุทธ์ (SP) ในภาพรวมขององค์กร"],suggest:["บูรณาการแผนเชิงรุก: นำข้อมูลจากกลุ่มลูกค้าย่อย (Sub-segment) และเสียงลูกค้า (VOC) มาคาดการณ์ผลประกอบการ หากพบว่ามีแนวโน้มไม่ได้ตามเป้าหมาย ต้องมีกระบวนการนำเสนอทบทวนเพื่อปรับเปลี่ยนกลยุทธ์ (Pivot) ระหว่างปีได้ทันที","ปรับปรุงการประเมินนวัตกรรมกระบวนการ: การทำ AAR เพื่อปรับปรุงกระบวนการทำแผนยุทธศาสตร์ ต้องมีการตั้ง Process KPI ที่วัดผลได้จริง และสะท้อนลงในระบบ KM อย่างเป็นรูปธรรม","กทท. สอบผ่านกระบวนการทำแผนยุทธศาสตร์ในระดับโครงสร้างได้อย่างดีเยี่ยมจนทำคะแนนได้ 3.5000 แต่คะแนนถูกจำกัดไว้ไม่ให้ถึงระดับ 4-5 เนื่องจากผู้ตรวจประเมินต้องการเห็น ความคล่องตัว (Agility) ในการใช้ข้อมูลลูกค้ามาพยากรณ์ทิศทางอนาคต (Forecasting) หากเป้าหมายมีแนวโน้มพลาดเป้า กทท. ต้องมีระบบปรับแผน (Pivot) ได้ทันที นอกจากนี้ การบูรณาการยุทธศาสตร์จะต้องแสดงให้เห็นว่า \"แผนลูกค้า\" คือศูนย์กลาง (Customer-centric) ที่ส่งผลกระทบไปถึงการตั้งเป้าหมายในแผนอื่นๆ ขององค์กรอย่างแท้จริง หากเสริมเอกสารรายงานการพยากรณ์และตารางเชื่อมโยงเหล่านี้ได้ จะสามารถดันคะแนนขึ้นสู่ระดับ 4.0000 - 5.0000 ได้ในปี 2569"],docs:["ตารางแสดงความเชื่อมโยงยุทธศาสตร์ (Alignment Matrix): ที่แสดงให้เห็นชัดเจนว่า \"แผนยุทธศาสตร์ลูกค้าและตลาด\" ถูกใช้เป็น ปัจจัยนำเข้า (Input) หรือเป็นตัวตั้ง ในการจัดทำแผนวิสาหกิจ (SP) และแผนแม่บทอื่น","รายงานการติดตามผลและคาดการณ์ล่วงหน้า (Forecasting & Tracking Report): รายงานรายไตรมาสที่แสดงผลเปรียบเทียบกับเป้าหมาย พร้อมระบุ \"การคาดการณ์ผลการดำเนินงาน ณ สิ้นปี\"","บันทึกมติการปรับเปลี่ยนกลยุทธ์ (Strategy Revision Record): หลักฐานที่แสดงว่าเมื่อมีการคาดการณ์ว่าผลงานจะไม่บรรลุเป้า ผู้บริหารได้มีข้อสั่งการปรับแผนงาน/โครงการระหว่างปีเพื่อแก้ไขสถานการณ์"],bestprac:["กทพ. (EXAT): มีกลไกการสื่อสารและถ่ายทอดเป้าหมายระดับยุทธศาสตร์ลงสู่ระดับปฏิบัติการและ ระดับบุคคล ได้อย่างเป็นรูปธรรมและมีกลไกกำกับติดตามที่ชัดเจนเข้มข้น","รฟม. (MRTA): มีจุดเด่นด้านกระบวนการติดตามวิเคราะห์ โดยมีการนำข้อมูลมา คาดการณ์ผลสำเร็จ (Forecasting) ของแผนปฏิบัติการด้านลูกค้าและตลาดล่วงหน้า เพื่อเตรียมความพร้อมในการรับมือและปรับกลยุทธ์"],minReqs:{"1":["แผนยุทธศาสตร์ด้านลูกค้าและตลาด ฉบับปัจจุบัน","เอกสารที่แสดงถึงการวิเคราะห์สารสนเทศต่างๆ เพื่อจัดทำยุทธศาสตร์ด้านลูกค้าและตลาด"],"2":["แผนยุทธศาสตร์ด้านลูกค้าและตลาด ฉบับปัจจุบัน","แผนยุทธศาสตร์ด้านลูกค้าและตลาด ฉบับปัจจุบัน"],"3":["รายงานการประชุมคณะกรรมการรัฐวิสาหกิจ (บอร์ด กทท.) หรือคณะอนุกรรมการที่เกี่ยวข้องที่มีวาระ \"ให้ความเห็นชอบ/อนุมัติ\" แผนยุทธศาสตร์ด้านลูกค้าและตลาด","แผนปฏิบัติการประจำปีด้านลูกค้าและตลาด ภายใต้แผนยุทธศาสตร์ฯ","เอกสาร/หลักฐาน ที่แสดงถึงการถ่ายทอดสื่อสารแผนปฏิบัติการ ไปยังหน่วยงานทั้งภายในและภายนอกที่เกี่ยวข้อง","รายงานผลการดำเนินงานตามแผนยุทธศาสตร์ด้านลูกค้า โดยแสดงให้เห็นถึงความก้าวหน้า/ความสำเร็จในระดับยุทธศาสตร์และตามแผนปฏิบัติการ ผลผลิต (Output) และผลลัพธ์ (Outcome)"],"4":["เอกสารแสดงขั้นตอน วิธีการ กระบวนการ (เช่น SIPOC) ในการจัดทำแผนยุทธศาสตร์ด้านลูกค้าและตลาด","เอกสารที่แสดง ความเชื่อมโยง (Alignment) แผนยุทธศาสตร์ด้านลูกค้าและตลาดกับแผนแม่บทด้านอื่นๆ","เอกสารที่แสดงถึงการทบทวนกระบวนการจัดทำแผนยุทธศาสตร์ด้านลูกค้าและตลาด"],"5":["เอกสารที่แสดงถึงกระบวนการเรียนรู้และจัดการความรู้ (เช่น AAR) ในเรื่องการจัดทำแผนยุทธศาสตร์ด้านลูกค้าและตลาด","ภาพตัวอย่างหน้าจอระบบดิจิทัล (เช่น KM Portal) ที่มีการจัดเก็บองค์ความรู้ด้านการจัดทำแผนยุทธศาสตร์ด้านลูกค้าและตลาด"]},subComps:{"3":["จุดสกัด Level 3 (Hidden Blocker): เอกสารรายงานผลการดำเนินงานต้องระบุครบทั้ง 3 ส่วนคือ \"ความสำเร็จระดับยุทธศาสตร์\", \"ผลผลิต (Output)\", และ \"ผลลัพธ์ (Outcome)\" หากรายงานแค่ว่ากิจกรรมเสร็จตามกำหนด แต่ไม่มีผลลัพธ์เชิงธุรกิจหรือเชิงคุณค่า จะถูกหักคะแนนความสมบูรณ์"],"4":["จุดสกัด Level 4 (Hidden Blocker): จากการวิเคราะห์ Feedback Report ปี 68 ผู้ประเมินคาดหวังให้เห็น ความคล่องตัว (Agility) นั่นคือ ต้องมีกระบวนการคาดการณ์ล่วงหน้า (Forecasting) ว่าเป้าหมายอาจจะไม่บรรลุ และมีการนำข้อมูลมา \"ปรับแผนหรือทบทวนกลยุทธ์ระหว่างปี\" ได้อย่างทันท่วงที นอกจากนี้ ความเชื่อมโยงกับแผนแม่บทอื่น ต้องแสดงให้เห็นว่าแผนลูกค้าเป็น \"ปัจจัยนำเข้า (Customer-centric)\" ในการทำแผนอื่นๆ อย่างแท้จริง"],"5":["จุดสกัด Level 5 (Hidden Blocker): การทำ AAR และเก็บลงระบบดิจิทัลอย่างเดียวไม่พอ ต้องมีการตั้งตัวชี้วัดกระบวนการ (Process KPI) ของการทำแผนยุทธศาสตร์ และสะท้อนให้เห็นว่าเกิด \"นวัตกรรมกระบวนการจัดทำแผนยุทธศาสตร์\" ที่ดีขึ้นกว่าเดิม"]}},
+  {id:"2.1",grp:"2",gname:"การจำแนกลูกค้า",gw:5.0,gs68:3.5,name:"การจำแนกลูกค้า",w:5.0,s68:3.5,status:"ยังไม่เริ่ม",statusNote:"",scope:"มิตินี้มุ่งเน้นประเมินความสามารถขององค์กรในการก้าวข้ามการแบ่งกลุ่มลูกค้าแบบดั้งเดิม (เช่น แบ่งตามประเภทธุรกิจ หรือภูมิศาสตร์) ไปสู่การนำข้อมูลสารสนเทศเชิงลึกมาวิเคราะห์ เพื่อจัดกลุ่มลูกค้าเป้าหมาย และ \"กลุ่มลูกค้าย่อย (Sub-segment)\" อย่างมีนัยสำคัญทางธุรกิจ จากนั้นต้องจัดทำคุณลักษณะเฉพาะ (Customer Segment Profile) เพื่อเป็นเข็มทิศให้ทุกหน่วยงานในองค์กรนำไปใช้กำหนดกลยุทธ์ พัฒนาบริการ และสร้างความสัมพันธ์ได้อย่างเฉพาะเจาะจง (Personalization)",levelSumm:["Level 1 (การจำแนกแบบดั้งเดิม): องค์กรมีแนวทางการจำแนกลูกค้า โดยใช้ตัวแปรพื้นฐาน เช่น ผลิตภัณฑ์ที่มี, ประชากรศาสตร์ (Demographic), ภูมิศาสตร์ (Geographic) หรือขนาดธุรกิจ (Firmographic)","Level 2 (การวิเคราะห์เชิงลึกเพื่อหาตัวแปร): กำหนดวัตถุประสงค์ชัดเจน และนำข้อมูลที่หลากหลาย (ลูกค้าปัจจุบัน, ลูกค้าคู่แข่ง, ผู้ที่อาจเป็นลูกค้าในอนาคต) มาประยุกต์ใช้กับเครื่องมือทางสถิติ เพื่อกำหนดตัวแปรที่เหมาะสมในการจำแนกและระบุ \"ตลาดเป้าหมาย\"","Level 3 (การจัดทำ Profile และสื่อสาร): นำผลการจำแนกมาจัดทำ Customer Segment Profile (ข้อมูลคุณลักษณะเฉพาะของกลุ่มลูกค้า) อย่างชัดเจน และต้องมีการสื่อสารถ่ายทอดให้คนในองค์กรรับทราบทั่วกัน","Level 4 (การนำไปใช้จริงแบบบูรณาการ): นำผลการจำแนกลูกค้า (Profile) ไปปฏิบัติใช้จริงในทิศทางเดียวกัน ทั้งการทำแผนยุทธศาสตร์ลูกค้า, การพัฒนาผลิตภัณฑ์/บริการ, และปรับปรุงกระบวนการทางธุรกิจที่สำคัญ","Level 5 (การประเมินประสิทธิผลและนวัตกรรม): มีการประเมิน \"ประสิทธิผลของการจำแนกลูกค้า\" นำผลไปเรียนรู้ (KM) ทบทวนผ่านระบบดิจิทัล เพื่อปรับปรุงและสร้างนวัตกรรมในกระบวนการจำแนก"],good:["การวิเคราะห์เกณฑ์พฤติกรรม: กทท. มีการนำข้อมูลสารสนเทศด้านพฤติกรรมมาจำแนกลูกค้า โดยแบ่งจาก 4 กลุ่มหลัก กรองข้อมูลลูกค้าแบบ Waterfall จนสามารถจัดเป็น กลุ่มลูกค้าย่อย 3 กลุ่ม ได้แก่ กลุ่ม Special, กลุ่ม Premium และกลุ่มทั่วไป (Standard)","การเชื่อมโยงกับเป้าหมาย: มีการวิเคราะห์เพื่อหาความต้องการที่ซ่อนอยู่ (Unmet Needs) และเชื่อมโยงผลการจำแนกให้เข้ากับการกำหนดตำแหน่งทางยุทธศาสตร์ (Strategic Positioning) และ Value Proposition ขององค์กร"],gaps:["ความชัดเจนในการสื่อสาร (Communication): กทท. มีปัญหาเรื่องความคลาดเคลื่อนในการสื่อสาร โดยระบุในเอกสารว่าเป็น \"การเปลี่ยนกลุ่มลูกค้าใหม่ 3 กลุ่ม\" ซึ่งทำให้ผู้ประเมินเข้าใจว่า กทท. ทิ้งฐานลูกค้า 4 กลุ่มหลักเดิม แทนที่จะสื่อสารให้ชัดเจนว่านี่คือ \"การแบ่งกลุ่มลูกค้าย่อย (Sub-segment)\"","ความสมบูรณ์ของข้อมูลคุณลักษณะลูกค้า: กทท. ยังขาดการจัดทำข้อมูลกลุ่มลูกค้า (Customer Segment Profile) เชิงลึกของกลุ่มย่อยทั้ง 3 กลุ่ม ที่ครอบคลุมถึงพฤติกรรม ความต้องการ (Unmet needs) และช่องทางที่เหมาะสมอย่างละเอียด"],results:["กทท. ส่งเอกสารครอบคลุมตั้งแต่ระดับ 1-5 เช่น ผังกระบวนการ (SIPOC) การจำแนกลูกค้า, มติคณะกรรมการฝ่ายบริหารเห็นชอบผลการจำแนก, ข้อมูลสำคัญตามกลุ่มลูกค้า (Customer Segment Profile) ปี 2568, แผนยุทธศาสตร์ที่รองรับ, รวมถึงการประเมินประสิทธิผลด้วย AAR (AAR_2.1_การจำแนกลูกค้า)"],tris:["กระดุมเม็ดแรกผิดพลาด: ผู้ตรวจประเมินเน้นย้ำว่า การจำแนกกลุ่มลูกค้าคือ \"กระดุมเม็ดแรก\" หากสื่อสารว่าเปลี่ยนกลุ่มใหม่โดยไม่มี Profile ที่ชัดเจนรองรับ จะทำให้การนำข้อมูลลูกค้าไปใช้ทบทวนแผนยุทธศาสตร์ บริการ และกระบวนการธุรกิจอื่นๆ ผิดเพี้ยน และไม่เป็นไปในทิศทางเดียวกัน (Alignment) ทั่วทั้งองค์กร"],suggest:["\"ซ่อมกระดุมเม็ดแรก\": ปรับแก้ไขเอกสารการนำเสนอทั้งหมดให้ชัดเจนว่า กทท. \"ไม่ได้เปลี่ยนกลุ่มลูกค้าใหม่\" แต่เป็นการ \"แบ่งกลุ่มลูกค้าย่อย (Sub-segment)\" ภายใต้ฐานลูกค้าเดิม","ทำ Profile ให้ลึกและนำไปใช้บูรณาการ: ต้องจัดทำ Customer Segment Profile แบบละเอียดแยกลูกค้าย่อย (Special, Premium, Standard) และนำ Profile นี้ไปใช้บูรณาการ (Alignment) ปรับปรุงกระบวนการอื่นๆ เช่น ปรับแบบสำรวจความพึงพอใจ ปรับการรับฟังเสียงลูกค้า (VOC) ปรับเส้นทางลูกค้า (Customer Journey) และแผนสร้างความสัมพันธ์ (CRM) ให้เข้ากับกลุ่มย่อยนี้อย่างแท้จริง","กทท. ทำได้ดีในการวิเคราะห์ข้อมูลจนตกผลึกออกมาเป็นกลุ่มย่อย 3 กลุ่ม ซึ่งตอบโจทย์กลยุทธ์ แต่กลับตกม้าตายในเรื่อง \"การตั้งชื่อและการสื่อสารในเอกสาร\" จนถูกหักคะแนนความสมบูรณ์เหลือ 3.5000 ดังนั้นเป้าหมาย (Quick Win) ในข้อนี้ของปี 2569 คือการแก้ไขการสื่อสาร เปลี่ยนคำว่า \"กลุ่มใหม่\" เป็นคำว่า \"ลูกค้าย่อย (Sub-segment)\" ทำ Profile ให้แน่น และพิสูจน์ให้ผู้ตรวจเห็นการบูรณาการ (Integration) นำ Profile นี้ไปเป็นสารตั้งต้นในการทำงานของทุกกระบวนการ หากทำได้เช่นนี้ คะแนนในข้อ 2.1 จะสามารถดันขึ้นสู่ระดับ 4.0000 และเป็นฐานที่ดีในการดันคะแนนหมวดอื่นต่อไปได้อย่างแน่นอน"],docs:["เอกสารมติ/บันทึกการสื่อสารที่ถูกต้อง: เอกสารแจ้งมติที่ประชุมผู้บริหารที่อนุมัติ \"การแบ่งกลุ่มลูกค้าย่อย (Sub-segment)\" โดยใช้ถ้อยคำที่ถูกต้องชัดเจน","Customer Segment Profile ฉบับสมบูรณ์ (Deep Profile): เอกสารที่มีการแยกสไลด์ชัดเจนว่า กลุ่ม Special, Premium, Standard มีพฤติกรรมอย่างไร ต้องการอะไร (Unmet needs) และควรสื่อสารด้วยช่องทางไหน","ตารางแสดงความเชื่อมโยง (Alignment Matrix): เอกสารที่พิสูจน์ให้ผู้ประเมินเห็นว่า กทท. ได้นำข้อมูล \"กลุ่มลูกค้าย่อย\" ไปปรับใช้เป็นปัจจัยนำเข้าในการทำแผนยุทธศาสตร์ (SP) และปรับกระบวนการอื่นๆ แล้ว"],bestprac:["กทพ. (EXAT): ได้รับคำชมว่ามีการกำหนดวัตถุประสงค์และจำแนกลูกค้าอย่างชัดเจน มีการจัดทำข้อมูลกลุ่มลูกค้า (Customer Segment Profile) ที่ระบุคุณลักษณะครบถ้วนทุกกลุ่ม และที่สำคัญคือ สามารถนำผลการจำแนกส่วนตลาดเป้าหมาย ไปใช้ในการจัดทำแผนยุทธศาสตร์ และปรับปรุงกระบวนการทางธุรกิจได้อย่างเป็นรูปธรรม ตลอดจนมีการประเมินประสิทธิผลของการจำแนกอย่างเป็นระบบ"],minReqs:{"1":["เอกสารแนวทาง/กระบวนการในการจำแนกลูกค้าและส่วนตลาด"],"2":["เอกสารที่แสดงการระบุวัตถุประสงค์ของการจำแนกลูกค้าและส่วนตลาด","คู่มือการจำแนกลูกค้า","เอกสารการวิเคราะห์ และสารสนเทศที่ใช้ในการจำแนกลูกค้าและตลาด (เช่น การวิเคราะห์ปัจจัยพฤติกรรม, ข้อมูลคู่แข่ง)"],"3":["เอกสารข้อมูลกลุ่มลูกค้า (Customer Segment Profile) ที่ชัดเจนและสมบูรณ์"],"4":["แผนปฏิบัติการประจำปี ภายใต้แผนยุทธศาสตร์ด้านลูกค้าและตลาด (ที่สอดคล้องกับกลุ่มลูกค้าเป้าหมาย)","รายงานผลการดำเนินงานตามแผนปฏิบัติการดังกล่าว (เพื่อยืนยันการนำไปปฏิบัติใช้จริง)"],"5":["เอกสารแนวทางและการประเมินประสิทธิผลของการจำแนกลูกค้าและส่วนตลาด","เอกสารที่แสดงถึงกระบวนการเรียนรู้และจัดการความรู้ (KM/AAR) ในเรื่องการจำแนกลูกค้าและตลาด","ภาพตัวอย่างหน้าจอระบบดิจิทัล ที่มีการจัดเก็บองค์ความรู้ในการจำแนกลูกค้าและตลาด"]},subComps:{"2":["จุดสกัด Level 2-3 (Hidden Blocker): ปัญหาสำคัญที่ กทท. ถูกหักคะแนนในปีที่ผ่านมา (ได้คะแนน 3.5000) คือ ความคลาดเคลื่อนในการสื่อสาร เอกสารระบุว่าเป็นการ \"เปลี่ยนเป็นกลุ่มลูกค้าใหม่ 3 กลุ่ม\" ซึ่งผู้ประเมินชี้แนะว่าต้องแก้ไขการสื่อสารให้ชัดเจนว่านี่คือการทำ \"กลุ่มลูกค้าย่อย (Sub-segment)\" (ได้แก่ Special, Premium, Standard) จากฐานลูกค้าหลักเดิม นอกจากนี้ Customer Segment Profile ต้องลงลึกถึง พฤติกรรม, ความต้องการเชิงลึก (Unmet needs), และช่องทางที่เหมาะสมของแต่ละกลุ่มย่อยอย่างแท้จริง"],"4":["จุดสกัด Level 4 (Hidden Blocker): เกณฑ์ต้องการเห็นการ Alignment (ความสอดคล้อง) ของการนำกระดุมเม็ดแรกไปใช้ หากจำแนกกลุ่มลูกค้าย่อย (Sub-segment) ได้แล้ว ต้องแสดงให้เห็นหลักฐานว่า ได้นำข้อมูลนี้ไปใช้ทบทวนกระบวนการอื่นๆ ต่อด้วย เช่น นำไปปรับปรุง Customer Journey ใหม่, ปรับการรับฟังเสียงลูกค้า (VOC) ให้ตรงกลุ่ม, และออกแบบการสร้างความผูกพัน (CRM) ให้เฉพาะเจาะจงรายกลุ่มย่อย"],"5":["จุดสกัด Level 5 (Hidden Blocker): การ \"ประเมินประสิทธิผลของการจำแนก\" ไม่ใช่แค่วัดว่าทำเสร็จตามแผนหรือไม่ แต่ซ่อนอยู่ในการวัดคุณค่าทางธุรกิจ (Business Value) เช่น กลุ่มที่แบ่งมานั้นมีขนาดใหญ่พอที่จะทำกำไรหรือไม่ (Substantial) สามารถเข้าถึงความต้องการได้จริงหรือไม่ (Accessible) และต้องสะท้อนให้เห็นว่าองค์กรนำไปทำกลยุทธ์ตอบสนองได้จริง (Actionable) ซึ่งในข้อนี้ คู่เทียบอย่าง กทพ. ได้คะแนนถึง 4.0000 เพราะ กทพ. มี Customer Segment Profile ที่ครอบคลุมทุกกลุ่มอย่างชัดเจน และมีแนวทางการประเมินประสิทธิผลที่เชื่อมโยงกับกระบวนการปรับปรุงองค์กรอย่างเป็นระบบ"]}},
+  {id:"3.1",grp:"3",gname:"การรับฟังลูกค้า",gw:10.0,gs68:3.7375,name:"การรับฟังลูกค้า",w:5.0,s68:3.7375,status:"ยังไม่เริ่ม",statusNote:"",scope:"มิตินี้มุ่งเน้นประเมินความสามารถขององค์กรในการเปิดช่องทางรับฟังเสียงของลูกค้า (VOC) ทั้งเชิงรุกและเชิงรับ ผ่านเครื่องมือที่หลากหลายและเทคโนโลยีดิจิทัล โดยต้องรับฟังให้ครอบคลุม \"ทุกกลุ่มลูกค้า\" ตลอดวงจรชีวิต (Customer Life Cycle) เพื่อดึงเอาความต้องการและความคาดหวังเชิงลึก (Unmet Need) ออกมาบูรณาการและส่งต่อไปเป็นสารตั้งต้นในการจัดทำแผนยุทธศาสตร์ (SP) หรือนวัตกรรมขององค์กร (IM)",levelSumm:["Level 1 (มีแนวทางพื้นฐาน): องค์กรมีการกำหนดช่องทางและแนวทางปฏิบัติในการรับฟังลูกค้า แต่ยังจำกัดอยู่แค่ลูกค้าบางกลุ่ม หรือเฉพาะลูกค้าปัจจุบันเท่านั้น","Level 2 (ครอบคลุมทุกกลุ่มและใช้ช่องทางดิจิทัล): ต้องกำหนดช่องทางรับฟังให้ครบถ้วนทั้ง \"ลูกค้าปัจจุบัน อดีตลูกค้า ลูกค้าคู่แข่ง และผู้ที่อาจจะเป็นลูกค้าในอนาคต\" ตลอดวงจรชีวิต โดยมีการนำสื่อสังคมออนไลน์หรือเทคโนโลยีมาใช้รับฟัง รวมถึงต้องสื่อสารแนวปฏิบัติให้พนักงานรับทราบ","Level 3 (การกำกับติดตามและนำระบบเข้ามาใช้): องค์กรต้องมีกลไกติดตามว่าพนักงานรับฟังลูกค้าได้ครบถ้วนในทุกช่องทางหรือไม่ และมีการนำ \"เทคโนโลยีดิจิทัลมาปรับใช้ในกระบวนการรับฟังลูกค้า\" อย่างเป็นรูปธรรม","Level 4 (บูรณาการ VOC เชิงลึกและส่งต่อผู้บริหาร): มีระบบสารสนเทศส่วนกลางที่ดึงข้อมูลลูกค้าจากทุกจุดสัมผัสบริการ (Touch Points) มาบูรณาการ จัดลำดับความสำคัญ และ \"วิเคราะห์หาความคาดหวังเชิงลึก\" โดยต้องทำเป็นรายงานชงให้ผู้บริหารระดับสูงทราบ \"อย่างน้อยเป็นรายไตรมาส\" และต้องแสดงให้เห็นหลักฐานว่า VOC นี้ถูกส่งต่อไปใช้ปรับแผนยุทธศาสตร์หรือแผนบริการ","Level 5 (ประเมินประสิทธิผลและสร้างนวัตกรรม): มีการประเมินว่ากระบวนการรับฟังนั้นมีประสิทธิผลหรือไม่ (เช่น ช่องทางนี้ลูกค้าใช้งานจริงไหม) นำผลไปถอดบทเรียน (AAR) ต่อยอดเป็นนวัตกรรมกระบวนการรับฟัง และจัดเก็บเข้าสู่ระบบดิจิทัล"],good:["ครอบคลุมกลุ่มเป้าหมายพื้นฐาน: กทท. มีการกำหนดช่องทางการรับฟังลูกค้าที่ครอบคลุมทั้งกลุ่มลูกค้าปัจจุบัน, อดีตลูกค้า, และลูกค้าในอนาคต","การริเริ่มใช้เทคโนโลยีดิจิทัลเชิงรุก: มีการนำระบบ \"PAT VOC CENTER\" มาใช้รวบรวมเสียงลูกค้าจากทุกช่องทาง (เช่น การสำรวจประจำปี, จุด Touch Point, ระบบ e-Complaint) และมีการใช้เครื่องมือ TextIQ และ Sentiment Analysis แสดงผลผ่าน Dashboard แบบ Real-Time","การดักจับข้อมูลจาก Social Media: มีการทำ Social Listening เพื่อวิเคราะห์ข้อมูลเชิงลึกและกระแสสังคม (เช่น กรณีข่าวการย้ายท่าเรือกรุงเทพ) เพื่อนำมาสื่อสารสร้างความเข้าใจที่ถูกต้องให้ลูกค้าได้อย่างทันท่วงที","การวิเคราะห์ Customer Journey: กทท. มีการจัดทำเส้นทางลูกค้าและรับฟังเสียงลูกค้าตามจุดสัมผัสบริการ (Touch Point) เพื่อนำมาสร้างประสบการณ์ที่ดี (Customer Experience)"],gaps:["การปรับตัวตามกระดุมเม็ดแรก (Sub-segment): เมื่อ กทท. มีการทบทวนแบ่งกลุ่มลูกค้าย่อยใหม่ 3 กลุ่ม (Special, Premium, Standard) แล้ว แต่ยังไม่ได้นำกลุ่มย่อยนี้มาทบทวน \"วิธีการและช่องทางการรับฟังลูกค้า\" ให้สอดคล้องเจาะจงรายกลุ่มอย่างแท้จริง","การเจาะลึกเพื่อหาสิ่งที่ซ่อนอยู่: ระบบสารสนเทศที่มีอยู่ยังขาดการบูรณาการข้อมูลเพื่อวิเคราะห์หา \"ความคาดหวังเชิงลึก หรือความต้องการที่ยังไม่ได้รับการตอบสนอง (Unmet Need)\" ได้ครบทุกมิติ"],results:["กทท. ส่งหลักฐานครอบคลุมระดับ 1-5 เช่น คู่มือการรับฟังลูกค้า, SIPOC กระบวนการรับฟัง, แผนภาพกระบวนการรวบรวมและวิเคราะห์ข้อมูลเสียงลูกค้า, ข้อมูลจากระบบ PAT VOC CENTER, ตารางรวบรวมข้อมูลสารสนเทศด้านลูกค้าประจำปี, และรายงานการทำ AAR_3.1_การรับฟังลูกค้า"],tris:["ผู้ตรวจประเมินมองว่า ในเมื่อ กทท. มีการทบทวนและจำแนกกลุ่มลูกค้าใหม่แล้ว กทท. ต้อง ทบทวนการกำหนดแนวทางและกลไกในการกำกับติดตามการรับฟังลูกค้าให้ครบถ้วนตาม \"ลูกค้าแต่ละกลุ่มย่อย (Sub-segment)\" ด้วย","นอกจากนี้ ระบบสารสนเทศสำหรับบูรณาการข้อมูลลูกค้าจากทุกจุด (Touch points) จะต้องสามารถนำมาใช้ในการวางแผนยุทธศาสตร์ (SP) หรือนำไปต่อยอดปรับปรุงผลิตภัณฑ์และบริการได้อย่างเป็นรูปธรรมมากกว่านี้","กทท. มีโครงสร้างและอาวุธที่ดีมากอยู่แล้วนั่นคือระบบ \"PAT VOC Center\" และ \"Social Listening\" ซึ่งช่วยดันคะแนนมาได้ถึง 3.7375 แต่สาเหตุที่ยังไม่ทะลุไปถึงระดับ 4.0000+ เป็นเพราะ กทท. ยังขาดการ Alignment (ความสอดคล้อง) นั่นคือ \"เปลี่ยนกลุ่มย่อยแล้ว แต่ยังใช้ช่องทางฟังเสียงแบบเหมารวม\" ภารกิจเร่งด่วน (Quick Win) ในปี 69 คือการจับคู่ (Match) ช่องทางรับฟังให้เข้ากับลูกค้ากลุ่ม Special, Premium, Standard ให้ได้ และต้องโชว์ให้กรรมการเห็นว่า เราใช้ระบบ VOC Center ขุดหา Unmet Need และส่งต่อข้อมูลนี้ไปให้ฝ่ายยุทธศาสตร์ (SP) และฝ่ายนวัตกรรม (IM) นำไปใช้งานต่อจริงๆ"],suggest:["Alignment กับ Sub-segment: ปรับปรุงและทบทวนวิธีการ รวมถึงช่องทางการรับฟังลูกค้า ให้สอดคล้องกับ \"กลุ่มลูกค้าย่อยใหม่ (Special, Premium, Standard)\" อย่างชัดเจน","ยกระดับ PAT VOC Center: นำระบบ AI ใน VOC Center มาวิเคราะห์หา Unmet Need เพื่อนำไปต่อยอดสร้างนวัตกรรมบริการ และควรลดจุด Touch point ให้มีประสิทธิภาพมากขึ้น","Reporting for Action: จัดทำสารสนเทศเสียงลูกค้ารายงานผู้บริหารระดับสูง \"ทุกไตรมาส\" เพื่อให้เกิดการสั่งการและนำไปปรับแผนยุทธศาสตร์ได้อย่างทันท่วงที"],docs:["ภาพหน้าจอ Dashboard จากระบบ PAT VOC Center: ที่แสดงการวิเคราะห์ Text/Sentiment Analysis โดย \"แยกตามกลุ่มลูกค้าย่อย (Special, Premium, Standard)\" อย่างชัดเจน","รายงานการนำ VOC ไปปรับแผนยุทธศาสตร์ (SP) หรือ แผนบริการ: เอกสารที่แสดงหลักฐานว่า เสียงของลูกค้า (โดยเฉพาะ Unmet Need) ถูกนำไปใช้ปรับปรุงบริการ โดยต้องมี \"ลายเซ็นผู้บริหารรับทราบ/สั่งการ\"","รายงานการประชุมทบทวนช่องทางรับฟังลูกค้า: หลักฐานที่แสดงว่ามีการพูดคุยเพื่อเลือกใช้ช่องทางที่เหมาะสมกับลูกค้าแต่ละ Sub-segment"],bestprac:["รฟม. (MRTA): มีการกำหนดช่องทางการรับฟังที่ครอบคลุมลึกไปถึง \"ลูกค้าคู่แข่ง\" นอกจากนี้ รฟม. ยังมีความโดดเด่นในการบูรณาการสารสนเทศเสียงของลูกค้าจากทุกช่องทาง นำมาวิเคราะห์และจัดลำดับความสำคัญ แล้วนำสารสนเทศเหล่านี้ไปใช้เป็น ปัจจัยนำเข้า (Input) ในการวางแผนยุทธศาสตร์และแผนแม่บทขององค์กรได้อย่างสมบูรณ์และไร้รอยต่อ"],minReqs:{"1":["เอกสารกระบวนการ/แนวทางในการกำหนดช่องทางและแนวปฏิบัติในการรับฟังลูกค้า"],"2":["เอกสารกระบวนการ/แนวทางในการกำหนดช่องทางและแนวปฏิบัติในการรับฟังลูกค้า","คู่มือการรับฟังเสียงของลูกค้า","รายงานสรุปการวิเคราะห์สารสนเทศเสียงของลูกค้า (VOC) รายปี รายครึ่งปี รายไตรมาส และรายเดือน","เอกสารหลักฐานแนวทางในการสื่อสารและถ่ายทอดแนวปฏิบัติในการรับฟังลูกค้าให้กับบุคลากรที่เกี่ยวข้อง"],"3":["เอกสารแสดงแนวทาง/กลไกในการกำกับติดตามการปฏิบัติงานด้านการรับฟังลูกค้า","เอกสาร/ภาพหน้าจอระบบสารสนเทศที่ใช้ในการบูรณาการข้อมูลลูกค้า (เช่น ระบบ PAT VOC Center)"],"4":["รายงานผลการดำเนินงานการรับฟังเสียงของลูกค้ารายไตรมาส (ที่นำเสนอผู้บริหารระดับสูง)"],"5":["เอกสารแนวทางในการประเมินประสิทธิผลของการรับฟังลูกค้า","เอกสารที่แสดงถึงกระบวนการเรียนรู้และจัดการความรู้ (เช่น แบบบันทึก AAR) ของการรับฟังลูกค้า","ภาพหน้าจอตัวอย่างระบบดิจิทัล ที่มีการจัดเก็บองค์ความรู้ของการรับฟังลูกค้า (เช่น KM Portal)"]},subComps:{"2":["จุดสกัด Level 2-3 (Hidden Blocker): ความเชื่อมโยง (Alignment) จากข้อ 2.1 (กระดุมเม็ดแรก) ผู้ประเมินระบุชัดเจนว่า เมื่อ กทท. มีการจำแนกกลุ่มลูกค้าใหม่เป็น \"กลุ่มลูกค้าย่อย (Sub-segment)\" ได้แก่ Special, Premium, Standard แล้ว จะต้องทบทวนวิธีการและช่องทางการรับฟังลูกค้าให้สอดคล้องกับแต่ละกลุ่มย่อยนี้ด้วย จะใช้ช่องทางรับฟังแบบเหมารวมไม่ได้"],"4":["จุดสกัด Level 4 (Hidden Blocker): การมีระบบ \"PAT VOC Center\" เพียงอย่างเดียวยังไม่พอให้ได้คะแนนเต็มในระดับนี้ ระบบต้องสามารถเชื่อมโยงและบูรณาการข้อมูล Big Data จนนำไปสู่การวิเคราะห์หา \"ความคาดหวังเชิงลึกที่ซ่อนอยู่ (Unmet Need)\" และรายงาน VOC ที่ส่งให้ผู้บริหาร (รายไตรมาส) ต้องแสดงให้เห็นการตัดสินใจนำข้อมูลไป \"ปรับกลยุทธ์ (Pivot) หรือพัฒนานวัตกรรม\" อย่างเป็นรูปธรรม (มีหลักฐานว่าฝ่ายยุทธศาสตร์เอาไปใช้ต่อ)"],"5":["จุดสกัด Level 5 (Hidden Blocker): การจะเกิดเป็นนวัตกรรมกระบวนการรับฟังได้ กทท. ต้องนำผล AAR มาสร้างความเปลี่ยนแปลงที่วัดผลได้จริง (Process KPI) เช่น การนำระบบ AI Text/Sentiment Analysis เข้ามาจัดเรียงอารมณ์ความรู้สึกเพื่อลดเวลาทำงานของพนักงานลง หรือการวิเคราะห์จนสามารถ \"ลดจุด Touch point ให้มีประสิทธิภาพมากขึ้น\" (จากเดิมมีจุดรับฟังซ้ำซ้อนเยอะเกินไป) เป็นต้น"]}},
+  {id:"3.2",grp:"3",gname:"การรับฟังลูกค้า",gw:10.0,gs68:3.7375,name:"การประเมินความพึงพอใจ ความไม่พึงพอใจ และความผูกพัน",w:5.0,s68:3.7375,status:"ยังไม่เริ่ม",statusNote:"",scope:"มิตินี้มุ่งเน้นประเมินความสามารถขององค์กรในการ \"หาข้อมูลป้อนกลับ (Feedback)\" ผ่านการประเมินความพึงพอใจ ความไม่พึงพอใจ และความผูกพันของลูกค้า โดยต้องครอบคลุมกลุ่มลูกค้าทุกส่วนตลาด มีการเปรียบเทียบกับคู่แข่ง ใช้ระเบียบวิธีวิจัยที่ถูกต้องตามหลักสถิติ และหัวใจสำคัญคือ ต้องสามารถนำสารสนเทศที่ได้นี้ไป \"ขับเคลื่อนองค์กร\" (ทบทวนยุทธศาสตร์/ปรับปรุงบริการ) ได้จริง",levelSumm:["Level 1 (มีระเบียบวิธีวิจัยที่น่าเชื่อถือ): องค์กรมีแนวทาง วิธีการประเมิน รวบรวมข้อมูล และรายงานผล ที่มีความเหมาะสมและน่าเชื่อถือ","Level 2 (ความครอบคลุมและการเทียบเคียง): มีการกำหนดวัตถุประสงค์และรูปแบบการประเมินให้ครอบคลุม \"ทุกกลุ่มลูกค้าและส่วนตลาด\" พร้อมวิเคราะห์ปัจจัยที่มีผลต่อความพึงพอใจ และนำไปเปรียบเทียบกับ \"คู่แข่งหรือคู่เทียบ\"","Level 3 (การกำกับติดตามกระบวนการ): องค์กรมีกลไกควบคุม กำกับติดตามบุคลากรหรือที่ปรึกษาที่ดำเนินการสำรวจ ให้ปฏิบัติงานเป็นไปตามรูปแบบ ความถี่ และแล้วเสร็จตามระยะเวลาที่กำหนด","Level 4 (การสะท้อนผลและบูรณาการ): สารสนเทศที่ได้ต้องสะท้อนประสิทธิผลการดำเนินงานของรัฐวิสาหกิจ และ \"ต้อง\" ถูกส่งต่อไปใช้เป็นปัจจัยนำเข้า (Input) ในการจัดทำแผนยุทธศาสตร์ (SP) หรือทบทวนการพัฒนาบริการ (IM)","Level 5 (ประเมินคุณภาพเครื่องมือและสร้างนวัตกรรม): องค์กรต้องประเมิน \"ประสิทธิผลของวิธีวิจัย\" (เช่น ความเหมาะสมของสุ่มตัวอย่าง, ความเที่ยงตรง, อัตราการตอบกลับ) นำผลไปถอดบทเรียน (AAR) สร้างนวัตกรรมเครื่องมือใหม่ และเก็บลงในระบบดิจิทัล"],good:["มีแนวทางการประเมิน 2 รูปแบบชัดเจน: กทท. มีการประเมินทั้งแบบ \"ภาพรวมประจำปี\" โดยจ้างที่ปรึกษาสำรวจด้วยระเบียบวิธีวิจัยที่น่าเชื่อถือ และแบบ \"รายจุดสัมผัสบริการ (Touch Point)\" ผ่านระบบออนไลน์ ณ จุดให้บริการ 64 จุด ครอบคลุมทั้ง 5 ท่าเรือ","การใช้เครื่องมือทางสถิติและดิจิทัล: มีการใช้ระบบ Alchemer ในการเก็บข้อมูลสำรวจแบบ Real-time และใช้กรอบแนวคิด ROPMIS Model ในการประเมินและเปรียบเทียบกับท่าเรือคู่เทียบในอาเซียน (เช่น PSA Singapore, Port Klang) ได้อย่างเป็นระบบ","การนำผลไปใช้งาน (Integration): มีการนำข้อมูลความพึงพอใจไปวิเคราะห์ช่องว่าง (Gap) และเชื่อมโยงใช้เป็นปัจจัยนำเข้าเพื่อจัดทำ \"แผนปรับปรุงผลิตภัณฑ์และบริการ\" ได้อย่างเป็นรูปธรรม"],gaps:["การอัปเดตเครื่องมือสำรวจให้ตรงกับ \"กระดุมเม็ดแรก\": กทท. มีการปรับเปลี่ยนกลุ่มลูกค้าเป็นกลุ่มย่อย (Sub-segment: Special, Premium, Standard) แล้ว แต่กระบวนการ/แบบสำรวจความพึงพอใจ ยังไม่ได้ทบทวนให้สอดคล้องเจาะจงลึกไปถึงลูกค้าแต่ละกลุ่มย่อยอย่างครบถ้วน","การประเมิน \"ประสิทธิผลของระเบียบวิธีวิจัย\": กทท. ยังขาดการประเมินเชิงลึกในตัว \"กระบวนการสำรวจ\" เช่น การวัดว่าแบบสอบถามมีความเที่ยงตรงน่าเชื่อถือแค่ไหน หรือมีอัตราการตอบกลับ (Response Rate) ของลูกค้าเพียงพอหรือไม่"],results:["กทท. ส่งหลักฐานตั้งแต่ระดับ 1-5 ได้แก่ แผนภาพ SIPOC การสำรวจความพึงพอใจ, ตัวอย่างการเก็บข้อมูลผ่านระบบ Alchemer, รายงานผลสำรวจความพึงพอใจ ปี 2568, ตารางติดตามและประเมินกระบวนการสำรวจ, รายงานการประชุมคณะกรรมการตรวจรับฯ โครงการสำรวจความพึงพอใจ, และแบบ AAR_3.2_การประเมินความพึงพอใจ"],tris:["ผู้ประเมินเน้นย้ำถึง \"ความสอดคล้อง (Alignment)\" ว่าเมื่อมีการทบทวนการจำแนกลูกค้าเป็นกลุ่มหลักและกลุ่มย่อยแล้ว จะต้องทบทวนกระบวนการประเมินความพึงพอใจ ความไม่พึงพอใจ และความผูกพัน ตามลูกค้าแต่ละกลุ่มให้ครบถ้วนด้วย","นอกจากนี้ ในระดับ 5 ผู้ประเมินต้องการเห็นการประเมินคุณภาพของ \"เครื่องมือสำรวจ\" เช่น ความเหมาะสมของการสุ่มตัวอย่าง และร้อยละการตอบกลับของกลุ่มตัวอย่าง ไม่ใช่แค่การถอดบทเรียนว่าผลคะแนนพึงพอใจได้เท่าไหร่"],suggest:["แยกการสำรวจรายกลุ่ม (Sub-segment): ปรับปรุงกระบวนการและแบบประเมินความพึงพอใจให้ครอบคลุมและตอบโจทย์พฤติกรรมของลูกค้ากลุ่มย่อย (Special, Premium, Standard)","ประเมินระเบียบวิธีวิจัย: นำข้อมูล เช่น \"ความเที่ยงตรงของแบบสำรวจ\" หรือ \"อัตราการตอบกลับ\" มาทำ AAR เพื่อปรับปรุงกระบวนการสำรวจในปีถัดไปให้ดียิ่งขึ้น และจัดเก็บองค์ความรู้นี้ลงในระบบดิจิทัล","กทท. ทำโครงสร้างการประเมินภาพรวมได้ดีมาก (ทำคะแนนได้ 3.7375) แต่ตกม้าตายใน 2 จุดหลัก คือ 1) แบบสำรวจยังเป็นแบบเหมาเข่ง ไม่ได้แยกตามกลุ่มลูกค้าย่อยที่เพิ่งตั้งขึ้นใหม่ และ 2) ไม่ได้ประเมินคุณภาพของแบบสอบถาม (ว่าลูกค้าตอบกลับเยอะไหม เครื่องมือดีไหม) หากปี 2569 กทท. ปรับแบบสอบถามให้เจาะจงรายกลุ่มย่อย และทำ AAR \"ตัวกระบวนการสำรวจ\" เดินตาม Best Practice ของ รฟม. ก็จะปลดล็อกคะแนนระดับ 4 และ 5"],docs:["แบบสำรวจ/ระเบียบวิธีวิจัยฉบับทบทวน (Sub-segment Survey Model): เอกสารที่แสดงให้เห็นชัดเจนว่ามีการออกแบบคำถาม หรือช่องทางการประเมินแยกตามกลุ่มลูกค้าย่อย (Special, Premium, Standard)","รายงานประเมินประสิทธิผลของการสำรวจ (Survey Effectiveness Report): รายงานที่ระบุถึงอัตราการตอบกลับของกลุ่มตัวอย่าง (Response Rate) ความเหมาะสมของเครื่องมือสถิติที่ใช้ และปัญหาของกระบวนการวิจัยที่พบ"],bestprac:["รฟม.: มีความโดดเด่นอย่างมากในเรื่องการประเมิน \"ประสิทธิผลของระเบียบวิธีวิจัย\" โดยมีการพิจารณาความเหมาะสมของการสุ่มตัวอย่าง ความเที่ยงตรง/น่าเชื่อถือของผลสำรวจ และร้อยละการตอบกลับ (Response Rate) ของกลุ่มตัวอย่างอย่างเป็นระบบ นำผลที่ได้ไปเรียนรู้ (AAR) พัฒนาเป็นนวัตกรรมการประเมิน และจัดเก็บลงระบบดิจิทัลอย่างสมบูรณ์แบบ"],minReqs:{"1":["แนวทางการประเมินความพึงพอใจ ความไม่พึงพอใจ และความผูกพันลูกค้า พร้อมรายละเอียดระเบียบวิธีวิจัย และแบบสอบถามที่ใช้"],"2":["รายงานผลการสำรวจความพึงพอใจ ความไม่พึงพอใจ และความผูกพันลูกค้าปีล่าสุด (ที่รวมการเปรียบเทียบกับคู่แข่ง/คู่เทียบ)"],"3":["แนวทาง/กลไกในการกำกับติดตาม เพื่อให้การประเมินเป็นไปตามรูปแบบและวัตถุประสงค์ (เช่น ตารางติดตามการสำรวจ)","หลักฐานการติดตามการทำงานของคณะกรรมการที่เกี่ยวข้อง (เช่น รายงานการประชุมคณะกรรมการตรวจรับฯ โครงการสำรวจ)"],"4":["แนวทางและหลักฐานการนำผลสำรวจความพึงพอใจฯ ไปใช้เป็น \"ปัจจัยนำเข้า\" ในกระบวนการอื่นๆ (เช่น ตารางสรุปการนำไปปรับยุทธศาสตร์ หรือแผนพัฒนาบริการ)"],"5":["รายงาน/แนวทางในการประเมิน \"ประสิทธิผลของแนวทางการประเมิน\" (ประเมินตัวเครื่องมือวิจัย)","เอกสารกระบวนการเรียนรู้ (AAR) ในเรื่องกระบวนการประเมินความพึงพอใจ","ภาพหน้าจอตัวอย่างระบบดิจิทัล (KM Portal) ที่จัดเก็บองค์ความรู้นี้"]},subComps:{"2":["จุดสกัด Level 2 (Hidden Blocker): ความสอดคล้องตามกลุ่มย่อย (Alignment with Sub-segment) เมื่อข้อ 2.1 มีการเปลี่ยนกลุ่มลูกค้าย่อยเป็น 3 กลุ่ม (Special, Premium, Standard) แล้ว แบบสอบถามและวิธีการประเมินความพึงพอใจ จะต้องถูกแตกย่อยหรือทบทวนให้สอดคล้องกับพฤติกรรมลูกค้าทั้ง 3 กลุ่มนี้ด้วย ไม่สามารถใช้แบบสำรวจภาพรวมแบบเดิมชุดเดียวได้ทั้งหมด"],"4":["จุดสกัด Level 4 (Hidden Blocker): การบูรณาการข้ามระบบ (Cross-functional Integration) ผู้ประเมินต้องการหลักฐานเชิงประจักษ์ว่า ผลลัพธ์ความพึงพอใจที่ได้ (เช่น ประเด็นที่ลูกค้าไม่พอใจ) ถูกนำไปใช้อย่างไร ต้องมี \"ตารางเชื่อมโยง\" หรือบันทึกข้อสั่งการที่แสดงว่า แผนยุทธศาสตร์ (SP) หรือแผนพัฒนาบริการ (IM) ได้ถูกเปลี่ยนแปลง/แก้ไขจากข้อมูล VOC ก้อนนี้จริงๆ"],"5":["จุดสกัด Level 5 (Hidden Blocker): \"การประเมินประสิทธิผล\" ในระดับนี้มักถูกเข้าใจผิดว่าคือการ AAR คะแนนความพึงพอใจ แต่จริงๆ เกณฑ์บังคับให้ทำ AAR ประเมิน \"ตัวเครื่องมือหรือกระบวนการวิจัย\" เช่น กลุ่มตัวอย่างที่สุ่มมาตอบกลับน้อยเกินไป (Response rate ต่ำ) ทำให้ผลคลาดเคลื่อน จึงต้องพัฒนานวัตกรรมการสำรวจใหม่ เช่น ปรับเป็นแบบประเมินผ่าน Dashboard สั้นๆ ท้ายการบริการ เป็นต้น (นี่คือเหตุผลที่ รฟม. ได้คะแนน Best Practice ในข้อนี้)"]}},
+  {id:"4.1",grp:"4",gname:"การพัฒนาและนวัตกรรมผลิตภัณฑ์และบริการ",gw:10.0,gs68:3.25,name:"การพัฒนาและนวัตกรรมผลิตภัณฑ์และบริการ",w:10.0,s68:3.25,status:"ยังไม่เริ่ม",statusNote:"",scope:"มิตินี้มุ่งเน้นการประเมินว่า องค์กรไม่ได้แค่นั่งคิดบริการใหม่ๆ เองในห้องประชุม แต่ต้อง \"นำเสียงของลูกค้าและปัจจัยแวดล้อม (Input)\" มาวิเคราะห์เพื่อออกแบบเป็นผลิตภัณฑ์/บริการใหม่ (Innovation) อย่างเป็นระบบ ผ่านกระบวนการทดสอบก่อนส่งมอบ และที่สำคัญที่สุดคือ เมื่อปล่อยบริการออกไปแล้ว จะต้อง \"วัดความสำเร็จทางธุรกิจให้ได้ 3 มิติ (มิติประสิทธิภาพ มิติคุณค่าลูกค้า และมิติผลลัพธ์องค์กร)\"",levelSumm:["Level 1 (มีแนวทางพื้นฐาน): มีการพัฒนาผลิตภัณฑ์และบริการ ซึ่งเกิดจากข้อมูลป้อนกลับ (Feedback) ของลูกค้า","Level 2 (กระบวนการที่เป็นระบบ): วิเคราะห์ปัจจัยนำเข้าครบถ้วน (ลูกค้า, คู่แข่ง, เทคโนโลยี, กฎหมาย) และกำหนดกระบวนการพัฒนาที่มีขั้นตอนชัดเจน (มีกิจกรรม, การทดสอบ, การระบุผลลัพธ์)","Level 3 (นำไปปฏิบัติและบริหารความเสี่ยง): ปฏิบัติตามแผนได้ครบถ้วน และต้องมี \"การประยุกต์ใช้การบริหารความเสี่ยง (RM) และจัดการความรู้ (KM)\" เข้ามาร่วมในกระบวนการพัฒนาด้วย","Level 4 (ตอบโจทย์ลูกค้าและบรรลุผลลัพธ์ 3 มิติ): ผลิตภัณฑ์สอดคล้องกับความต้องการของตลาด และผลลัพธ์ต้องบรรลุเป้าหมายครบทั้ง 3 มิติ (ประสิทธิภาพโครงการ, คุณค่าที่ลูกค้าได้รับ, ผลลัพธ์ทางธุรกิจ)","Level 5 (ประเมินประสิทธิผลและสร้างนวัตกรรมกระบวนการ): มีการประเมิน \"ประสิทธิผลของตัวกระบวนการพัฒนา\" ทำ AAR และเก็บลงระบบดิจิทัล ส่งผลให้ผลลัพธ์ดีขึ้นอย่างต่อเนื่อง 3 ปี หรือดีกว่าคู่เทียบ"],good:["การวิเคราะห์ปัจจัยนำเข้าที่ครอบคลุม: กทท. มีการวิเคราะห์ปัจจัยนำเข้า (Input) อย่างครบถ้วน เช่น ความต้องการและความคาดหวังของลูกค้า กลุ่มเป้าหมาย เทียบเคียงคู่แข่ง/คู่เทียบ แผนวิสาหกิจ กฎหมายข้อบังคับ รวมถึงความเปลี่ยนแปลงทางเทคโนโลยีดิจิทัล","การกำหนดกระบวนการพัฒนาอย่างเป็นระบบ: สามารถระบุคุณลักษณะของผลิตภัณฑ์และบริการที่ต้องพัฒนา สื่อสารออกแบบกระบวนการ และกำหนดกิจกรรมตั้งแต่การพัฒนา ทวนสอบ ทดสอบ รับรองผล ไปจนถึงการระบุผลผลิตและผลลัพธ์","การดำเนินโครงการจริง: มีการขับเคลื่อนแผนงานพัฒนาผลิตภัณฑ์และบริการที่เป็นรูปธรรม เช่น โครงการ Free Zone, โครงการ e-Gate, ระบบรับเรื่องร้องเรียน (e-Complaint) และมีการติดตามผ่านตารางผลลัพธ์โครงการ"],gaps:["การกำหนดเป้าหมายและผลลัพธ์ 3 มิติ ไม่ครบถ้วน: กทท. ยังระบุเป้าหมายและผลลัพธ์ไม่ครบทั้ง 3 มิติ (ประสิทธิภาพของโครงการ, คุณค่าหรือมูลค่าที่ลูกค้าได้รับ, และผลลัพธ์ทางธุรกิจ) ใน \"ทุกแผนงานหรือโครงการ\"","การมีส่วนร่วมของลูกค้า (Co-creation): การเปิดโอกาสให้ลูกค้าเข้ามามีส่วนร่วมในการทวนสอบ ทดสอบ และปรับปรุงก่อนที่จะส่งมอบผลิตภัณฑ์หรือนวัตกรรมนั้น (Sandbox) ยังไม่ชัดเจน","การยกระดับที่เน้นคุณภาพ: ขาดโครงการหรือแผนงานพัฒนานวัตกรรมที่สามารถยกระดับการดำเนินงานขององค์กรอย่างมีนัยสำคัญทางธุรกิจ (เน้นเชิงคุณภาพมากกว่าเชิงปริมาณ)"],results:["กทท. ส่งหลักฐานครอบคลุมตั้งแต่ คู่มือการพัฒนาผลิตภัณฑ์, SIPOC กระบวนการรวบรวม/วิเคราะห์เสียงลูกค้า (VOC), ตารางสรุปแผนงานโครงการนวัตกรรม (เช่น e-Gate, Free Zone), การประยุกต์ใช้การบริหารความเสี่ยงในโครงการ, และการทำแบบ AAR_4.1_นวัตกรรมผลิตภัณฑ์และบริการ พร้อมจัดเก็บในระบบ KM Portal"],tris:["ผู้ประเมินเน้นย้ำถึง \"การวัดผลลัพธ์ของโครงการ\" ว่าตารางติดตามผลลัพธ์โครงการของ กทท. แม้จะมีแล้ว แต่ยังขาดความสมบูรณ์ในแง่ของการวัดผลให้ครบ 3 มิติ บังคับใน \"ทุกๆ โครงการที่เคลมว่าเป็นนวัตกรรม\"","นอกจากนี้ ผู้ประเมินต้องการเห็นการเปลี่ยนแนวคิดการพัฒนานวัตกรรมให้เป็น Customer-centric อย่างแท้จริง นั่นคือต้องให้ลูกค้ามา \"ร่วมสร้างและทดสอบ (Co-creation)\" ก่อนนำไปใช้งานจริง"],suggest:["ระบุผลลัพธ์ 3 มิติ ให้ชัดเจน: ทบทวนตารางสรุปโครงการนวัตกรรมทุกตัว โดยบังคับให้ต้องมีเป้าหมายและผลลัพธ์ครบ 3 มิติ คือ 1) มิติประสิทธิภาพ 2) มิติคุณค่าต่อลูกค้า 3) มิติผลลัพธ์ทางธุรกิจ","เปิดกระบวนการ Co-creation (Sandbox): เชิญลูกค้า (เช่น ตัวแทนสายเรือ หรือผู้ประกอบการ) มาร่วมทดสอบระบบหรือบริการใหม่ๆ ในระยะทดลอง และนำ Feedback มาปรับปรุงก่อนเปิดให้บริการจริง"],docs:["ตารางสรุปผลลัพธ์ 3 มิติ (3-Dimension Innovation Result): ของทุกโครงการนวัตกรรม (เช่น e-Gate, Free Zone) โดยต้องมีตัวเลขชี้วัดชัดเจน (เช่น ลดเวลาให้บริการ 20%, ลูกค้าพึงพอใจ 4.5/5, ลดต้นทุนให้องค์กร 10 ล้านบาท)","หลักฐานการเชิญลูกค้าร่วมทดสอบ (Co-creation / Sandbox Report): รายงานการประชุมหรือภาพถ่ายที่แสดงให้เห็นว่า กทท. เชิญลูกค้ากลุ่มเป้าหมาย (Sub-segment) มาร่วมทดสอบการใช้งานระบบหรือบริการใหม่ก่อนการเปิดตัวจริง"],bestprac:["กทพ.: มีความโดดเด่นในการ \"ประยุกต์ใช้การบริหารความเสี่ยง (RM) และนำองค์ความรู้ (KM) ขององค์กรมาใช้ร่วมในการวางแผนและพัฒนาผลิตภัณฑ์อย่างเป็นระบบ\" ตลอดจนสามารถแสดงระดับผลลัพธ์ของการพัฒนานวัตกรรมให้เป็นไปตามเป้าหมายครบถ้วน"],minReqs:{"1":["คู่มือการพัฒนาผลิตภัณฑ์และบริการ"],"2":["รายละเอียดโครงการพัฒนาผลิตภัณฑ์และบริการ (ทั้งการปรับปรุงเดิมและพัฒนาใหม่) ย้อนหลัง 3 ปี","รายงานผลการดำเนินงานเทียบกับเป้าหมายตามแผนงาน"],"3":["รายงานผลการดำเนินงานของการพัฒนาและนวัตกรรมผลิตภัณฑ์และบริการ เทียบกับเป้าหมาย (ที่แสดงถึงการนำการบริหารความเสี่ยงและ KM มาใช้)"],"4":["เอกสารที่แสดงถึงความสอดคล้องระหว่างผลิตภัณฑ์/บริการ กับความต้องการของลูกค้าและผู้มีส่วนได้ส่วนเสีย","รายงานผลการดำเนินงานการพัฒนาและนวัตกรรมผลิตภัณฑ์และบริการ เทียบกับเป้าหมาย (แสดงผลลัพธ์ 3 มิติ)"],"5":["แนวทางในการประเมินประสิทธิผลของการพัฒนาและนวัตกรรมผลิตภัณฑ์และบริการ","แบบบันทึกกระบวนการเรียนรู้และจัดการความรู้ (AAR)","รายงานผลการดำเนินงานตามแผนพัฒนาและนวัตกรรมฯ เทียบเป้าหมาย ย้อนหลัง 3 ปี (หรือเทียบคู่เทียบ)"]},subComps:{"3":["จุดสกัด Level 3 (Hidden Blocker - RM & KM Integration): การจะผ่านระดับ 3 ได้ องค์กรห้ามทำโครงการนวัตกรรมแบบโดดๆ แต่ต้องมีเอกสารยืนยันว่า ในการสร้างนวัตกรรมนั้น (เช่น ทำระบบ e-Gate) ได้มีการประเมิน \"แผนบริหารความเสี่ยงของโครงการ\" และมีการดึง \"องค์ความรู้ (KM)\" เดิมมาใช้ประกอบการทำงานด้วย"],"4":["จุดสกัด Level 4 (Hidden Blocker - The 3 Dimensions): นี่คือจุดชี้ขาดที่ทำให้ กทท. ได้คะแนนเพียง 3.2500 ผู้ประเมินจะควานหา \"ตารางสรุปโครงการ\" และเช็กว่า ใน 1 โครงการ มีเป้าหมายและผลลัพธ์ครบ 3 ช่องนี้หรือไม่: 1. ประสิทธิภาพของโครงการ: (เช่น ระบบประมวลผลเร็วขึ้น 20%, ลดการใช้กระดาษ 100%) 2. คุณค่า/มูลค่าที่ลูกค้าได้รับ: (เช่น ลูกค้าประหยัดเวลาเดินทาง 1 ชม., ความพึงพอใจระดับ 4.5) 3. ผลลัพธ์ทางธุรกิจของ กทท.: (เช่น กทท. มีรายได้เพิ่ม, ปริมาณตู้สินค้าเพิ่ม, ลดต้นทุน 5 ล้านบาท) หากระบุแค่ว่า \"โครงการเสร็จตามแผน 100%\" จะไม่ผ่าน Level 4 ทันที","จุดสกัด Level 4 (Hidden Blocker - Co-Creation): ซ่อนอยู่ในคำว่า \"การทวนสอบ ทดสอบ\" ในสายตาผู้ประเมินยุคใหม่ (Customer-centric) การทดสอบระบบโดยพนักงาน กทท. เอง ไม่เพียงพอ ต้องมีหลักฐานการเชิญกลุ่มลูกค้ามาทดสอบการใช้งานจริง (Sandbox/Beta Test) และรับฟัง Feedback ก่อน Go-live"],"5":["จุดสกัด Level 5 (Hidden Blocker - Business Impact): นอกจากการทำ AAR และเก็บลงระบบดิจิทัลแล้ว ต้องโชว์ให้เห็นว่า การนำนวัตกรรมมาใช้นั้น ทำให้ผลลัพธ์ทางธุรกิจหรือบริการของ กทท. \"ดีขึ้นต่อเนื่องอย่างมีนัยสำคัญ\" เมื่อเทียบกับปีที่ผ่านมาหรือเทียบกับท่าเรือคู่เทียบ (เช่น PSA Singapore)"]}},
+  {id:"5.1",grp:"5",gname:"การจัดการความสัมพันธ์กับลูกค้า",gw:15.0,gs68:3.25,name:"การสนับสนุนลูกค้า",w:5.0,s68:3.25,status:"ยังไม่เริ่ม",statusNote:"",scope:"มิตินี้มุ่งเน้นการประเมินว่าองค์กรมีการจัดเตรียม \"ระบบสนับสนุน (Support System)\" ให้ลูกค้าใช้งานได้ง่ายและสะดวกหรือไม่ โดยต้องวิเคราะห์ครอบคลุมทุกจุดสัมผัส (Touch Points) มีการประกาศ \"คำมั่นสัญญา (Service Charter)\" และมี \"มาตรฐานเวลา (SLA)\" ที่วัดผลได้จริง พร้อมทั้งต้องใช้เทคโนโลยีดิจิทัลเข้ามาช่วยสนับสนุนการให้บริการ",levelSumm:["Level 1 (มีช่องทางพื้นฐาน): มีช่องทางให้ลูกค้าติดต่อขอรับการสนับสนุน (อาจจะยังมีแค่ลูกค้าบางกลุ่ม)","Level 2 (วิเคราะห์เชิงลึกและสร้าง SLA): วิเคราะห์ Customer Life Cycle วาด Touch points และจัดทำกฎบัตรและมาตรฐานบริการ (SLA)","Level 3 (อนุมัติ สื่อสาร และติดตาม): บอร์ดอนุมัติกฎบัตร นำไปแปะประกาศให้ลูกค้าทราบ ถ่ายทอด KPI ให้พนักงาน และมีกลไกตามจี้ SLA ว่าทำได้ตามเวลาหรือไม่","Level 4 (ได้ผลตามเป้า 100% และบูรณาการ IT): ต้องบริการได้ตาม SLA \"ทุกจุดและทุกช่องทาง\" พร้อมทั้งมีระบบ IT ดึงข้อมูลลูกค้าจากทุกจุดมาวิเคราะห์หาความต้องการเชิงลึก (Unmet Need)","Level 5 (ประเมิน นวัตกรรม และเทียบเคียง): ทำ AAR กระบวนการสนับสนุน สร้างนวัตกรรมบริการ เก็บลงระบบ KM และต้องโชว์ผลการดำเนินงานที่ดีขึ้นต่อเนื่องหรือชนะคู่เทียบ"],good:["การวิเคราะห์ปัจจัยและกำหนดจุดสัมผัสบริการ (Touch Points): กทท. มีการวิเคราะห์ความต้องการ ความคาดหวัง พฤติกรรมลูกค้า และคู่เทียบ เพื่อกำหนดจุด Touch Points ตลอดวงจรชีวิตลูกค้า (Customer Life Cycle) ตั้งแต่ก่อนเป็นลูกค้าจนถึงเกิดความผูกพัน","การจัดทำกฎบัตรและมาตรฐานบริการ (SLA): มีการจัดทำกฎบัตรและมาตรฐานบริการ (Customer Service Charter & Service Standard) ครอบคลุมการให้ข้อมูล การทำธุรกรรม และการรับข้อป้อนกลับ โดยมีการติดตามข้อตกลงระดับการให้บริการ (SLA) ถึง 15 กระบวนการ"],gaps:["การปรับตัวตาม \"กลุ่มลูกค้าย่อย (Sub-segment)\": กทท. มีการจำแนกลูกค้ากลุ่มย่อยใหม่แล้ว (Special, Premium, Standard) แต่ยังไม่ได้นำกลุ่มย่อยนี้มา \"ทบทวนกระบวนการสนับสนุนลูกค้าทั้งกระบวนการ\" ให้สอดคล้องเจาะจงรายกลุ่มอย่างครบถ้วน","ผลลัพธ์ยังไม่บรรลุเป้าทุกพื้นที่: ผลลัพธ์การสนับสนุนลูกค้ายังไม่เป็นไปตามมาตรฐานที่กำหนดไว้ใน \"ทุกพื้นที่หรือทุกช่องทาง\""],results:["กทท. ปฏิบัติตามมาตรฐานสากล เช่น ISPS Code และ PSHE-MS รวมถึงมีการติดตามผลการดำเนินงานตาม SLA 15 กระบวนการ และมีการจัดทำ Service Blueprint เบื้องต้นแล้ว"],tris:["ผู้ประเมินมองว่า กทท. สอบผ่านโครงสร้างการตั้งมาตรฐานบริการที่ดีแล้ว (Level 1-3) แต่ในระดับปฏิบัติการ (Level 4) กทท. ต้องพิสูจน์ให้ได้ว่า มาตรฐานบริการ (SLA) และเส้นทางลูกค้า (Customer Journey) ได้ถูก \"อัปเดต\" ให้ตรงกับกลุ่มลูกค้าย่อยที่เพิ่งตั้งขึ้นใหม่ รวมถึงผลลัพธ์การให้บริการต้องเข้าเป้า 100% ในทุกช่องทาง"],suggest:["รื้อผังและอัปเดตมาตรฐาน: ทบทวนและปรับปรุงมาตรฐานการบริการ (SLA), กฎบัตร, และ Service Blueprint ให้สอดคล้องกับพฤติกรรมของลูกค้ากลุ่มย่อย (Sub-segment)","วิเคราะห์เส้นทางลูกค้าใหม่: วิเคราะห์ Customer Journey ใหม่ทั้งหมดให้ตอบโจทย์เชิงลึกรายกลุ่ม","ผลักดันผลลัพธ์: ติดตามการปฏิบัติงานให้เป็นไปตาม SLA และต้องมีรายงานผลที่บรรลุเป้าหมาย 100% ในทุกช่องทาง"],docs:["Customer Journey Map และ Service Blueprint ฉบับอัปเดต: ที่แสดงให้เห็นชัดเจนว่าถูกวาดขึ้นใหม่ตามกลุ่มลูกค้าย่อย (Special, Premium, Standard)","เอกสารทบทวนกฎบัตรและ SLA 15 กระบวนการ: หลักฐานที่แสดงว่า กทท. ได้นำพฤติกรรมลูกค้ากลุ่มย่อยมาปรับปรุง SLA ใหม่ พร้อมรายงานผลการติดตาม SLA ว่าทำได้ตามเป้า 100% ในทุกพื้นที่"],bestprac:["กทพ. (EXAT): มีความโดดเด่นในการกำหนดจุดสัมผัสบริการ (Touch points) ที่สำคัญตลอดวงจรชีวิตของลูกค้า (Customer Life Cycle) ได้อย่างครบถ้วนและเป็นรูปธรรม"],minReqs:{"1":["เอกสารกำหนดช่องทางและแนวทางปฏิบัติในการสนับสนุนลูกค้า"],"2":["เอกสารวิเคราะห์ความต้องการ พฤติกรรม และกำหนด Touch Points ตลอด Customer Life Cycle","กฎบัตรและมาตรฐานด้านบริการ (Customer Service Charter & Service Standard)"],"3":["รายงานการประชุมบอร์ด (หรืออนุกรรมการฯ) อนุมัติกฎบัตรและมาตรฐานบริการ","หลักฐานการเผยแพร่กฎบัตรฯ ให้พนักงานและลูกค้าทราบ และถ่ายทอดตัวชี้วัดไปยังผู้เกี่ยวข้อง","กลไกการกำกับติดตาม SLA"],"4":["รายงานผลลัพธ์ด้านการสนับสนุนลูกค้าที่ \"เป็นไปตามเป้าหมายในทุกพื้นที่หรือทุกช่องทาง\"","หลักฐานการมีระบบสารสนเทศบูรณาการเชื่อมโยงข้อมูลจากทุก Touch Points"],"5":["รายงานประเมินประสิทธิผลของการสนับสนุนลูกค้า","แบบบันทึก AAR และภาพหน้าจอระบบดิจิทัล (KM Portal) ที่จัดเก็บความรู้นี้","รายงานที่แสดงแนวโน้มผลลัพธ์ที่ดีขึ้นต่อเนื่อง 3-5 ปี หรือเทียบเคียงคู่แข่งได้"]},subComps:{"3":["จุดสกัด Level 3 (Hidden Blocker): กฎบัตรและมาตรฐานบริการ (Service Charter & SLA) ห้ามเป็นแค่นโยบายลอยๆ แต่ต้องมีมติบอร์ดหรืออนุกรรมการฯ อนุมัติชัดเจน"],"4":["จุดสกัด Level 4 (Hidden Blocker - Alignment): เช่นเดียวกับข้อ 3.1 หากองค์กรมีการเปลี่ยนกลุ่มลูกค้าเป็น Sub-segment ผู้ประเมินจะบังคับทันทีว่า \"SLA และ Customer Journey ต้องถูกทบทวนใหม่ให้ตรงกับ Sub-segment ทุกกลุ่ม\" หากยังใช้ SLA แบบเหมาเข่งเดิม จะถูกหักคะแนนร่วงลงมาทันที","จุดสกัด Level 4 (Hidden Blocker - The 100% Rule): ในระดับ 4 เกณฑ์เขียนคำว่า \"เป็นไปตามเป้าหมายใน ทุกพื้นที่ หรือ ทุกช่องทาง\" หมายความว่า หาก กทท. มี 5 ท่าเรือ 64 จุดสัมผัสบริการ รายงานผล SLA จะต้องเป็นสีเขียวบรรลุเป้าหมายครบทุกจุด หากมีจุดใดจุดหนึ่งตกมาตรฐาน จะไม่ผ่านความสมบูรณ์ในระดับ 4"],"5":["จุดสกัด Level 5 (Hidden Blocker): ต้องแสดงให้เห็นกราฟหรือตาราง \"แนวโน้ม (Trend)\" ของผลลัพธ์การสนับสนุนลูกค้าที่ดีขึ้นอย่างต่อเนื่อง 3 ปี หรือมีข้อมูล Benchmarking ชนะคู่เทียบ (เช่น ท่าเรือแหลมฉบัง เทียบกับ PSA Singapore)"]}},
+  {id:"5.2",grp:"5",gname:"การจัดการความสัมพันธ์กับลูกค้า",gw:15.0,gs68:3.25,name:"การสร้างความผูกพัน",w:5.0,s68:3.25,status:"ยังไม่เริ่ม",statusNote:"",scope:"มิตินี้ประเมินการใช้กลยุทธ์ CRM (Customer Relationship Management) องค์กรต้องไม่เพียงแค่ \"ให้บริการ\" แต่ต้อง \"บริหารความสัมพันธ์\" ระยะยาว โดยวิเคราะห์ข้อมูลเพื่อแบ่งเกรดลูกค้า (เช่น Pareto 80:20) เพื่อมอบประสบการณ์ที่แตกต่างกันอย่างเหมาะสม นำไปสู่การรักษาฐานลูกค้าเก่า ดึงดูดลูกค้าใหม่ และเพิ่มยอดขายหรือการใช้งานในที่สุด",levelSumm:["Level 1 (มีแนวทางพื้นฐาน): มีการจัดการความสัมพันธ์ แต่ยังทำเฉพาะลูกค้าบางกลุ่ม","Level 2 (คัดเลือกกลุ่มเป้าหมายและทำแผน): ตั้งเป้าหมายหาลูกค้าใหม่/รักษาลูกค้าเก่า นำข้อมูลมาวิเคราะห์คัดเลือกกลุ่มเป้าหมาย (Targeting) เทียบคู่แข่ง และคลอดออกมาเป็น \"แผนโครงการ CRM\"","Level 3 (ติดตามแผนและใช้ IT เบื้องต้น): ตามจี้แผนงาน CRM ว่าจัดกิจกรรมได้ตามเป้าหรือไม่ และเริ่มเอาแอปพลิเคชันหรือระบบ IT เบื้องต้นมาใช้สื่อสารกับลูกค้า","Level 4 (บูรณาการเชื่อมโยงระบบและบรรลุผล): นี่คือจุดหิน ระบบสารสนเทศต้องก้าวข้ามจากการแค่เก็บข้อมูล เป็นการ \"เชื่อมโยงข้อมูลลูกค้าจากทุกจุด (Integration)\" เพื่อวิเคราะห์ความคาดหวังเชิงลึก แผน CRM ต้องตอบโจทย์และทำผลลัพธ์ได้ตามเป้า","Level 5 (ประเมินผลเชิงธุรกิจและสร้างนวัตกรรม): ต้องประเมินประสิทธิผลของ CRM เชิงตัวเลขทางธุรกิจ (Business Value) ทำ AAR พัฒนานวัตกรรมการจัดการความสัมพันธ์ และผลลัพธ์ต้องโตต่อเนื่อง"],good:["การกำหนดเป้าหมายและการแบ่งกลุ่มดูแล: กทท. มีการกำหนดเป้าหมาย แผนงาน และคัดเลือกกลุ่มเป้าหมายเพื่อสร้างความผูกพันอย่างชัดเจน โดยริเริ่มจัดทำผู้ดูแลลูกค้าระดับพรีเมียม (AMO: Account Management Officer) สำหรับกลุ่มลูกค้า Premium","การจัดกิจกรรม CRM เชิงรุก: มีการจัดกิจกรรมที่เข้าถึงลูกค้ามากขึ้น เช่น กิจกรรม \"Deep Talk\" เพื่อพูดคุยรับฟังความคาดหวังของลูกค้า","การนำเทคโนโลยีดิจิทัลมาใช้เบื้องต้น: มีการใช้ Application/LINE Group ในการสื่อสาร มีระบบจัดการฐานข้อมูลด้านการตลาด (Dashboard Customer Profile) และเชื่อมโยงกับการรวบรวมเสียงลูกค้าผ่าน PAT VOC Center"],gaps:["การบูรณาการข้อมูลเพื่อหา \"ความคาดหวังเชิงลึก (Unmet Need)\": ระบบสารสนเทศยังขาดการบูรณาการข้อมูลลูกค้าจาก \"ทุกจุดสัมผัสบริการ (Touch Points)\" แบบไร้รอยต่อ ทำให้ยังไม่สามารถดึงข้อมูลมาวิเคราะห์เพื่อมอบบริการแบบเฉพาะเจาะจง (Personalization) ได้เต็มที่","ความต่อเนื่องและการครอบคลุมลูกค้าย่อย (Sub-segment): จากการทำ AAR กทท. ยอมรับเองว่า ยังไม่สามารถติดตามการดำเนินการจัดกิจกรรม CRM กับกลุ่มลูกค้าย่อยรายเล็กได้อย่างต่อเนื่องทั้งปี และรูปแบบกิจกรรมยังไม่ได้ทบทวนให้เจาะจงตามพฤติกรรมของลูกค้ากลุ่มใหม่ (Special, Premium, Standard) อย่างครบถ้วนสมบูรณ์"],results:["กทท. ส่งหลักฐานตั้งแต่ คู่มือการให้บริการ, แผนปฏิบัติการจัดการความสัมพันธ์ลูกค้า กทท. (CRM), รายงานผลการดำเนินงานรายไตรมาส, ตัวอย่างหน้าจอ Dashboard Customer Profile, ระบบ PAT VOC Center และ AAR_5.2_การบริหารความสัมพันธ์ลูกค้า"],tris:["ผู้ประเมินชี้ชัดว่า เมื่อ กทท. ทำกระดุมเม็ดแรก (CM 2.1) โดยการจำแนกกลุ่มลูกค้าใหม่เป็น Sub-segment แล้ว กทท. \"ต้องทบทวนกระบวนการสร้างความผูกพัน (CRM) ทั้งกระบวนการ ให้สอดคล้องกับพฤติกรรมของลูกค้าแต่ละกลุ่มย่อยนั้นด้วย\" จะใช้แผน CRM แบบเดิมที่เคยทำมาไม่ได้","ในส่วนของระบบ IT ผู้ประเมินต้องการเห็น \"การวิเคราะห์ข้อมูลเชิงลึก (Data Analytics)\" จากฐานข้อมูลกลาง เพื่อนำไปสู่การสร้างความผูกพันที่เหนือกว่าความคาดหวัง"],suggest:["ออกแบบ CRM รายกลุ่มย่อย (Personalization): ทบทวนและออกแบบกิจกรรมสร้างความผูกพันให้เหมาะสมและเฉพาะเจาะจงกับพฤติกรรมของลูกค้าแต่ละกลุ่มย่อย (Special, Premium, Standard)","บูรณาการข้อมูล Omni-Channel: ยกระดับระบบสารสนเทศให้เชื่อมโยงข้อมูลประวัติลูกค้า ข้อร้องเรียน และความพึงพอใจ จากทุกจุดสัมผัส เข้าด้วยกัน เพื่อวิเคราะห์หา Unmet Need"],docs:["แผนปฏิบัติการ CRM เชิงรุกฉบับปรับปรุง (Personalized CRM Plan): เอกสารแผนงานที่ระบุชัดเจนว่า กิจกรรม CRM ของกลุ่ม Special คืออะไร, กลุ่ม Premium คืออะไร และกลุ่ม Standard คืออะไร (ต้องแตกต่างกันตามบริบท)","รายงานการวิเคราะห์ข้อมูลลูกค้าเชิงลึก (Data Analytics Report): หน้าจอระบบหรือรายงานที่แสดงให้เห็นว่า กทท. ดึงข้อมูลจากระบบต่างๆ (เช่น SAP, CTMS, VOC) มารวมกันเพื่อวิเคราะห์พฤติกรรมลูกค้าเป็นรายบุคคล/รายบริษัท"],bestprac:["กทพ.: มีความโดดเด่นในเรื่องการมี \"ระบบสารสนเทศสำหรับบูรณาการเชื่อมโยงข้อมูลลูกค้าที่รวบรวมจากทุกจุดที่ให้บริการ หรือทุกจุดที่มีปฏิสัมพันธ์กับลูกค้า\" และนำข้อมูลนั้นมาวิเคราะห์เพื่อหาความต้องการ ความคาดหวังเชิงลึกของลูกค้าแต่ละกลุ่มได้อย่างแท้จริง (Omni-channel integration)"],minReqs:{"1":["เอกสารแนวทาง/กระบวนการในการจัดการความสัมพันธ์กับลูกค้า"],"2":["คู่มือการให้บริการ (ทั้งบริการหลักและบริการสนับสนุน)","เอกสาร/รายงานการวิเคราะห์ความต้องการ ความคาดหวังของกลุ่มเป้าหมาย คู่แข่ง และคู่เทียบ","แผนงาน/โครงการจัดการความสัมพันธ์กับลูกค้า (CRM Plan)"],"3":["แนวทาง/กลไกในการกำกับติดตามการปฏิบัติงานตามแผน CRM","รายงานการติดตามผลการดำเนินงานตามแผนงาน/โครงการ CRM","หลักฐานการเริ่มนำเทคโนโลยีดิจิทัลมาใช้จัดการความสัมพันธ์"],"4":["รายงานผลการดำเนินงานตามแผนงาน CRM ที่แสดงการบรรลุเป้าหมาย (Output/Outcome) และการบูรณาการเชื่อมโยงตอบสนองลูกค้า","ระบบสารสนเทศที่ใช้สนับสนุนและ \"บูรณาการข้อมูลจากทุกจุดสัมผัสบริการ\""],"5":["แนวทางและรายงานการประเมินประสิทธิผลของการจัดการความสัมพันธ์ลูกค้า (วัดผลเชิงธุรกิจ เช่น ยอดขาย, ลูกค้าใหม่)","แบบบันทึกกระบวนการเรียนรู้และจัดการความรู้ (AAR) เรื่อง CRM","ภาพหน้าจอระบบดิจิทัล (KM Portal) ที่จัดเก็บความรู้/นวัตกรรม","รายงานที่แสดงแนวโน้มผลลัพธ์ที่ดีขึ้นต่อเนื่อง 3-5 ปี หรือเทียบเคียงคู่แข่งได้"]},subComps:{"2":["จุดสกัด Level 2 (Hidden Blocker - Sub-segment Alignment): ความสอดคล้องกับ \"กระดุมเม็ดแรก\" หากคุณแบ่งกลุ่มลูกค้าเป็น Special, Premium, Standard แผน CRM ของคุณจะต้องมี \"หน้าตาที่แตกต่างกัน\" ตามกลุ่มนี้ หากเอาแผนสัมมนาแบบเหมาเข่งไปจัดให้ลูกค้าทุกกลุ่มเหมือนกัน จะถูกมองว่าแผน CRM ไม่สอดคล้องกับพฤติกรรมลูกค้า"],"4":["จุดสกัด Level 4 (Hidden Blocker - Data Integration): ในระดับ 4 ผู้ประเมินต้องการเห็น Omni-channel Data คือ ถ้าระบบรับข้อร้องเรียน (VOC), ระบบบริการเรือ (VCMS), และระบบการเงิน (SAP) ไม่ได้ถูกดึงมาดูร่วมกัน (เพื่อดูว่าลูกค้าคนนี้จ่ายเงินเยอะไหม เคยบ่นเรื่องอะไรบ้าง) ผู้ประเมินจะถือว่า \"ยังไม่มีการบูรณาการข้อมูลเพื่อหาความต้องการเชิงลึก\" นี่คือจุดที่ทำให้ กทท. ได้คะแนนไม่ทะลุไปถึง 4"],"5":["จุดสกัด Level 5 (Hidden Blocker - Business Value Metrics): การประเมินประสิทธิผลของ CRM ในเกณฑ์ SE-AM ระบุไว้ชัดเจนว่า ไม่ใช่วัดแค่ \"ลูกค้าพอใจกิจกรรมไหม\" แต่บังคับให้วัด \"จำนวนลูกค้าใหม่, การซื้อต่อยอด (Up-selling), การซื้อต่อเนื่อง (Cross-selling), อัตราการสูญเสียลูกค้า (Churn rate)\" องค์กรต้องโชว์ให้เห็นว่า กิจกรรม CRM ทำให้เกิดมูลค่าเพิ่มทางธุรกิจเหล่านี้ได้อย่างไร"]}},
+  {id:"5.3",grp:"5",gname:"การจัดการความสัมพันธ์กับลูกค้า",gw:15.0,gs68:3.25,name:"การจัดการข้อร้องเรียน",w:5.0,s68:3.25,status:"ยังไม่เริ่ม",statusNote:"",scope:"มิตินี้ประเมินว่า องค์กรมีระบบจัดการความไม่พึงพอใจที่ดีหรือไม่ (Complaint Management) โดยหัวใจสำคัญคือ ต้องเป็นระบบ แบบปิด (Closed-Loop Process) คือเริ่มตั้งแต่รับเรื่อง แจ้งความคืบหน้า แก้ไขปัญหา และต้องไปสิ้นสุดที่การประเมินว่า \"ลูกค้ายอมรับและพึงพอใจในการแก้ไขปัญหานั้นแล้ว\" รวมถึงการนำข้อมูลที่ผิดพลาดไปแก้ไขกระบวนการเพื่อไม่ให้เกิดซ้ำ",levelSumm:["Level 1 (มีนโยบายที่บอร์ดรับรอง): มีนโยบายจัดการข้อร้องเรียนที่ผ่านความเห็นชอบจากบอร์ดหรืออนุกรรมการฯ","Level 2 (นโยบายมีมาตรฐานสากล): นโยบาย/ระเบียบ ต้องมีองค์ประกอบครบตามมาตรฐาน (เช่น ISO 10002) มีการแบ่งระดับความรุนแรง กำหนด SLA และมีกระบวนการชดเชยเยียวยา","Level 3 (ใช้ IT และถ่ายทอด KPI): เผยแพร่ช่องทางให้ลูกค้ารู้ นำระบบเทคโนโลยีดิจิทัล (เช่น e-Complaint) มาใช้ติดตามเรื่องแบบ Real-time และถ่ายทอด KPI ให้พนักงานที่รับผิดชอบ","Level 4 (ได้ผลตามเป้าและบูรณาการ): การแก้ปัญหาต้องจบตามเวลา (SLA) ผลลัพธ์ความพึงพอใจการแก้ปัญหาต้องบรรลุเป้า และระบบต้องเชื่อมโยงข้อมูลหาความต้องการเชิงลึกได้","Level 5 (ประเมิน นวัตกรรม และแก้ปัญหาถาวร): ทำ AAR กระบวนการแก้ข้อร้องเรียน สร้างนวัตกรรมป้องกันปัญหา เก็บลง KM และผลลัพธ์ข้อร้องเรียนต้องมีแนวโน้มลดลงต่อเนื่อง 3 ปี"],good:["โครงสร้างนโยบายและมาตรฐานชัดเจน: กทท. มีการจัดทำระเบียบ นโยบาย คู่มือปฏิบัติงาน และกฎบัตรการจัดการเรื่องราวร้องทุกข์ที่ครอบคลุม โดยมีการปรับปรุงระเบียบใหม่ในปี 2568 ให้ทันสมัยและเข้ากับบริบทมากขึ้น","ช่องทางรับเรื่องที่หลากหลาย: เปิดช่องทางรับข้อร้องเรียนถึง 8 ช่องทาง ครอบคลุมทั้งออนไลน์และออฟไลน์","การนำเทคโนโลยีดิจิทัลมาใช้ (e-Complaint): ในปี 2568 กทท. ได้พัฒนาระบบรับเรื่องร้องเรียน (e-Complaint) ผ่านเว็บไซต์แบบ Real-Time ซึ่งผู้ใช้บริการสามารถแจ้งเรื่อง ติดตามสถานะ และระบบจะประมวลผลเป็น Dashboard สรุปสถานการณ์ได้","การกำหนด SLA ตามระดับความรุนแรง: มีการจำแนกประเภทข้อร้องเรียนเป็น 4 ระดับ และกำหนดมาตรฐานเวลา (SLA) ชัดเจน เช่น เรื่องทั่วไปแก้ภายใน 15 วัน, เรื่องทุจริต 60 วัน, และต้องตอบกลับเบื้องต้นภายใน 15 นาที","การผูกเป้าหมายกับ KPI รายบุคคล: มีการถ่ายทอดตัวชี้วัด (เช่น ร้อยละความพึงพอใจการจัดการข้อร้องเรียน และความสำเร็จในการแก้ปัญหา) ลงสู่การประเมินผลการปฏิบัติงาน (KPI) ของพนักงานที่รับผิดชอบโดยตรง"],gaps:["ผลลัพธ์ยังไม่บรรลุเป้าหมาย: แม้จะมีระบบที่ดี แต่ผลลัพธ์เชิงประจักษ์ด้านการจัดการข้อร้องเรียน (เช่น ความพึงพอใจต่อการแก้ปัญหา และจำนวนข้อร้องเรียน) ยังไม่บรรลุเป้าหมายตามมาตรฐานที่ กทท. กำหนดไว้","การบูรณาการข้อมูลเพื่อป้องกันปัญหาล่วงหน้า: ยังขาดการนำข้อมูลข้อร้องเรียนซ้ำซาก ไปวิเคราะห์เพื่อสร้างเป็นระบบเตือนภัยล่วงหน้า (Early Warning System) หรือเชื่อมโยงกับระบบบริหารความเสี่ยง (RM) อย่างเป็นรูปธรรม"],results:["กทท. ส่งหลักฐานตั้งแต่ระดับ 1-5 ครบถ้วน ได้แก่ นโยบายและระเบียบฯ, คู่มือปฏิบัติงาน, ตัวอย่างหน้าจอระบบ e-Complaint, ตารางติดตาม SLA, สรุปผลความพึงพอใจการจัดการเรื่องร้องทุกข์, และแบบบันทึก AAR_5.3_การจัดการเรื่องร้องเรียน ที่นำไปเก็บในระบบ KM Portal"],tris:["ผู้ประเมินมองว่า กทท. มีโครงสร้างกระบวนการ (Level 1-3) ที่ค่อนข้างสมบูรณ์แบบโดยเฉพาะการมีระบบ e-Complaint แต่จุดที่ทำให้ถูกหักคะแนนในระดับ 4 และ 5 คือ \"ตัวผลลัพธ์ (Outcome)\" ผู้ประเมินระบุชัดเจนว่า กทท. ต้องผลักดันให้การจัดการข้อร้องเรียน \"เป็นไปตามมาตรฐาน (SLA)\" และต้องทำให้ผู้ร้องเรียนเกิด \"ความพึงพอใจหลังจากการแก้ปัญหา\" บรรลุตามเป้าหมายที่ตั้งไว้ให้ได้","กทท. ทำระบบรับข้อร้องเรียน (e-Complaint) ได้ยอดเยี่ยมแล้ว (ได้ 3.2500) แต่ในสายตาผู้ตรวจประเมิน \"ระบบที่ดีต้องมาพร้อมผลลัพธ์ที่ดี\" ในปี 2569 สิ่งที่ กทท. ต้องเร่งทำ (Quick Win) คือการกำกับดูแลให้ทุกฝ่ายแก้ปัญหาให้จบใน SLA และต้องดันคะแนน \"ความพึงพอใจของผู้ร้องเรียน\" ให้เข้าเป้า นอกจากนี้ ถ้านำข้อมูลคนบ่นไปทำระบบ \"เตือนภัยล่วงหน้า (Early Warning)\" ร่วมกับฝ่ายความเสี่ยง (RM) ได้ คะแนนระดับ 4 และ 5 จะมาทันที"],suggest:["ควบคุมกำกับ SLA อย่างเคร่งครัด: ดำเนินการจัดการข้อร้องเรียนผ่านระบบ e-Complaint ให้ทันตามกรอบเวลา (SLA) 100%","ผลักดันความพึงพอใจ: โฟกัสไปที่ผลลัพธ์ \"ความพึงพอใจต่อการจัดการข้อร้องเรียน\" หากพบว่าคะแนนยังต่ำ ต้องรีบทำ AAR เพื่อหาสาเหตุ","สร้างระบบเตือนภัย (Early Warning): นำข้อมูลข้อร้องเรียนที่เกิดขึ้นบ่อย ไปวิเคราะห์หาสาเหตุรากเหง้า (Root cause) และส่งข้อมูลนี้ไปให้ฝ่ายบริหารความเสี่ยง (RM) เพื่อตั้งเป็นสัญญาณเตือนภัยป้องกันไม่ให้เกิดซ้ำ"],docs:["รายงานสรุปผลลัพธ์ SLA และความพึงพอใจบรรลุเป้า: เอกสารที่โชว์ตัวเลขชัดเจนว่า ปี 69 เราแก้ปัญหาได้ทันเวลา 100% และลูกค้าพึงพอใจการแก้ปัญหาผ่านเกณฑ์เป้าหมาย","หลักฐานการเชื่อมโยงระบบ e-Complaint กับ RM: รายงานหรือหน้าจอ Dashboard ที่แสดงให้เห็นว่า มีการนำสถิติข้อร้องเรียนไปตั้งเป็นตัวชี้วัดความเสี่ยง (Risk Indicator) เพื่อเฝ้าระวังล่วงหน้า"],bestprac:["กทพ.: จัดทำนโยบายและมาตรฐานการบริการเผยแพร่ชัดเจน และที่สำคัญคือ มีระบบการ \"วิเคราะห์ข้อมูลร้องเรียนเพื่อป้องกันปัญหาล่วงหน้า (Preventive Action)\" ทำให้ข้อร้องเรียนซ้ำซากลดลงอย่างมีประสิทธิภาพ"],minReqs:{"1":["นโยบาย ระเบียบวิธีปฏิบัติ คู่มือเกี่ยวกับการจัดการข้อร้องเรียน","รายงานการประชุมคณะกรรมการรัฐวิสาหกิจ (บอร์ด กทท.) หรือคณะอนุกรรมการฯ \"อนุมัติ\" นโยบาย/ระเบียบ"],"2":["นโยบายและระเบียบวิธีปฏิบัติ ที่มีองค์ประกอบและมาตรฐานการปฏิบัติงานครบถ้วนตามที่เกณฑ์บังคับ"],"3":["หลักฐานช่องทางและการเผยแพร่นโยบายให้หน่วยงานภายในและภายนอกรับทราบ","กลไกการติดตามควบคุมให้เป็นไปตามมาตรฐาน","ระบบสารสนเทศ (เช่น e-Complaint) ที่ใช้รับเรื่อง ติดตาม รายงานสถานะ และสรุปผล"],"4":["รายงานผลการดำเนินงานการจัดการข้อร้องเรียนที่ \"บรรลุเป้าหมาย/มาตรฐาน\"","หลักฐานการบูรณาการระบบสารสนเทศเชื่อมโยงข้อมูลลูกค้า"],"5":["รายงานประเมินประสิทธิผลของการจัดการข้อร้องเรียน","แบบบันทึกกระบวนการเรียนรู้ (AAR 5.3)","ภาพหน้าจอระบบดิจิทัล (KM Portal) ที่จัดเก็บความรู้/นวัตกรรม","สถิติผลการดำเนินงานที่ \"ดีขึ้นต่อเนื่อง 3 ปี\" หรือ \"เทียบเคียงคู่แข่งได้\""]},subComps:{"1":["จุดสกัด Level 1 (Hidden Blocker): เอกสารระเบียบ/นโยบาย ห้ามเซ็นอนุมัติโดยผู้บริหารฝ่ายเดียว ต้องมีหลักฐาน \"รายงานการประชุมคณะกรรมการรัฐวิสาหกิจ (บอร์ด กทท.) หรือคณะอนุกรรมการฯ\" ให้ความเห็นชอบอย่างเป็นทางการ"],"2":["จุดสกัด Level 2 (Hidden Blocker - Closed-loop & Escalation): ในคู่มือปฏิบัติงาน ผู้ประเมินจะเปิดหาองค์ประกอบบังคับ 2 จุด คือ 1) ต้องมีข้อความระบุว่ากระบวนการจะจบเมื่อ \"ลูกค้ายอมรับและพึงพอใจ\" (Closed-Loop Process) และ 2) ต้องมี \"เส้นทางการสอบทาน (Escalation)\" คือถ้าระดับปฏิบัติการแก้ไม่ได้ในกี่วัน จะถูกรายงานชงขึ้นไปให้ผู้บริหารระดับสูงทราบอย่างไร"],"4":["จุดสกัด Level 4 (Hidden Blocker - The Target Trap): เกณฑ์ระบุว่า \"ทำให้การจัดการข้อร้องเรียนเป็นไปตามมาตรฐาน และระดับผลลัพธ์... เป็นไปตามเป้าหมาย\" หมายความว่า หากทำระบบ e-Complaint มาอย่างดีเลิศ แต่สรุปสถิติปลายปีพบว่า แก้ปัญหาหลุด SLA ไป 10% หรือ ผลสำรวจความพึงพอใจต่อการแก้ปัญหาน้อยกว่าเป้าที่ตั้งไว้ จะถูกหักคะแนนความสมบูรณ์ในระดับ 4 ทันที (ซึ่งเป็นจุดที่ กทท. โดนในปี 68)"],"5":["จุดสกัด Level 5 (Hidden Blocker - Early Warning Integration): การพัฒนานวัตกรรมในระดับ 5 ผู้ประเมินคาดหวังให้ กทท. ข้ามจากการแก้ปัญหาเฉพาะหน้า ไปสู่การ \"ป้องกัน\" (Preventive) โดยต้องนำข้อมูลจากระบบ e-Complaint ไปเชื่อมโยงกับระบบบริหารความเสี่ยง (RM) เพื่อสร้างเป็น ระบบเตือนภัยล่วงหน้า (Early Warning System)"]}}
+  ]
+}};
+const CROSS_LINKS={
+"1.1":{"3":["CG"],"4":["CG","SP"],"5":["KM","SP"]},
+"2.1":{"4":["SP","DT","RM"],"5":["KM"]},
+"3.1":{"3":["DT"],"4":["SP","IM","DT"],"5":["KM"]},
+"3.2":{"4":["SP","HCM"],"5":["KM"]},
+"4.1":{"3":["RM&IC","KM"],"4":["SP","RM&IC","IM"],"5":["KM"]},
+"5.1":{"4":["HCM","DT"],"5":["KM"]},
+"5.2":{"4":["SP","DT"],"5":["SP","KM"]},
+"5.3":{"1":["CG"],"3":["DT"],"4":["RM&IC","CG","DT"],"5":["RM&IC","KM"]}
+};
+const DIM_COL={"SP":"#1e3a5c","HCM":"#0d7377","SCM":"#b8862f","DT":"#4c51bf","KM":"#276749","CG":"#7b2d3e","RM&IC":"#64748b","IA":"#6b46c1","IM":"#c2610f","CM":"#0a8a7a"};
+
+// ── STATE ────────────────────────────────────────────────────────────
+let cmMrChk={};   // cmMrChk[sid][L][ri] = bool — minReqs gating
+let cmScChk={};   // cmScChk[sid][L][si] = bool — subComps partial credit
+let cmDimMlt={};  // cmDimMlt[sid][L] = 0|0.5|1.0 — fallback when no subComps
+let docCk={};let feInput={};let clChecked={};
+let targets={cm:{}};let focusId=null;
+
+DATA.cm.subs.forEach(s=>{
+  cmMrChk[s.id]={};cmScChk[s.id]={};cmDimMlt[s.id]={};
+  targets.cm[s.id]=s.s68;
+  for(let L=1;L<=5;L++){
+    cmMrChk[s.id][L]={};
+    cmScChk[s.id][L]=(s.subComps&&s.subComps[L])?s.subComps[L].map(()=>false):[];
+    cmDimMlt[s.id][L]=0;
+  }
+});
+
+// ── LOAD ─────────────────────────────────────────────────────────────
+function loadState(){
+  try{
+    const d=JSON.parse(localStorage.getItem(LS_KEY)||'{}');
+    if(d.mr)Object.assign(cmMrChk,d.mr);
+    if(d.sc)Object.assign(cmScChk,d.sc);
+    if(d.dm)Object.assign(cmDimMlt,d.dm);
+    if(d.cl)Object.assign(clChecked,d.cl);
+    if(d.dc)Object.assign(docCk,d.dc);
+    if(d.fe)Object.assign(feInput,d.fe);
+  }catch(e){}
+  DATA.cm.subs.forEach(s=>{targets.cm[s.id]=cmCalcRaw(s.id)||s.s68;});
+}
+
+// ── SAVE / EXPORT / IMPORT ───────────────────────────────────────────
+function save(){
+  try{localStorage.setItem(LS_KEY,JSON.stringify({mr:cmMrChk,sc:cmScChk,dm:cmDimMlt,cl:clChecked,dc:docCk,fe:feInput}));}catch(e){}
+  syncHomeStatus();
+}
+function exportProgress(){
+  const payload=JSON.parse(localStorage.getItem(LS_KEY)||'{}');
+  payload._exported=new Date().toISOString();payload._dim='CM';
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='SM_progress_'+new Date().toLocaleDateString('th-TH').replace(/\//g,'')+'.json';
+  a.click();
+}
+function importProgress(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const d=JSON.parse(e.target.result);
+      const exp=d._exported?new Date(d._exported).toLocaleString('th-TH'):'ไม่ระบุ';
+      if(!confirm('นำเข้าข้อมูล CM (ส่งออกเมื่อ '+exp+')\nจะทับข้อมูลปัจจุบัน — ยืนยัน?'))return;
+      delete d._exported;delete d._dim;
+      localStorage.setItem(LS_KEY,JSON.stringify(d));
+      loadState();renderAll();
+    }catch(err){alert('ไฟล์ไม่ถูกต้อง');}
+  };
+  reader.readAsText(file);input.value='';
+}
+function syncHomeStatus(){
+  try{
+    const home=JSON.parse(localStorage.getItem('seam_status_69')||'{}');
+    if(!home.sm)home.sm={};
+    DATA.cm.subs.forEach(s=>{
+      const score=cmCalcRaw(s.id);
+      const gc=(s.gaps||[]).length;
+      home.sm[s.id]={level:score,hasOpenGap:gc>0,gapCount:gc};
+    });
+    localStorage.setItem('seam_status_69',JSON.stringify(home));
+  }catch(e){}
+}
+
+// ── SCORING ──────────────────────────────────────────────────────────
+function cmCalcLevel(sid,L){
+  const s=DATA.cm.subs.find(x=>x.id===sid);if(!s)return 0;
+  const mrs=(s.minReqs&&s.minReqs[L])||[];
+  const passedMR=mrs.length===0||mrs.every((_,i)=>!!(cmMrChk[sid]&&cmMrChk[sid][L]&&cmMrChk[sid][L][i]));
+  if(!passedMR)return 0;
+  const scs=(s.subComps&&s.subComps[L])||[];
+  if(scs.length>0){
+    const checked=((cmScChk[sid]&&cmScChk[sid][L])||[]).filter(Boolean).length;
+    return checked/scs.length;
+  }
+  return(cmDimMlt[sid]&&cmDimMlt[sid][L])||0;
+}
+function cmCalcRaw(sid){
+  let total=0;
+  for(let L=1;L<=5;L++){
+    const lScore=cmCalcLevel(sid,L);
+    total+=lScore;
+    if(lScore===0)break;
+  }
+  return Math.min(5,total);
+}
+
+// ── SETTERS ──────────────────────────────────────────────────────────
+function cmToggleMR(sid,L,ri,val){
+  if(!cmMrChk[sid])cmMrChk[sid]={};
+  if(!cmMrChk[sid][L])cmMrChk[sid][L]={};
+  cmMrChk[sid][L][ri]=val;
+  targets.cm[sid]=cmCalcRaw(sid);save();renderAll();
+}
+function cmToggleSC(sid,L,si,val){
+  if(!cmScChk[sid])cmScChk[sid]={};
+  if(!cmScChk[sid][L])cmScChk[sid][L]=[];
+  cmScChk[sid][L][si]=val;
+  targets.cm[sid]=cmCalcRaw(sid);save();renderAll();
+}
+function cmSetDim(sid,L,val){
+  if(!cmDimMlt[sid])cmDimMlt[sid]={};
+  cmDimMlt[sid][L]=parseFloat(val);
+  targets.cm[sid]=cmCalcRaw(sid);save();renderAll();
+}
+function cmClearAll(){
+  DATA.cm.subs.forEach(s=>{
+    cmMrChk[s.id]={};cmScChk[s.id]={};cmDimMlt[s.id]={};
+    [1,2,3,4,5].forEach(L=>{cmMrChk[s.id][L]={};cmScChk[s.id][L]=[];cmDimMlt[s.id][L]=0;});
+    delete docCk[s.id];delete feInput[s.id];delete clChecked[s.id];
+  });
+  try{localStorage.removeItem(LS_KEY);}catch(e){}
+  DATA.cm.subs.forEach(s=>{targets.cm[s.id]=s.s68;});
+  renderAll();
+}
+
+// ── UTILITIES ────────────────────────────────────────────────────────
+function docGetChk(sid,L,i){return !!(docCk[sid]&&docCk[sid][L]&&docCk[sid][L][i]);}
+function feGet(sid,field,key){return(feInput[sid]&&feInput[sid][field]&&feInput[sid][field][key])||'';}
+function feSet(sid,field,key,val){if(!feInput[sid])feInput[sid]={};if(!feInput[sid][field])feInput[sid][field]={};feInput[sid][field][key]=val;save();}
+function feGapClosed(sid,i){const fi=feInput[sid];if(!fi||!fi.gapClosed)return null;return fi.gapClosed.hasOwnProperty(i)?fi.gapClosed[i]:null;}
+function feCopyOut(outId,btn){
+  const el=document.getElementById(outId);if(!el)return;
+  const orig=btn.textContent;
+  if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(el.value).then(()=>{btn.textContent='✓ คัดลอกแล้ว';setTimeout(()=>btn.textContent=orig,1500);}).catch(()=>{el.select();document.execCommand('copy');});}
+  else{el.select();document.execCommand('copy');btn.textContent='✓ คัดลอกแล้ว';setTimeout(()=>btn.textContent=orig,1500);}
+}
+function docToggle(sid,L,i,v){
+  if(!docCk[sid])docCk[sid]={};if(!docCk[sid][L])docCk[sid][L]={};
+  docCk[sid][L][i]=v;save();
+  const inp=document.getElementById(`dck-${sid}-${L}-${i}`);
+  if(inp){const lbl=inp.closest('label');if(lbl){if(v)lbl.classList.add('fb-item-done');else lbl.classList.remove('fb-item-done');}}
+  updateDocProgress(sid);
+}
+function updateDocProgress(sid){
+  const s=DATA.cm.subs.find(x=>x.id===sid);if(!s)return;
+  const mr=s.minReqs||{};let total=0,done=0;
+  [1,2,3,4,5].forEach(L=>{
+    const items=mr[L]||[];total+=items.length;
+    const lvlDone=items.filter((_,i)=>docGetChk(sid,L,i)).length;done+=lvlDone;
+    const cntEl=document.getElementById(`fb-cnt-${sid}-${L}`);
+    if(cntEl){
+      const c=lvlDone===items.length&&items.length>0?'#0891b2':lvlDone>0?'#92400e':'#0369a1';
+      cntEl.textContent=`${lvlDone}/${items.length}`;cntEl.style.color=c;
+      const hdEl=cntEl.closest('.doc-lvl-hd');
+      if(hdEl)hdEl.style.background=lvlDone===items.length&&items.length>0?'#e4f5e4':lvlDone>0?'#fef8e0':'rgba(2,132,199,.06)';
+    }
+  });
+  const totalEl=document.getElementById(`fb-total-${sid}`);const fillEl=document.getElementById(`fb-prog-fill-${sid}`);
+  if(totalEl){const c=done===total&&total>0?'#0891b2':done>0?'#92400e':'#666';totalEl.textContent=`${done}/${total} เอกสารพร้อมแล้ว`;totalEl.style.color=c;if(fillEl){fillEl.style.width=`${total>0?Math.round(done/total*100):0}%`;fillEl.style.background=c;}}
+}
+let _eu=0;
+function exp(txt,lim=110){
+  if(!txt||txt.length<=lim) return txt||'';
+  const id='ex'+(_eu++);
+  const b='border:none;background:#e8e0f8;cursor:pointer;color:#5a20a0;font-size:10px;padding:0 5px;border-radius:8px;line-height:1.6;white-space:nowrap;';
+  return `<span id="${id}s">${txt.slice(0,lim)}<span style="color:#bbb;">…</span>&nbsp;<button onclick="document.getElementById('${id}s').style.display='none';document.getElementById('${id}f').style.display='inline';" style="${b}">▼ ดูเพิ่ม</button></span><span id="${id}f" style="display:none;">${txt}&nbsp;<button onclick="document.getElementById('${id}f').style.display='none';document.getElementById('${id}s').style.display='inline';" style="${b}">▲ ย่อ</button></span>`;
+}
+function clExpand(id,i){const el=document.getElementById('cls-'+id+'-'+i);const btn=document.getElementById('clb-'+id+'-'+i);if(!el||!btn)return;const collapsed=el.style.webkitLineClamp!=='unset'&&el.style.webkitLineClamp!=='';el.style.webkitLineClamp=collapsed?'unset':'2';btn.textContent=collapsed?'ย่อ ▲':'อ่านเพิ่ม ▼';}
+function fmt(n){return n.toFixed(4);}
+function sClass(st){return st==='เสร็จแล้ว'?'s2':st==='กำลังดำเนินการ'?'s1':'s0';}
+function sIcon(st){return st==='เสร็จแล้ว'?'✓':st==='กำลังดำเนินการ'?'●':'○';}
+function dotColor(s){
+  const t=cmCalcRaw(s.id);const diff=t-s.s68;
+  if(diff>0.5)return 'dg';if(diff>0.01)return 'da';return 'dr';
+}
+function dimBadge(d){
+  const key=d.replace(/^(SP|HCM|SCM|DT|KM|CG|RM&IC|IA|IM|CM).*/,'$1');
+  const col=DIM_COL[key]||'#5a3e8c';
+  return `<a href="${LINK_URL}" target="_blank" class="dim-badge" style="background:${col};text-decoration:none;" title="ดูเอกสารเชื่อมโยง ${d}">${d}</a>`;
+}
+const CM_DEP_TOTAL=(function(){
+  const c={};
+  Object.values(CROSS_LINKS).forEach(lvls=>Object.values(lvls).forEach(dims=>dims.forEach(d=>{
+    const k=d;c[k]=(c[k]||0)+1;
+  })));
+  return c;
+})();
+function renderDepTotal(){
+  const order=['CG','SP','HCM','KM','IM','DT','SCM','CM','RM&IC'];
+  const vals=order.filter(k=>CM_DEP_TOTAL[k]);
+  if(!vals.length)return '';
+  const maxV=Math.max(...vals.map(k=>CM_DEP_TOTAL[k]));
+  return '<div class="dep-count-bar"><span style="font-size:9px;color:#2a6a4a;font-weight:600;flex-shrink:0;margin-right:2px;">📊 CM พึ่งพา:</span>'+
+    vals.map(k=>{
+      const v=CM_DEP_TOTAL[k];const col=DIM_COL[k]||'#5a3e8c';const barW=Math.round(v/maxV*36);
+      return `<span class="dep-pill" style="background:${col};">${k}<span>×${v}</span><span style="display:inline-block;width:${barW}px;height:4px;background:rgba(255,255,255,.45);border-radius:2px;margin-left:3px;"></span></span>`;
+    }).join('')+'</div>';
+}
+
+// ── genScript ─────────────────────────────────────────────────────────
+function genScript(sid){
+  const s=DATA.cm.subs.find(x=>x.id===sid);if(!s)return'';
+  const fi=feInput[sid]||{};const lvlNotes=fi.lvlNotes||{};const gapClosed=fi.gapClosed||{};const gapNotes=fi.gapNotes||{};
+  const mr=s.minReqs||{};
+  const simMax=[5,4,3,2,1].find(L=>cmCalcLevel(sid,L)>=1)||0;
+  const lines=[];
+  lines.push(`รายงานประเมินตนเอง — เกณฑ์ ${sid} ${s.name}`);
+  lines.push(`ระดับที่ผ่านครบ (คาดการณ์): L${simMax||'—'}`);
+  lines.push(`คะแนนดิบสะสม: ${cmCalcRaw(sid).toFixed(4)}/5.0`);
+  lines.push('─'.repeat(60));lines.push('');
+  lines.push(`กทท. ได้ดำเนินการตามหลักเกณฑ์ "${s.name}" โดยมีผลการดำเนินงาน ดังนี้`);lines.push('');
+  [1,2,3,4,5].forEach(L=>{
+    const items=mr[L]||[];if(!items.length)return;
+    const lScore=cmCalcLevel(sid,L);const isPass=lScore>=1;const isPartial=lScore>0&&lScore<1;
+    const lvlTitle=(s.levelSumm&&s.levelSumm[L-1])||`ระดับ ${L}`;
+    const tickedDocs=items.filter((_,i)=>docGetChk(sid,L,i)).map(d=>d.replace('[แก้ไข Gap สำคัญ]','').trim());
+    const note=lvlNotes[L]||'';
+    const scs=(s.subComps&&s.subComps[L])||[];
+    const scChecked=scs.length>0?((cmScChk[sid]&&cmScChk[sid][L])||[]).filter(Boolean).length:null;
+    lines.push(`${isPass?'✓':isPartial?'◐':'○'} ระดับ ${L} — ${lvlTitle}`);
+    if(scChecked!==null)lines.push(`   ประเด็นที่เปิดเผย: ${scChecked}/${scs.length} (${(lScore*100).toFixed(0)}%)`);
+    if(note)lines.push(`   ${note}`);
+    if(tickedDocs.length){lines.push(`   หลักฐานที่เตรียมแล้ว (${tickedDocs.length} รายการ):`);tickedDocs.forEach((d,i)=>lines.push(`   (${i+1}) ${d}`));}
+    lines.push('');
+  });
+  const goods=s.good||[];const results=s.results||[];
+  if(goods.length){lines.push('จุดแข็งขององค์กร:');goods.forEach(g=>lines.push(`• ${g}`));lines.push('');}
+  if(results.length){lines.push('ผลการดำเนินงานที่นำเสนอ:');results.forEach((r,i)=>lines.push(`(${i+1}) ${r}`));lines.push('');}
+  const gaps=s.gaps||[];
+  if(gaps.length){
+    lines.push('ช่องว่างที่ได้รับการเสนอแนะ และสถานะการปิด:');
+    gaps.forEach((gap,i)=>{
+      const cl=gapClosed[i];const gNote=gapNotes[i]||'';
+      const st=cl===true?'✓ ปิดได้แล้ว':cl===false?'○ อยู่ระหว่างดำเนินการ':'— ยังไม่ได้ระบุ';
+      lines.push(`• ${gap}`);lines.push(`  → ${st}${gNote?': '+gNote:''}`);
+    });
+  }
+  return lines.join('\n');
+}
+
+// ── renderSim (SM Sequential Gating) ────────────────────────────────
+function renderSim(s){
+  const sid=s.id;
+  const lvlSc=[];let gated=false;
+  for(let L=1;L<=5;L++){
+    if(gated){lvlSc.push({rv:0,bl:true,passedMR:false,hasSC:false});continue;}
+    const mrs=(s.minReqs&&s.minReqs[L])||[];
+    const passedMR=mrs.length===0||mrs.every((_,i)=>!!(cmMrChk[sid]&&cmMrChk[sid][L]&&cmMrChk[sid][L][i]));
+    const scs=(s.subComps&&s.subComps[L])||[];
+    let rv=0;
+    if(passedMR){
+      if(scs.length>0){
+        const checked=((cmScChk[sid]&&cmScChk[sid][L])||[]).filter(Boolean).length;
+        rv=checked/scs.length;
+      }else{
+        rv=(cmDimMlt[sid]&&cmDimMlt[sid][L])||0;
+      }
+    }
+    lvlSc.push({rv,bl:false,passedMR,hasSC:scs.length>0});
+    if(rv===0)gated=true;
+  }
+  const raw=lvlSc.reduce((a,x)=>a+x.rv,0);
+  const wt=raw*(s.w/100);
+  targets.cm[sid]=raw;
+  requestAnimationFrame(()=>{
+    const inp=document.getElementById('ti-'+sid);
+    if(inp){inp.value=fmt(targets.cm[sid]);inp.style.borderColor=raw>=4?'#2a8a4a':raw>=3?'#5a8a00':raw>=2?'#c07000':'#c03020';}
+  });
+
+  function countMR(L){const mrs=(s.minReqs&&s.minReqs[L])||[];let t=0,c=0;mrs.forEach((_,ri)=>{t++;if(cmMrChk[sid]&&cmMrChk[sid][L]&&cmMrChk[sid][L][ri])c++;});return{tot:t,chk:c};}
+
+  const allDimsSet=[];
+  for(let _l=1;_l<=5;_l++){((CROSS_LINKS[sid]&&CROSS_LINKS[sid][_l])||[]).forEach(d=>{if(!allDimsSet.includes(d))allDimsSet.push(d);});}
+  const crossSumm=allDimsSet.length?`<div class="crosslink-summ">🔗&nbsp;<strong style="margin-right:4px;">ต้องร่วมมือ:</strong>${allDimsSet.map(dimBadge).join(' ')}</div>`:'';
+  const gapL=s.s68>0?(s.s68===Math.floor(s.s68)?s.s68+1:Math.ceil(s.s68)):1;
+
+  let lvlHTML='';
+  lvlSc.forEach((ls,i)=>{
+    const L=i+1;
+    const summ=(s.levelSumm&&s.levelSumm[L-1])||'';
+    const detail=(s.dimLevels&&s.dimLevels[L-1])||'';
+    const mrs=(s.minReqs&&s.minReqs[L])||[];
+    const scs=(s.subComps&&s.subComps[L])||[];
+    const ints=(CROSS_LINKS[sid]&&CROSS_LINKS[sid][L])||[];
+    const{tot,chk}=countMR(L);
+    const rv=ls.rv;
+    const hdBg=ls.bl?'#eee8f8':rv>=1?'#e4f5e4':rv>0?'#fef8e8':'#f0fffa';
+    const nBg=ls.bl?'#aaa':rv>=1?'#0891b2':rv>0?'#2a8a50':'#1a5a3a';
+    const sCol=ls.bl?'#bbb':rv>=1?'#0891b2':rv>0?'#2a8a50':'#6aaa88';
+    const barPct=tot>0?Math.round(chk/tot*100):0;
+    const xId=`cgx-${sid}-${L}`;
+    const xBtn=detail?`<button class="cg-toggle" onclick="event.stopPropagation();var e=document.getElementById('${xId}'),b=this;e.classList.toggle('open');b.textContent=e.classList.contains('open')?'▲':'▼';">▼</button>`:'';
+    const xPan=detail?`<div id="${xId}" class="cg-lvl-detail">${detail}</div>`:'';
+    let mrH='';
+    if(mrs.length){
+      mrH=`<div class="cg-sect-lbl">🔒 หลักฐานขั้นต่ำ (L${L}) <span style="color:#0891b2;">${chk}/${tot} (${barPct}%)</span></div>
+      <div class="cg-prog-bar"><div class="cg-prog-fill" style="width:${barPct}%;background:${chk===tot?'#0891b2':'#2a8a50'};"></div></div>`;
+      mrs.forEach((txt,ri)=>{
+        const kid=`cgmr-${sid}-${L}-${ri}`;const ck=cmMrChk[sid]&&cmMrChk[sid][L]&&cmMrChk[sid][L][ri]?'checked':'';const dis=ls.bl?'disabled':'';
+        mrH+=`<div class="cg-req-item"><input type="checkbox" id="${kid}" ${ck} ${dis} onchange="cmToggleMR('${sid}',${L},${ri},this.checked);" style="accent-color:#0891b2;"><label for="${kid}">${txt}</label></div>`;
+      });
+    }
+    let dimH='';
+    if(scs.length>0){
+      const scChecked=((cmScChk[sid]&&cmScChk[sid][L])||[]).filter(Boolean).length;
+      const scPct=Math.round(scChecked/scs.length*100);
+      dimH=`<div class="cg-sect-lbl" style="margin-top:8px;">📊 ประเด็นที่เปิดเผย (L${L}) — <span style="color:#0891b2;">${scChecked}/${scs.length} = ${rv.toFixed(4)}</span></div>
+      <div class="cg-prog-bar"><div class="cg-prog-fill" style="width:${scPct}%;background:${scChecked===scs.length?'#0891b2':'#2a8a50'};"></div></div>`;
+      scs.forEach((txt,si)=>{
+        const kid=`cgsc-${sid}-${L}-${si}`;const ck=cmScChk[sid]&&cmScChk[sid][L]&&cmScChk[sid][L][si]?'checked':'';const dis=ls.bl||!ls.passedMR?'disabled':'';
+        dimH+=`<div class="cg-req-item"><input type="checkbox" id="${kid}" ${ck} ${dis} onchange="cmToggleSC('${sid}',${L},${si},this.checked);" style="accent-color:#0891b2;"><label for="${kid}">${txt}</label></div>`;
+      });
+    }else{
+      const dis=ls.bl?'disabled':'';
+      dimH=`<div class="cg-sect-lbl" style="margin-top:8px;">📐 มิติที่ประเมิน (L${L})</div><div class="cg-radio-grp">`;
+      [[0,'0 — ไม่ครบตามเกณฑ์'],[0.5,'0.5 — ทำได้บางส่วน'],[1,'1.0 — ครบตามมิติที่ประเมิน']].forEach(([v,lbl])=>{
+        const ck=(rv===v)?'checked':'';const col=v===1?'#0891b2':v===0.5?'#c07000':'#c03020';
+        dimH+=`<label style="padding:3px 6px;border-radius:5px;background:${ck?(v===1?'#e0f5e8':v===0.5?'#fef8e0':'#fee8e8'):'transparent'};border:1px solid ${ck?col:'transparent'};color:${ck?col:'#444'};font-weight:${ck?'700':'400'};cursor:${ls.bl?'not-allowed':'pointer'};"><input type="radio" name="cgdim-${sid}-${L}" value="${v}" ${ck} ${dis} onchange="cmSetDim('${sid}',${L},${v});" style="accent-color:${col};flex-shrink:0;"> ${lbl}</label>`;
+      });
+      dimH+='</div>';
+    }
+    const dimStrip=ints.length?`<div class="lvl-dim-strip">${ints.map(dimBadge).join(' ')}</div>`:'';
+    lvlHTML+=`<div class="cg-lvl-row${ls.bl?' blocked':L===gapL?' is-gap':''}">
+      <div class="cg-lvl-hd" style="background:${hdBg};">
+        <span class="cg-lvl-num" style="background:${nBg};">L${L}</span>
+        <span class="cg-lvl-summ"><span class="kt">${summ}</span>${(!ls.bl&&L===gapL)?'&nbsp;<span class="dim-gap-tag">⚠️ ช่องว่าง</span>':''}</span>
+        <span style="display:flex;gap:3px;align-items:center;flex-shrink:0;">${xBtn}<span style="font-size:10px;font-weight:700;color:${sCol};min-width:28px;text-align:right;">${ls.bl?'—':rv.toFixed(2)}</span></span>
+      </div>
+      ${dimStrip}${xPan}
+      <div class="cg-lvl-body">
+        ${mrH}<div${!ls.passedMR&&mrs.length?' style="pointer-events:none;opacity:.5;"':''}>${dimH}</div>
+      </div>
+    </div>`;
+  });
+
+  return `<div class="cg-sim">
+    <div class="cg-sim-hd">
+      <span style="font-size:11px;padding:2px 8px;border-radius:6px;background:var(--navy);color:#fff;">CM</span>
+      &nbsp;Sequential Gating Simulator — minReqs + SubComps
+      <span style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+        <button onclick="if(confirm('ล้างข้อมูลทั้งหมด?'))cmClearAll()" style="font-size:11px;padding:3px 10px;border:1px solid #e0a0a0;border-radius:5px;background:#fee8e8;cursor:pointer;color:#b03020;font-weight:600;">🗑 ล้างข้อมูล</button>
+        <span style="font-size:11px;font-weight:700;color:#0a4a2a;">${raw.toFixed(4)}/5.0</span>
+      </span>
+    </div>
+    <div class="cg-scope-box">${s.scopeNote||''}</div>
+    ${crossSumm}
+    ${lvlHTML}
+    <div class="cg-total-bar">
+      <span class="cg-total-lbl">คะแนนดิบสะสม (0–5)</span>
+      <span class="cg-raw">${raw.toFixed(4)}</span>
+      <span class="cg-wt">× ${s.w}% = <strong>${wt.toFixed(4)} pts</strong></span>
+    </div>
+  </div>`;
+}
+
+// ── renderFrameB ────────────────────────────────────────────────────
+function renderFrameB(s){
+  const mr=s.minReqs||{};const sid=s.id;
+  let total=0,done=0;
+  [1,2,3,4,5].forEach(L=>{const items=mr[L]||[];total+=items.length;items.forEach((_,i)=>{if(docGetChk(sid,L,i))done++;});  });
+  const progPct=total>0?Math.round(done/total*100):0;
+  const progColor=done===total&&total>0?'#0891b2':done>0?'#92400e':'#666';
+  let html=`<div class="fb-prog-bar"><span style="font-size:11px;font-weight:600;color:${progColor};" id="fb-total-${sid}">${done}/${total} เอกสารพร้อมแล้ว</span><div class="fb-prog-track"><div id="fb-prog-fill-${sid}" style="height:100%;width:${progPct}%;background:${progColor};transition:width .3s;"></div></div></div>`;
+  [1,2,3,4,5].forEach(L=>{
+    const items=mr[L]||[];if(!items.length)return;
+    const lvlDone=items.filter((_,i)=>docGetChk(sid,L,i)).length;
+    const bdId=`fb-bd-${sid}-${L}`;
+    const lvlTitle=(s.levelSumm&&s.levelSumm[L-1])||`ระดับ ${L}`;
+    const shortTitle=lvlTitle.length>48?lvlTitle.slice(0,48)+'…':lvlTitle;
+    const lvlColor=lvlDone===items.length?'#0891b2':lvlDone>0?'#92400e':'#0369a1';
+    const lvlBg=lvlDone===items.length?'#e4f5e4':lvlDone>0?'#fef8e0':'rgba(2,132,199,.06)';
+    const itemsHtml=items.map((item,i)=>{
+      const isGap=item.startsWith('[แก้ไข Gap');const cleanItem=item.replace('[แก้ไข Gap สำคัญ]','').trim();
+      const ckd=docGetChk(sid,L,i);const ckId=`dck-${sid}-${L}-${i}`;
+      return `<label class="fb-item${isGap?' fb-item-gap':''}${ckd?' fb-item-done':''}"><input type="checkbox" id="${ckId}"${ckd?' checked':''} onchange="docToggle('${sid}',${L},${i},this.checked)">${isGap?'<span class="fb-gap-tag">⚠️ Gap</span>':''}<span class="fb-item-text">${cleanItem}</span></label>`;
+    }).join('');
+    html+=`<div class="doc-lvl-block"><div class="doc-lvl-hd" style="background:${lvlBg};" onclick="var e=document.getElementById('${bdId}');e.classList.toggle('open');"><span class="doc-lvl-badge">L${L}</span><span class="doc-lvl-title" style="color:${lvlColor};">${shortTitle}</span><span class="doc-lvl-count" id="fb-cnt-${sid}-${L}" style="color:${lvlColor};font-weight:600;">${lvlDone}/${items.length}</span><span style="font-size:10px;color:#7080b0;">▼</span></div><div class="doc-lvl-body" id="${bdId}">${itemsHtml}</div></div>`;
+  });
+  return html;
+}
+
+// ── renderFrameE ────────────────────────────────────────────────────
+function renderFrameE(s){
+  const sid=s.id;const mr=s.minReqs||{};const gaps=s.gaps||[];const outId=`fe-out-${sid}`;
+  const simMax=[5,4,3,2,1].find(L=>cmCalcLevel(sid,L)>=1)||0;
+  const rawScore=cmCalcRaw(sid);
+  const pills=[1,2,3,4,5].map(L=>{
+    const lv=cmCalcLevel(sid,L);
+    const pass=lv>=1;const partial=lv>0&&lv<1;
+    return `<span style="font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;background:${pass?'#0891b2':partial?'#e3a82e':'#e0ddd8'};color:${pass||partial?'#fff':'#888'};">L${L}${partial?' ('+Math.round(lv*100)+'%)':''}</span>`;
+  }).join('');
+  let html=`<div class="fe-sim-row"><span style="font-size:11px;color:var(--text3);">คะแนนดิบ (Simulator):</span><div style="display:flex;gap:4px;flex-wrap:wrap;">${pills}</div><span style="font-size:11px;font-weight:700;color:#0891b2;margin-left:auto;">${rawScore.toFixed(4)}/5.0</span></div>`;
+  html+=`<div class="fe-sect-lbl">สิ่งที่ดำเนินการ — กรอกต่อระดับที่ทำได้</div>`;
+  [1,2,3,4,5].forEach(L=>{
+    const items=mr[L]||[];if(!items.length)return;
+    const tickedCnt=items.filter((_,i)=>docGetChk(sid,L,i)).length;
+    const lScore=cmCalcLevel(sid,L);const isPass=lScore>=1;const isPartial=lScore>0;
+    const lvlTitle=(s.levelSumm&&s.levelSumm[L-1])||`ระดับ ${L}`;
+    const short=lvlTitle.length>46?lvlTitle.slice(0,46)+'…':lvlTitle;
+    const note=feGet(sid,'lvlNotes',L);const bdId=`fe-bd-${sid}-${L}`;
+    const badgeBg=isPass?'#0891b2':isPartial?'#e3a82e':'#94a3b8';
+    html+=`<div class="fe-lvl-block${isPass?' fe-lvl-active':''}"><div class="fe-lvl-hd" onclick="var e=document.getElementById('${bdId}');e.classList.toggle('open');"><span class="fe-lvl-badge" style="background:${badgeBg};">L${L}</span><span class="fe-lvl-title">${short}</span><span class="fe-doc-ref">📄 ${tickedCnt}/${items.length}</span><span style="font-size:10px;color:#7080b0;">▼</span></div><div class="fe-lvl-body${isPass?' open':''}" id="${bdId}"><textarea class="fe-textarea" rows="3" placeholder="อธิบายสิ่งที่ กทท. ดำเนินการในระดับนี้..." onchange="feSet('${sid}','lvlNotes',${L},this.value)" onblur="feSet('${sid}','lvlNotes',${L},this.value)">${note}</textarea></div></div>`;
+  });
+  if(gaps.length){
+    html+=`<div class="fe-sect-lbl" style="margin-top:12px;">ช่องว่างจาก TRIS — ปิดได้หรือยัง?</div>`;
+    gaps.forEach((gap,i)=>{
+      const cl=feGapClosed(sid,i);const gNote=feGet(sid,'gapNotes',i);
+      html+=`<div class="fe-gap-item"><div class="fe-gap-text">⚠️ ${gap}</div><div class="fe-gap-status"><label class="fe-radio-lbl"><input type="radio" name="gc-${sid}-${i}" value="1"${cl===true?' checked':''} onchange="feSet('${sid}','gapClosed',${i},true)">✓ ปิดได้แล้ว</label><label class="fe-radio-lbl"><input type="radio" name="gc-${sid}-${i}" value="0"${cl===false?' checked':''} onchange="feSet('${sid}','gapClosed',${i},false)">○ อยู่ระหว่างดำเนินการ</label></div><textarea class="fe-textarea" rows="2" placeholder="อธิบายสิ่งที่ทำเพื่อปิด Gap นี้..." onchange="feSet('${sid}','gapNotes',${i},this.value)" onblur="feSet('${sid}','gapNotes',${i},this.value)">${gNote}</textarea></div>`;
+    });
+  }
+  html+=`<div style="margin-top:14px;"><button class="fe-gen-btn" onclick="document.getElementById('${outId}').value=genScript('${sid}');">🔄 Gen Script</button><span style="font-size:11px;color:var(--text3);margin-left:8px;">รวม Simulator + เอกสาร Frame B + Notes ทั้งหมด</span></div><div style="margin-top:8px;"><textarea class="fe-output" id="${outId}" rows="14" placeholder="กด Gen Script เพื่อสร้างคำตอบ — แก้ไขได้ก่อน Copy"></textarea><button class="fe-copy-btn" onclick="feCopyOut('${outId}',this)">📋 Copy ทั้งหมด</button></div>`;
+  return html;
+}
+
+// ── renderRight ──────────────────────────────────────────────────────
+function renderRight(){
+  const body=document.getElementById('rightBody');
+  if(!focusId){body.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#aaa;font-size:13px;">คลิก sub-item ด้านซ้ายเพื่อดูรายละเอียด</div>';return;}
+  const s=DATA.cm.subs.find(x=>x.id===focusId);if(!s){body.innerHTML='';return;}
+  const simHTML=renderSim(s);const tval=targets.cm[s.id];
+  const gA=(s.gaps||[]).map(g=>`<div class="box box-red" style="margin-bottom:4px;">• ${exp(g,90)}</div>`).join('');
+  const rC=(s.results||[]).map(r=>`<div class="match-row m-ok"><span>✓</span><span>${exp(r,80)}</span></div>`).join('');
+  const lC=(s.gaps||[]).slice(0,3).map(g=>`<div class="match-row m-no"><span>✗</span><span style="font-size:10.5px;">${g.split(' —')[0].slice(0,70)}</span></div>`).join('');
+  const dD=(s.actions||[]).map(a=>`<div style="display:flex;align-items:flex-start;gap:5px;font-size:11px;color:#333;padding:3px 0;"><span style="color:#0891b2;flex-shrink:0;">→</span><span>${exp(a,100)}</span></div>`).join('');
+  body.innerHTML=`
+    <div style="padding:5px 12px;font-size:11px;background:#e8f5ee;border-bottom:1px solid #c0dac8;display:flex;align-items:center;gap:8px;flex-shrink:0;position:sticky;top:0;z-index:2;">
+      <span style="font-weight:700;color:#0a4a2a;">ข้อ ${s.id}</span>
+      <span style="color:#555;font-size:10.5px;">${s.name}</span>
+      <span style="margin-left:auto;font-size:10px;background:#e0ddd4;color:#444;padding:1px 7px;border-radius:8px;">ปัจจุบัน ${fmt(s.s68)}</span>
+      <span style="font-size:10px;">→</span>
+      <span style="font-size:10px;background:#c5e8d5;color:#0a4a2a;padding:1px 7px;border-radius:8px;font-weight:700;">คำนวณ ${fmt(tval)}</span>
+    </div>
+    ${simHTML}
+    <div class="frame"><div class="frame-hd fa-hd"><span class="ftag fa-tag">A</span><span style="color:#7a1010;">ช่องว่างที่ต้องปิด (TRIS)</span></div><div class="frame-bd">${gA||'<div style="color:#999;">—</div>'}</div></div>
+    <div class="frame"><div class="frame-hd fb-hd"><span class="ftag fb-tag">B</span><span style="color:#102070;">เอกสารลงระบบ — แยกตามระดับ</span><a href="${DOC_DETAIL_URL}" target="_blank" style="margin-left:auto;font-size:9.5px;padding:2px 9px;border-radius:5px;background:#2a4a9a;color:#fff;text-decoration:none;font-weight:600;">📋 ดูทั้งหมด</a></div><div class="frame-bd" style="padding:6px 8px;">${renderFrameB(s)}</div></div>
+    <div class="frame"><div class="frame-hd fc-hd"><span class="ftag fc-tag">C</span><span style="color:#4a4a00;">กทท. ตอบอะไรไป / จุดแข็ง</span></div><div class="frame-bd"><div class="box box-gray" style="margin-bottom:6px;font-size:11px;">${exp((s.good||[''])[0]||'—',100)}</div><div style="font-size:9.5px;color:#888;margin:4px 0 2px;font-weight:600;">ผลที่นำเสนอ:</div>${rC}<div style="font-size:9.5px;color:#888;margin:6px 0 2px;font-weight:600;">ช่องว่างที่ยังขาด:</div>${lC}</div></div>
+    <div class="frame"><div class="frame-hd fd-hd"><span class="ftag fd-tag">D</span><span style="color:#102848;">สิ่งที่ต้องดำเนินการปี 69</span></div><div class="frame-bd">${dD||'<div style="color:#999;">—</div>'}</div></div>
+    <div class="frame" style="border-bottom:none;"><div class="frame-hd fe-hd"><span class="ftag fe-tag">E</span><span style="color:#0a4030;">Self-Assessment Script — ร่างคำตอบระบบ สคร.</span></div><div class="frame-bd" style="padding:6px 8px;">${renderFrameE(s)}</div></div>`;
+}
+
+// ── renderLeft ───────────────────────────────────────────────────────
+function renderLeft(){
+  const body=document.getElementById('leftBody');body.innerHTML='';
+  document.getElementById('dimTitle').textContent=DATA.cm.dimName;
+  document.getElementById('dimOrig').textContent='ปัจจุบัน '+fmt(DATA.cm.orig);
+  document.getElementById('totalLbl').textContent='คะแนนรวม '+DATA.cm.dimId;
+  document.getElementById('totalOrig').textContent=fmt(DATA.cm.orig);
+  const grps=[...new Set(DATA.cm.subs.map(s=>s.grp))];
+  grps.forEach(gid=>{
+    const ss=DATA.cm.subs.filter(s=>s.grp===gid);const first=ss[0];
+    const gs=ss.reduce((a,s)=>a+s.w*targets.cm[s.id],0)/first.gw;
+    const diff=gs-first.gs68;
+    const assessed=ss.filter(s=>cmCalcRaw(s.id)>0).length;
+    const tot=ss.length;const fillPct=Math.round(gs/5*100);
+    const fillCol=gs>=3.5?'#1f9d6f':gs>=2.5?'#e3a82e':'#e2554f';
+    const chkCls=assessed===tot?'chk-all':assessed>0?'chk-part':'chk-none';
+    const chkLbl=assessed===tot?`✓ ครบ ${tot}/${tot}`:`${assessed}/${tot} ข้อย่อย`;
+    const gDiv=document.createElement('div');gDiv.className='grp';
+    gDiv.innerHTML=`<div class="grp-row1"><span class="grp-id">${gid}</span><span class="grp-name">${first.gname}</span><span class="grp-wt">(${first.gw}%)</span><div class="grp-scores"><span class="chip cn" style="font-size:10px;">${fmt(first.gs68)}</span><span style="color:#999;font-size:10px;">→</span><span class="chip ${diff<-0.001?'cr':diff>0.001?'ct':'cn'}" style="font-size:10px;" id="gs-cg-${gid}">${fmt(gs)}</span></div></div><div class="grp-row2"><span class="grp-chk ${chkCls}" id="rollup-chk-${gid}">${chkLbl}</span><span class="grp-score2"><strong id="rollup-gs-${gid}" style="color:${diff>0.001?'#0891b2':diff<-0.001?'#c03020':'#555'};">${gs.toFixed(4)}</strong><span id="rollup-delta-${gid}" style="font-size:9px;color:${diff>0.001?'#0891b2':diff<-0.001?'#c03020':'#aaa'};">(${diff>=0?'+':''}${diff.toFixed(4)})</span></span><div class="grp-prog"><div class="grp-prog-fill" id="rollup-bar-${gid}" style="width:${fillPct}%;background:${fillCol};"></div></div></div>`;
+    body.appendChild(gDiv);
+    ss.forEach(s=>{
+      const row=document.createElement('div');row.className='sub'+(focusId===s.id?' focus-cg':'');row.id='subrow-'+s.id;
+      row.innerHTML=`<div class="sub-left"><div class="sub-meta"><span class="sub-num">${s.id}</span><span class="sub-name">${s.name}</span><span class="sub-wt">(${s.w}%)</span><span class="sub-now">ปี 68: ${fmt(s.s68)}</span></div></div><div class="sub-target" id="st-${s.id}"><span class="target-lbl">คำนวณ</span><input class="target-inp" id="ti-${s.id}" type="text" value="${fmt(targets.cm[s.id])}" readonly style="border-color:#ccc;"><span class="dot ${dotColor(s)}" id="dot-${s.id}"></span></div>`;
+      row.addEventListener('click',()=>{focusId=s.id;renderAll();});body.appendChild(row);
+      const strip=document.createElement('div');strip.className='sstrip';
+      strip.innerHTML=`<span class="sbadge ${sClass(s.status)}">${sIcon(s.status)} ${s.status}</span><span style="font-size:10px;color:#999;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-left:6px;">${s.statusNote||'ยังไม่มีข้อมูล'}</span>`;
+      strip.addEventListener('click',()=>{focusId=s.id;renderAll();});body.appendChild(strip);
+    });
+  });
+}
+
+// ── renderChecklist ──────────────────────────────────────────────────
+function renderChecklist(){
+  if(!focusId){document.getElementById('clTitle').textContent='เลือก sub-item เพื่อดู Action Checklist';document.getElementById('clItems').innerHTML='';return;}
+  const s=DATA.cm.subs.find(x=>x.id===focusId);if(!s)return;
+  document.getElementById('clTitle').textContent=`Action Checklist — ข้อ ${s.id} · ปัจจุบัน ${fmt(targets.cm[s.id])}`;
+  if(!clChecked[s.id])clChecked[s.id]=(s.actions||[]).map(()=>false);
+  document.getElementById('clItems').innerHTML=(s.actions||[]).map((a,i)=>{
+    const chk=clChecked[s.id][i];
+    const sty=chk?'display:flex;align-items:flex-start;gap:6px;background:#E6F8F1;border-left:3px solid #51BF8E;border-radius:5px;padding:4px 8px;margin-bottom:4px;':'display:flex;align-items:flex-start;gap:6px;background:#FFF0EE;border-left:3px solid #FF6766;border-radius:5px;padding:4px 8px;margin-bottom:4px;';
+    return `<div class="cl-item" id="clrow-${s.id}-${i}" style="${sty}"><input type="checkbox" id="cl-${s.id}-${i}" ${chk?'checked':''} onchange="toggleCL('${s.id}',${i},this.checked)"><label for="cl-${s.id}-${i}" style="flex:1;"><span id="cls-${s.id}-${i}" class="cl-short" style="-webkit-line-clamp:2;">${a}</span><span id="clb-${s.id}-${i}" class="cl-exp-btn" onclick="event.preventDefault();clExpand('${s.id}',${i})">อ่านเพิ่ม ▼</span></label></div>`;
+  }).join('');
+}
+function toggleCL(id,i,val){
+  if(!clChecked[id])clChecked[id]=[];clChecked[id][i]=val;save();
+  const r=document.getElementById('clrow-'+id+'-'+i);if(!r)return;
+  r.style.cssText=val?'display:flex;align-items:flex-start;gap:6px;background:#E6F8F1;border-left:3px solid #51BF8E;border-radius:5px;padding:4px 8px;margin-bottom:4px;':'display:flex;align-items:flex-start;gap:6px;background:#FFF0EE;border-left:3px solid #FF6766;border-radius:5px;padding:4px 8px;margin-bottom:4px;';
+}
+
+// ── updateScores ─────────────────────────────────────────────────────
+function updateScores(){
+  const subs=DATA.cm.subs;const tw=subs.reduce((a,s)=>a+s.w,0);
+  const total=subs.reduce((a,s)=>a+s.w/tw*cmCalcRaw(s.id),0);
+  const delta=total-DATA.cm.orig;
+  document.getElementById('totalChip').textContent='คาดการณ์ '+fmt(total);
+  document.getElementById('totalChip').className='chip '+(delta>0?'ct':delta<0?'cr':'cn');
+  document.getElementById('totalFooter').textContent=fmt(total);
+  document.getElementById('totalFooter').className='chip '+(delta>0?'ct':delta<0?'cr':'cn');
+  document.getElementById('deltaChip').textContent=(delta>=0?'+':'')+fmt(delta)+' pts';
+  document.getElementById('deltaChip').style.color=delta>0?'#1a9a50':delta<0?'#c03020':'#888';
+  document.getElementById('deltaFooter').textContent=(delta>=0?'+':'')+fmt(delta);
+  document.getElementById('deltaFooter').style.color=delta>0?'#5fcf8a':delta<0?'#f0806a':'#888';
+  const grps=[...new Set(subs.map(s=>s.grp))];
+  grps.forEach(gid=>{
+    const ss=subs.filter(s=>s.grp===gid);const first=ss[0];
+    const gs=ss.reduce((a,s)=>a+s.w*targets.cm[s.id],0)/first.gw;
+    const diff=gs-first.gs68;
+    const el=document.getElementById('gs-cg-'+gid);
+    if(el){el.textContent=fmt(gs);el.className='chip '+(diff<-0.001?'cr':diff>0.001?'ct':'cn');}
+    const gsEl=document.getElementById('rollup-gs-'+gid);
+    if(gsEl){gsEl.textContent=gs.toFixed(4);gsEl.style.color=diff>0.001?'#0891b2':diff<-0.001?'#c03020':'#555';const dEl=document.getElementById('rollup-delta-'+gid);if(dEl){dEl.textContent='('+(diff>=0?'+':'')+diff.toFixed(4)+')';dEl.style.color=diff>0.001?'#0891b2':diff<-0.001?'#c03020':'#aaa';}}
+    const barEl=document.getElementById('rollup-bar-'+gid);if(barEl){barEl.style.width=Math.round(gs/5*100)+'%';barEl.style.background=gs>=3.5?'#1f9d6f':gs>=2.5?'#e3a82e':'#e2554f';}
+    const chkEl=document.getElementById('rollup-chk-'+gid);
+    if(chkEl){const assessed=ss.filter(s=>cmCalcRaw(s.id)>0).length;const tot=ss.length;chkEl.textContent=assessed===tot?`✓ ครบ ${tot}/${tot}`:`${assessed}/${tot} ข้อย่อย`;chkEl.className='grp-rollup-chk '+(assessed===tot?'chk-all':assessed>0?'chk-part':'chk-none');}
+  });
+  subs.forEach(s=>{const d=document.getElementById('dot-'+s.id);if(d)d.className='dot '+dotColor(s);});
+}
+
+function renderAll(){renderLeft();renderRight();renderChecklist();updateScores();}
+loadState();
+renderAll();
+syncHomeStatus();
+(function(){const el=document.getElementById('depTotalBar');if(el)el.innerHTML=renderDepTotal();})();
+</script>
+</body>
+</html>

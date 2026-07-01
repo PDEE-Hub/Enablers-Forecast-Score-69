@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CBE Enablers — RM&IC การบริหารความเสี่ยงและควบคุมภายใน ปี 2569</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── PAT Editorial Light ── */
+:root{
+  --bg:#f8f7f4;--bg2:#f1efe9;--card:#ffffff;
+  --border:#e6e3dc;--border-s:#ece9e1;
+  --text:#1c1f24;--text2:#5a5f68;--text3:#9a9da3;
+  --navy:#1e3a5c;--gold:#b8862f;
+  --lv1:#e2554f;--lv2:#ef9483;--lv3:#e3a82e;--lv4:#5bc69a;--lv5:#1f9d6f;
+  --shadow:0 1px 3px rgba(28,31,36,.06);
+  --shadow-h:0 4px 12px rgba(28,31,36,.10);
+  --radius:6px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;font-size:14px;background:var(--bg);color:var(--text);line-height:1.6;}
+.sub-num,.sub-wt,.sub-now,.target-inp,.cg-raw,.cg-wt,.doc-file-code,.grp-id,.grp-wt,.cg-sect-lbl,.doc-grp-lbl,.doc-lvl-count{font-family:'Inter','Noto Sans Thai',sans-serif;}
+
+/* TOP NAV */
+.top-nav{background:var(--navy);color:#fff;padding:0 24px;height:48px;display:flex;align-items:center;gap:8px;border-bottom:3px solid var(--gold);}
+.top-nav a{color:rgba(255,255,255,.55);text-decoration:none;font-size:13px;transition:color .15s;}
+.top-nav a:hover{color:#fff;}
+.top-nav h1{font-size:13px;font-weight:600;color:rgba(255,255,255,.9);margin-left:2px;}
+.top-nav .sep{color:rgba(255,255,255,.2);font-size:13px;}
+
+/* DIM HEADER */
+.dim-hd{background:var(--card);border-bottom:1px solid var(--border);padding:10px 24px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;box-shadow:var(--shadow);}
+
+/* CHIPS */
+.chip{font-size:12px;padding:3px 10px;border-radius:20px;font-weight:600;white-space:nowrap;}
+.cn{background:var(--bg2);color:var(--text2);}
+.ct{background:rgba(31,157,111,.12);color:#0f7a55;}
+.cr{background:rgba(226,85,79,.10);color:#b91c1c;}
+
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:46% 54%;height:calc(100vh - 97px);overflow:hidden;}
+
+/* LEFT */
+.left{display:flex;flex-direction:column;overflow:hidden;border-right:1px solid var(--border);background:var(--bg);}
+.left-hd{padding:10px 16px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;flex-shrink:0;background:var(--navy);color:rgba(255,255,255,.9);letter-spacing:.2px;}
+.left-body{flex:1;overflow-y:auto;}
+
+/* GROUP HEADER — 2 rows */
+.grp{display:flex;flex-direction:column;gap:3px;padding:7px 16px;background:var(--bg2);border-bottom:1px solid var(--border);border-top:1px solid var(--border);position:sticky;top:0;z-index:2;}
+.grp-row1{display:flex;align-items:center;gap:6px;}
+.grp-row2{display:flex;align-items:center;gap:6px;padding-left:20px;}
+.grp-id{font-size:12px;font-weight:700;color:var(--navy);min-width:16px;}
+.grp-name{font-size:12px;font-weight:600;flex:1;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.grp-wt{font-size:11px;color:var(--text3);white-space:nowrap;}
+.grp-scores{display:flex;align-items:center;gap:4px;flex-shrink:0;}
+.grp-chk{font-size:9px;font-weight:500;padding:1px 6px;border-radius:10px;white-space:nowrap;flex-shrink:0;}
+.chk-all{background:#e4f5e4;color:#b45309;}
+.chk-part{background:#fef8e0;color:#92400e;}
+.chk-none{background:#ebe8e0;color:var(--text3);}
+.grp-score2{font-size:10px;color:var(--text2);display:flex;align-items:center;gap:4px;flex:1;white-space:nowrap;}
+.grp-prog{width:48px;height:4px;background:#d8d4cc;border-radius:2px;overflow:hidden;flex-shrink:0;}
+.grp-prog-fill{height:100%;border-radius:2px;transition:width .3s;}
+
+/* SUB ROWS */
+.sub{display:flex;align-items:stretch;cursor:pointer;border-bottom:1px solid var(--border-s);transition:background .12s;}
+.sub:hover{background:rgba(30,58,92,.04);}
+.sub.focus-cg{background:rgba(30,58,92,.07);border-left:3px solid var(--navy);}
+.sub.focus-cg .sub-target{border-left-color:var(--navy);}
+.sub-left{display:flex;align-items:center;padding:10px 10px 10px 20px;flex:1;min-width:0;}
+.sub-meta{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;min-width:0;}
+.sub-num{font-size:11px;color:var(--text3);flex-shrink:0;}
+.sub-wt{font-size:11px;color:var(--text3);flex-shrink:0;}
+.sub-now{font-size:11px;color:var(--text2);flex-shrink:0;}
+.sub-name{font-size:13px;color:var(--text);flex:1;min-width:0;line-height:1.4;}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.dg{background:var(--lv5);}.da{background:var(--lv3);}.dr{background:var(--lv1);}
+
+/* TARGET INPUT */
+.sub-target{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px 12px;flex-shrink:0;border-left:2px solid var(--border);width:96px;min-width:96px;background:var(--card);}
+.target-lbl{font-size:10px;color:var(--text3);font-weight:500;letter-spacing:.3px;}
+.target-inp{width:78px;font-size:12px;font-weight:700;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg2);color:var(--navy);text-align:center;transition:border-color .15s,box-shadow .15s;}
+.target-inp:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 2px rgba(30,58,92,.12);background:#fff;}
+
+/* SSTRIP */
+.sstrip{padding:6px 12px 6px 24px;border-bottom:1px solid var(--border-s);display:flex;align-items:center;gap:8px;background:var(--card);cursor:pointer;transition:background .12s;}
+.sstrip:hover{background:var(--bg2);}
+.sbadge{font-size:11px;padding:2px 9px;border-radius:20px;font-weight:600;white-space:nowrap;}
+.s0{background:var(--bg2);color:var(--text3);}
+.s1{background:rgba(227,168,46,.15);color:#92400e;}
+.s2{background:rgba(31,157,111,.12);color:#0f7a55;}
+
+/* CHECKLIST */
+.cl-wrap{padding:12px 16px;border-top:2px solid var(--navy);background:var(--card);flex-shrink:0;box-shadow:0 -2px 8px rgba(28,31,36,.04);}
+.cl-title{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:8px;}
+.cl-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text);margin-bottom:7px;line-height:1.55;}
+.cl-item input{flex-shrink:0;margin-top:3px;accent-color:var(--navy);width:14px;height:14px;}
+.cl-note{font-size:11px;color:var(--text3);padding-top:6px;border-top:1px solid var(--border-s);margin-top:6px;}
+
+/* TOTAL BAR */
+.total{display:flex;align-items:center;gap:8px;padding:10px 16px;background:var(--navy);color:#fff;flex-shrink:0;}
+.total-lbl{font-size:13px;font-weight:600;flex:1;}
+.total-note{font-size:11px;color:rgba(255,255,255,.45);}
+
+/* RIGHT */
+.right{display:flex;flex-direction:column;overflow:hidden;background:var(--card);}
+.right-body{flex:1;overflow-y:auto;display:flex;flex-direction:column;}
+.frame{border-bottom:1px solid var(--border);}
+.frame-hd{padding:8px 16px;font-size:12px;font-weight:700;border-bottom:1px solid rgba(0,0,0,.06);display:flex;align-items:center;gap:8px;}
+.frame-bd{padding:12px 16px;font-size:13px;line-height:1.65;}
+.ftag{font-size:11px;padding:2px 8px;border-radius:20px;font-weight:700;}
+.fa-hd{background:rgba(30,58,92,.06);}.fa-tag{background:rgba(30,58,92,.14);color:var(--navy);}
+.fb-hd{background:rgba(2,132,199,.06);}.fb-tag{background:rgba(2,132,199,.14);color:#0369a1;}
+.fc-hd{background:rgba(184,134,47,.08);}.fc-tag{background:rgba(184,134,47,.18);color:#92400e;}
+.fd-hd{background:rgba(71,85,105,.06);}.fd-tag{background:rgba(71,85,105,.14);color:#475569;}
+.fe-hd{background:rgba(31,157,111,.07);}.fe-tag{background:rgba(31,157,111,.14);color:#0f7a55;}
+
+.box{border-radius:5px;padding:8px 12px;margin-bottom:6px;font-size:13px;line-height:1.55;}
+.box-red{background:rgba(226,85,79,.08);color:#7a1010;border-left:3px solid var(--lv1);}
+.box-gray{background:var(--bg2);color:var(--text2);}
+.match-row{display:flex;align-items:flex-start;gap:6px;font-size:13px;padding:3px 0;}
+.m-ok{color:var(--lv5);}.m-no{color:var(--lv1);}
+.exp-btn{border:1px solid var(--border);background:var(--bg2);cursor:pointer;color:var(--navy);font-size:11px;padding:1px 8px;border-radius:20px;line-height:1.8;white-space:nowrap;transition:background .12s;}
+.exp-btn:hover{background:var(--border);}
+
+/* SIMULATOR */
+.cg-sim{padding:12px 16px;background:var(--bg);border-bottom:1px solid var(--border);}
+.cg-sim-hd{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.cg-scope-box{background:rgba(30,58,92,.05);border-left:3px solid var(--navy);border-radius:0 5px 5px 0;padding:8px 12px;font-size:13px;line-height:1.6;color:var(--text);margin-bottom:10px;}
+.cg-lvl-row{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:8px;overflow:hidden;transition:opacity .2s,box-shadow .15s;background:var(--card);}
+.cg-lvl-row:not(.blocked):hover{box-shadow:var(--shadow-h);}
+.cg-lvl-row.blocked{opacity:.3;pointer-events:none;}
+.cg-lvl-hd{display:flex;align-items:center;gap:8px;padding:8px 12px;cursor:pointer;transition:background .12s;}
+.cg-lvl-hd:hover{background:var(--bg2);}
+.cg-lvl-num{font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;background:var(--navy);color:#fff;flex-shrink:0;}
+.cg-lvl-summ{font-size:13px;color:var(--text);flex:1;line-height:1.4;display:flex;align-items:center;gap:5px;overflow:hidden;min-width:0;}
+.cg-lvl-summ .kt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;max-width:100%;}
+.cg-toggle{background:none;border:1px solid #c0b0e0;border-radius:4px;cursor:pointer;font-size:11px;color:#5a20a0;padding:1px 6px;flex-shrink:0;transition:background .1s;}
+.cg-toggle:hover{background:#ece6ff;}
+.cl-short{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.5;}
+.cl-exp-btn{font-size:9.5px;color:#5a20a0;cursor:pointer;user-select:none;margin-top:2px;display:inline-block;}
+.dep-count-bar{display:flex;flex-wrap:wrap;gap:5px;align-items:center;padding:6px 12px 5px;background:#f8f5ff;border-bottom:1px solid #d8ccee;}
+.dep-pill{display:inline-flex;align-items:center;gap:3px;font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;color:#fff;white-space:nowrap;}
+.dep-pill span{font-weight:400;opacity:.85;}
+.cg-lvl-summ .kt{font-weight:700;color:var(--navy);}
+.cg-lvl-detail{padding:8px 14px 10px;background:rgba(30,58,92,.04);border-top:1px dashed var(--border);font-size:13px;color:var(--text2);line-height:1.7;display:none;}
+.cg-lvl-detail.open{display:block;}
+.cg-lvl-body{padding:8px 12px 12px;background:var(--card);border-top:1px solid var(--border-s);}
+.cg-sect-lbl{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin:10px 0 6px;}
+.cg-req-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text);margin-bottom:6px;line-height:1.55;padding:6px 10px;border-radius:5px;transition:background .1s;}
+.cg-req-item:hover{background:var(--bg2);}
+.cg-req-item input[type=checkbox]{flex-shrink:0;margin-top:2px;accent-color:var(--navy);width:15px;height:15px;cursor:pointer;}
+.cg-int-link{display:inline-flex;align-items:center;gap:3px;font-size:10px;padding:2px 8px;border-radius:20px;background:var(--navy);color:#fff;font-weight:600;text-decoration:none;white-space:nowrap;flex-shrink:0;transition:opacity .15s;}
+.cg-int-link:hover{opacity:.8;}
+.cg-radio-grp{display:flex;flex-direction:column;gap:4px;}
+.cg-radio-grp label{display:flex;align-items:center;gap:8px;font-size:13px;padding:6px 10px;border-radius:5px;cursor:pointer;transition:background .12s;line-height:1.4;}
+.cg-radio-grp label:hover{background:var(--bg2);}
+.cg-radio-grp input[type=radio]{accent-color:var(--navy);flex-shrink:0;width:15px;height:15px;}
+.cg-trap{font-size:13px;color:#7a2800;margin-bottom:6px;padding:5px 10px 5px 12px;border-left:3px solid var(--lv1);border-radius:0 4px 4px 0;background:rgba(226,85,79,.05);line-height:1.55;}
+.cg-prog-bar{height:4px;background:var(--border);border-radius:2px;margin-bottom:8px;}
+.cg-prog-fill{height:4px;border-radius:2px;transition:width .3s ease;}
+.cg-total-bar{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--bg2);border-radius:5px;border:1px solid var(--border);margin-top:8px;}
+.cg-total-lbl{font-size:12px;color:var(--text2);flex:1;}
+.cg-raw{font-size:16px;font-weight:700;color:var(--navy);}
+.cg-wt{font-size:12px;color:var(--text3);}
+
+/* FRAME B — Documents */
+.doc-lvl-block{margin-bottom:10px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+.doc-lvl-hd{display:flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(2,132,199,.06);cursor:pointer;transition:background .12s;}
+.doc-lvl-hd:hover{background:rgba(2,132,199,.10);}
+.doc-lvl-badge{font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;background:#0369a1;color:#fff;flex-shrink:0;}
+.doc-lvl-title{font-size:13px;font-weight:600;color:#0369a1;flex:1;}
+.doc-lvl-count{font-size:11px;color:var(--text3);}
+.doc-lvl-body{padding:8px 12px 12px;display:none;background:var(--bg);border-top:1px solid var(--border);}
+.doc-lvl-body.open{display:block;}
+.doc-grp{margin-bottom:8px;}
+.doc-grp-lbl{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin:6px 0 4px;display:flex;align-items:center;gap:6px;}
+.doc-file{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--text);padding:3px 0 3px 8px;line-height:1.5;}
+.doc-file-code{color:#0369a1;font-weight:700;flex-shrink:0;font-family:'Inter',monospace;font-size:11px;}
+.doc-file-name{color:var(--text2);flex:1;}
+.doc-missing{background:rgba(184,134,47,.08);border:1px dashed rgba(184,134,47,.4);border-radius:5px;padding:8px 12px;font-size:13px;color:#92400e;}
+.doc-missing-req{background:rgba(30,58,92,.05);border:1px solid rgba(30,58,92,.15);border-radius:5px;padding:8px 12px;font-size:13px;color:var(--navy);margin-top:8px;}
+.doc-all-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 12px;border-radius:20px;background:#0369a1;color:#fff;text-decoration:none;font-weight:600;margin-top:8px;cursor:pointer;border:none;transition:opacity .15s;}
+.doc-all-btn:hover{opacity:.85;}
+.fb-prog-bar{display:flex;align-items:center;gap:8px;padding:8px 12px;margin-bottom:8px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);}
+.fb-prog-track{flex:1;height:4px;background:#e0ddd8;border-radius:2px;overflow:hidden;}
+.fb-item{display:flex;align-items:flex-start;gap:8px;padding:5px 8px;border-radius:5px;cursor:pointer;font-size:12.5px;line-height:1.55;margin:2px 0;border:1px solid transparent;transition:background .12s;}
+.fb-item:hover{background:rgba(2,132,199,.05);}
+.fb-item-done{background:#f0faf0 !important;border-color:#c3e6cb !important;}
+.fb-item-done .fb-item-text{color:#b45309;text-decoration:line-through;opacity:.7;}
+.fb-item-gap{border-left:3px solid #d97706;}
+.fb-gap-tag{font-size:10px;font-weight:700;color:#92400e;background:#fef3c7;padding:1px 5px;border-radius:10px;flex-shrink:0;white-space:nowrap;margin-top:1px;}
+.fb-item input[type=checkbox]{margin-top:2px;flex-shrink:0;accent-color:#0369a1;width:14px;height:14px;cursor:pointer;}
+.fb-item-text{color:var(--text2);flex:1;}
+
+/* FRAME E — Self-Assessment Input + Gen */
+.fe-sim-row{display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;flex-wrap:wrap;}
+.fe-sect-lbl{font-size:10.5px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin:10px 0 5px;}
+.fe-lvl-block{margin-bottom:5px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+.fe-lvl-active{border-color:#86efac;}
+.fe-lvl-hd{display:flex;align-items:center;gap:7px;padding:7px 11px;cursor:pointer;transition:background .12s;background:var(--bg2);}
+.fe-lvl-hd:hover{background:rgba(0,0,0,.03);}
+.fe-lvl-badge{font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;color:#fff;flex-shrink:0;}
+.fe-lvl-title{font-size:12px;font-weight:600;color:var(--text);flex:1;}
+.fe-doc-ref{font-size:11px;color:#0369a1;font-weight:600;flex-shrink:0;}
+.fe-lvl-body{padding:8px 11px 10px;display:none;border-top:1px solid var(--border);background:var(--bg);}
+.fe-lvl-body.open{display:block;}
+.fe-textarea{width:100%;box-sizing:border-box;padding:7px 10px;font-size:12.5px;line-height:1.65;border:1px solid var(--border);border-radius:5px;background:var(--card);color:var(--text);font-family:'Noto Sans Thai',sans-serif;resize:vertical;transition:border-color .15s;}
+.fe-textarea:focus{outline:none;border-color:#0369a1;box-shadow:0 0 0 2px rgba(3,105,161,.1);}
+.fe-gap-item{padding:8px 11px 10px;margin-bottom:5px;background:rgba(217,119,6,.05);border:1px solid rgba(217,119,6,.22);border-radius:var(--radius);}
+.fe-gap-text{font-size:12.5px;color:#92400e;margin-bottom:6px;line-height:1.55;}
+.fe-gap-status{display:flex;gap:14px;margin-bottom:7px;}
+.fe-radio-lbl{font-size:12px;cursor:pointer;display:flex;align-items:center;gap:4px;color:var(--text2);}
+.fe-radio-lbl input{accent-color:#b45309;cursor:pointer;}
+.fe-gen-btn{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;padding:8px 20px;border-radius:20px;background:#1e3a5c;color:#fff;font-weight:600;cursor:pointer;border:none;transition:opacity .15s;}
+.fe-gen-btn:hover{opacity:.85;}
+.fe-output{width:100%;box-sizing:border-box;padding:10px 12px;font-size:12px;line-height:1.75;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-family:'Noto Sans Thai',sans-serif;resize:vertical;}
+.fe-copy-btn{display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:5px 14px;border-radius:20px;background:#0369a1;color:#fff;font-weight:600;cursor:pointer;border:none;transition:opacity .15s;margin-top:6px;}
+.fe-copy-btn:hover{opacity:.85;}
+
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--bg2);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:#c9c5bc;}
+
+/* ── Cross-Dimension Linkage Badges ── */
+.dim-badge{display:inline-flex;align-items:center;font-size:8.5px;font-weight:700;padding:1px 6px;border-radius:4px;color:#fff;letter-spacing:.4px;white-space:nowrap;flex-shrink:0;cursor:pointer;transition:opacity .15s;}
+.dim-badge:hover{opacity:.75;}
+.dim-gap-tag{font-size:9px;font-weight:700;color:#b05000;padding:1px 5px;border-radius:3px;background:#fff3e0;border:1px solid #e07000;white-space:nowrap;}
+.crosslink-summ{display:flex;align-items:center;gap:5px;flex-wrap:wrap;padding:5px 12px;background:#f5f0ff;border-bottom:1px solid #d8ccee;font-size:9.5px;color:#4a3a6a;}
+.lvl-dim-strip{display:flex;gap:3px;flex-wrap:wrap;padding:3px 12px 4px;background:rgba(240,235,255,.6);border-bottom:1px solid #e8e0f8;}
+.cg-lvl-row.is-gap>.cg-lvl-hd{border-left:3px solid #e07000;}
+</style>
+
+<style>
+/* ── SM dimension accent: green ── */
+:root{--dim:#b45309;--dim-lt:rgba(26,122,74,.12);}
+/* structural: ใช้ navy เหมือน CG — สม่ำเสมอ ไม่ฉูดฉาด */
+/* accent เฉพาะ small elements เท่านั้น */
+.sub.focus-cg{border-left-color:var(--dim)!important;}
+.cg-scope-box{border-left-color:var(--dim)!important;}
+.cg-prog-fill{background:var(--dim)!important;}
+.cg-req-item input[type=checkbox]{accent-color:var(--dim)!important;}
+.cg-radio-grp input[type=radio]{accent-color:var(--dim)!important;}
+.cl-item input{accent-color:var(--dim)!important;}
+/* IM dimension badge in header */
+.left-hd .sm-badge{background:var(--dim);color:#fff;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700;}
+</style>
+
+
+<body>
+<div class="top-nav">
+  <a href="index.html">← หน้าหลัก</a>
+  <span class="sep">|</span>
+  <h1>RM&IC — การบริหารความเสี่ยงและควบคุมภายใน ปี 2569</h1>
+  <span style="margin-left:auto;display:flex;align-items:center;gap:6px;">
+    <button onclick="exportProgress()" style="font-size:11px;padding:3px 11px;border:1px solid #86efac;border-radius:5px;background:#f0faf4;cursor:pointer;color:#166534;font-weight:600;">📤 Export</button>
+    <label style="font-size:11px;padding:3px 11px;border:1px solid #bfdbfe;border-radius:5px;background:#eff6ff;cursor:pointer;color:#1e40af;font-weight:600;">
+      📥 Import<input type="file" accept=".json" style="display:none;" onchange="importProgress(this)">
+    </label>
+  </span>
+</div>
+<div class="dim-hd">
+  <span id="dimTitle" style="font-size:13px;font-weight:600;"></span>
+  <span class="chip cn" id="dimOrig"></span>
+  <span style="color:var(--text3);font-size:13px;">→</span>
+  <span class="chip ct" id="totalChip">คาดการณ์ —</span>
+  <span style="font-size:11px;font-weight:600;margin-left:auto;" id="deltaChip"></span>
+</div>
+<div id="depTotalBar" style="padding:0 14px 2px;background:#f8f7f4;"></div>
+<div class="layout">
+  <div class="left">
+    <div class="left-hd">
+      <span style="font-size:11px;padding:2px 9px;border-radius:20px;font-weight:700;background:var(--navy);color:#fff;">RM&amp;IC</span>
+      &nbsp;Sequential Gating Simulator &amp; Action Checklist
+    </div>
+    <div class="left-body" id="leftBody"></div>
+    <div class="cl-wrap">
+      <div class="cl-title" id="clTitle">เลือก sub-item เพื่อดู Action Checklist</div>
+      <div id="clItems"></div>
+      <div class="cl-note">คลิก sub-item → checklist และ panel ขวาอัปเดตตาม</div>
+    </div>
+    <div class="total">
+      <span class="total-lbl" id="totalLbl">คะแนนรวม SM</span>
+      <span class="total-note">sub → ข้อ → ด้าน</span>
+      <span class="chip cn" style="font-size:11px;" id="totalOrig"></span>
+      <span style="font-size:14px;color:rgba(255,255,255,.5);">→</span>
+      <span class="chip ct" style="font-size:13px;font-weight:700;" id="totalFooter">—</span>
+      <span style="font-size:12px;color:#5bc69a;font-weight:700;" id="deltaFooter"></span>
+    </div>
+  </div>
+  <div class="right">
+    <div class="right-body" id="rightBody">
+      <div style="display:flex;align-items:center;justify-content:center;height:100%;color:#aaa;font-size:13px;">คลิก sub-item ด้านซ้ายเพื่อดูรายละเอียด</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const LINK_URL='https://pdee-hub.github.io/Enablers-Link-Document-69/';
+const DOC_DETAIL_URL='SM_Documents.html';
+const LS_KEY='rm_ck_69';
+
+// ── DATA ─────────────────────────────────────────────────────────────
+const DATA={ rm: {
+  dimId:"RM",
+  dimName:"การบริหารความเสี่ยงและควบคุมภายใน",
+  orig:1.9821,
+  color:"#b45309",
+  subs:[
+  {id:"1.1",grp:"1",gname:"การวิเคราะห์สภาพแวดล้อม (Environmental Scanning)",gw:15,gs68:2.2667,name:"บทบาทคณะกรรมการฯ ด้านการกำกับดูแล GRC",w:4,s68:3,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมินบทบาทคณะกรรมการรัฐวิสาหกิจในการกำกับดูแล GRC: กำหนดนโยบาย → นำไปขับเคลื่อน → กำกับติดตาม → ประเมินและปรับปรุง",levelSumm:["จัดทำนโยบาย GRC บูรณาการ CG+RM+Compliance มีลายเซ็นอนุมัติบอร์ด","เผยแพร่นโยบาย GRC ถึงพนักงานทุกระดับผ่านช่องทางต่างๆ ครอบคลุม","นำ GRC ไปปฏิบัติจริงผ่าน 3 แกน People/Process/Technology — ต้องมี Data Integration ระหว่าง RM และ IA","บอร์ดให้ข้อสังเกต/ข้อเสนอแนะเชิงรุก (Directives) อย่างชัดเจน — ไม่ใช่แค่มติรับทราบ","ประเมินประสิทธิผล PDCA กระบวนการรายงาน GRC ให้บอร์ด ปรับปรุงนโยบายให้ทันสมัย"],good:["มีนโยบาย GRC บูรณาการ มีคณะทำงาน GRC และคู่มือครบ","บอร์ดพิจารณาให้ความเห็นชอบ RA/RT ก่อนปีงบประมาณ","สื่อสารนโยบายผ่านช่องทางต่างๆ ครอบคลุม"],gaps:["TRIS ตัดคะแนน L4 เพราะบอร์ดยังเพียง \"รับทราบ\" — ขาด Actionable Feedback ในรายงานประชุม","การบูรณาการ People/Process/Technology ยังไม่แสดงผลลัพธ์จริง ขาด Data Integration ระหว่าง RM และ IA"],results:["(L1-2) ประกาศนโยบาย GRC บอร์ดอนุมัติ มีแผนและช่องทางสื่อสารครบ","(L3-5) ทำ Checklist 3 ระยะ รายงานกระบวนการสำคัญให้บอร์ด ทบทวนนโยบายตาม OCEG"],tris:[],suggest:["บอร์ดต้องบันทึก \"ข้อสังเกต/ข้อเสนอแนะ (Directives)\" ชัดเจนในรายงานประชุม ไม่ใช่มติรับทราบ","นำ IT บูรณาการให้ RM และ IA cross-reference กันได้อัตโนมัติ","จัดทำแผน Compliance Unit เชื่อมกฎหมายกับระบบความเสี่ยง"],docs:["รายงานประชุมบอร์ด: บันทึก Directives/Feedback เรื่อง GRC","รายงานผลลัพธ์ GRC เชิงประจักษ์: ด้านคน กระบวนการ ระบบ IT","IT Architecture Diagram: แสดงว่าระบบ RM เชื่อมต่อกับ IA อย่างไร"],bestprac:["กทพ. (Best Practice 3.0200): บูรณาการฐานข้อมูล RM ทำให้เกิด People/Process/Technology จริง","รฟม. (2.5333): นำ GRC ไปปฏิบัติแต่ยังบูรณาการไม่สมบูรณ์ — กทท. ทำคู่มือดีกว่า","Quick Win: เพิ่มวาระ \"ข้อสั่งการ GRC จากบอร์ด\" ในทุกรอบประชุม"],minReqs:{"1":["ประกาศนโยบาย GRC ที่มีลายเซ็นอนุมัติโดยบอร์ด","แผนปฏิบัติการรองรับ GRC (กิจกรรม ระยะเวลา เป้าหมาย ผู้รับผิดชอบ)"],"2":["หลักฐานการเผยแพร่นโยบาย GRC (Intranet/Website/สื่อต่างๆ)","รายงานความก้าวหน้าตามแผน GRC เบื้องต้น"],"3":["รายงานผลการนำ GRC ไปปฏิบัติเชิงประจักษ์ (แสดง People & Process)","Screen Capture/เอกสาร: การใช้ระบบ IT จัดการฐานข้อมูล GRC"],"4":["รายงานประชุมบอร์ด: บันทึก Directives/Feedback GRC ชัดเจน (ไม่ใช่แค่รับทราบ)","รายงานผลลัพธ์บูรณาการ GRC เชิงประจักษ์ด้านคน กระบวนการ และระบบ IT"],"5":["รายงานประเมินประสิทธิผลกระบวนการรายงาน GRC ให้บอร์ด","นโยบาย GRC ฉบับอัปเดต หรือแผนปรับปรุงระบบในปีถัดไป"]},subComps:{}},
+  {id:"1.2",grp:"1",gname:"การวิเคราะห์สภาพแวดล้อม (Environmental Scanning)",gw:15,gs68:2.2667,name:"โครงสร้างและบทบาทหน้าที่ RM&IC",w:3,s68:3,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมินความชัดเจนการจัดตั้งหน่วยงาน/คณะทำงาน RM&IC: ผังองค์กร → JD/Competency → คู่มือ → ขับเคลื่อนแผน → ประเมินว่าโครงสร้างมีประสิทธิผล",levelSumm:["มีหน่วยงาน \"เจ้าภาพ\" ชัดเจน สายบังคับบัญชาถูกต้อง เป็นอิสระถึงผู้บริหารสูงสุด","JD/Competency ตรงสเปก มีแผนปฏิบัติการ มีคู่มือ RM ครบ (โครงสร้าง+ระบบติดตาม+การรายงาน)","คณะทำงานทำงานจริง มีรายงานประชุมและผลเทียบเป้าหมาย","Mapping บทบาท RM/IA/CG ไม่ซ้อนกัน บอร์ดติดตามผล มี Post-test ยืนยันว่าพนักงานเข้าใจคู่มือจริง","ประเมินว่าโครงสร้างยังเหมาะสม (ไม่ใช่ประเมินคน) นำผลไปปรับ HCM/SP ปีถัดไป"],good:["มี สสค. รับผิดชอบโดยตรง แบ่งงาน 2 กลุ่มชัดเจน","มี JD/Competency (CC/MC/FC) ครบถ้วน","มีคณะกรรมการและคณะทำงาน 4 ระดับ คู่มือ RM เผยแพร่ครบ"],gaps:["TRIS กด L5→L3: \"งานเสร็จก่อนกำหนด\" คือ Tracking ไม่ใช่ Effectiveness Assessment","ขาดการพิสูจน์ว่าโครงสร้างช่วยลดความเสี่ยงได้จริง (Outcome ≠ Output)","เซ็นชื่อรับคู่มือ ≠ เข้าใจคู่มือ — ขาด Post-test จริง"],results:["(L1-2) โครงสร้าง สสค. ชัดเจน JD/Competency ครบ คู่มือ RM เผยแพร่","(L3) คณะทำงานขับเคลื่อนงานเสร็จก่อนกำหนด 1 เดือน"],tris:[],suggest:["สร้างแบบประเมินประสิทธิผลโครงสร้าง: วัด Outcome เช่น Incident ที่ลดลง หรือบูรณาการ GRC ทั่วองค์กร","ทำ Root Cause Analysis เมื่อพบอุปสรรคในการประสานงาน","จัด Quiz/E-learning ยืนยันความเข้าใจคู่มือ (มีเกณฑ์คะแนนผ่าน)"],docs:["รายงานประเมินประสิทธิผลโครงสร้าง: วัดทั้ง Output และ Outcome","Root Cause Analysis: แสดง PDCA การปรับปรุงโครงสร้าง","ผลทดสอบ Post-test: ยืนยันพนักงานเข้าใจคู่มือ RM จริง"],bestprac:["กทพ. (Best Practice): นำ Gap จาก Risk Competency ทำ IDP รายบุคคล — บูรณาการโครงสร้างเข้ากับ HCM","Quick Win: เพิ่มข้อคำถาม Outcome เช่น \"โครงสร้าง RM ช่วยป้องกัน Incident กี่ครั้งปีนี้?\""],minReqs:{"1":["Organization Chart ระบุหน่วยงาน RM&IC ชัดเจน","ประกาศ/คำสั่งแต่งตั้งและกำหนดบทบาทหน้าที่"],"2":["JD และ Competency (CC/MC/FC) ของบุคลากร RM","แผนปฏิบัติการประจำปี RM Action Plan","คู่มือ RM&IC ฉบับสมบูรณ์ (โครงสร้าง ระบบติดตาม การรายงาน)"],"3":["รายงานประชุมคณะกรรมการ/คณะทำงาน RM แสดงการขับเคลื่อนงานจริง","รายงานผลการดำเนินงานตามแผน (เทียบกับเป้าหมาย)"],"4":["Mapping บทบาท RM/IA/CG ไม่ซ้อนกัน","รายงานแสดงบอร์ดติดตามผลหน่วยงาน RM","ผลทดสอบความเข้าใจคู่มือ (Quiz/E-learning มีเกณฑ์คะแนนผ่าน)"],"5":["รายงานประเมินประสิทธิผลโครงสร้าง/บทบาท (ไม่ใช่ประเมินคน)","คู่มือ RM&IC ฉบับอัปเดต","แผนปฏิบัติการปีถัดไปที่นำผลข้อบกพร่องมาปรับปรุง"]},subComps:{}},
+  {id:"1.3",grp:"1",gname:"การวิเคราะห์สภาพแวดล้อม (Environmental Scanning)",gw:15,gs68:2.2667,name:"บรรยากาศและวัฒนธรรมสนับสนุน RM (Risk Culture)",w:4,s68:1.25,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมินการสร้าง Risk Culture: จัดบรรยากาศ → รณรงค์ครบ 4 กลุ่ม → อบรม Risk Owner → บูรณาการ HR/DT → ผลสำรวจดีขึ้นกว่าปีก่อน",levelSumm:["มีนโยบาย/แผนงานสร้างบรรยากาศ Risk Culture อย่างเป็นทางการ","รณรงค์ครบ 4 กลุ่ม: บอร์ดใหญ่ / บอร์ดความเสี่ยง / ผู้บริหาร / พนักงาน","อบรม \"ผู้บริหาร 3 อันดับแรก\" และ Risk Owner มี Pre/Post-test ผ่านเกณฑ์","หลักสูตร Risk Culture ฝังใน HR Training Roadmap และแผนแม่บท DT อย่างเป็นทางการ","ผลสำรวจดีขึ้นกว่าปีก่อน (Hard Gate) — นำ Pain Points ทำแผนปรับปรุงปีถัดไป"],good:["ใช้ ABC Model และ Risk Type Compass เป็นเครื่องมือ","นำ Incident Report มากระตุ้นการรับรู้ในที่ประชุม","ผลสำรวจ 87.18% (+1.33% จากปีก่อน)"],gaps:["TRIS กด L5→L1.25: ทำแบบ One-size-fits-all ไม่แยกกลุ่ม","หลักสูตรไม่เจาะจง Risk Culture — เน้นทฤษฎี RM ทั่วไป ไม่ใช่พฤติกรรมที่พึงประสงค์","ต้องแยก Segmentation: แผนอบรมและผลสำรวจแยก Board/Management/Staff"],results:["(L1) มีนโยบายและแผนงานสร้าง Risk Culture","(L5) ผลสำรวจดีขึ้น แต่ Behavior ยังแค่ 74.37%"],tris:[],suggest:["แยกกิจกรรมและผลสำรวจออกเป็น 3 ระดับ: บอร์ด/ผู้บริหาร/พนักงาน","ออกแบบหลักสูตรเน้น Risk Culture และพฤติกรรมพึงประสงค์เฉพาะแต่ละระดับ","ผลสำรวจใช้ ABC Model แยก Attitude/Behavior/Culture ชัดเจน"],docs:["รายงานผลสำรวจ Risk Culture แยก 3 กลุ่ม (Board/Management/Staff) พร้อม Gap Analysis","แผนพัฒนาและอบรม Risk Culture: ระบุหลักสูตร/กิจกรรมเจาะจงพฤติกรรม","Cross-reference: Risk Culture ↔ HR Training Plan ↔ DT Master Plan"],bestprac:["รฟม. (Best Practice): กำหนดพฤติกรรมพึงประสงค์ ออกแบบคำถามสำรวจที่นำมาปฏิบัติได้จริง","Hard Gate L5: ผลสำรวจต้องดีขึ้นกว่าปีก่อน — ถ้าไม่ดีขึ้น ตกทันที"],minReqs:{"1":["นโยบาย คู่มือ หรือแผนงานสร้างบรรยากาศ/วัฒนธรรม RM"],"2":["ภาพถ่าย/หลักฐานกิจกรรม Awareness","รายชื่อผู้เข้าร่วมครบ 4 กลุ่ม (บอร์ดใหญ่/บอร์ดความเสี่ยง/ผู้บริหาร/พนักงาน)"],"3":["หลักฐานอบรม Risk Owner และผู้บริหาร 3 อันดับแรก","ผล Pre/Post-test ผ่านเกณฑ์ความรู้"],"4":["แผนยุทธศาสตร์ HR ที่บรรจุหลักสูตร Risk Culture","แผนแม่บท DT ที่ระบุโครงการ Cyber/IT Risk Awareness"],"5":["รายงานผลสำรวจทัศนคติ/พฤติกรรม/วัฒนธรรม RM","ตัวเลขเปรียบเทียบยืนยัน \"คะแนนดีขึ้นกว่าปีก่อน\"","แผนปรับปรุงปีถัดไปอ้างอิงผลสำรวจ"]},subComps:{}},
+  {id:"1.4",grp:"1",gname:"การวิเคราะห์สภาพแวดล้อม (Environmental Scanning)",gw:15,gs68:2.2667,name:"ความมุ่งมั่นต่อค่านิยม SMART PAT (Core Values & Risk)",w:2,s68:2,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมินการผูก RM กับค่านิยม SMART PAT: นิยาม Do&Dont → กระตุ้น \"ก่อน\" ตัดสินใจ → ขับเคลื่อนพฤติกรรม ABC Model → บูรณาการ HR/IT/KM → ผลสำรวจดีขึ้น",levelSumm:["มี SIPOC สร้าง Risk Culture มีคู่มือ SMART PAT ฝังนิยาม Risk และเอกสาร Do&Dont","นำ Risk Profile เข้าวาระ \"ก่อน\" บอร์ดตัดสินใจโครงการสำคัญ","นำ ABC Model/Risk Type Compass ขับเคลื่อนพฤติกรรมร่วมกับ HCM","Risk Competency อยู่ใน Core Competency ของ HR มี IDP บันทึกใน HRIS","ผลสำรวจดีขึ้น นำ Pain Points ทำ Risk Culture Plan ปีถัดไป"],good:["บูรณาการ RM กับ SMART PAT ร่วมกับ HR ชัดเจน","กำหนด 4 มิติวัฒนธรรม RM","มี KPI รายบุคคล 4% สำหรับพนักงานระดับ 10 ขึ้นไป"],gaps:["TRIS ให้แค่ L2: \"แผนปรับปรุงพฤติกรรม\" ไม่ชัดเจนและไม่เป็นระบบ ขาด Check & Act","ขาด Do&Dont ที่ระบุถึงความเสี่ยงโดยตรง","L4 Hard Gate: Risk ต้องอยู่ใน Core Competency ของ HR — แค่จัดอบรมไม่พอ"],results:["(L1-2) มี SIPOC เชื่อม SMART PAT กับ RM กิจกรรม Awareness ครบ","(L5) ผลสำรวจ 79.64% เพิ่มจาก 77.85%"],tris:[],suggest:["จัดทำแผนปรับปรุงพฤติกรรม (Actionable Plan): Gap จากผลสำรวจ → ผู้รับผิดชอบ → KPI","นำ Risk Competency เข้าใน Core Competency ของ HR อย่างเป็นทางการ","ปรับแบบสำรวจให้ถามสถานการณ์จริง ไม่ใช่ทัศนคติกว้างๆ"],docs:["รายงานวิเคราะห์ผลสำรวจและแผนปรับปรุงพฤติกรรม: Gap → Root Cause → Action","แบบสำรวจฉบับใหม่: แยกกลุ่ม ถามสถานการณ์จำลองจริง","Cross-reference: Risk Competency ↔ IDP ↔ HRIS"],bestprac:["รฟม. (Best Practice): แบบสำรวจถามสถานการณ์จริง ไม่ใช่ทัศนคติกว้างๆ","Hard Gate L5: ผลสำรวจ 79.64% > 77.85% ผ่าน แต่ต้องมีแผน Act ด้วย"],minReqs:{"1":["SIPOC กระบวนการสร้าง Risk Culture ตอบสนองค่านิยม","คู่มือ SMART PAT ที่ฝังนิยาม Risk ชัดเจน","เอกสาร \"พฤติกรรมพึงประสงค์ (Do)\" และ \"ไม่พึงประสงค์ (Dont)\""],"2":["รายงาน Risk Profile/สถานการณ์ความเสี่ยงนำเสนอบอร์ด \"ก่อน\" ตัดสินใจ","หลักฐานกิจกรรม Awareness ครบ 4 กลุ่ม"],"3":["หลักฐานกิจกรรมพัฒนาพฤติกรรม (ภาพ/เอกสาร ABC Model หรือ Risk Type Compass)","รายงานประเมิน/สังเกตการณ์พฤติกรรมบุคลากร"],"4":["Cross-reference: Risk Awareness ↔ HR Plan ↔ DT Plan ↔ KM Plan","หลักฐาน Risk Competency ใน IDP และบันทึกใน HRIS"],"5":["รายงานผลสำรวจ Attitude/Behavior/Culture RM","ตัวเลขเปรียบเทียบ \"คะแนนดีขึ้นกว่าปีก่อน\"","แผนปรับปรุง Risk Culture Plan ปีถัดไปอ้างอิงผลสำรวจ"]},subComps:{}},
+  {id:"1.5",grp:"1",gname:"การวิเคราะห์สภาพแวดล้อม (Environmental Scanning)",gw:15,gs68:2.2667,name:"แรงจูงใจ การพัฒนาและรักษาบุคลากร RM",w:2,s68:2,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมินการเชื่อม \"ผลงาน RM\" กับ \"ระบบผลตอบแทน/แรงจูงใจ\": กำหนดเกณฑ์ → จ่ายจริง → Cascade ลงสู่สายงาน → ฝัง KPI ใน HR PMS → ประเมินว่าเกณฑ์กระตุ้นพฤติกรรมได้จริง",levelSumm:["มีเกณฑ์ผลตอบแทน Financial + Non-financial ผูกกับ RM ระดับผู้บริหาร","มีหลักฐานการจ่ายรางวัลจริง ไม่ใช่แค่แผนบนกระดาษ","KPI RM Cascade ลงสู่ Risk Profile ระดับสายงาน พิสูจน์ว่า Severity ลดลงจริง","KPI RM อยู่ใน Performance Appraisal ของ HR อย่างเป็นทางการ","ประเมินว่า KPI 4% กระตุ้นพฤติกรรมได้จริงหรือไม่ ทบทวนเกณฑ์ปีถัดไป"],good:["เพิ่ม KPI RM จาก 2% → 4% สำหรับพนักงานระดับ 10 ขึ้นไป","มี Non-financial Incentive: โล่รางวัล/เกียรติบัตร Risk Champion"],gaps:["TRIS ตัด L3: KPI 4% คือเป้าหมาย \"ระดับองค์กร\" ไม่ได้ Cascade ลงถึง Risk Profile ของสายงาน","พนักงานปฏิบัติการ (ต่ำกว่าระดับ 10) ยังไม่มี Incentive ผูกกับ Risk ในสายงาน","Hard Gate L3: ทำ Incentive แล้วแต่ Risk Profile สายงานยังแดง = ไม่ได้ผล"],results:["(L1-2) Incentive Plan ชัดเจน KPI 4% ดำเนินการจริง","(L5) อ้างว่าทบทวนมาตรการสร้างแรงจูงใจในคู่มือปี 2569"],tris:[],suggest:["Cascade KPI RM: นำ Risk Profile ระดับสายงาน ไปผูกเป็น KPI ของ Risk Owner ทุกระดับ","ร่วมกับ HR ปรับระบบ PMS ให้พนักงานปฏิบัติการถูกประเมินจาก Risk ในสายงาน","รายงาน Incentive ต้องแสดงว่า Severity ลดลงจริงหลังให้รางวัล"],docs:["KPI Cascade RM: ตารางจากเป้าหมายองค์กร → ฝ่าย → บุคคล","Risk Profile สายงาน: เปรียบเทียบ Severity ก่อน/หลัง Incentive","HR PMS Manual ฉบับอัปเดต: ระบุ KPI RM อย่างเป็นทางการ"],bestprac:["รฟม. (Best Practice 2.5333): มี KPI Cascade \"ปัจจัยเสี่ยงสายงาน\" ผูก Incentive กับ Risk Profile จริง","กทพ.: ถูกแนะนำเช่นกัน ให้ผูก Incentive กับ Risk Profile สายงาน"],minReqs:{"1":["Incentive Plan: เชื่อม RM กับผลตอบแทนผู้บริหาร (Financial + Non-financial)"],"2":["หลักฐานอนุมัติ/ประกาศผล KPI ที่นำคะแนน RM มาคำนวณจริง","ภาพถ่าย/เอกสารมอบรางวัล Risk Champion ประจำปี"],"3":["เอกสาร KPI Cascade RM ระดับองค์กร → สายงาน","Risk Profile สายงาน: แสดง Severity ลดลงหลังให้ Incentive"],"4":["HR PMS Manual: ระบุ KPI RM เป็นส่วนหนึ่งอย่างเป็นทางการ","ภาพ HRIS: คะแนน RM เป็นปัจจัยพิจารณา Career Path"],"5":["รายงานทบทวนความคุ้มค่า Incentive Plan (น้ำหนัก 4% เพียงพอหรือไม่)","เกณฑ์ Incentive ฉบับอัปเดตสำหรับปีถัดไป"]},subComps:{}},
+  {id:"2.2",grp:"2",gname:"การกำหนดยุทธศาสตร์และวัตถุประสงค์ (Strategy & Objectives)",gw:15,gs68:2,name:"การระบุเป้าหมาย RM — Risk Appetite & Tolerance",w:5,s68:2,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมินการกำหนด RA/RT: กระบวนการกำหนดค่า → ความสอดคล้องกับ Business Objective/MOU → Cascade สู่ผู้ปฏิบัติงานตาม Root Cause → บูรณาการ HR/DT → ประเมินความยืดหยุ่นเมื่อเป้าหมายเปลี่ยน",levelSumm:["มี SIPOC/คู่มือกำหนดค่า RA และ RT อย่างเป็นระบบ","RA/RT สอดคล้อง Business Objective/MOU แยก S-O-F-C — RA ต้อง \"สูงกว่า\" เกณฑ์ MOU L3","สื่อสาร RA/RT ถึงผู้ปฏิบัติงาน \"ตาม Root Cause\" ของแต่ละปัจจัยเสี่ยง — ไม่ใช่หว่านแห","RA/RT ปรากฏในแผนวิสาหกิจ แผน HR และแผน DT ครบถ้วน","ประเมินประสิทธิผล RA/RT และปรับได้ทันท่วงทีเมื่อเป้าหมายองค์กรเปลี่ยน"],good:["กำหนด RA=4, RT=3 เชื่อมโยงกับตัวชี้วัด แผนปฏิบัติการ และ MOU","มี SIPOC และคู่มือ แยก S-O-F-C ชัดเจน"],gaps:["TRIS กด L5→L2: ยังไม่มีกระบวนการสื่อสาร RA/RT ลึกถึง \"Root Cause\" ของแต่ละปัจจัย","RA/RT ยังไม่ถูกฝังในแผน HR และ DT อย่างชัดเจน"],results:["(L1-2) กำหนด RA/RT บอร์ดอนุมัติ เชื่อมโยงกับแผน แยก S-O-F-C","(L5) อ้างว่าประเมินประสิทธิผลอ้างอิงรายงาน Q4"],tris:[],suggest:["สื่อสาร RA/RT แบบ Root Cause: แจ้ง Risk Owner แต่ละสายงานว่า RT ของตนอยู่ตรงไหนและทำไม","ส่ง RA/RT ให้ HR และ DT บรรจุลงในแผนงานของตน","ตรวจสอบ Single Source of Truth: RA ต้องสอดคล้องกับ MOU L3"],docs:["หลักฐานสื่อสาร RA/RT แบบ Root Cause: รายงานประชุมแจ้ง Risk Owner ระบุ Root Cause + ขีดจำกัด","แผน HR + DT ฉบับอัปเดต: มีข้อความอ้างอิงค่า RA/RT","Cross-reference: RA/RT ↔ แผนวิสาหกิจ ↔ HR ↔ DT"],bestprac:["กทท. ดีกว่า รฟม. (1.6667) ในหมวดนี้: โครงสร้าง RA/RT ผูกกับ MOU ได้ดีกว่า","จุดเทียบ: ต้องเปลี่ยนจาก RA/RT บนกระดาษ (L2) → Cascade สู่ระดับสายงานตาม Root Cause (L3)"],minReqs:{"1":["SIPOC/คู่มือระบุขั้นตอนกำหนดค่า RA และ RT"],"2":["ตารางเชื่อมโยง RA/RT กับ Business Objective และ MOU","เอกสาร RA/RT แยกประเภท S-O-F-C"],"3":["หลักฐานสื่อสาร RA/RT ถึงกลุ่มที่เกี่ยวข้อง","เอกสารระบุว่าสื่อสาร \"ตาม Root Cause\" ของปัจจัยเสี่ยงของกลุ่มเป้าหมายนั้นๆ"],"4":["แผนวิสาหกิจ + แผน HR + แผน DT ที่ระบุตัวเลข RA/RT","มติบอร์ดอนุมัติ RT หรือเอกสาร Mapping เป้าหมาย MOU"],"5":["รายงานประเมินประสิทธิผล RA/RT ว่าบรรลุเป้าหมายองค์กร","หลักฐานทบทวน/ปรับ RA/RT ระหว่างปี (หากเป้าหมายเปลี่ยน)"]},subComps:{}},
+  {id:"2.4",grp:"2",gname:"การกำหนดยุทธศาสตร์และวัตถุประสงค์ (Strategy & Objectives)",gw:15,gs68:2,name:"กำหนดวัตถุประสงค์สร้างมูลค่าเพิ่ม (Value Creation & Enhancement)",w:10,s68:2,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมินการบูรณาการ VC/VE เข้าสู่กระบวนการ RM: ค้นหา Opportunity/Value Driver → บรรจุใน Risk Universe → จัดการความเสี่ยงหนุน VC/VE → วัดผลเป็นตัวเลขการเงิน → ต่อยอดสู่ Innovation",levelSumm:["มี SIPOC/คู่มือระบุขั้นตอน VC และ VE เชื่อมกับ Business Objective","ระบุ Opportunities/Value Drivers บรรจุใน Risk Universe — ต้องมี Intelligent Risk (Take Risk เพื่อโอกาส)","Mitigation Plan ลด Severity จริง พิสูจน์ได้ว่าเกิด \"มูลค่าเพิ่ม\" เป็นตัวเลขการเงิน","เชื่อม VC/VE กับแผนองค์กร/แผนลงทุน มี Cost-Benefit Analysis เปรียบเทียบหลายทางเลือก","นำผลลัพธ์ VC/VE ต่อยอดสู่ Innovation หรือปรับ Business Model"],good:["วิเคราะห์ประเด็น VC/VE อิงภาวะอุตสาหกรรมขนส่งทางน้ำ","นำ VC/VE เข้า Risk Universe และติดตามรายไตรมาส"],gaps:["TRIS กด L3→L2: \"การดำเนินการ VC/VE ยังไม่สะท้อนมูลค่าเพิ่มอย่างชัดเจน\"","ต้องการ Financial Driver ชัดๆ ว่าประหยัดกี่ล้าน หรือสร้างรายได้เพิ่มเท่าไร"],results:["(L1-2) ระบุความเสี่ยงและทำแผน VC/VE ไปบริหาร","(L3) ดำเนินการตามแผน รายงานว่าลด Severity ได้ตามเป้า"],tris:[],suggest:["นำ VC/VE Report แสดงตัวเลข: รายได้เพิ่ม/ต้นทุนลด/ปริมาณตู้เพิ่มขึ้นเท่าไร","บรรจุ Intelligent Risk (Take Risk เพื่อโอกาสธุรกิจ) ใน Risk Inventory","เชื่อมผล VC/VE กับ Financial Statements เพื่อพิสูจน์ Business Value"],docs:["VC/VE Outcome Report: แสดง Cost-Benefit หรือผลกระทบการเงินเป็นตัวเลข","Risk Inventory ฉบับอัปเดต: มี Intelligent Risk ชัดเจน","Cross-reference: VC/VE ↔ แผนลงทุนขนาดใหญ่ ↔ ผล MOU"],bestprac:["กทพ. (Best Practice): VC/VE เริ่มจาก Opportunity ใน SWOT → วิเคราะห์ความเสี่ยง → ลด Severity → Re-evaluate → นำเสนอบอร์ดอนุมัติ","Ultimate Goal L5: VC ที่ทรงพลังที่สุดในสายตา SE-AM คือ \"นวัตกรรม\" — Take Risk แล้วนำสู่ Innovation"],minReqs:{"1":["SIPOC/คู่มือแสดงขั้นตอน VC และ VE","ตาราง/แผนภาพเชื่อม VC/VE กับ Business Objective"],"2":["เอกสารวิเคราะห์ Opportunities และ Value Drivers/Financial Drivers","Risk Inventory ที่บรรจุ VC/VE พร้อม Intelligent Risk ชัดเจน","รายงานประชุมบอร์ดความเสี่ยงพิจารณา VC/VE มีข้อสังเกตเร่งรัด"],"3":["รายงาน RM รายไตรมาส แสดง Severity VC/VE ลดลงในขอบเขตที่ยอมรับ","เอกสารตัวเลขผลลัพธ์ Financial/Non-Financial Impact: พิสูจน์ว่าเกิดมูลค่าเพิ่มจริง"],"4":["Cross-reference: VC/VE ↔ แผนลงทุนขนาดใหญ่","Cost-Benefit Analysis: เปรียบเทียบวิธีจัดการความเสี่ยงเพื่อได้มูลค่าสูงสุด"],"5":["รายงานประเมินประสิทธิผลกระบวนการ VC/VE","หลักฐานนำผล VC/VE ต่อยอดสู่ Innovation หรือ Business Model ใหม่"]},subComps:{}},
+  {id:"3.1",grp:"3",gname:"กระบวนการบริหารความเสี่ยง (Performance)",gw:35,gs68:1.7429,name:"การระบุปัจจัยเสี่ยง (Risk Identification)",w:5,s68:2,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมินการค้นหาและระบุปัจจัยเสี่ยงอย่างเป็นระบบ: รวบรวม Risk Universe (ใน/นอก/ยุทธศาสตร์/MOU) → กรองปัจจัย S-O-F-C → ประเมิน Existing Control → คำนวณ Residual Risk → Cascade สู่สายงาน → บูรณาการกับ IC",levelSumm:["Risk Universe ดึงจากหลายแหล่ง SWOT/MOU/Stakeholder — ห้ามหลุด MOU ที่ตกเกณฑ์","มีเกณฑ์ประเมิน Existing Control (Fact-based ไม่ใช่แค่ดุลยพินิจ) แสดง Residual Risk","ความเสี่ยงองค์กร Cascade สู่สายงานครบ Alignment ถึงยุทธศาสตร์","เชื่อมความเสี่ยงกับ IC ประเมินตามหลักเกณฑ์กระทรวงการคลัง ใช้ Bow-tie Analysis","ประเมินว่ากระบวนการค้นหาความเสี่ยง \"ดีพอหรือไม่\" นำมาปรับปรุงคู่มือ"],good:["Risk Universe หลากหลาย: นโยบายรัฐ/ยุทธศาสตร์/Stakeholder/MOU/ปัจจัยเดิม","มี SIPOC จัดหมวดหมู่ S-O-F-C ครบ","Cascade สู่ 7 สายงานผ่าน Workshop"],gaps:["MOU Trap: ตัวชี้วัด MOU (ประสิทธิภาพท่าเรือแหลมฉบัง) ตกเกณฑ์แต่ไม่ถูกบรรจุเป็น Risk Factor ระดับองค์กร","ขาดการประเมินประสิทธิผลว่ากระบวนการค้นหาความเสี่ยง \"ครอบคลุมปัญหาจริงหรือไม่\""],results:["(L1-2) Risk Universe ครอบคลุมหลายแหล่ง ระบุ Risk Factors 7 ปัจจัย","(L3) Cascade สู่ 7 สายงานครบ","(L5) อ้างว่าประเมินประสิทธิผลอ้างอิงข้อมูล 4 ปี"],tris:[],suggest:["สร้าง MOU Validation Gate: บังคับ Risk Owner ติ๊กว่า KPI MOU \"ผ่าน/ตกเกณฑ์\" — ถ้าตก ต้องลิงก์เข้าสู่การตั้ง Risk Factor ทันที","ร่วมกับ SP ทบทวน Risk Universe ทุกไตรมาสให้ครอบคลุม MOU ที่เสี่ยงตก"],docs:["Risk Universe + Risk Inventory (ปี 69): บรรจุ \"ประสิทธิภาพท่าเรือแหลมฉบัง\" เป็น Risk Factor ระดับองค์กร","รายงานประชุมบอร์ดความเสี่ยง: มีมตินำ KPI ที่ตกเกณฑ์มาตั้งเป็น Risk Factor","รายงานประเมินประสิทธิผลกระบวนการระบุความเสี่ยง"],bestprac:["รฟม. (Best Practice): ระบุความเสี่ยงจาก Risk Universe ที่รวม \"ตัวชี้วัดสำคัญ/MOU\" ครบถ้วน","กทพ. (3.1667): Cascade ครบ รับคำแนะนำให้เน้น Process Evaluation","Quick Win: แค่บรรจุ MOU ที่ตกเกณฑ์เข้า Risk Inventory = ปิด Gap หลักได้ทันที"],minReqs:{"1":["Risk Inventory ระบุ Risk Factors พร้อม S-O-F-C","Risk Universe ดึงจาก SWOT/ยุทธศาสตร์/Stakeholder/\"ตัวชี้วัด MOU\" (บังคับ)"],"2":["เกณฑ์ประเมิน Existing Control Effectiveness (Fact-based)","ทะเบียนความเสี่ยงแสดง Inherent Risk และ Residual Risk","ตาราง: ปัจจัยที่จัดการไม่สำเร็จปีก่อน ยกยอดมาบริหารต่อ","หลักฐานส่ง Risk Factors ให้ Risk Owner รับทราบ"],"3":["คู่มือ/กระบวนการ Cascade ความเสี่ยงองค์กรสู่สายงาน","ทะเบียนความเสี่ยงสายงาน (ครบทุกสายงาน) ระบุว่ารองรับ Risk Factor ระดับองค์กรข้อใด"],"4":["เอกสารเชื่อมโยง RM กับ IC (อ้างอิงหลักเกณฑ์กระทรวงการคลัง)","Bow-tie Analysis หรือเครื่องมือวิเคราะห์เชิงลึก"],"5":["รายงานประเมินประสิทธิผล \"กระบวนการระบุความเสี่ยง\"","หลักฐานนำผลมาปรับปรุงกระบวนการ (เช่น ปรับแบบฟอร์ม/ใช้ Data Analytics)"]},subComps:{}},
+  {id:"3.2",grp:"3",gname:"กระบวนการบริหารความเสี่ยง (Performance)",gw:35,gs68:1.7429,name:"กำหนดกิจกรรมการควบคุม (Control Activities)",w:5,s68:2,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมินการออกแบบ Control Activities: มีการควบคุมครอบทุก Process หลัก → ประเมิน Adequacy 100% ทุกสายงาน → วัดประสิทธิผล 4 แกน → ยกระดับสู่ Digital Control → ทบทวนระหว่างปี",levelSumm:["คู่มือระบุ Control Activities ของแต่ละกระบวนการ","เกณฑ์ประเมิน Adequacy ชัดเจน — ทุกสายงาน (100%) ประเมิน Control ครบ","วัดประสิทธิผลครบ 4 แกน: Input / Process / Output / Time","Control Activities บูรณาการ Digital/IT จริง — ไม่ใช่แค่รายงาน แต่เป็น Automated Control","ทบทวน Existing Control และ Mitigation ระหว่างปี (รายไตรมาส)"],good:["ประเมิน Existing Control ประกอบการระบุ Risk Factor ระดับองค์กร","ให้ 7 สายงานประเมิน Control Activities ครบ","มีเกณฑ์ 5 ระดับ ครอบคลุม 3 มุมมอง"],gaps:["Digital Control Trap: AppSheet เป็น \"ระบบรายงาน\" ไม่ใช่ Digital Control","ขาดการพิสูจน์ว่า Control ทำให้ \"รวดเร็วขึ้น/ถูกต้องขึ้น\" อย่างไร"],results:["(L1-2) ประเมิน Control ครบทุกสายงาน","(L3) ประเมินประสิทธิผล 4 มิติ","(L4) ใช้ Google AppSheet ทำระบบรายงาน RM"],tris:[],suggest:["ยกระดับสู่ Digital Control แท้จริง: นำ SAP/VIS/HRIS มาตั้งค่าเงื่อนไขป้องกันความผิดพลาดอัตโนมัติ","รายงานเปรียบเทียบ Manual vs Digital Control: ความเร็ว/ความถูกต้องก่อน-หลัง","บังคับ Risk Owner ระบุ: Control นี้เป็น Manual หรือ Digital? ถ้า Digital ต้องแนบ Screen Capture"],docs:["Cross-reference: Control Activities ↔ Action Plan","Screen Capture/ระบบ Digital Control: SAP Block, VIS Alert, HRIS Validation","รายงานเปรียบเทียบประสิทธิภาพ Manual vs Digital Control (Time + Accuracy)"],bestprac:["รฟม. (Best Practice): ประเมิน Control ครบ 4 มิติ Input/Process/Output/Time","กทท. ผ่าน L2 ได้ แต่ L4 ตกเรื่อง Digital Control","Quick Win: เพิ่ม Dropdown ถามว่า \"Manual หรือ Digital?\" บังคับแนบ Screen Capture ถ้าเป็น Digital"],minReqs:{"1":["คู่มือ/SIPOC ระบุ Control Activities ของแต่ละกระบวนการ"],"2":["เกณฑ์ประเมิน Adequacy/Effectiveness ของ Control (3 มุมมอง)","Risk Inventory ระดับองค์กร มีประเมิน Control","Risk Inventory ระดับสายงาน ครบทุกสายงาน มีประเมิน Control ทุกปัจจัย"],"3":["รายงานประเมินประสิทธิผลกระบวนการ: ตารางคะแนนครบ 4 แกน (Input/Process/Output/Time)"],"4":["Cross-reference: Control Activities ↔ แผนปฏิบัติการประจำปี","Screen Capture/ระบบงาน: หลักฐาน Digital Control จริง เช่น SAP Block การเบิกจ่ายเกินงบ หรือ VIS แจ้งเตือนตู้ตกค้าง"],"5":["รายงานทบทวน Control ระหว่างปี (Q2/Q3) ที่มีการปรับปรุง Existing Control หรือ Mitigation Plan"]},subComps:{}},
+  {id:"3.3",grp:"3",gname:"กระบวนการบริหารความเสี่ยง (Performance)",gw:35,gs68:1.7429,name:"ประเมินระดับความรุนแรงของปัจจัยเสี่ยง (Severity Assessment)",w:5,s68:2,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมินการวิเคราะห์และให้คะแนน Severity: สร้างเกณฑ์ Likelihood/Impact แยกตามปัจจัย → ใช้ข้อมูลสถิติจริง (ไม่ใช่ดุลยพินิจ) → เทียบ Risk Boundary → สื่อสาร Risk Owner → ดึงข้อมูลจาก IT อัตโนมัติ → รายงานรายไตรมาส",levelSumm:["มีเกณฑ์ Likelihood และ Impact แยกตามรายปัจจัย (ไม่ใช่ One-size-fits-all)","การประเมิน Likelihood อ้างอิง \"ฐานข้อมูลสถิติจริง\" — ต้องมี Source of Data กำกับทุกข้อ","สื่อสารเกณฑ์ถึง Risk Owner ครบทุกสายงาน","ดึงข้อมูลจาก IT (SAP/VIS/HRIS) มาคำนวณ Severity อัตโนมัติ","รายงานรายไตรมาส เปรียบเทียบเป้าหมาย วิเคราะห์ปัญหา ประเมินประสิทธิผลเกณฑ์"],good:["เกณฑ์ Likelihood/Impact 5 ระดับ แยก 6 มุมมอง ชัดเจนในคู่มือ","เชื่อมโยง RA/RT กับเกณฑ์ Severity","สื่อสาร 11 ช่องทาง พนักงาน 80% มีความเข้าใจ"],gaps:["Fact-based Trap: การประเมิน Likelihood ยังใช้ดุลยพินิจ ไม่ดึงสถิติจากระบบ VIS/SAP จริง","สูตรคำนวณ Impact สำหรับตัวชี้วัดแบบสะสม ยังมีข้อบกพร่อง ทำผลระหว่างปีคลาดเคลื่อน"],results:["(L1) เกณฑ์ครบ แยกตามปัจจัย","(L3) สื่อสาร Risk Owner ผ่าน Workshop","(L5) รายงาน Severity รายไตรมาส ใช้ AppSheet"],tris:[],suggest:["เพิ่มช่อง \"อ้างอิงแหล่งข้อมูล (Fact-based Evidence Source)\" บังคับกรอกในแบบฟอร์ม — ถ้าไม่กรอก Submit ไม่ได้","แก้สูตรคำนวณ Impact ของตัวชี้วัดแบบสะสม ให้สะท้อนความรุนแรงระหว่างปีได้ถูกต้อง","เชื่อมต่อระบบ RM กับ VIS/SAP ให้ดึง Historical Data มาคำนวณ Likelihood อัตโนมัติ"],docs:["Risk Matrix แบบ Fact-based: มีคอลัมน์ \"แหล่งอ้างอิง Data Source\" กำกับทุกข้อ","รายงานปรับปรุงสูตร Impact สำหรับตัวชี้วัดแบบสะสม","Screen Capture: ระบบ IT ดึงข้อมูลมาคำนวณ Severity"],bestprac:["กทพ. (Best Practice L4): ดึงข้อมูลจาก SAP/ระบบสถิติมาพัฒนาเกณฑ์ Severity โดยตรง","Quick Win: เพิ่มแค่ช่อง \"Source of Data\" บังคับกรอก = ปิด Gap L2 ได้ทันที"],minReqs:{"1":["คู่มือ RM ระบุตาราง Likelihood & Impact แยกตามมุมมอง/ปัจจัย"],"2":["เอกสาร Fact-based Evidence: สถิติย้อนหลัง 3 ปี หรือ Forecast Model เป็นฐาน Likelihood","ตารางวิเคราะห์ Severity ทาบลงบน Risk Boundary จัดลำดับ"],"3":["รายงานประชุม/อีเมล ยืนยันการสื่อสารเกณฑ์ให้ Risk Owner ครบทุกสายงาน"],"4":["Screen Capture ระบบ IT (Dashboard/Database) แสดงการดึงข้อมูลมาคำนวณ Severity"],"5":["รายงาน RM รายไตรมาส แสดง Severity vs เป้าหมาย + ปัญหา + แนวทางแก้ไข","รายงานประเมินประสิทธิผล \"เกณฑ์ประเมิน Severity\""]},subComps:{}},
+  {id:"3.4",grp:"3",gname:"กระบวนการบริหารความเสี่ยง (Performance)",gw:35,gs68:1.7429,name:"การจัดลำดับความเสี่ยง (Risk Prioritization)",w:3,s68:2,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมินการจัดเรียงลำดับปัจจัยเสี่ยง: กำหนด Risk Boundary → แบ่งระดับ สูง/กลาง/ต่ำ → พล็อต Risk Profile → รายงานรายไตรมาส (Dynamic) → Align กับยุทธศาสตร์และ RA → ประเมินประสิทธิผลกระบวนการ",levelSumm:["มี Risk Boundary (เช่น ≥10 เกินขีดจำกัด) แบ่งระดับความเสี่ยง มี Risk Profile","นำ Risk Factors ทั้งหมดพล็อตลง Risk Profile ตามเกณฑ์ L1 ครบถ้วน","รายงาน Risk Profile รายไตรมาส แสดง Movement ของ Risk (Dynamic ไม่ใช่ภาพซ้ำ)","Risk Boundary ผูกกับ Strategic Objectives และ RA — ไม่ใช่ One-size-fits-all","ประเมินประสิทธิผลกระบวนการจัดลำดับ 4 แกน นำมาปรับปรุงปีถัดไป"],good:["กำหนด Risk Boundary ที่ค่า 10 ชัดเจน","แบ่งระดับ สูง/กลาง/ต่ำ จัดเรียงลำดับ","มี Risk Profile ทั้งระดับองค์กรและ 7 สายงาน รายงานรายไตรมาส"],gaps:["Strategic Alignment: Risk Boundary ของ กทท. ยังเป็น One-size-fits-all — TRIS ต้องการ Boundary ที่ต่างกันตาม Strategic Objective","หลักฐานการผูก Risk Boundary กับ SO1-SO4 ยังไม่ชัดเจนพอ"],results:["(L1-2) มี Risk Boundary มี Risk Profile ระดับองค์กรและสายงาน","(L3) รายงานรายไตรมาส","(L5) อ้างว่าประเมินประสิทธิผลและกำหนด Trigger Point"],tris:[],suggest:["ทำ Cross-reference: Risk Boundary แต่ละปัจจัย ↔ Strategic Objective ↔ Risk Appetite — อธิบายว่าทำไม Risk ด้านการเงินถึง Boundary แคบกว่า Risk ด้าน Operations","จัดทำ Dynamic Risk Profile: แสดงลูกศรว่าความเสี่ยงแต่ละตัวเคลื่อนตัวอย่างไรระหว่างไตรมาส"],docs:["Cross-reference: Risk Boundary ↔ Strategic Objectives ↔ Risk Appetite","Risk Profile รายไตรมาส: แสดง Movement ของความเสี่ยง (ลูกศร/สี)","รายงานประเมินประสิทธิผลกระบวนการจัดลำดับ"],bestprac:["รฟม. (Best Practice L4): บูรณาการ Risk Boundary กับ Strategic Objectives และ Risk Appetite","Quick Win: เพิ่มคอลัมน์ \"Strategic Objective\" ใน Risk Profile — Mapping ความเสี่ยงกับ SO"],minReqs:{"1":["คู่มือ RM ระบุ Risk Boundary (เช่น Likelihood×Impact ≥ 10)","Risk Matrix แสดงโซนสี สูง/กลาง/ต่ำ ชัดเจน"],"2":["Risk Profile ระดับองค์กร (พล็อตครบ)","Risk Profile ระดับสายงาน (ครบทุกสายงาน)"],"3":["รายงาน RM รายไตรมาส แนบ Risk Profile แสดง \"การเคลื่อนตัว\" ของความเสี่ยงแต่ละไตรมาส"],"4":["Cross-reference/เอกสาร: Risk Boundary แต่ละปัจจัย ถูกกำหนดอิง Strategic Objective และ Risk Appetite"],"5":["รายงานประเมินประสิทธิผลกระบวนการจัดลำดับ (4 แกน Input/Process/Output/Time)","แผนปรับปรุงกระบวนการจัดลำดับปีถัดไป"]},subComps:{}},
+  {id:"3.5",grp:"3",gname:"กระบวนการบริหารความเสี่ยง (Performance)",gw:35,gs68:1.7429,name:"กำหนดวิธีจัดการความเสี่ยง (Risk Response & Mitigation)",w:5,s68:2,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมินการคัดเลือก Mitigation Plan: กำหนดกลยุทธ์ 4T → Cost-Benefit ≥2 ทางเลือก → ใช้ Control Effectiveness → บูรณาการ Correlation Map → พิสูจน์ว่า Residual Risk ลดลงจริง",levelSumm:["มี SIPOC/คู่มือ และ Mitigation Plan ของ Risk Factors ระดับองค์กร","ประเมิน CBA สำหรับทุก Residual Risk มีทางเลือก ≥ 2 ทาง","ใช้ Control Effectiveness จาก 3.2 เป็นตัวตั้งคัดเลือก Mitigation","เชื่อม Mitigation กับ Risk Correlation Map (Indirect Causes) + Action Plan + Work System","พิสูจน์ว่า Mitigation ลด Severity ได้จริง — ถ้าทำเสร็จแต่กราฟไม่ลด = ไม่ผ่าน"],good:["มีเกณฑ์ชัดเจน: Severity ≥ 10 ต้องมี Mitigation Plan","มี CBA เปรียบเทียบวิธีลด Likelihood/Impact"],gaps:["TRIS ตัด L3-L5 ทิ้ง: รายงาน Q4 เป็นแค่ \"Status Report\" ว่าทำเสร็จกี่% ไม่ได้พิสูจน์ว่า Risk ลดลง","Hard Gate: ทำแผนเสร็จ 100% แต่ Risk Profile ไม่ลด = Mitigation ไม่มีประสิทธิผล"],results:["(L1-2) มีแผน Mitigation พร้อม CBA","(L5) อ้างว่าประเมินประสิทธิผลอ้างอิงรายงาน Q4 และ KRI"],tris:[],suggest:["ปรับรายงาน Q4: เน้นเปรียบเทียบ Inherent Risk vs Residual Risk ก่อน-หลัง Mitigation","บังคับ CBA ≥ 2 ทางเลือก พร้อมตัวเลขงบประมาณชัดเจน","นำ Indirect Causes จาก Correlation Map มาเป็นโจทย์ Mitigation Plan ด้วย"],docs:["Mitigation Effectiveness Report: Inherent vs Residual Risk ก่อน-หลัง","CBA Summary: ตัวเลขเงินชัดเจน (Cost of inaction vs ต้นทุนแผน)","Cross-reference: Mitigation ↔ Indirect Causes จาก 3.6"],bestprac:["กทพ. (3.1667): ปิดลูป PDCA — ใช้ IT ดึงผลลัพธ์พิสูจน์ว่า KRI ลดลงจริงหลัง Mitigation","Quick Win: เปลี่ยนรายงาน Q4 จาก \"ความก้าวหน้า %\" เป็น \"ผล Severity ลดจาก X → Y\""],minReqs:{"1":["SIPOC/คู่มือกระบวนการ Risk Response","Mitigation Plan ของ Risk Factors ระดับองค์กร"],"2":["CBA เอกสาร: สำหรับ Residual Risk ทุกตัว","ตารางเปรียบเทียบทางเลือก ≥ 2 ทาง (บังคับ)"],"3":["ตาราง: ผลประเมิน Control Effectiveness (จาก 3.2) → เป็นตัวตั้งเลือก Mitigation"],"4":["Bow-tie/Cross-reference: Mitigation ครอบคลุม Indirect Causes จาก Correlation Map","เอกสารเชื่อมโยง Mitigation ↔ Action Plan ↔ Work System"],"5":["Mitigation Effectiveness Report: เปรียบเทียบ Inherent Risk vs Residual Risk — ถ้าไม่ลด ต้องมี Root Cause","CBA Summary: ตัวเลขงบประมาณ/มูลค่าการเงิน ไม่ใช่พรรณนา"]},subComps:{}},
+  {id:"3.6",grp:"3",gname:"กระบวนการบริหารความเสี่ยง (Performance)",gw:35,gs68:1.7429,name:"Risk Correlation Map & Portfolio View of Risk",w:12,s68:1.25,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมินขีดความสามารถมองความเสี่ยงแบบองค์รวม: หาความสัมพันธ์ข้ามสายงาน → วิเคราะห์ Indirect Causes → ให้น้ำหนัก % พร้อม Justification → จำลองสถานการณ์ 3 แบบ (Best/Base/Worst) คำนวณ Cost/Loss/Gain → Portfolio View เทียบ RT รายปัจจัย vs RT รวมองค์กร",levelSumm:["มี SIPOC/คู่มือ มีปัจจัยเสี่ยงแยก S-O-F-C","Correlation Map ลากเส้นข้ามสายงาน ระบุ Direct Cause และ Indirect Cause พร้อม Justification น้ำหนัก %","Portfolio View แสดงจำลองสถานการณ์ 3 แบบ + ตัวเลข Cost/Loss/Gain (ไม่ใช่แค่ Risk Matrix)","ใช้ GRC System แสดง Portfolio View/Correlation Map แบบ Dashboard บอร์ดนำไปประกอบการตัดสินใจ","ประเมินประสิทธิผลกระบวนการ ปรับโมเดลการเงินให้แม่นยำขึ้น"],good:["ริเริ่มทำ Correlation Map วิเคราะห์ 7 ปัจจัย ลากเส้นสาเหตุ","กำหนดน้ำหนัก % รวม = 100%","จัด Workshop ร่วมผู้บริหาร/Risk Owner พิจารณาแผน"],gaps:["น้ำหนัก % ไม่มีข้อมูลเชิงปริมาณ/คุณภาพมารองรับ — ตั้งเลขลอยๆ","Portfolio View Trap: แบบจำลอง 3 สถานการณ์ที่ส่งไปเป็น \"รายได้/ต้นทุนรวมองค์กร\" ไม่ใช่ \"RT รายปัจจัย เทียบ RT รวมองค์กร\" ตามเกณฑ์ SE-AM","Indirect Causes ที่พบไม่ถูกนำไป Mitigation Plan ครบ"],results:["(L1) มีกระบวนการและแยก S-O-F-C","(L2) มี Correlation Map พร้อมน้ำหนัก %","(L5) อ้างว่าจำลอง 3 สถานการณ์ Best/Base/Worst"],tris:[],suggest:["เพิ่ม Quantitative/Qualitative Justification ให้น้ำหนัก % ทุกเส้นสัมพันธ์","สร้าง Portfolio View ใหม่: เปรียบเทียบ RT ของแต่ละความเสี่ยงย่อย vs RT รวมองค์กร","นำ Indirect Causes ส่งกลับเป็น Input Mitigation Plan ในข้อ 3.5","ร่วมกับ DT พัฒนา Dashboard แสดง Correlation Map + Portfolio View"],docs:["Correlation Map ฉบับอัปเดต: ตาราง Justification น้ำหนัก % พร้อมเหตุผล","Portfolio View Dashboard: เปรียบเทียบ RT รายปัจจัย vs RT รวมองค์กร","Scenario Analysis Table: ตัวเลข Cost/Loss/Gain ครบ 3 กรณี"],bestprac:["กทพ. (Best Practice): Correlation Map ครอบ Indirect Cause Portfolio View ตรงเกณฑ์","High Priority: ข้อนี้น้ำหนัก 12% — ทวงคะแนนกลับมาได้มากที่สุด","รฟม.: เริ่มใช้ GRC System แสดง Portfolio View"],minReqs:{"1":["SIPOC/คู่มือกระบวนการทำ Correlation Map และ Portfolio View","เอกสารรวบรวมปัจจัยเสี่ยงแยก S-O-F-C"],"2":["Correlation Map: ลากเส้นโยงความสัมพันธ์ข้ามปัจจัย/สายงาน","แบบประเมินน้ำหนัก %: ระบุ Direct Cause และ Indirect Cause + ที่มาของ % (Quantitative/Qualitative Justification)"],"3":["Portfolio View of Risk รายงาน (ไม่ใช่ Risk Matrix)","ตาราง Scenario Analysis: Cost/Loss/Gain ครบ 3 กรณี (Best/Base/Worst)"],"4":["Screen Capture ระบบ GRC/Dashboard แสดง Portfolio View/Correlation Map","รายงานประชุมบอร์ดที่นำ Portfolio View ประกอบการตัดสินใจ"],"5":["รายงานประเมินประสิทธิผลกระบวนการ Correlation Map และ Portfolio View","แผนปรับปรุง (เช่น ปรับโมเดลคำนวณทางการเงินให้แม่นยำขึ้น)"]},subComps:{}},
+  {id:"4.1",grp:"4",gname:"การทบทวนการบริหารความเสี่ยง (Review)",gw:15,gs68:2.3333,name:"ทบทวนและปรับปรุงผลการบริหารความเสี่ยง",w:10,s68:2.5,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมินกระบวนการ \"ทบทวนผลลัพธ์\" RM: มีกระบวนการทบทวนเมื่อสถานการณ์เปลี่ยน/ผลไม่ถึงเป้า → ติดตามรายไตรมาสเทียบ RA → ค้นหา Emerging Risk → ประเมินประสิทธิผล 4 แกน → ส่งผลให้ SP/HCM/DT ปรับแผน",levelSumm:["มี SIPOC/คู่มือกระบวนการทบทวน RM เมื่อผลไม่บรรลุเป้าหมาย","ติดตามรายไตรมาสเทียบ RA ค้นหา Emerging Risk มี Trigger Point และ Incident Report","ประเมินประสิทธิผลกระบวนการทบทวน 4 แกน (Input/Process/Output/Time)","ผลทบทวนนำสู่ Action จริง: ขอปรับ Action Plan/งบ/โครงการ กับ SP/HCM/DT","นำข้อบกพร่องกระบวนการทบทวนมาปรับปรุงในปีถัดไป"],good:["มีกระบวนการทบทวนระหว่างปี ปรับแผน Mitigation ที่ไม่สำเร็จ","ปี 2568 บริหารความเสี่ยงบรรลุเป้าครบ 7 ปัจจัย","มีการทบทวนแผน Q1 และ Q2"],gaps:["MOU Trap: ตัวชี้วัด MOU ที่ตกเกณฑ์ (ประสิทธิภาพ ทลฉ.) ไม่ถูกนำเข้าสู่รอบทบทวน","ความย้อนแย้ง: ประเมินตัวเองได้ 100% แต่ความเสี่ยง MOU หลุดรอด","Actionable Adjustment: ต้องมีหลักฐานการ \"ขอปรับ Action Plan\" — ไม่ใช่แค่รายงาน"],results:["(L1-2) มีรอบติดตามรายไตรมาส มี Incident Report ทบทวนแผน Mitigation","(L3) ประเมินประสิทธิผล 4 แกน อ้างว่าได้ 100%","(L5) อ้างว่านำผลเชื่อมโยงกับการปรับเปลี่ยนแผนงาน"],tris:[],suggest:["ดึง MOU ที่ตกเกณฑ์เข้าสู่รอบทบทวน RM ทุกไตรมาส","ทำแบบประเมินประสิทธิผลตามความจริง ระบุ Pain Points ชัดเจน ไม่ต้องได้ 100%","บันทึกหลักฐาน: เมื่อพบความเสี่ยงเกินเกณฑ์ ฝ่าย RM \"ขอปรับ Action Plan\" กับ SP/HCM/DT อย่างไร"],docs:["รายงานทบทวนความเสี่ยงระหว่างปี: บรรจุ MOU ที่เสี่ยงตกเกณฑ์","รายงานประเมินประสิทธิผลตามความจริง: ระบุ Pain Points ชัดเจน","Cross-reference: ผลทบทวน RM → การขอปรับ Action Plan อย่างเป็นทางการ"],bestprac:["กทท. ดีกว่า รฟม. (2.0000) ในหมวดนี้","กทพ. (3.0000 Best Practice): ประเมินประสิทธิผลทุกขั้นตอน + เชื่อมผลทบทวนกับ Scenario Planning","Quick Win: ใส่ MOU ที่น่าเป็นห่วงเข้ารายงานทบทวน Q3 = ปลดล็อกคะแนนได้ทันที"],minReqs:{"1":["SIPOC/คู่มือ: กระบวนการทบทวน (มีเงื่อนไขเมื่อไม่บรรลุเป้า)"],"2":["รายงาน RM รายไตรมาส: Severity จริง vs Risk Appetite","Incident Report หรือเอกสาร Emerging Risk จากการเปลี่ยนแปลง"],"3":["รายงานประเมินประสิทธิผลกระบวนการทบทวน (4 แกน: Input/Process/Output/Time)"],"4":["Cross-reference: ผลทบทวน RM ↔ การขอปรับ Action Plan (มีหลักฐานการ \"ขอปรับ\" จริงๆ ไม่ใช่แค่รายงาน)","รายงานประชุมบอร์ดความเสี่ยง: นำผล RM ไปพิจารณาปรับแผนจริง"],"5":["รายงานประเมินประสิทธิผลกระบวนการทบทวน (สำหรับปรับปรุงปีถัดไป)","หลักฐานนำ Pain Points ไปแก้ไขวิธีการทำงานในรอบถัดไป"]},subComps:{}},
+  {id:"4.2",grp:"4",gname:"การทบทวนการบริหารความเสี่ยง (Review)",gw:15,gs68:2.3333,name:"กำหนดแนวทางปรับปรุงกระบวนการ RM (ERM Improvement)",w:5,s68:2.5,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมินการ \"ยกระดับระบบ RM\" ครอบคลุม 3 แกน: Process / Culture / Capability → ลงมือปรับปรุงจริง → ประเมินประสิทธิผล 4 แกน (Fact-based ไม่ใช่ 100% ทุกข้อ) → Align กับยุทธศาสตร์ใหม่ → Meta-Evaluation",levelSumm:["มี SIPOC/แผน ครอบคลุม 3 แกน Process + Culture + Capability","ลงมือปรับปรุงคู่มือ/ระบบ/Training ตามแผนครบถ้วน","ประเมินประสิทธิผล 4 แกน (Fact-based ต้องมีจุดอ่อนจริงๆ ไม่ใช่ 100% ทุกข้อ)","แนวทางปรับปรุง RM ล้อไปกับวิสัยทัศน์/ยุทธศาสตร์ใหม่ขององค์กร","ประเมินว่ากระบวนการปรับปรุงระบบ RM นี้เอง \"เวิร์คหรือไม่\" นำไปแก้ปีถัดไป"],good:["มี SIPOC 5 ขั้นตอนตาม PDCA ชัดเจน","ครอบคลุมทั้งกระบวนการ/วัฒนธรรม/ศักยภาพ","ลงมือปฏิบัติจริง: ทบทวนนโยบาย GRC ปรับช่องทางสื่อสาร"],gaps:["TRIS ตัด L3: ประเมินตัวเองได้ 100% = ไม่สะท้อนความจริง ทำให้ไม่มีอะไรให้ Check & Act","ขาดหลักฐาน: นำข้อบกพร่องจากการประเมินมาสร้าง RM Improvement Plan จริงๆ"],results:["(L1-2) มี SIPOC ปรับปรุงครบ","(L3) อ้างว่าประเมินประสิทธิผล 100% ทุกขั้นตอน","(L5) อ้างเชื่อมกับการปรับปรุงแผนงาน"],tris:[],suggest:["ทำแบบประเมินตามความจริง: ถ้า \"สื่อสารยังไม่ทั่วถึง\" → ให้แต้ม 70% ไม่ใช่ 100%","นำ Pain Points มาเขียน RM Improvement Plan ปีถัดไป ให้ผู้ประเมินเห็น Act จริงๆ","ตรวจสอบ SIPOC: ต้องมีทั้ง 3 แกน Process + Culture + Capability ครบ"],docs:["รายงานประเมินประสิทธิผล (Fact-based): แสดงคะแนนตามจริง พร้อม Pain Points","RM Improvement Plan ปีถัดไป: นำจุดอ่อนมาเป็นโจทย์ปรับปรุง","Cross-reference: แนวทางปรับปรุง RM ↔ ยุทธศาสตร์ใหม่"],bestprac:["กทพ. (3.0000 Best Practice): ประเมินประสิทธิผลทุกขั้นตอนครบ 4 แกน แต่ก็ถูกแนะนำให้เชื่อมกับยุทธศาสตร์ด้วย","Quick Win: เปลี่ยนแบบประเมินจากติ๊ก 100% → ใส่ตัวเลขจริง พร้อม Comment Pain Points"],minReqs:{"1":["SIPOC/คู่มือกระบวนการปรับปรุง RM ครอบคลุม Process + Culture + Capability (ต้องครบ 3 แกน)"],"2":["รายงานผลการดำเนินงานตามแผนปรับปรุง (ครบทุกขั้นตอน)","คู่มือ RM ฉบับอัปเดต หรือนโยบาย GRC ฉบับทบทวน"],"3":["แบบประเมินประสิทธิผล (4 แกน: Input/Process/Output/Time) ที่สะท้อนปัญหาจริง ไม่ใช่ 100% ทุกข้อ"],"4":["Cross-reference: แนวทางปรับปรุง RM ↔ แผนวิสาหกิจ/วิสัยทัศน์/Corporate KPI","รายงานประชุมบอร์ดเห็นชอบแนวทางที่สอดคล้องยุทธศาสตร์ใหม่"],"5":["รายงานประเมินประสิทธิผลกระบวนการ \"ปรับปรุง RM\" เอง","RM Development Plan ปีถัดไป จาก Pain Points"]},subComps:{}},
+  {id:"5.1",grp:"5",gname:"ข้อมูล การสื่อสาร และการรายงาน (Information & Reporting)",gw:20,gs68:1.9,name:"ข้อมูลสารสนเทศ การสื่อสาร และการรายงาน RM",w:5,s68:2,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมินการสื่อสารและสร้างความตระหนัก RM: กำหนดช่องทาง Online/Offline → ครอบคลุมทุกกลุ่ม → ผลสำรวจดีขึ้น → บูรณาการ HCM/DT → ประเมินประสิทธิผล 4 แกน",levelSumm:["มี SIPOC/คู่มือ ช่องทางสื่อสาร และแบบสำรวจทัศนคติ/ความตระหนัก","สื่อสารและสำรวจจริงครอบคลุมทุกกลุ่ม (Risk Owner/ผู้บริหาร/พนักงาน)","ผลสำรวจ \"บรรลุเป้าหมาย\" และ \"ดีขึ้นกว่าปีก่อน\" (Hard Gate)","นำผลสำรวจปรับปรุงช่องทาง เชื่อมกับ HR Training Plan และ DT Digital Plan","ประเมินประสิทธิผลกระบวนการสื่อสาร 4 แกน"],good:["มี 11 ช่องทางสื่อสาร ทั้ง Online/Offline","ใช้ Google Site เป็นช่องทางใหม่","ผลสำรวจ 74-78% ความตระหนัก"],gaps:["Hard Gate L3: ผลสำรวจยัง \"ไม่บรรลุเป้าหมาย\" ที่ตั้งไว้","การเชื่อมกับ HR/DT ยังเป็นภาพกว้าง ไม่ใช่ Action จริงๆ"],results:["(L1-2) มีช่องทางสื่อสาร 11 ช่อง ใช้ Google Workspace สำรวจทัศนคติครอบคลุม","(L5) อ้างว่าทำงานร่วมกับ HCM/DT และประเมินประสิทธิผล 100%"],tris:[],suggest:["ยกระดับผลสำรวจให้ทะลุเป้า: กำหนดเป้าชัด เช่น \"ความตระหนัก ≥ 85%\"","สร้าง Joint-Document: HR/DT/สสค. ระบุเนื้อหาการสื่อสาร RM ผ่านช่องทาง IT","ทำ Action จริงจาก Integration: เช่น พบว่าพนักงานไม่เข้าใจ IT Risk → ส่งให้ HR ตั้งหลักสูตร + DT สร้างหน้า Google Site ใหม่"],docs:["รายงานผลสำรวจ: แสดงกราฟ \"ปีนี้ > ปีก่อน\" ทะลุเป้า","Joint-Document: HR/DT/สสค. ระบุการใช้ช่องทาง IT พัฒนาสมรรถนะ RM","รายงานประเมินประสิทธิผลกระบวนการสื่อสาร (4 แกน)"],bestprac:["กทท. ดีกว่า รฟม. (1.6167): กทท. มีพื้นฐานกระบวนการสื่อสารดีกว่า","กทพ. (2.7000 Best Practice): ผลสำรวจ 4.01 ดีขึ้นกว่าปีก่อน โชว์ได้ชัดเจน","Quick Win: พิสูจน์ผลสำรวจ > ปีก่อนและทะลุเป้า = ปลดล็อค L3"],minReqs:{"1":["SIPOC/คู่มือกระบวนการสื่อสาร RM","แบบฟอร์มสำรวจทัศนคติ/พฤติกรรม/วัฒนธรรม RM"],"2":["หลักฐานสื่อสารผ่านช่องทางต่างๆ (Intranet/Website/Facebook/Line/Google Site)","หลักฐานส่งแบบสำรวจถึงกลุ่มเป้าหมาย"],"3":["รายงานสรุปผลสำรวจ","ตาราง: ผลคะแนนปีนี้ > ปีก่อน ชัดเจน (Hard Gate)"],"4":["Cross-reference: การปรับปรุงช่องทาง ↔ HR Training Plan","Cross-reference: ช่องทาง IT ↔ DT Digital Plan"],"5":["รายงานประเมินประสิทธิผลกระบวนการสื่อสาร (4 แกน: Input/Process/Output/Time)"]},subComps:{}},
+  {id:"5.2",grp:"5",gname:"ข้อมูล การสื่อสาร และการรายงาน (Information & Reporting)",gw:20,gs68:1.9,name:"ติดตาม ประเมิน และรายงานผล RM/IC/วัฒนธรรม",w:5,s68:2,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมินกลไก \"รายงานผล\": ครอบคลุม Mitigation Plan + Existing Control รายไตรมาส → ส่ง ปค. ตามกำหนด → บอร์ดให้ข้อสังเกต → ใช้ IT ช่วยรายงาน → เชื่อมกับ Action Plan และ EWS → ปรับปรุงกระบวนการรายงาน",levelSumm:["รายงาน Mitigation + Control รายไตรมาส ส่ง ปค. ตรงเวลา","บอร์ดให้ข้อสังเกต/สั่งการ Risk Owner ชี้แจงและทำแนวทางแก้ไขกลับ","ใช้ระบบ IT (AppSheet/Dashboard) สนับสนุนการรายงาน","รายงาน RM เชื่อมกับ Action Plan และ EWS แจ้งเตือนก่อนสถานการณ์วิกฤต","ทบทวนปัญหากระบวนการรายงาน นำ IT มาลดภาระเอกสาร"],good:["รายงาน Mitigation Plan + Control รายไตรมาสต่อบอร์ดความเสี่ยง","ส่ง ปค. ตามหลักเกณฑ์กระทรวงการคลังครบ","บอร์ดให้ข้อสังเกตและเชิญ Risk Owner ชี้แจง"],gaps:["Silo Reporting: รายงาน RM ยัง \"แยกส่วน\" ไม่ผนวกกับ Action Plan และ Performance ภาพรวม","EWS: ยังไม่มี Trigger Point จริงๆ — EWS ต้องแจ้งเตือน \"ก่อน\" ไม่ใช่รายงาน \"หลัง\""],results:["(L1-2) ครบถ้วน รายงานรายไตรมาส บอร์ดมีส่วนร่วม","(L3) ใช้ AppSheet รายงานผล มี Dashboard","(L5) อ้างว่าลดขั้นตอนเอกสาร ทบทวนกระบวนการ"],tris:[],suggest:["ปรับตารางรายงาน Q: รวม \"ผลความเสี่ยง + Action Plan + Corporate Performance\" ในหน้าเดียว","พัฒนา EWS: ตั้ง Trigger Point ดึงข้อมูลอัตโนมัติจาก VIS/SAP แจ้งเตือนก่อนตกเกณฑ์","ทำ IT Architecture Diagram แสดงว่าระบบ RM ดึงข้อมูลจากฐานข้อมูลหลักช่องทางใดบ้าง"],docs:["รายงาน RM รายไตรมาส (รูปแบบใหม่): รวม Risk + Action Plan + Performance","IT Architecture Diagram: แสดงเส้นดึงข้อมูลจาก VIS/SAP/HRIS เข้าระบบ RM","รายงาน EWS: แสดง Trigger Point และการแจ้งเตือนก่อนวิกฤต"],bestprac:["กทพ.: ถูกแนะนำเช่นกันให้เชื่อม RM กับ Action Plan และ Performance","รฟม.: รายงานดี ครอบ 3 ประเด็น: สาเหตุ/ปัญหา/แนวทางแก้ไข"],minReqs:{"1":["รายงาน RM รายไตรมาส (Mitigation + Existing Control)","หลักฐานส่ง ปค. ตรงเวลา"],"2":["รายงานประชุมบอร์ดความเสี่ยง: มี \"ข้อสังเกต/ข้อเสนอแนะ/สั่งการ\"","บันทึกชี้แจงและแนวทางแก้ไขจาก Risk Owner"],"3":["Screen Capture Dashboard AppSheet/ระบบ RM ที่ใช้งานได้จริง"],"4":["ตาราง: ผลความเสี่ยง ↔ ความคืบหน้า Action Plan","รายงาน EWS ที่แจ้งแนวโน้มความเสี่ยง \"ก่อน\" สถานการณ์วิกฤต (ไม่ใช่รายงานย้อนหลัง)"],"5":["รายงานประเมินปัญหากระบวนการรายงาน (แบบสำรวจความพึงพอใจ)","หลักฐานการปรับปรุงระบบ (เช่น ลดขั้นตอนอนุมัติเอกสาร)"]},subComps:{}},
+  {id:"5.3",grp:"5",gname:"ข้อมูล การสื่อสาร และการรายงาน (Information & Reporting)",gw:20,gs68:1.9,name:"ข้อมูลและเทคโนโลยีสนับสนุน RM (Digital RM & EWS)",w:6,s68:1.6667,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมินการนำ Digital มาเป็นแกนหลัก RM: มีกระบวนการพัฒนาระบบ → EWS ที่ใช้งานได้จริง (Go-Live ไม่ใช่แค่แผน) → ผู้ใช้งานครบ → บรรจุใน Digital Action Plan → ประเมินความพึงพอใจ",levelSumm:["มี SIPOC กระบวนการพัฒนาระบบ IT RM และ EWS สอดคล้องเป้าหมายองค์กร","ระบบ RM และ EWS ใช้งานได้จริง — EWS ต้อง Go-Live ดึงข้อมูลและแจ้งเตือนได้จริง","สื่อสารและผลักดันให้ทุกหน่วยงาน (Risk Owner) เข้าใช้งานระบบครบถ้วน","โครงการ Digital RM และ EWS บรรจุใน \"Digital Action Plan\" อย่างเป็นทางการ","ประเมินความพึงพอใจผู้ใช้ระบบ นำ Pain Points ไปพัฒนา Phase ถัดไป"],good:["ใช้ Google Workspace (AppSheet) พัฒนาระบบ Digital RM","ผลสำรวจความพึงพอใจผู้ใช้ 4.20-4.25/5","มี SIPOC กระบวนการพัฒนาชัดเจน"],gaps:["EWS Execution Trap: EWS ยังอยู่ใน \"ขั้นตอนหารือกับ IT\" ไม่ใช่ Go-Live — TRIS ตัด L2","AppSheet = Manual Input ยังไม่ใช่ Automated Data Fetching จากฐานข้อมูลหลัก"],results:["(L1) มี SIPOC กระบวนการพัฒนาระบบ","(L3) AppSheet ใช้งานได้ ผู้ใช้ 1,552 คน","(L5) ประเมินความพึงพอใจ นำข้อมูล 4 ปีมาพัฒนา"],tris:[],suggest:["เร่งคลอด EWS ให้ Go-Live: ตั้ง Trigger Point ดึงข้อมูลอัตโนมัติจาก VIS/SAP","สร้าง Data Architecture Diagram: แสดงเส้นดึงข้อมูล (API) จาก Data Lake/ระบบหลักมาที่ EWS","บรรจุโครงการ EWS ใน Digital Action Plan ให้ได้รับงบประมาณและผลักดันเป็น Digital Transformation"],docs:["EWS User Manual + Screen Capture: แสดง Trigger Point และ Alert จริง","Data Architecture Diagram: เส้นเชื่อม VIS/SAP/HRIS → ระบบ EWS","Digital Action Plan: บรรจุโครงการ EWS เป็นโครงการ Digital Transformation จริง"],bestprac:["กทพ.: ใช้ Big Data/Data Warehouse ดึงข้อมูล SAP มาคำนวณ Severity โดยตรง","EWS = กุญแจดอกเดียวที่ปลดล็อค L2 ทันที — Go-Live คือสิ่งเดียวที่ต้องทำ"],minReqs:{"1":["SIPOC/คู่มือกระบวนการพัฒนาระบบ RM และ EWS"],"2":["Screen Capture Dashboard ระบบ RM ที่เปิดใช้งานจริง","Screen Capture/Log ยืนยัน EWS Go-Live ดึงข้อมูลและแจ้งเตือนได้จริง (ไม่ใช่แค่กระดาษแผนงาน)"],"3":["บันทึก/อีเมลแจ้งเวียน Risk Owner ใช้ระบบ","Log สถิติการ Log-in เข้าระบบ"],"4":["Digital Action Plan: มีชื่อโครงการ Digital RM และ EWS บรรจุอยู่"],"5":["ผลสำรวจความพึงพอใจผู้ใช้ระบบ RM","RM System Upgrade Plan: แผนพัฒนา Phase ถัดไปจาก Pain Points"]},subComps:{}},
+  {id:"5.4",grp:"5",gname:"ข้อมูล การสื่อสาร และการรายงาน (Information & Reporting)",gw:20,gs68:1.9,name:"บริหารความต่อเนื่องทางธุรกิจ (Business Continuity Management)",w:4,s68:2,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมินการรับมือกับภาวะวิกฤต: มี BCM Policy/BCP → ทำ RA และ BIA (RTO/RPO/Inter-dependency) ครบทุกหน่วยงาน → ซ้อมแผน → สำรวจ Stakeholder ทั้งใน/นอก (รวม Supplier/Partner) → บูรณาการ BCP IT/DRP → ตรวจสอบโดย IA/ISO",levelSumm:["มี BCM Policy/BCP ที่บอร์ดอนุมัติ มีคณะทำงาน BCM ครอบคลุมทุกสายงาน","ทำ RA และ BIA (RTO/RPO/MTPD/Inter-dependency) ครบทุกหน่วยงาน","ซ้อมแผน BCP จริง สำรวจการรับรู้ครอบคลุม \"Supplier/Partner ภายนอก\"","เชื่อม BCM กับ BCP IT/DRP มีตัวชี้วัด Outcome ของการกู้คืน IT","ตรวจสอบภายใน + ISO 22301 ยืนยัน นำข้อบกพร่องมาแก้ไข"],good:["ได้รับรอง ISO 22301:2019","ทำ BIA ครอบคลุม 90 หน่วยงาน 4 พื้นที่ 5 ท่าเรือ","ซ้อมแผน Walkthrough Testing และ Table Top ทั้ง Operational และ IT"],gaps:["Stakeholder Blind Spot: หลักฐานสำรวจ \"Supplier/Partner\" ยังไม่ชัดเจนพอ","BIA Inter-dependency: ต้องลากเส้นพึ่งพาระหว่างหน่วยงาน","IT Outcome: \"ซ้อมแผนสำเร็จ 100%\" = Output ไม่ใช่ Outcome"],results:["(L1-2) มีนโยบาย BCP บอร์ดอนุมัติ BIA ครบ มีซ้อมแผน","(L3) อ้างว่า Stakeholder ภายนอกพึงพอใจ 86.40%","(L4-5) มี IT BCP ทบทวน PDCA แนบ ISO 22301"],tris:[],suggest:["ขยายแบบสำรวจ BCM ให้ครอบคลุม Supplier/Partner ภายนอกอย่างชัดเจน","เพิ่ม Inter-dependency ใน BIA: ลากเส้นพึ่งพาระหว่างหน่วยงาน","ปรับตัวชี้วัด BCP IT: จาก \"ซ้อมสำเร็จ %\" เป็น \"มูลค่าความเสียหายที่ป้องกันได้ / RTO จริงเทียบ Target\""],docs:["BIA ฉบับสมบูรณ์: RTO/RPO/MTPD + Inter-dependency ชัดเจน","รายงานสำรวจ BCM Awareness: แยกกลุ่ม พนักงาน/ลูกค้า/Supplier/Partner","DRP Outcome Report: ตัวชี้วัด Outcome การกู้คืนระบบ IT สำคัญ"],bestprac:["ISO 22301 ทำให้ผ่าน L1-2 สบาย แต่ L3+ ต้องพิสูจน์ Outcome ไม่ใช่แค่ Output","องค์กรชั้นนำ L4-5: โชว์ \"Supply Chain Continuity\" ซ้อมแผนร่วมกับ Supplier มี IT สำรองกู้คืน Real-time"],minReqs:{"1":["คู่มือ BCM และ BCP ที่บอร์ดอนุมัติ","คำสั่งแต่งตั้งคณะทำงาน BCM ทุกสายงาน"],"2":["รายงาน RA: ระบุสถานการณ์ภัยคุกคาม","BIA ทุกหน่วยงาน: RTO/RPO/MTPD + Inter-dependency (ลากเส้นพึ่งพาระหว่างหน่วยงาน)"],"3":["รายงานผลซ้อมแผน BCP (Table Top/Walkthrough)","รายงานสำรวจการรับรู้ BCM ของ \"Supplier/Partner ภายนอก\""],"4":["ตาราง: BCP องค์กร ↔ BCP IT/DRP","รายงานซ้อมแผน BCP IT/DRP + ตัวชี้วัด Outcome การกู้คืน IT"],"5":["รายงาน Internal Audit ด้าน BCM","ใบรับรอง ISO 22301 + รายงานแก้ไขข้อสังเกต (CAR)"]},subComps:{}}
+  ]
+}};
+const CROSS_LINKS={
+"1.1":{"1":["CG"],"2":["HCM","SCM"],"3":["DT","IA"],"4":["CG"],"5":["SP","RM 4.2"]},
+"1.2":{"1":["RM เอง"],"2":["HCM"],"3":["RM เอง"],"4":["IA","CG"],"5":["SP","HCM"]},
+"1.3":{"1":["RM เอง","CG"],"2":["CG"],"3":["HCM"],"4":["HCM","DT"],"5":["HCM","RM เอง"]},
+"1.4":{"1":["HCM"],"2":["CG","SP"],"3":["HCM","RM เอง"],"4":["HCM","DT","KM/IM"],"5":["HCM","RM เอง"]},
+"1.5":{"1":["HCM"],"2":["RM เอง","HCM"],"3":["RM เอง (กระจายสายงาน)"],"4":["SP","HCM"],"5":["HCM"]},
+"2.2":{"1":["SP","SCM"],"2":["SP","SCM"],"3":["SCM"],"4":["SP","HCM","DT","CG"],"5":["SP","RM เอง"]},
+"2.4":{"1":["SP"],"2":["SP"],"3":["RM เอง","SP"],"4":["SP"],"5":["KM/IM","SP"]},
+"3.1":{"1":["SP","SCM"],"2":["RM เอง"],"3":["RM เอง (สู่สายงาน)"],"4":["IA"],"5":["RM เอง"]},
+"3.2":{"1":["RM เอง"],"2":["RM เอง (สู่สายงาน)"],"3":["RM เอง"],"4":["DT","SP"],"5":["IA","RM เอง"]},
+"3.3":{"1":["DT","SP","SCM"],"2":["DT","SP","SCM"],"3":["RM เอง (สู่ Risk Owner)"],"4":["DT"],"5":["SP","RM เอง"]},
+"3.4":{"1":["RM เอง (จาก 3.3)"],"2":["RM เอง"],"3":["RM เอง (สู่รายงาน)"],"4":["SP","RM 2.2"],"5":["RM เอง"]},
+"3.5":{"1":["RM เอง (จาก 3.4)"],"2":["RM เอง"],"3":["RM เอง (จาก 3.2)"],"4":["SP","RM 3.6"],"5":["RM เอง"]},
+"3.6":{"1":["RM เอง (จาก 3.1-3.3)"],"2":["RM เอง"],"3":["SP","CG"],"4":["DT","RM 3.5"],"5":["RM เอง"]},
+"4.1":{"1":["RM เอง"],"2":["RM เอง"],"3":["RM เอง"],"4":["SP","HCM","DT"],"5":["RM 4.2"]},
+"4.2":{"1":["RM เอง (จาก 1.1-4.1)"],"2":["RM เอง"],"3":["RM เอง"],"4":["SP","HCM"],"5":["RM เอง → 1.1 ปีถัดไป"]},
+"5.1":{"1":["RM เอง"],"2":["RM เอง"],"3":["RM เอง"],"4":["HCM","DT"],"5":["RM เอง"]},
+"5.2":{"1":["RM เอง","IA"],"2":["RM เอง"],"3":["DT"],"4":["SP"],"5":["RM เอง"]},
+"5.3":{"1":["DT"],"2":["DT"],"3":["RM เอง","HCM"],"4":["DT"],"5":["RM เอง"]},
+"5.4":{"1":["RM เอง"],"2":["RM เอง"],"3":["SCM"],"4":["DT"],"5":["IA"]}
+};
+const DIM_COL={"SP":"#1e3a5c","HCM":"#0d7377","SCM":"#b8862f","DT":"#4c51bf","KM":"#276749","CG":"#7b2d3e","RM&IC":"#64748b","IA":"#6b46c1","IM":"#c2610f","CM":"#0a8a7a"};
+
+// ── STATE ────────────────────────────────────────────────────────────
+let rmMrChk={};   // rmMrChk[sid][L][ri] = bool — minReqs gating
+let rmScChk={};   // rmScChk[sid][L][si] = bool — subComps partial credit
+let rmDimMlt={};  // rmDimMlt[sid][L] = 0|0.5|1.0 — fallback when no subComps
+let docCk={};let feInput={};let clChecked={};
+let targets={rm:{}};let focusId=null;
+
+DATA.rm.subs.forEach(s=>{
+  rmMrChk[s.id]={};rmScChk[s.id]={};rmDimMlt[s.id]={};
+  targets.rm[s.id]=s.s68;
+  for(let L=1;L<=5;L++){
+    rmMrChk[s.id][L]={};
+    rmScChk[s.id][L]=(s.subComps&&s.subComps[L])?s.subComps[L].map(()=>false):[];
+    rmDimMlt[s.id][L]=0;
+  }
+});
+
+// ── LOAD ─────────────────────────────────────────────────────────────
+function loadState(){
+  try{
+    const d=JSON.parse(localStorage.getItem(LS_KEY)||'{}');
+    if(d.mr)Object.assign(rmMrChk,d.mr);
+    if(d.sc)Object.assign(rmScChk,d.sc);
+    if(d.dm)Object.assign(rmDimMlt,d.dm);
+    if(d.cl)Object.assign(clChecked,d.cl);
+    if(d.dc)Object.assign(docCk,d.dc);
+    if(d.fe)Object.assign(feInput,d.fe);
+  }catch(e){}
+  DATA.rm.subs.forEach(s=>{targets.rm[s.id]=rmCalcRaw(s.id)||s.s68;});
+}
+
+// ── SAVE / EXPORT / IMPORT ───────────────────────────────────────────
+function save(){
+  try{localStorage.setItem(LS_KEY,JSON.stringify({mr:rmMrChk,sc:rmScChk,dm:rmDimMlt,cl:clChecked,dc:docCk,fe:feInput}));}catch(e){}
+  syncHomeStatus();
+}
+function exportProgress(){
+  const payload=JSON.parse(localStorage.getItem(LS_KEY)||'{}');
+  payload._exported=new Date().toISOString();payload._dim='SM';
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='SM_progress_'+new Date().toLocaleDateString('th-TH').replace(/\//g,'')+'.json';
+  a.click();
+}
+function importProgress(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const d=JSON.parse(e.target.result);
+      const exp=d._exported?new Date(d._exported).toLocaleString('th-TH'):'ไม่ระบุ';
+      if(!confirm('นำเข้าข้อมูล SM (ส่งออกเมื่อ '+exp+')\nจะทับข้อมูลปัจจุบัน — ยืนยัน?'))return;
+      delete d._exported;delete d._dim;
+      localStorage.setItem(LS_KEY,JSON.stringify(d));
+      loadState();renderAll();
+    }catch(err){alert('ไฟล์ไม่ถูกต้อง');}
+  };
+  reader.readAsText(file);input.value='';
+}
+function syncHomeStatus(){
+  try{
+    const home=JSON.parse(localStorage.getItem('seam_status_69')||'{}');
+    if(!home.sm)home.sm={};
+    DATA.rm.subs.forEach(s=>{
+      const score=rmCalcRaw(s.id);
+      const gc=(s.gaps||[]).length;
+      home.sm[s.id]={level:score,hasOpenGap:gc>0,gapCount:gc};
+    });
+    localStorage.setItem('seam_status_69',JSON.stringify(home));
+  }catch(e){}
+}
+
+// ── SCORING ──────────────────────────────────────────────────────────
+function rmCalcLevel(sid,L){
+  const s=DATA.rm.subs.find(x=>x.id===sid);if(!s)return 0;
+  const mrs=(s.minReqs&&s.minReqs[L])||[];
+  const passedMR=mrs.length===0||mrs.every((_,i)=>!!(rmMrChk[sid]&&rmMrChk[sid][L]&&rmMrChk[sid][L][i]));
+  if(!passedMR)return 0;
+  const scs=(s.subComps&&s.subComps[L])||[];
+  if(scs.length>0){
+    const checked=((rmScChk[sid]&&rmScChk[sid][L])||[]).filter(Boolean).length;
+    return checked/scs.length;
+  }
+  return(rmDimMlt[sid]&&rmDimMlt[sid][L])||0;
+}
+function rmCalcRaw(sid){
+  let total=0;
+  for(let L=1;L<=5;L++){
+    const lScore=rmCalcLevel(sid,L);
+    total+=lScore;
+    if(lScore===0)break;
+  }
+  return Math.min(5,total);
+}
+
+// ── SETTERS ──────────────────────────────────────────────────────────
+function rmToggleMR(sid,L,ri,val){
+  if(!rmMrChk[sid])rmMrChk[sid]={};
+  if(!rmMrChk[sid][L])rmMrChk[sid][L]={};
+  rmMrChk[sid][L][ri]=val;
+  targets.rm[sid]=rmCalcRaw(sid);save();renderAll();
+}
+function rmToggleSC(sid,L,si,val){
+  if(!rmScChk[sid])rmScChk[sid]={};
+  if(!rmScChk[sid][L])rmScChk[sid][L]=[];
+  rmScChk[sid][L][si]=val;
+  targets.rm[sid]=rmCalcRaw(sid);save();renderAll();
+}
+function rmSetDim(sid,L,val){
+  if(!rmDimMlt[sid])rmDimMlt[sid]={};
+  rmDimMlt[sid][L]=parseFloat(val);
+  targets.rm[sid]=rmCalcRaw(sid);save();renderAll();
+}
+function rmClearAll(){
+  DATA.rm.subs.forEach(s=>{
+    rmMrChk[s.id]={};rmScChk[s.id]={};rmDimMlt[s.id]={};
+    [1,2,3,4,5].forEach(L=>{rmMrChk[s.id][L]={};rmScChk[s.id][L]=[];rmDimMlt[s.id][L]=0;});
+    delete docCk[s.id];delete feInput[s.id];delete clChecked[s.id];
+  });
+  try{localStorage.removeItem(LS_KEY);}catch(e){}
+  DATA.rm.subs.forEach(s=>{targets.rm[s.id]=s.s68;});
+  renderAll();
+}
+
+// ── UTILITIES ────────────────────────────────────────────────────────
+function docGetChk(sid,L,i){return !!(docCk[sid]&&docCk[sid][L]&&docCk[sid][L][i]);}
+function feGet(sid,field,key){return(feInput[sid]&&feInput[sid][field]&&feInput[sid][field][key])||'';}
+function feSet(sid,field,key,val){if(!feInput[sid])feInput[sid]={};if(!feInput[sid][field])feInput[sid][field]={};feInput[sid][field][key]=val;save();}
+function feGapClosed(sid,i){const fi=feInput[sid];if(!fi||!fi.gapClosed)return null;return fi.gapClosed.hasOwnProperty(i)?fi.gapClosed[i]:null;}
+function feCopyOut(outId,btn){
+  const el=document.getElementById(outId);if(!el)return;
+  const orig=btn.textContent;
+  if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(el.value).then(()=>{btn.textContent='✓ คัดลอกแล้ว';setTimeout(()=>btn.textContent=orig,1500);}).catch(()=>{el.select();document.execCommand('copy');});}
+  else{el.select();document.execCommand('copy');btn.textContent='✓ คัดลอกแล้ว';setTimeout(()=>btn.textContent=orig,1500);}
+}
+function docToggle(sid,L,i,v){
+  if(!docCk[sid])docCk[sid]={};if(!docCk[sid][L])docCk[sid][L]={};
+  docCk[sid][L][i]=v;save();
+  const inp=document.getElementById(`dck-${sid}-${L}-${i}`);
+  if(inp){const lbl=inp.closest('label');if(lbl){if(v)lbl.classList.add('fb-item-done');else lbl.classList.remove('fb-item-done');}}
+  updateDocProgress(sid);
+}
+function updateDocProgress(sid){
+  const s=DATA.rm.subs.find(x=>x.id===sid);if(!s)return;
+  const mr=s.minReqs||{};let total=0,done=0;
+  [1,2,3,4,5].forEach(L=>{
+    const items=mr[L]||[];total+=items.length;
+    const lvlDone=items.filter((_,i)=>docGetChk(sid,L,i)).length;done+=lvlDone;
+    const cntEl=document.getElementById(`fb-cnt-${sid}-${L}`);
+    if(cntEl){
+      const c=lvlDone===items.length&&items.length>0?'#b45309':lvlDone>0?'#92400e':'#0369a1';
+      cntEl.textContent=`${lvlDone}/${items.length}`;cntEl.style.color=c;
+      const hdEl=cntEl.closest('.doc-lvl-hd');
+      if(hdEl)hdEl.style.background=lvlDone===items.length&&items.length>0?'#e4f5e4':lvlDone>0?'#fef8e0':'rgba(2,132,199,.06)';
+    }
+  });
+  const totalEl=document.getElementById(`fb-total-${sid}`);const fillEl=document.getElementById(`fb-prog-fill-${sid}`);
+  if(totalEl){const c=done===total&&total>0?'#b45309':done>0?'#92400e':'#666';totalEl.textContent=`${done}/${total} เอกสารพร้อมแล้ว`;totalEl.style.color=c;if(fillEl){fillEl.style.width=`${total>0?Math.round(done/total*100):0}%`;fillEl.style.background=c;}}
+}
+let _eu=0;
+function exp(txt,lim=110){
+  if(!txt||txt.length<=lim) return txt||'';
+  const id='ex'+(_eu++);
+  const b='border:none;background:#e8e0f8;cursor:pointer;color:#5a20a0;font-size:10px;padding:0 5px;border-radius:8px;line-height:1.6;white-space:nowrap;';
+  return `<span id="${id}s">${txt.slice(0,lim)}<span style="color:#bbb;">…</span>&nbsp;<button onclick="document.getElementById('${id}s').style.display='none';document.getElementById('${id}f').style.display='inline';" style="${b}">▼ ดูเพิ่ม</button></span><span id="${id}f" style="display:none;">${txt}&nbsp;<button onclick="document.getElementById('${id}f').style.display='none';document.getElementById('${id}s').style.display='inline';" style="${b}">▲ ย่อ</button></span>`;
+}
+function clExpand(id,i){const el=document.getElementById('cls-'+id+'-'+i);const btn=document.getElementById('clb-'+id+'-'+i);if(!el||!btn)return;const collapsed=el.style.webkitLineClamp!=='unset'&&el.style.webkitLineClamp!=='';el.style.webkitLineClamp=collapsed?'unset':'2';btn.textContent=collapsed?'ย่อ ▲':'อ่านเพิ่ม ▼';}
+function fmt(n){return n.toFixed(4);}
+function sClass(st){return st==='เสร็จแล้ว'?'s2':st==='กำลังดำเนินการ'?'s1':'s0';}
+function sIcon(st){return st==='เสร็จแล้ว'?'✓':st==='กำลังดำเนินการ'?'●':'○';}
+function dotColor(s){
+  const t=rmCalcRaw(s.id);const diff=t-s.s68;
+  if(diff>0.5)return 'dg';if(diff>0.01)return 'da';return 'dr';
+}
+function dimBadge(d){
+  const key=d.replace(/^(SP|HCM|SCM|DT|KM|CG|RM&IC|IA|IM|CM).*/,'$1');
+  const col=DIM_COL[key]||'#5a3e8c';
+  return `<a href="${LINK_URL}" target="_blank" class="dim-badge" style="background:${col};text-decoration:none;" title="ดูเอกสารเชื่อมโยง ${d}">${d}</a>`;
+}
+const RM_DEP_TOTAL=(function(){
+  const c={};
+  Object.values(CROSS_LINKS).forEach(lvls=>Object.values(lvls).forEach(dims=>dims.forEach(d=>{
+    const k=d;c[k]=(c[k]||0)+1;
+  })));
+  return c;
+})();
+function renderDepTotal(){
+  const order=['CG','SP','HCM','KM','IM','DT','SCM','CM','RM&IC'];
+  const vals=order.filter(k=>RM_DEP_TOTAL[k]);
+  if(!vals.length)return '';
+  const maxV=Math.max(...vals.map(k=>RM_DEP_TOTAL[k]));
+  return '<div class="dep-count-bar"><span style="font-size:9px;color:#2a6a4a;font-weight:600;flex-shrink:0;margin-right:2px;">📊 RM&IC พึ่งพา:</span>'+
+    vals.map(k=>{
+      const v=RM_DEP_TOTAL[k];const col=DIM_COL[k]||'#5a3e8c';const barW=Math.round(v/maxV*36);
+      return `<span class="dep-pill" style="background:${col};">${k}<span>×${v}</span><span style="display:inline-block;width:${barW}px;height:4px;background:rgba(255,255,255,.45);border-radius:2px;margin-left:3px;"></span></span>`;
+    }).join('')+'</div>';
+}
+
+// ── genScript ─────────────────────────────────────────────────────────
+function genScript(sid){
+  const s=DATA.rm.subs.find(x=>x.id===sid);if(!s)return'';
+  const fi=feInput[sid]||{};const lvlNotes=fi.lvlNotes||{};const gapClosed=fi.gapClosed||{};const gapNotes=fi.gapNotes||{};
+  const mr=s.minReqs||{};
+  const simMax=[5,4,3,2,1].find(L=>rmCalcLevel(sid,L)>=1)||0;
+  const lines=[];
+  lines.push(`รายงานประเมินตนเอง — เกณฑ์ ${sid} ${s.name}`);
+  lines.push(`ระดับที่ผ่านครบ (คาดการณ์): L${simMax||'—'}`);
+  lines.push(`คะแนนดิบสะสม: ${rmCalcRaw(sid).toFixed(4)}/5.0`);
+  lines.push('─'.repeat(60));lines.push('');
+  lines.push(`กทท. ได้ดำเนินการตามหลักเกณฑ์ "${s.name}" โดยมีผลการดำเนินงาน ดังนี้`);lines.push('');
+  [1,2,3,4,5].forEach(L=>{
+    const items=mr[L]||[];if(!items.length)return;
+    const lScore=rmCalcLevel(sid,L);const isPass=lScore>=1;const isPartial=lScore>0&&lScore<1;
+    const lvlTitle=(s.levelSumm&&s.levelSumm[L-1])||`ระดับ ${L}`;
+    const tickedDocs=items.filter((_,i)=>docGetChk(sid,L,i)).map(d=>d.replace('[แก้ไข Gap สำคัญ]','').trim());
+    const note=lvlNotes[L]||'';
+    const scs=(s.subComps&&s.subComps[L])||[];
+    const scChecked=scs.length>0?((rmScChk[sid]&&rmScChk[sid][L])||[]).filter(Boolean).length:null;
+    lines.push(`${isPass?'✓':isPartial?'◐':'○'} ระดับ ${L} — ${lvlTitle}`);
+    if(scChecked!==null)lines.push(`   ประเด็นที่เปิดเผย: ${scChecked}/${scs.length} (${(lScore*100).toFixed(0)}%)`);
+    if(note)lines.push(`   ${note}`);
+    if(tickedDocs.length){lines.push(`   หลักฐานที่เตรียมแล้ว (${tickedDocs.length} รายการ):`);tickedDocs.forEach((d,i)=>lines.push(`   (${i+1}) ${d}`));}
+    lines.push('');
+  });
+  const goods=s.good||[];const results=s.results||[];
+  if(goods.length){lines.push('จุดแข็งขององค์กร:');goods.forEach(g=>lines.push(`• ${g}`));lines.push('');}
+  if(results.length){lines.push('ผลการดำเนินงานที่นำเสนอ:');results.forEach((r,i)=>lines.push(`(${i+1}) ${r}`));lines.push('');}
+  const gaps=s.gaps||[];
+  if(gaps.length){
+    lines.push('ช่องว่างที่ได้รับการเสนอแนะ และสถานะการปิด:');
+    gaps.forEach((gap,i)=>{
+      const cl=gapClosed[i];const gNote=gapNotes[i]||'';
+      const st=cl===true?'✓ ปิดได้แล้ว':cl===false?'○ อยู่ระหว่างดำเนินการ':'— ยังไม่ได้ระบุ';
+      lines.push(`• ${gap}`);lines.push(`  → ${st}${gNote?': '+gNote:''}`);
+    });
+  }
+  return lines.join('\n');
+}
+
+// ── renderSim (SM Sequential Gating) ────────────────────────────────
+function renderSim(s){
+  const sid=s.id;
+  const lvlSc=[];let gated=false;
+  for(let L=1;L<=5;L++){
+    if(gated){lvlSc.push({rv:0,bl:true,passedMR:false,hasSC:false});continue;}
+    const mrs=(s.minReqs&&s.minReqs[L])||[];
+    const passedMR=mrs.length===0||mrs.every((_,i)=>!!(rmMrChk[sid]&&rmMrChk[sid][L]&&rmMrChk[sid][L][i]));
+    const scs=(s.subComps&&s.subComps[L])||[];
+    let rv=0;
+    if(passedMR){
+      if(scs.length>0){
+        const checked=((rmScChk[sid]&&rmScChk[sid][L])||[]).filter(Boolean).length;
+        rv=checked/scs.length;
+      }else{
+        rv=(rmDimMlt[sid]&&rmDimMlt[sid][L])||0;
+      }
+    }
+    lvlSc.push({rv,bl:false,passedMR,hasSC:scs.length>0});
+    if(rv===0)gated=true;
+  }
+  const raw=lvlSc.reduce((a,x)=>a+x.rv,0);
+  const wt=raw*(s.w/100);
+  targets.rm[sid]=raw;
+  requestAnimationFrame(()=>{
+    const inp=document.getElementById('ti-'+sid);
+    if(inp){inp.value=fmt(targets.rm[sid]);inp.style.borderColor=raw>=4?'#2a8a4a':raw>=3?'#5a8a00':raw>=2?'#c07000':'#c03020';}
+  });
+
+  function countMR(L){const mrs=(s.minReqs&&s.minReqs[L])||[];let t=0,c=0;mrs.forEach((_,ri)=>{t++;if(rmMrChk[sid]&&rmMrChk[sid][L]&&rmMrChk[sid][L][ri])c++;});return{tot:t,chk:c};}
+
+  const allDimsSet=[];
+  for(let _l=1;_l<=5;_l++){((CROSS_LINKS[sid]&&CROSS_LINKS[sid][_l])||[]).forEach(d=>{if(!allDimsSet.includes(d))allDimsSet.push(d);});}
+  const crossSumm=allDimsSet.length?`<div class="crosslink-summ">🔗&nbsp;<strong style="margin-right:4px;">ต้องร่วมมือ:</strong>${allDimsSet.map(dimBadge).join(' ')}</div>`:'';
+  const gapL=s.s68>0?(s.s68===Math.floor(s.s68)?s.s68+1:Math.ceil(s.s68)):1;
+
+  let lvlHTML='';
+  lvlSc.forEach((ls,i)=>{
+    const L=i+1;
+    const summ=(s.levelSumm&&s.levelSumm[L-1])||'';
+    const detail=(s.dimLevels&&s.dimLevels[L-1])||'';
+    const mrs=(s.minReqs&&s.minReqs[L])||[];
+    const scs=(s.subComps&&s.subComps[L])||[];
+    const ints=(CROSS_LINKS[sid]&&CROSS_LINKS[sid][L])||[];
+    const{tot,chk}=countMR(L);
+    const rv=ls.rv;
+    const hdBg=ls.bl?'#eee8f8':rv>=1?'#e4f5e4':rv>0?'#fef8e8':'#f0fffa';
+    const nBg=ls.bl?'#aaa':rv>=1?'#b45309':rv>0?'#2a8a50':'#1a5a3a';
+    const sCol=ls.bl?'#bbb':rv>=1?'#b45309':rv>0?'#2a8a50':'#6aaa88';
+    const barPct=tot>0?Math.round(chk/tot*100):0;
+    const xId=`cgx-${sid}-${L}`;
+    const xBtn=detail?`<button class="cg-toggle" onclick="event.stopPropagation();var e=document.getElementById('${xId}'),b=this;e.classList.toggle('open');b.textContent=e.classList.contains('open')?'▲':'▼';">▼</button>`:'';
+    const xPan=detail?`<div id="${xId}" class="cg-lvl-detail">${detail}</div>`:'';
+    let mrH='';
+    if(mrs.length){
+      mrH=`<div class="cg-sect-lbl">🔒 หลักฐานขั้นต่ำ (L${L}) <span style="color:#b45309;">${chk}/${tot} (${barPct}%)</span></div>
+      <div class="cg-prog-bar"><div class="cg-prog-fill" style="width:${barPct}%;background:${chk===tot?'#b45309':'#2a8a50'};"></div></div>`;
+      mrs.forEach((txt,ri)=>{
+        const kid=`cgmr-${sid}-${L}-${ri}`;const ck=rmMrChk[sid]&&rmMrChk[sid][L]&&rmMrChk[sid][L][ri]?'checked':'';const dis=ls.bl?'disabled':'';
+        mrH+=`<div class="cg-req-item"><input type="checkbox" id="${kid}" ${ck} ${dis} onchange="rmToggleMR('${sid}',${L},${ri},this.checked);" style="accent-color:#b45309;"><label for="${kid}">${txt}</label></div>`;
+      });
+    }
+    let dimH='';
+    if(scs.length>0){
+      const scChecked=((rmScChk[sid]&&rmScChk[sid][L])||[]).filter(Boolean).length;
+      const scPct=Math.round(scChecked/scs.length*100);
+      dimH=`<div class="cg-sect-lbl" style="margin-top:8px;">📊 ประเด็นที่เปิดเผย (L${L}) — <span style="color:#b45309;">${scChecked}/${scs.length} = ${rv.toFixed(4)}</span></div>
+      <div class="cg-prog-bar"><div class="cg-prog-fill" style="width:${scPct}%;background:${scChecked===scs.length?'#b45309':'#2a8a50'};"></div></div>`;
+      scs.forEach((txt,si)=>{
+        const kid=`cgsc-${sid}-${L}-${si}`;const ck=rmScChk[sid]&&rmScChk[sid][L]&&rmScChk[sid][L][si]?'checked':'';const dis=ls.bl||!ls.passedMR?'disabled':'';
+        dimH+=`<div class="cg-req-item"><input type="checkbox" id="${kid}" ${ck} ${dis} onchange="rmToggleSC('${sid}',${L},${si},this.checked);" style="accent-color:#b45309;"><label for="${kid}">${txt}</label></div>`;
+      });
+    }else{
+      const dis=ls.bl?'disabled':'';
+      dimH=`<div class="cg-sect-lbl" style="margin-top:8px;">📐 มิติที่ประเมิน (L${L})</div><div class="cg-radio-grp">`;
+      [[0,'0 — ไม่ครบตามเกณฑ์'],[0.5,'0.5 — ทำได้บางส่วน'],[1,'1.0 — ครบตามมิติที่ประเมิน']].forEach(([v,lbl])=>{
+        const ck=(rv===v)?'checked':'';const col=v===1?'#b45309':v===0.5?'#c07000':'#c03020';
+        dimH+=`<label style="padding:3px 6px;border-radius:5px;background:${ck?(v===1?'#e0f5e8':v===0.5?'#fef8e0':'#fee8e8'):'transparent'};border:1px solid ${ck?col:'transparent'};color:${ck?col:'#444'};font-weight:${ck?'700':'400'};cursor:${ls.bl?'not-allowed':'pointer'};"><input type="radio" name="cgdim-${sid}-${L}" value="${v}" ${ck} ${dis} onchange="rmSetDim('${sid}',${L},${v});" style="accent-color:${col};flex-shrink:0;"> ${lbl}</label>`;
+      });
+      dimH+='</div>';
+    }
+    const dimStrip=ints.length?`<div class="lvl-dim-strip">${ints.map(dimBadge).join(' ')}</div>`:'';
+    lvlHTML+=`<div class="cg-lvl-row${ls.bl?' blocked':L===gapL?' is-gap':''}">
+      <div class="cg-lvl-hd" style="background:${hdBg};">
+        <span class="cg-lvl-num" style="background:${nBg};">L${L}</span>
+        <span class="cg-lvl-summ"><span class="kt">${summ}</span>${(!ls.bl&&L===gapL)?'&nbsp;<span class="dim-gap-tag">⚠️ ช่องว่าง</span>':''}</span>
+        <span style="display:flex;gap:3px;align-items:center;flex-shrink:0;">${xBtn}<span style="font-size:10px;font-weight:700;color:${sCol};min-width:28px;text-align:right;">${ls.bl?'—':rv.toFixed(2)}</span></span>
+      </div>
+      ${dimStrip}${xPan}
+      <div class="cg-lvl-body">
+        ${mrH}<div${!ls.passedMR&&mrs.length?' style="pointer-events:none;opacity:.5;"':''}>${dimH}</div>
+      </div>
+    </div>`;
+  });
+
+  return `<div class="cg-sim">
+    <div class="cg-sim-hd">
+      <span style="font-size:11px;padding:2px 8px;border-radius:6px;background:var(--navy);color:#fff;">RM&amp;IC</span>
+      &nbsp;Sequential Gating Simulator — minReqs + SubComps
+      <span style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+        <button onclick="if(confirm('ล้างข้อมูลทั้งหมด?'))rmClearAll()" style="font-size:11px;padding:3px 10px;border:1px solid #e0a0a0;border-radius:5px;background:#fee8e8;cursor:pointer;color:#b03020;font-weight:600;">🗑 ล้างข้อมูล</button>
+        <span style="font-size:11px;font-weight:700;color:#0a4a2a;">${raw.toFixed(4)}/5.0</span>
+      </span>
+    </div>
+    <div class="cg-scope-box">${s.scopeNote||''}</div>
+    ${crossSumm}
+    ${lvlHTML}
+    <div class="cg-total-bar">
+      <span class="cg-total-lbl">คะแนนดิบสะสม (0–5)</span>
+      <span class="cg-raw">${raw.toFixed(4)}</span>
+      <span class="cg-wt">× ${s.w}% = <strong>${wt.toFixed(4)} pts</strong></span>
+    </div>
+  </div>`;
+}
+
+// ── renderFrameB ────────────────────────────────────────────────────
+function renderFrameB(s){
+  const mr=s.minReqs||{};const sid=s.id;
+  let total=0,done=0;
+  [1,2,3,4,5].forEach(L=>{const items=mr[L]||[];total+=items.length;items.forEach((_,i)=>{if(docGetChk(sid,L,i))done++;});  });
+  const progPct=total>0?Math.round(done/total*100):0;
+  const progColor=done===total&&total>0?'#b45309':done>0?'#92400e':'#666';
+  let html=`<div class="fb-prog-bar"><span style="font-size:11px;font-weight:600;color:${progColor};" id="fb-total-${sid}">${done}/${total} เอกสารพร้อมแล้ว</span><div class="fb-prog-track"><div id="fb-prog-fill-${sid}" style="height:100%;width:${progPct}%;background:${progColor};transition:width .3s;"></div></div></div>`;
+  [1,2,3,4,5].forEach(L=>{
+    const items=mr[L]||[];if(!items.length)return;
+    const lvlDone=items.filter((_,i)=>docGetChk(sid,L,i)).length;
+    const bdId=`fb-bd-${sid}-${L}`;
+    const lvlTitle=(s.levelSumm&&s.levelSumm[L-1])||`ระดับ ${L}`;
+    const shortTitle=lvlTitle.length>48?lvlTitle.slice(0,48)+'…':lvlTitle;
+    const lvlColor=lvlDone===items.length?'#b45309':lvlDone>0?'#92400e':'#0369a1';
+    const lvlBg=lvlDone===items.length?'#e4f5e4':lvlDone>0?'#fef8e0':'rgba(2,132,199,.06)';
+    const itemsHtml=items.map((item,i)=>{
+      const isGap=item.startsWith('[แก้ไข Gap');const cleanItem=item.replace('[แก้ไข Gap สำคัญ]','').trim();
+      const ckd=docGetChk(sid,L,i);const ckId=`dck-${sid}-${L}-${i}`;
+      return `<label class="fb-item${isGap?' fb-item-gap':''}${ckd?' fb-item-done':''}"><input type="checkbox" id="${ckId}"${ckd?' checked':''} onchange="docToggle('${sid}',${L},${i},this.checked)">${isGap?'<span class="fb-gap-tag">⚠️ Gap</span>':''}<span class="fb-item-text">${cleanItem}</span></label>`;
+    }).join('');
+    html+=`<div class="doc-lvl-block"><div class="doc-lvl-hd" style="background:${lvlBg};" onclick="var e=document.getElementById('${bdId}');e.classList.toggle('open');"><span class="doc-lvl-badge">L${L}</span><span class="doc-lvl-title" style="color:${lvlColor};">${shortTitle}</span><span class="doc-lvl-count" id="fb-cnt-${sid}-${L}" style="color:${lvlColor};font-weight:600;">${lvlDone}/${items.length}</span><span style="font-size:10px;color:#7080b0;">▼</span></div><div class="doc-lvl-body" id="${bdId}">${itemsHtml}</div></div>`;
+  });
+  return html;
+}
+
+// ── renderFrameE ────────────────────────────────────────────────────
+function renderFrameE(s){
+  const sid=s.id;const mr=s.minReqs||{};const gaps=s.gaps||[];const outId=`fe-out-${sid}`;
+  const simMax=[5,4,3,2,1].find(L=>rmCalcLevel(sid,L)>=1)||0;
+  const rawScore=rmCalcRaw(sid);
+  const pills=[1,2,3,4,5].map(L=>{
+    const lv=rmCalcLevel(sid,L);
+    const pass=lv>=1;const partial=lv>0&&lv<1;
+    return `<span style="font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;background:${pass?'#b45309':partial?'#e3a82e':'#e0ddd8'};color:${pass||partial?'#fff':'#888'};">L${L}${partial?' ('+Math.round(lv*100)+'%)':''}</span>`;
+  }).join('');
+  let html=`<div class="fe-sim-row"><span style="font-size:11px;color:var(--text3);">คะแนนดิบ (Simulator):</span><div style="display:flex;gap:4px;flex-wrap:wrap;">${pills}</div><span style="font-size:11px;font-weight:700;color:#b45309;margin-left:auto;">${rawScore.toFixed(4)}/5.0</span></div>`;
+  html+=`<div class="fe-sect-lbl">สิ่งที่ดำเนินการ — กรอกต่อระดับที่ทำได้</div>`;
+  [1,2,3,4,5].forEach(L=>{
+    const items=mr[L]||[];if(!items.length)return;
+    const tickedCnt=items.filter((_,i)=>docGetChk(sid,L,i)).length;
+    const lScore=rmCalcLevel(sid,L);const isPass=lScore>=1;const isPartial=lScore>0;
+    const lvlTitle=(s.levelSumm&&s.levelSumm[L-1])||`ระดับ ${L}`;
+    const short=lvlTitle.length>46?lvlTitle.slice(0,46)+'…':lvlTitle;
+    const note=feGet(sid,'lvlNotes',L);const bdId=`fe-bd-${sid}-${L}`;
+    const badgeBg=isPass?'#b45309':isPartial?'#e3a82e':'#94a3b8';
+    html+=`<div class="fe-lvl-block${isPass?' fe-lvl-active':''}"><div class="fe-lvl-hd" onclick="var e=document.getElementById('${bdId}');e.classList.toggle('open');"><span class="fe-lvl-badge" style="background:${badgeBg};">L${L}</span><span class="fe-lvl-title">${short}</span><span class="fe-doc-ref">📄 ${tickedCnt}/${items.length}</span><span style="font-size:10px;color:#7080b0;">▼</span></div><div class="fe-lvl-body${isPass?' open':''}" id="${bdId}"><textarea class="fe-textarea" rows="3" placeholder="อธิบายสิ่งที่ กทท. ดำเนินการในระดับนี้..." onchange="feSet('${sid}','lvlNotes',${L},this.value)" onblur="feSet('${sid}','lvlNotes',${L},this.value)">${note}</textarea></div></div>`;
+  });
+  if(gaps.length){
+    html+=`<div class="fe-sect-lbl" style="margin-top:12px;">ช่องว่างจาก TRIS — ปิดได้หรือยัง?</div>`;
+    gaps.forEach((gap,i)=>{
+      const cl=feGapClosed(sid,i);const gNote=feGet(sid,'gapNotes',i);
+      html+=`<div class="fe-gap-item"><div class="fe-gap-text">⚠️ ${gap}</div><div class="fe-gap-status"><label class="fe-radio-lbl"><input type="radio" name="gc-${sid}-${i}" value="1"${cl===true?' checked':''} onchange="feSet('${sid}','gapClosed',${i},true)">✓ ปิดได้แล้ว</label><label class="fe-radio-lbl"><input type="radio" name="gc-${sid}-${i}" value="0"${cl===false?' checked':''} onchange="feSet('${sid}','gapClosed',${i},false)">○ อยู่ระหว่างดำเนินการ</label></div><textarea class="fe-textarea" rows="2" placeholder="อธิบายสิ่งที่ทำเพื่อปิด Gap นี้..." onchange="feSet('${sid}','gapNotes',${i},this.value)" onblur="feSet('${sid}','gapNotes',${i},this.value)">${gNote}</textarea></div>`;
+    });
+  }
+  html+=`<div style="margin-top:14px;"><button class="fe-gen-btn" onclick="document.getElementById('${outId}').value=genScript('${sid}');">🔄 Gen Script</button><span style="font-size:11px;color:var(--text3);margin-left:8px;">รวม Simulator + เอกสาร Frame B + Notes ทั้งหมด</span></div><div style="margin-top:8px;"><textarea class="fe-output" id="${outId}" rows="14" placeholder="กด Gen Script เพื่อสร้างคำตอบ — แก้ไขได้ก่อน Copy"></textarea><button class="fe-copy-btn" onclick="feCopyOut('${outId}',this)">📋 Copy ทั้งหมด</button></div>`;
+  return html;
+}
+
+// ── renderRight ──────────────────────────────────────────────────────
+function renderRight(){
+  const body=document.getElementById('rightBody');
+  if(!focusId){body.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#aaa;font-size:13px;">คลิก sub-item ด้านซ้ายเพื่อดูรายละเอียด</div>';return;}
+  const s=DATA.rm.subs.find(x=>x.id===focusId);if(!s){body.innerHTML='';return;}
+  const simHTML=renderSim(s);const tval=targets.rm[s.id];
+  const gA=(s.gaps||[]).map(g=>`<div class="box box-red" style="margin-bottom:4px;">• ${exp(g,90)}</div>`).join('');
+  const rC=(s.results||[]).map(r=>`<div class="match-row m-ok"><span>✓</span><span>${exp(r,80)}</span></div>`).join('');
+  const lC=(s.gaps||[]).slice(0,3).map(g=>`<div class="match-row m-no"><span>✗</span><span style="font-size:10.5px;">${g.split(' —')[0].slice(0,70)}</span></div>`).join('');
+  const dD=(s.actions||[]).map(a=>`<div style="display:flex;align-items:flex-start;gap:5px;font-size:11px;color:#333;padding:3px 0;"><span style="color:#b45309;flex-shrink:0;">→</span><span>${exp(a,100)}</span></div>`).join('');
+  body.innerHTML=`
+    <div style="padding:5px 12px;font-size:11px;background:#e8f5ee;border-bottom:1px solid #c0dac8;display:flex;align-items:center;gap:8px;flex-shrink:0;position:sticky;top:0;z-index:2;">
+      <span style="font-weight:700;color:#0a4a2a;">ข้อ ${s.id}</span>
+      <span style="color:#555;font-size:10.5px;">${s.name}</span>
+      <span style="margin-left:auto;font-size:10px;background:#e0ddd4;color:#444;padding:1px 7px;border-radius:8px;">ปัจจุบัน ${fmt(s.s68)}</span>
+      <span style="font-size:10px;">→</span>
+      <span style="font-size:10px;background:#c5e8d5;color:#0a4a2a;padding:1px 7px;border-radius:8px;font-weight:700;">คำนวณ ${fmt(tval)}</span>
+    </div>
+    ${simHTML}
+    <div class="frame"><div class="frame-hd fa-hd"><span class="ftag fa-tag">A</span><span style="color:#7a1010;">ช่องว่างที่ต้องปิด (TRIS)</span></div><div class="frame-bd">${gA||'<div style="color:#999;">—</div>'}</div></div>
+    <div class="frame"><div class="frame-hd fb-hd"><span class="ftag fb-tag">B</span><span style="color:#102070;">เอกสารลงระบบ — แยกตามระดับ</span><a href="${DOC_DETAIL_URL}" target="_blank" style="margin-left:auto;font-size:9.5px;padding:2px 9px;border-radius:5px;background:#2a4a9a;color:#fff;text-decoration:none;font-weight:600;">📋 ดูทั้งหมด</a></div><div class="frame-bd" style="padding:6px 8px;">${renderFrameB(s)}</div></div>
+    <div class="frame"><div class="frame-hd fc-hd"><span class="ftag fc-tag">C</span><span style="color:#4a4a00;">กทท. ตอบอะไรไป / จุดแข็ง</span></div><div class="frame-bd"><div class="box box-gray" style="margin-bottom:6px;font-size:11px;">${exp((s.good||[''])[0]||'—',100)}</div><div style="font-size:9.5px;color:#888;margin:4px 0 2px;font-weight:600;">ผลที่นำเสนอ:</div>${rC}<div style="font-size:9.5px;color:#888;margin:6px 0 2px;font-weight:600;">ช่องว่างที่ยังขาด:</div>${lC}</div></div>
+    <div class="frame"><div class="frame-hd fd-hd"><span class="ftag fd-tag">D</span><span style="color:#102848;">สิ่งที่ต้องดำเนินการปี 69</span></div><div class="frame-bd">${dD||'<div style="color:#999;">—</div>'}</div></div>
+    <div class="frame" style="border-bottom:none;"><div class="frame-hd fe-hd"><span class="ftag fe-tag">E</span><span style="color:#0a4030;">Self-Assessment Script — ร่างคำตอบระบบ สคร.</span></div><div class="frame-bd" style="padding:6px 8px;">${renderFrameE(s)}</div></div>`;
+}
+
+// ── renderLeft ───────────────────────────────────────────────────────
+function renderLeft(){
+  const body=document.getElementById('leftBody');body.innerHTML='';
+  document.getElementById('dimTitle').textContent=DATA.rm.dimName;
+  document.getElementById('dimOrig').textContent='ปัจจุบัน '+fmt(DATA.rm.orig);
+  document.getElementById('totalLbl').textContent='คะแนนรวม '+DATA.rm.dimId;
+  document.getElementById('totalOrig').textContent=fmt(DATA.rm.orig);
+  const grps=[...new Set(DATA.rm.subs.map(s=>s.grp))];
+  grps.forEach(gid=>{
+    const ss=DATA.rm.subs.filter(s=>s.grp===gid);const first=ss[0];
+    const gs=ss.reduce((a,s)=>a+s.w*targets.rm[s.id],0)/first.gw;
+    const diff=gs-first.gs68;
+    const assessed=ss.filter(s=>rmCalcRaw(s.id)>0).length;
+    const tot=ss.length;const fillPct=Math.round(gs/5*100);
+    const fillCol=gs>=3.5?'#1f9d6f':gs>=2.5?'#e3a82e':'#e2554f';
+    const chkCls=assessed===tot?'chk-all':assessed>0?'chk-part':'chk-none';
+    const chkLbl=assessed===tot?`✓ ครบ ${tot}/${tot}`:`${assessed}/${tot} ข้อย่อย`;
+    const gDiv=document.createElement('div');gDiv.className='grp';
+    gDiv.innerHTML=`<div class="grp-row1"><span class="grp-id">${gid}</span><span class="grp-name">${first.gname}</span><span class="grp-wt">(${first.gw}%)</span><div class="grp-scores"><span class="chip cn" style="font-size:10px;">${fmt(first.gs68)}</span><span style="color:#999;font-size:10px;">→</span><span class="chip ${diff<-0.001?'cr':diff>0.001?'ct':'cn'}" style="font-size:10px;" id="gs-cg-${gid}">${fmt(gs)}</span></div></div><div class="grp-row2"><span class="grp-chk ${chkCls}" id="rollup-chk-${gid}">${chkLbl}</span><span class="grp-score2"><strong id="rollup-gs-${gid}" style="color:${diff>0.001?'#b45309':diff<-0.001?'#c03020':'#555'};">${gs.toFixed(4)}</strong><span id="rollup-delta-${gid}" style="font-size:9px;color:${diff>0.001?'#b45309':diff<-0.001?'#c03020':'#aaa'};">(${diff>=0?'+':''}${diff.toFixed(4)})</span></span><div class="grp-prog"><div class="grp-prog-fill" id="rollup-bar-${gid}" style="width:${fillPct}%;background:${fillCol};"></div></div></div>`;
+    body.appendChild(gDiv);
+    ss.forEach(s=>{
+      const row=document.createElement('div');row.className='sub'+(focusId===s.id?' focus-cg':'');row.id='subrow-'+s.id;
+      row.innerHTML=`<div class="sub-left"><div class="sub-meta"><span class="sub-num">${s.id}</span><span class="sub-name">${s.name}</span><span class="sub-wt">(${s.w}%)</span><span class="sub-now">ปี 68: ${fmt(s.s68)}</span></div></div><div class="sub-target" id="st-${s.id}"><span class="target-lbl">คำนวณ</span><input class="target-inp" id="ti-${s.id}" type="text" value="${fmt(targets.rm[s.id])}" readonly style="border-color:#ccc;"><span class="dot ${dotColor(s)}" id="dot-${s.id}"></span></div>`;
+      row.addEventListener('click',()=>{focusId=s.id;renderAll();});body.appendChild(row);
+      const strip=document.createElement('div');strip.className='sstrip';
+      strip.innerHTML=`<span class="sbadge ${sClass(s.status)}">${sIcon(s.status)} ${s.status}</span><span style="font-size:10px;color:#999;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-left:6px;">${s.statusNote||'ยังไม่มีข้อมูล'}</span>`;
+      strip.addEventListener('click',()=>{focusId=s.id;renderAll();});body.appendChild(strip);
+    });
+  });
+}
+
+// ── renderChecklist ──────────────────────────────────────────────────
+function renderChecklist(){
+  if(!focusId){document.getElementById('clTitle').textContent='เลือก sub-item เพื่อดู Action Checklist';document.getElementById('clItems').innerHTML='';return;}
+  const s=DATA.rm.subs.find(x=>x.id===focusId);if(!s)return;
+  document.getElementById('clTitle').textContent=`Action Checklist — ข้อ ${s.id} · ปัจจุบัน ${fmt(targets.rm[s.id])}`;
+  if(!clChecked[s.id])clChecked[s.id]=(s.actions||[]).map(()=>false);
+  document.getElementById('clItems').innerHTML=(s.actions||[]).map((a,i)=>{
+    const chk=clChecked[s.id][i];
+    const sty=chk?'display:flex;align-items:flex-start;gap:6px;background:#E6F8F1;border-left:3px solid #51BF8E;border-radius:5px;padding:4px 8px;margin-bottom:4px;':'display:flex;align-items:flex-start;gap:6px;background:#FFF0EE;border-left:3px solid #FF6766;border-radius:5px;padding:4px 8px;margin-bottom:4px;';
+    return `<div class="cl-item" id="clrow-${s.id}-${i}" style="${sty}"><input type="checkbox" id="cl-${s.id}-${i}" ${chk?'checked':''} onchange="toggleCL('${s.id}',${i},this.checked)"><label for="cl-${s.id}-${i}" style="flex:1;"><span id="cls-${s.id}-${i}" class="cl-short" style="-webkit-line-clamp:2;">${a}</span><span id="clb-${s.id}-${i}" class="cl-exp-btn" onclick="event.preventDefault();clExpand('${s.id}',${i})">อ่านเพิ่ม ▼</span></label></div>`;
+  }).join('');
+}
+function toggleCL(id,i,val){
+  if(!clChecked[id])clChecked[id]=[];clChecked[id][i]=val;save();
+  const r=document.getElementById('clrow-'+id+'-'+i);if(!r)return;
+  r.style.cssText=val?'display:flex;align-items:flex-start;gap:6px;background:#E6F8F1;border-left:3px solid #51BF8E;border-radius:5px;padding:4px 8px;margin-bottom:4px;':'display:flex;align-items:flex-start;gap:6px;background:#FFF0EE;border-left:3px solid #FF6766;border-radius:5px;padding:4px 8px;margin-bottom:4px;';
+}
+
+// ── updateScores ─────────────────────────────────────────────────────
+function updateScores(){
+  const subs=DATA.rm.subs;const tw=subs.reduce((a,s)=>a+s.w,0);
+  const total=subs.reduce((a,s)=>a+s.w/tw*rmCalcRaw(s.id),0);
+  const delta=total-DATA.rm.orig;
+  document.getElementById('totalChip').textContent='คาดการณ์ '+fmt(total);
+  document.getElementById('totalChip').className='chip '+(delta>0?'ct':delta<0?'cr':'cn');
+  document.getElementById('totalFooter').textContent=fmt(total);
+  document.getElementById('totalFooter').className='chip '+(delta>0?'ct':delta<0?'cr':'cn');
+  document.getElementById('deltaChip').textContent=(delta>=0?'+':'')+fmt(delta)+' pts';
+  document.getElementById('deltaChip').style.color=delta>0?'#1a9a50':delta<0?'#c03020':'#888';
+  document.getElementById('deltaFooter').textContent=(delta>=0?'+':'')+fmt(delta);
+  document.getElementById('deltaFooter').style.color=delta>0?'#5fcf8a':delta<0?'#f0806a':'#888';
+  const grps=[...new Set(subs.map(s=>s.grp))];
+  grps.forEach(gid=>{
+    const ss=subs.filter(s=>s.grp===gid);const first=ss[0];
+    const gs=ss.reduce((a,s)=>a+s.w*targets.rm[s.id],0)/first.gw;
+    const diff=gs-first.gs68;
+    const el=document.getElementById('gs-cg-'+gid);
+    if(el){el.textContent=fmt(gs);el.className='chip '+(diff<-0.001?'cr':diff>0.001?'ct':'cn');}
+    const gsEl=document.getElementById('rollup-gs-'+gid);
+    if(gsEl){gsEl.textContent=gs.toFixed(4);gsEl.style.color=diff>0.001?'#b45309':diff<-0.001?'#c03020':'#555';const dEl=document.getElementById('rollup-delta-'+gid);if(dEl){dEl.textContent='('+(diff>=0?'+':'')+diff.toFixed(4)+')';dEl.style.color=diff>0.001?'#b45309':diff<-0.001?'#c03020':'#aaa';}}
+    const barEl=document.getElementById('rollup-bar-'+gid);if(barEl){barEl.style.width=Math.round(gs/5*100)+'%';barEl.style.background=gs>=3.5?'#1f9d6f':gs>=2.5?'#e3a82e':'#e2554f';}
+    const chkEl=document.getElementById('rollup-chk-'+gid);
+    if(chkEl){const assessed=ss.filter(s=>rmCalcRaw(s.id)>0).length;const tot=ss.length;chkEl.textContent=assessed===tot?`✓ ครบ ${tot}/${tot}`:`${assessed}/${tot} ข้อย่อย`;chkEl.className='grp-rollup-chk '+(assessed===tot?'chk-all':assessed>0?'chk-part':'chk-none');}
+  });
+  subs.forEach(s=>{const d=document.getElementById('dot-'+s.id);if(d)d.className='dot '+dotColor(s);});
+}
+
+function renderAll(){renderLeft();renderRight();renderChecklist();updateScores();}
+loadState();
+renderAll();
+syncHomeStatus();
+(function(){const el=document.getElementById('depTotalBar');if(el)el.innerHTML=renderDepTotal();})();
+</script>
+</body>
+</html>
