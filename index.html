@@ -627,6 +627,7 @@ function openPanel(idx){
   link.href=d.localUrl||d.url;
   link.target='_self';
   link.textContent=`→ เปิด ${d.label} Dashboard`;
+  link.onclick=()=>logAccess('view_dimension','enablers_'+d.label);
 
   document.getElementById('p-issues').innerHTML=d.issues.length
     ?d.issues.map(iss=>`
@@ -692,10 +693,31 @@ function animate(){
   });
 }
 
+/* ── ACCESS LOG — ไม่มี login gate ในหน้านี้ จึงไม่รู้ตัวตนผู้ใช้ (email ว่างเสมอ) ──
+   ใช้ Google Apps Script webhook เดียวกับ PAT-Phet hub / Financial home */
+const LOG_URL = "https://script.google.com/macros/s/AKfycbyiOmQXNYo31FvJ7g33Jmevmj3MhiKq7CAxob_MRtQIh9UGVENBubzQmTgpjuYa5IHhXg/exec";
+function logAccess(action, page, extra) {
+  try {
+    const payload = JSON.stringify(Object.assign({ email: '', action, page }, extra || {}));
+    navigator.sendBeacon(LOG_URL, new Blob([payload], { type: 'text/plain;charset=utf-8' }));
+  } catch (e) {}
+}
+const PAGE_LOAD_TS = Date.now();
+let _durationSent = false;
+function logDuration() {
+  if (_durationSent) return;
+  _durationSent = true;
+  const sec = Math.round((Date.now() - PAGE_LOAD_TS) / 1000);
+  logAccess('duration', 'enablers_hub', { duration: sec });
+}
+document.addEventListener('visibilitychange', () => { if (document.hidden) logDuration(); });
+window.addEventListener('pagehide', logDuration);
+
 /* ── INIT ── */
 document.getElementById('radar-container').innerHTML=buildRadar();
 buildCards();
 setTimeout(animate,60);
+logAccess('page_view', 'enablers_hub');
 </script>
 </body>
 </html>
