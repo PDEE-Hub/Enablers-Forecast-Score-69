@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CBE Enablers — CG การกำกับดูแลกิจการที่ดี ปี 2569</title>
+<style>
+@font-face{font-family:'Anakotmai';font-weight:300;font-style:normal;src:url('https://pdee-hub.github.io/Enablers-Link-Document-69/Anakotmai/webfont/anakotmai-light.woff2') format('woff2');}
+@font-face{font-family:'Anakotmai';font-weight:500;font-style:normal;src:url('https://pdee-hub.github.io/Enablers-Link-Document-69/Anakotmai/webfont/anakotmai-medium.woff2') format('woff2');}
+@font-face{font-family:'Anakotmai';font-weight:700;font-style:normal;src:url('https://pdee-hub.github.io/Enablers-Link-Document-69/Anakotmai/webfont/anakotmai-bold.woff2') format('woff2');}
+</style>
+<style>
+/* ── PAT Chili Bold Editorial ── */
+:root{
+  --bg:#faf6f0;--bg2:#fdf1de;--card:#ffffff;
+  --border:#181410;--border-s:#efe8dc;
+  --text:#181410;--text2:#5c5347;--text3:#9c9184;
+  --navy:#1e3a5c;--gold:#f0a92e;
+  --chili:#b8291c;--chili-d:#8f1f14;
+  --lv1:#b8291c;--lv2:#e8623e;--lv3:#f0a92e;--lv4:#4d9e6e;--lv5:#1f7a4a;
+  --shadow:4px 4px 0 var(--border);
+  --shadow-h:6px 6px 0 var(--border);
+  --radius:12px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Anakotmai',sans-serif;font-size:14px;color:var(--text);line-height:1.6;
+  background-color:var(--bg);
+  background-image:radial-gradient(rgba(24,20,16,.16) 1px, transparent 1px);
+  background-size:16px 16px;
+}
+.sub-num,.sub-wt,.sub-now,.target-inp,.cg-raw,.cg-wt,.doc-file-code,.grp-id,.grp-wt,.cg-sect-lbl,.doc-grp-lbl,.doc-lvl-count{font-family:'Anakotmai',sans-serif;}
+
+/* TOP NAV */
+.top-nav{background:var(--text);color:#fff;padding:0 24px;height:48px;display:flex;align-items:center;gap:8px;}
+.top-nav a{color:rgba(255,255,255,.55);text-decoration:none;font-size:13px;transition:color .15s;}
+.top-nav a:hover{color:#fff;}
+.top-nav h1{font-size:13px;font-weight:800;color:#fff;margin-left:2px;}
+.top-nav .sep{color:rgba(255,255,255,.2);font-size:13px;}
+
+/* HALFTONE DIVIDER */
+.halftone{height:14px;flex-shrink:0;background-image:radial-gradient(var(--text) 2.8px, transparent 2.8px);background-size:10px 10px;background-position:0 -1px;}
+
+/* DIM HEADER — hero band */
+.dim-hd{background:var(--chili);color:#fff;border-bottom:3px solid var(--border);padding:14px 24px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;position:relative;overflow:hidden;}
+.dim-hd::after{content:'🌶️';position:absolute;right:20px;top:50%;transform:translateY(-50%) rotate(12deg);font-size:44px;opacity:.5;filter:drop-shadow(0 2px 2px rgba(0,0,0,.35));pointer-events:none;}
+.dim-hd>*{position:relative;z-index:1;}
+#dimTitle{font-size:16px;font-weight:800;}
+#deltaChip{background:rgba(255,255,255,.92);padding:2px 9px;border-radius:20px;text-shadow:none;}
+
+/* CHIPS */
+.chip{font-size:12px;padding:4px 12px;border-radius:20px;font-weight:700;white-space:nowrap;border:2px solid transparent;}
+.cn{background:#fff;color:var(--text2);border-color:var(--text2);}
+.ct{background:#fff;color:#0f7a3d;border-color:#0f7a3d;}
+.cr{background:#fff;color:var(--chili-d);border-color:var(--chili-d);}
+
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:46% 54%;height:calc(100vh - 111px);overflow:hidden;}
+
+/* LEFT */
+.left{display:flex;flex-direction:column;overflow:hidden;border-right:3px solid var(--border);background:var(--bg);}
+.left-hd{padding:10px 16px;font-size:12px;font-weight:800;display:flex;align-items:center;gap:8px;flex-shrink:0;background:var(--gold);color:var(--text);letter-spacing:.2px;border-bottom:3px solid var(--border);}
+.left-body{flex:1;overflow-y:auto;}
+
+/* GROUP HEADER — 2 rows */
+.grp{display:flex;flex-direction:column;gap:3px;padding:7px 16px;background:var(--bg2);border-bottom:2px solid var(--border-s);border-top:3px solid var(--border);position:sticky;top:0;z-index:2;}
+.grp-row1{display:flex;align-items:center;gap:6px;}
+.grp-row2{display:flex;align-items:center;gap:6px;padding-left:20px;}
+.grp-id{font-size:13px;font-weight:900;color:var(--chili-d);min-width:16px;}
+.grp-name{font-size:12px;font-weight:700;flex:1;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.grp-wt{font-size:11px;color:var(--text3);white-space:nowrap;}
+.grp-scores{display:flex;align-items:center;gap:4px;flex-shrink:0;}
+.grp-chk{font-size:9px;font-weight:700;padding:1px 6px;border-radius:10px;white-space:nowrap;flex-shrink:0;border:1.5px solid var(--border-s);}
+.chk-all{background:#e4f5e4;color:#1a7a4a;}
+.chk-part{background:#fef8e0;color:#92400e;}
+.chk-none{background:#ebe8e0;color:var(--text3);}
+.grp-score2{font-size:10px;color:var(--text2);display:flex;align-items:center;gap:4px;flex:1;white-space:nowrap;}
+.grp-prog{width:48px;height:6px;background:#fff;border:1.5px solid var(--border);border-radius:3px;overflow:hidden;flex-shrink:0;}
+.grp-prog-fill{height:100%;transition:width .3s;}
+
+/* SUB ROWS */
+.sub{display:flex;align-items:stretch;cursor:pointer;border-bottom:1.5px solid var(--border-s);transition:background .12s;background:var(--card);}
+.sub:hover{background:var(--bg2);}
+.sub.focus-cg{background:#fff3e2;border-left:4px solid var(--dim, var(--chili));}
+.sub.focus-cg .sub-target{border-left-color:var(--dim, var(--chili));}
+.sub-left{display:flex;align-items:center;padding:10px 10px 10px 20px;flex:1;min-width:0;}
+.sub-meta{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;min-width:0;}
+.sub-num{font-size:11px;color:var(--text3);flex-shrink:0;}
+.sub-wt{font-size:11px;color:var(--text3);flex-shrink:0;}
+.sub-now{font-size:11px;color:var(--text2);flex-shrink:0;}
+.sub-name{font-size:13px;color:var(--text);flex:1;min-width:0;line-height:1.4;font-weight:500;}
+.dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;border:1.5px solid var(--border);}
+.dg{background:var(--lv5);}.da{background:var(--lv3);}.dr{background:var(--lv1);}
+
+/* TARGET INPUT */
+.sub-target{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px 12px;flex-shrink:0;border-left:2px solid var(--border-s);width:96px;min-width:96px;background:var(--card);}
+.target-lbl{font-size:10px;color:var(--text3);font-weight:600;letter-spacing:.3px;}
+.target-inp{width:78px;font-size:12px;font-weight:800;padding:4px 6px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg2);color:var(--chili-d);text-align:center;transition:border-color .15s,box-shadow .15s;}
+.target-inp:focus{outline:none;border-color:var(--chili);box-shadow:0 0 0 2px rgba(184,41,28,.15);background:#fff;}
+
+/* SSTRIP */
+.sstrip{padding:6px 12px 6px 24px;border-bottom:1.5px solid var(--border-s);display:flex;align-items:center;gap:8px;background:var(--card);cursor:pointer;transition:background .12s;}
+.sstrip:hover{background:var(--bg2);}
+.sbadge{font-size:11px;padding:2px 9px;border-radius:20px;font-weight:700;white-space:nowrap;border:1.5px solid transparent;}
+.s0{background:var(--bg2);color:var(--text3);border-color:var(--border-s);}
+.s1{background:rgba(240,169,46,.18);color:#92400e;border-color:rgba(240,169,46,.4);}
+.s2{background:rgba(31,122,74,.14);color:#0f7a55;border-color:rgba(31,122,74,.35);}
+
+/* CHECKLIST */
+.cl-wrap{padding:12px 16px;border-top:3px solid var(--border);background:var(--card);flex-shrink:0;}
+.cl-title{font-size:12px;font-weight:800;color:var(--chili-d);margin-bottom:8px;}
+.cl-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text);margin-bottom:7px;line-height:1.55;}
+.cl-item input{flex-shrink:0;margin-top:3px;accent-color:var(--chili);width:14px;height:14px;}
+.cl-note{font-size:11px;color:var(--text3);padding-top:6px;border-top:1.5px dashed var(--border-s);margin-top:6px;}
+
+/* TOTAL BAR */
+.total{display:flex;align-items:center;gap:8px;padding:10px 16px;background:var(--text);color:#fff;flex-shrink:0;}
+.total-lbl{font-size:13px;font-weight:700;flex:1;}
+.total-note{font-size:11px;color:rgba(255,255,255,.45);}
+
+/* RIGHT */
+.right{display:flex;flex-direction:column;overflow:hidden;background:var(--bg);}
+.right-body{flex:1;overflow-y:auto;display:flex;flex-direction:column;padding:14px 16px;gap:14px;}
+.frame{border:3px solid var(--border);border-radius:var(--radius);box-shadow:6px 6px 0 var(--border);overflow:hidden;background:var(--card);flex-shrink:0;}
+.frame-hd{padding:10px 16px;font-size:12.5px;font-weight:800;border-bottom:3px solid var(--border);display:flex;align-items:center;gap:8px;}
+.frame-bd{padding:14px 16px;font-size:13px;line-height:1.7;}
+.ftag{font-size:10px;padding:2px 9px;border-radius:8px;font-weight:900;}
+.fa-hd{background:var(--chili);color:#fff;}.fa-tag{background:rgba(255,255,255,.3);color:#fff;}
+.fb-hd{background:var(--gold);color:var(--text);}.fb-tag{background:rgba(0,0,0,.12);color:var(--text);}
+.fc-hd{background:#1f7a4a;color:#fff;}.fc-tag{background:rgba(255,255,255,.25);color:#fff;}
+.fd-hd{background:var(--navy);color:#fff;}.fd-tag{background:rgba(255,255,255,.25);color:#fff;}
+.fe-hd{background:var(--navy);color:#fff;}.fe-tag{background:rgba(255,255,255,.25);color:#fff;}
+
+.box{border-radius:8px;padding:8px 12px;margin-bottom:6px;font-size:13px;line-height:1.55;border:1.5px solid var(--border-s);}
+.box-red{background:rgba(184,41,28,.06);color:#7a1010;border-left:3px solid var(--chili);border-color:rgba(184,41,28,.2);}
+.box-gray{background:var(--bg2);color:var(--text2);}
+.match-row{display:flex;align-items:flex-start;gap:6px;font-size:13px;padding:3px 0;}
+.m-ok{color:var(--lv5);}.m-no{color:var(--lv1);}
+.exp-btn{border:1.5px solid var(--border);background:var(--bg2);cursor:pointer;color:var(--chili-d);font-size:11px;padding:1px 8px;border-radius:20px;line-height:1.8;white-space:nowrap;transition:background .12s;font-weight:700;}
+.exp-btn:hover{background:var(--border-s);}
+
+/* SIMULATOR */
+.cg-sim{padding:12px 16px;background:var(--bg2);border-bottom:3px solid var(--border);}
+.cg-sim-hd{font-size:12px;font-weight:800;color:var(--chili-d);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.cg-scope-box{background:var(--bg2);border-left:4px solid var(--chili);border-radius:0 8px 8px 0;padding:8px 12px;font-size:13px;line-height:1.6;color:var(--text);margin-bottom:10px;border:1.5px solid var(--border-s);border-left:4px solid var(--chili);}
+.cg-lvl-row{border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:8px;overflow:hidden;transition:opacity .2s,box-shadow .15s;background:var(--card);}
+.cg-lvl-row:not(.blocked):hover{box-shadow:var(--shadow-h);}
+.cg-lvl-row.blocked{opacity:.3;pointer-events:none;}
+.cg-lvl-hd{display:flex;align-items:center;gap:8px;padding:8px 12px;cursor:pointer;transition:background .12s;}
+.cg-lvl-hd:hover{background:var(--bg2);}
+.cg-lvl-num{font-size:11px;font-weight:800;padding:2px 9px;border-radius:20px;background:var(--chili);color:#fff;flex-shrink:0;}
+.cg-lvl-summ{font-size:13px;color:var(--text);flex:1;line-height:1.4;display:flex;align-items:center;gap:5px;}
+.cg-lvl-summ .kt{font-weight:800;color:var(--chili-d);}
+.cg-toggle{background:none;border:none;cursor:pointer;font-size:13px;color:var(--text3);padding:0 4px;flex-shrink:0;}
+.cg-lvl-detail{padding:8px 14px 10px;background:var(--bg2);border-top:1.5px dashed var(--border-s);font-size:13px;color:var(--text2);line-height:1.7;display:none;}
+.cg-lvl-detail.open{display:block;}
+.cg-lvl-body{padding:8px 12px 12px;background:var(--card);border-top:1.5px solid var(--border-s);}
+.cg-sect-lbl{font-size:11px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin:10px 0 6px;}
+.cg-req-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text);margin-bottom:6px;line-height:1.55;padding:6px 10px;border-radius:8px;transition:background .1s;}
+.cg-req-item:hover{background:var(--bg2);}
+.cg-req-item input[type=checkbox]{flex-shrink:0;margin-top:2px;accent-color:var(--chili);width:15px;height:15px;cursor:pointer;}
+.cg-int-link{display:inline-flex;align-items:center;gap:3px;font-size:10px;padding:2px 8px;border-radius:20px;background:var(--navy);color:#fff;font-weight:700;text-decoration:none;white-space:nowrap;flex-shrink:0;transition:opacity .15s;}
+.cg-int-link:hover{opacity:.8;}
+.cg-radio-grp{display:flex;flex-direction:column;gap:4px;}
+.cg-radio-grp label{display:flex;align-items:center;gap:8px;font-size:13px;padding:6px 10px;border-radius:8px;cursor:pointer;transition:background .12s;line-height:1.4;}
+.cg-radio-grp label:hover{background:var(--bg2);}
+.cg-radio-grp input[type=radio]{accent-color:var(--chili);flex-shrink:0;width:15px;height:15px;}
+.cg-trap{font-size:13px;color:#7a2800;margin-bottom:6px;padding:5px 10px 5px 12px;border-left:3px solid var(--lv1);border-radius:0 6px 6px 0;background:rgba(184,41,28,.05);line-height:1.55;}
+.cg-prog-bar{height:6px;background:#fff;border:1.5px solid var(--border);border-radius:3px;margin-bottom:8px;overflow:hidden;}
+.cg-prog-fill{height:100%;border-radius:2px;transition:width .3s ease;}
+.cg-total-bar{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--bg2);border-radius:8px;border:1.5px solid var(--border);margin-top:8px;}
+.cg-total-lbl{font-size:12px;color:var(--text2);flex:1;}
+.cg-raw{font-size:16px;font-weight:800;color:var(--chili-d);}
+.cg-wt{font-size:12px;color:var(--text3);}
+
+/* FRAME B — Documents */
+.doc-lvl-block{margin-bottom:10px;border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+.doc-lvl-hd{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--bg2);cursor:pointer;transition:background .12s;}
+.doc-lvl-hd:hover{background:#f5e8cc;}
+.doc-lvl-badge{font-size:11px;font-weight:800;padding:2px 9px;border-radius:20px;background:var(--gold);color:var(--text);flex-shrink:0;border:1.5px solid var(--border);}
+.doc-lvl-title{font-size:13px;font-weight:700;color:var(--text);flex:1;}
+.doc-lvl-count{font-size:11px;color:var(--text3);}
+.doc-lvl-body{padding:8px 12px 12px;display:none;background:var(--bg);border-top:1.5px solid var(--border-s);}
+.doc-lvl-body.open{display:block;}
+.doc-grp{margin-bottom:8px;}
+.doc-grp-lbl{font-size:11px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin:6px 0 4px;display:flex;align-items:center;gap:6px;}
+.doc-file{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--text);padding:3px 0 3px 8px;line-height:1.5;}
+.doc-file-code{color:var(--chili-d);font-weight:800;flex-shrink:0;font-family:'IBM Plex Mono',monospace;font-size:11px;}
+.doc-file-name{color:var(--text2);flex:1;}
+.doc-missing{background:var(--bg2);border:1.5px dashed var(--gold);border-radius:8px;padding:8px 12px;font-size:13px;color:#92400e;}
+.doc-missing-req{background:var(--bg2);border:1.5px solid var(--border-s);border-radius:8px;padding:8px 12px;font-size:13px;color:var(--chili-d);margin-top:8px;}
+.doc-all-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 12px;border-radius:20px;background:var(--navy);color:#fff;text-decoration:none;font-weight:700;margin-top:8px;cursor:pointer;border:none;transition:opacity .15s;}
+.doc-all-btn:hover{opacity:.85;}
+.doc-chk{flex-shrink:0;margin-top:2px;accent-color:var(--chili);width:15px;height:15px;cursor:pointer;}
+.doc-progbar{height:6px;background:#fff;border:1.5px solid var(--border);border-radius:3px;overflow:hidden;margin:6px 0 4px;}
+.doc-progbar-fill{height:100%;background:var(--lv5);transition:width .3s;}
+
+/* FRAME E — Self-Assessment */
+.sa-block{margin-bottom:8px;border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+.sa-hd{display:flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(31,122,74,.08);cursor:pointer;transition:background .12s;}
+.sa-hd:hover{background:rgba(31,122,74,.14);}
+.sa-lvl-badge{font-size:11px;font-weight:800;padding:2px 9px;border-radius:20px;background:var(--lv5);color:#fff;flex-shrink:0;}
+.sa-title{font-size:13px;font-weight:700;color:#0f7a55;flex:1;}
+.sa-copy-btn{font-size:11px;padding:3px 10px;border-radius:20px;background:var(--lv5);color:#fff;border:none;cursor:pointer;font-weight:700;white-space:nowrap;transition:opacity .15s;}
+.sa-copy-btn:hover{opacity:.85;}
+.sa-body{padding:12px 16px;display:none;background:var(--card);font-size:13px;line-height:1.8;color:var(--text);white-space:pre-wrap;font-family:'Anakotmai',sans-serif;border-top:1.5px solid var(--border-s);}
+.sa-body.open{display:block;}
+.sa-note{font-size:12px;color:var(--lv5);font-style:italic;margin-top:6px;padding-top:6px;border-top:1.5px dashed rgba(31,122,74,.3);}
+
+/* ── Frame E dynamic ── */
+.fe-sim-row{display:flex;align-items:center;gap:8px;padding:6px 12px 10px;flex-wrap:wrap;border-bottom:1.5px solid var(--border-s);margin-bottom:8px;}
+.fe-sect-lbl{font-size:10px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin:10px 0 5px;padding:0 2px;}
+.fe-lvl-block{border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:7px;overflow:hidden;transition:box-shadow .15s;}
+.fe-lvl-block.fe-lvl-active{border-color:var(--lv5);}
+.fe-lvl-block:hover{box-shadow:var(--shadow-h);}
+.fe-lvl-hd{display:flex;align-items:center;gap:8px;padding:8px 12px;cursor:pointer;transition:background .12s;}
+.fe-lvl-hd:hover{background:var(--bg2);}
+.fe-lvl-badge{font-size:11px;font-weight:800;padding:2px 9px;border-radius:20px;color:#fff;flex-shrink:0;}
+.fe-lvl-title{font-size:13px;color:var(--text);flex:1;line-height:1.35;}
+.fe-doc-ref{font-size:10px;color:var(--text3);white-space:nowrap;}
+.fe-lvl-body{padding:10px 14px 12px;background:var(--card);border-top:1.5px solid var(--border-s);display:none;}
+.fe-lvl-body.open{display:block;}
+.fe-sa-text{font-size:13px;line-height:1.7;color:var(--text);white-space:pre-wrap;font-family:'Anakotmai',sans-serif;background:var(--bg2);padding:8px 12px;border-radius:8px;margin-bottom:8px;}
+.fe-textarea{width:100%;font-size:13px;font-family:'Anakotmai',sans-serif;border:1.5px solid var(--border);border-radius:var(--radius);padding:7px 10px;background:#fff;color:var(--text);line-height:1.6;resize:vertical;transition:border-color .15s;}
+.fe-textarea:focus{outline:none;border-color:var(--chili);box-shadow:0 0 0 2px rgba(184,41,28,.15);}
+.fe-cross-row{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px;}
+.fe-cross-chip{font-size:10px;padding:2px 8px;border-radius:20px;background:var(--navy);color:#fff;font-weight:800;}
+.fe-gap-item{margin-bottom:8px;background:rgba(184,41,28,.04);border:1.5px solid rgba(184,41,28,.18);border-radius:8px;padding:8px 10px;}
+.fe-gap-text{font-size:12px;color:#7a1010;margin-bottom:6px;line-height:1.5;}
+.fe-gap-status{display:flex;gap:12px;flex-wrap:wrap;}
+.fe-radio-lbl{display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer;color:var(--text2);}
+.fe-radio-lbl input{accent-color:var(--chili);}
+.fe-gap-note{margin-top:6px;}
+.fe-copy-btn{font-size:11px;padding:3px 10px;border-radius:20px;background:var(--lv5);color:#fff;border:none;cursor:pointer;font-weight:700;white-space:nowrap;transition:opacity .15s;float:right;}
+.fe-copy-btn:hover{opacity:.85;}
+.fe-gen-btn{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;padding:8px 20px;border-radius:20px;background:var(--navy);color:#fff;font-weight:700;cursor:pointer;border:none;transition:opacity .15s;}
+.fe-gen-btn:hover{opacity:.85;}
+.fe-output{width:100%;box-sizing:border-box;padding:10px 12px;font-size:12px;line-height:1.75;border:1.5px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-family:'Anakotmai',sans-serif;resize:vertical;}
+
+/* CROSS-DIM DEPENDENCY BAR */
+.deptotal{display:flex;align-items:center;gap:10px;padding:8px 24px;flex-wrap:wrap;}
+.deptotal .dt-lbl{font-size:11px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.4px;}
+.dep-chip{display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:3px 10px;border-radius:20px;font-weight:800;border:1.5px solid var(--border);color:#fff;}
+
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--bg2);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:#8f8776;}
+</style>
+
+<style>
+/* ── CG dimension accent: chili (CG is the flagship/reference color) ── */
+:root{--dim:#b8291c;--dim-lt:rgba(184,41,28,.12);}
+.sub.focus-cg{border-left-color:var(--dim)!important;}
+.cg-scope-box{border-left-color:var(--dim)!important;}
+.cg-prog-fill{background:var(--dim)!important;}
+.cg-req-item input[type=checkbox]{accent-color:var(--dim)!important;}
+.cg-radio-grp input[type=radio]{accent-color:var(--dim)!important;}
+.cl-item input{accent-color:var(--dim)!important;}
+.left-hd .cg-badge{background:var(--dim);color:#fff;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700;}
+</style>
+</head>
+
+<body>
+<div class="top-nav">
+  <span class="pepper" style="font-size:16px;">🌶️</span>
+  <a href="index.html">← หน้าหลัก</a>
+  <span class="sep">|</span>
+  <h1>CG — การกำกับดูแลกิจการที่ดี ปี 2569</h1>
+  <span style="margin-left:auto;display:flex;align-items:center;gap:6px;">
+    <button onclick="exportProgress()" style="font-size:11px;padding:3px 11px;border:1.5px solid rgba(255,255,255,.3);border-radius:20px;background:rgba(255,255,255,.1);cursor:pointer;color:#fff;font-weight:700;">📤 Export</button>
+    <label style="font-size:11px;padding:3px 11px;border:1.5px solid rgba(255,255,255,.3);border-radius:20px;background:rgba(255,255,255,.1);cursor:pointer;color:#fff;font-weight:700;">
+      📥 Import<input type="file" accept=".json" style="display:none;" onchange="importProgress(this)">
+    </label>
+  </span>
+</div>
+<div class="halftone"></div>
+<div class="dim-hd">
+  <span id="dimTitle" style="font-size:16px;font-weight:800;"></span>
+  <span class="chip cn" id="dimOrig"></span>
+  <span style="color:#fff;font-size:13px;opacity:.7;">→</span>
+  <span class="chip ct" id="totalChip">คาดการณ์ —</span>
+  <span style="font-size:11px;font-weight:700;margin-left:auto;color:#fff;" id="deltaChip"></span>
+</div>
+<div id="depTotalBar"></div>
+<div class="layout">
+  <div class="left">
+    <div class="left-hd">
+      <span style="font-size:11px;padding:2px 9px;border-radius:20px;font-weight:800;background:var(--chili);color:#fff;border:1.5px solid var(--border);">CG</span>
+      &nbsp;Target Score Simulator &amp; Action Checklist
+    </div>
+    <div class="left-body" id="leftBody"></div>
+    <div class="cl-wrap">
+      <div class="cl-title" id="clTitle">เลือก sub-item เพื่อดู Action Checklist</div>
+      <div id="clItems"></div>
+      <div class="cl-note">คลิก sub-item → checklist และ panel ขวาอัปเดตตาม</div>
+    </div>
+    <div class="total">
+      <span class="total-lbl" id="totalLbl">คะแนนรวม CG</span>
+      <span class="total-note">sub → ข้อ → ด้าน</span>
+      <span class="chip cn" style="font-size:11px;" id="totalOrig"></span>
+      <span style="font-size:14px;color:rgba(255,255,255,.5);">→</span>
+      <span class="chip ct" style="font-size:13px;font-weight:700;" id="totalFooter">—</span>
+      <span style="font-size:12px;color:#4d9e6e;font-weight:700;" id="deltaFooter"></span>
+    </div>
+  </div>
+  <div class="right">
+    <div class="right-body" id="rightBody">
+      <div style="display:flex;align-items:center;justify-content:center;height:100%;color:#aaa;font-size:13px;">คลิก sub-item ด้านซ้ายเพื่อดูรายละเอียด</div>
+    </div>
+  </div>
+</div>
+
+<script src="enablers-backend.js"></script>
+<script>
+const LINK_URL='https://pdee-hub.github.io/Enablers-Link-Document-69/';
+const DOC_DETAIL_URL='CG_1-1_Documents.html'; // หน้าเอกสารแนบ (placeholder)
+
+// ══ DATA ══════════════════════════════════════════════════════
+const DATA={"cg":{"dimId":"CG","dimName":"CG — การกำกับดูแลกิจการที่ดี","orig":2.869,"subs":[{"id":"1.1","grp":"1","gname":"การสนองบทบาทของภาครัฐ","gw":5,"gs68":2.75,"name":"การรายงานผลการปฏิบัติงานตามนโยบายและแนวทางการกำกับดูแลที่ดีแก่ผู้ถือหุ้นภาครัฐ","w":5,"s68":2.75,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"ประเมินกระบวนการรายงานผลแก่ผู้ถือหุ้นภาครัฐครบ 3 ด้าน: เงิน/ไม่ใช่เงิน · CG · Compliance","levelSumm":["มีนโยบายครอบคลุม 3 ด้าน","เริ่มนำส่งรายงาน — ยังไม่ครบ 3 ด้าน","นำส่งครบ 3 ด้าน ตรงเวลา 100% มีใบรับ/Log","ประเมินคุณภาพ/ประสิทธิผลกระบวนการ","บอร์ดมีมติข้อสั่งการ + Dashboard แจ้งเตือนกฎหมาย"],"dimLevels":["L1 — Policy: กำหนดนโยบายและแนวปฏิบัติครอบคลุม 3 ด้าน (เงิน/CG/Compliance) อย่างเป็นระบบ","L2 — Execution partial: นำนโยบายปฏิบัติจริง เริ่มนำส่งหน่วยงานภายนอก แต่ยังไม่ครบ 3 ด้าน","L3 — Full Compliance: นำส่งครบ 3 ด้าน ถูกต้อง เชื่อถือได้ ตรงเวลา 100% มีภาพหน้าจอและใบรับรองเป็นหลักฐาน","L4 — Effectiveness: ประเมิน 'คุณภาพและประสิทธิผล' กระบวนการทำรายงานและระบบ Compliance ประจำปี วิเคราะห์จุดแข็ง จุดอ่อน คอขวด","L5 — Innovation: นำผลประเมินเสนอบอร์ด มีมติ 'ข้อสั่งการเชิงกลยุทธ์' + พัฒนา Dashboard แจ้งเตือนกฎหมาย ⚠️ ห้ามบันทึกแค่ 'รับทราบ'"],"minReqs":{"1":["ไฟล์นโยบายครอบคลุม 3 ด้าน (เงิน/CG/Compliance)","คู่มือ CG ครอบคลุมการรายงานต่อผู้ถือหุ้นภาครัฐ"],"2":["หลักฐานนำส่งรายงานอย่างน้อย 1–2 ด้าน","ตารางสรุปรายงานการเงิน / GFMIS-SOE (บางส่วน)"],"3":["ใบรับ/Log นำส่งครบ 100% ทั้ง 3 ด้าน","ภาพหน้าจอ GFMIS-SOE และรายงาน สคร. ชุดสมบูรณ์"],"4":["รายงาน 'ประเมินคุณภาพ/ประสิทธิผล' กระบวนการจัดทำรายงาน","รายงานประเมินประสิทธิผลระบบ Compliance ประจำปี"],"5":["รายงานประชุมบอร์ดที่มีมติ 'ข้อสั่งการเชิงกลยุทธ์' (ห้ามแค่ 'รับทราบ')","ภาพหน้าจอ Dashboard แจ้งเตือนกฎหมาย","หลักฐานส่งเอกสารประชุมล่วงหน้า ≥7 วัน (Timestamp)"]},"integLinks":{"1":["RM&IC"],"2":["SP"],"3":["SP"],"4":["IA"],"5":["DT"]},"subComps":{"5":["Critical Blocker: รายงานประชุมต้องระบุ 'ข้อสั่งการเชิงกลยุทธ์' ห้ามใช้คำ 'รับทราบ'","ห้ามส่งเอกสารประชุมล่าช้ากว่า 7 วัน — ต้องมี Timestamp ยืนยัน"]},"gaps":["ขาดหลักฐานประเมินประสิทธิภาพกระบวนการทำรายงาน และหลักฐานว่าบอร์ดนำข้อมูลวิเคราะห์ป้องกันความเสี่ยงด้านกฎหมาย","ขาดการติดตาม Compliance อย่างเป็นระบบ เสี่ยงถูกร้องเรียน/ฟ้องร้อง","ช่องคำอธิบายระบบ สคร. ทุกระดับระบุ '-ไม่มี-' แม้มีเอกสารครบ L1–L3","L4–L5 ยังไม่มีเอกสารและไม่มีการดำเนินการ"],"actions":["อัปเดตช่องคำอธิบาย L1–L3 ด้วย Self-Assessment Script (Frame E)","จัดทำ 'รายงานประเมินประสิทธิผลระบบ Compliance' ประจำปี (L4)","ประสานฝ่ายเลขาฯ บอร์ดบันทึกรายงานประชุมให้มี 'ข้อสั่งการเชิงกลยุทธ์'","บูรณาการกับฝ่าย DT พัฒนา Dashboard แจ้งเตือนกฎหมาย (L5)"],"docsNeeded":[{"level":"L4","item":"รายงานประเมินคุณภาพ/ประสิทธิผลกระบวนการ"},{"level":"L4","item":"รายงานประเมินประสิทธิผลระบบ Compliance"},{"level":"L5","item":"รายงานประชุมบอร์ด 'ข้อสั่งการเชิงกลยุทธ์'"},{"level":"L5","item":"Dashboard แจ้งเตือนกฎหมาย"}],"selfAssessment":[{"level":"L1","note":"มีนโยบายครอบคลุม 3 ด้าน","text":"กทท. ได้กำหนดนโยบายและคู่มือแนวปฏิบัติด้านการรายงานผลการปฏิบัติงานแก่ผู้ถือหุ้นภาครัฐอย่างเป็นระบบ ครอบคลุม 3 ด้าน ได้แก่ 1) การเงิน/ไม่ใช่การเงิน 2) CG 3) Compliance\n\nอ้างอิง: CG_1.1.1_002, 003, 004, 005"},{"level":"L2","note":"เริ่มนำส่งรายงาน (บางส่วน)","text":"กทท. ได้นำนโยบายไปปฏิบัติจริง โดยเริ่มรวบรวมข้อมูลและจัดทำรายงานนำส่งหน่วยงานภายนอก ได้แก่ สคร. สตง. กรมบัญชีกลาง กระทรวงคมนาคม และระบบ GFMIS-SOE ตามกรอบระยะเวลาที่กำหนดไว้\n\nอ้างอิง: CG_1.1.2_001–026"},{"level":"L3","note":"นำส่งครบ 3 ด้าน ตรงเวลา 100%","text":"กทท. นำส่งรายงานผลการดำเนินงานครบถ้วนทั้ง 3 ด้าน (เงิน/ไม่ใช่เงิน, CG, Compliance) เข้าระบบ GFMIS-SOE และหน่วยงานกำกับดูแล ได้อย่างถูกต้อง เชื่อถือได้ ตรงเวลา 100% โดยมีภาพหน้าจอระบบและใบรับรองการนำส่งเป็นหลักฐาน\n\nอ้างอิง: CG_1.1.3_001–026"},{"level":"L4","note":"ประเมินคุณภาพ/ประสิทธิผล (ปี 69)","text":"กทท. ดำเนินการประเมิน 'คุณภาพและประสิทธิผล' ของกระบวนการจัดทำรายงานผลและระบบ Compliance ประจำปี โดยวิเคราะห์จุดแข็ง จุดอ่อน และคอขวดของกระบวนการ\n\nอ้างอิง: รายงานสรุปผลการประเมินประสิทธิผล (จัดทำปี 69)"},{"level":"L5","note":"บอร์ดสั่งการ + Dashboard (ปี 69)","text":"กทท. นำผลประเมินเสนอต่อคณะกรรมการ กทท. ซึ่งมีมติ 'ข้อสั่งการเชิงกลยุทธ์' ให้ปรับปรุงกระบวนการ และร่วมกับฝ่าย DT พัฒนา 'Dashboard แจ้งเตือนความเสี่ยงด้านกฎหมาย'\n\n⚠️ รายงานประชุมต้องระบุ 'ข้อสั่งการเชิงกลยุทธ์' ห้ามบันทึกแค่ 'รับทราบ'\n\nอ้างอิง: รายงานประชุมบอร์ด + Dashboard (จัดทำปี 69)"}],"docsByLevel":{"1":{"status":"ok","count":4,"groups":[{"label":"นโยบายและแนวปฏิบัติ","files":[{"code":"CG_1.1.1_002","name":"นโยบายแนวปฏิบัติรายงานการเงิน/ไม่ใช่การเงิน"},{"code":"CG_1.1.1_003","name":"นโยบายแนวปฏิบัติรายงาน CG"},{"code":"CG_1.1.1_004","name":"นโยบายแนวปฏิบัติรายงาน Compliance"},{"code":"CG_1.1.1_005","name":"คู่มือ CG แนวปฏิบัติรายงาน Compliance"}]}]},"2":{"status":"ok","count":26,"groups":[{"label":"รายงานการเงิน / ส่งหน่วยงานภาครัฐ","files":[{"code":"CG_1.1.2_001–007","name":"รายงานเสนอ สศช./สคร./กรมบัญชีกลาง/คค./สงป./บัญชีประชาชาติ/สบน."},{"code":"CG_1.1.2_008–013","name":"รายงานผลการเงินรายไตรมาส / ระเบียบ / ตารางสรุป / GFMIS-SOE"}]},{"label":"รายงาน Compliance / Action Plan","files":[{"code":"CG_1.1.2_014–020","name":"รายงานผล PA / ใบรับ / มติ / ขนส่งทางน้ำ / แผนวิสาหกิจ"},{"code":"CG_1.1.2_021–026","name":"Annual Report CG / ชี้แจงกรรมาธิการ / Action Plan 68–69"}]}]},"3":{"status":"ok","count":26,"groups":[{"label":"รายงานส่งหน่วยงานภาครัฐ (ชุดสมบูรณ์)","files":[{"code":"CG_1.1.3_001–013","name":"รายงานส่ง สศช./สคร./กรมบัญชีกลาง/คค./สงป./บัญชีประชาชาติ/สบน. + รายไตรมาส + GFMIS-SOE"}]},{"label":"Compliance / Action Plan","files":[{"code":"CG_1.1.3_014–026","name":"รายงาน PA / ใบรับ / มติบอร์ด / ขนส่งทางน้ำ / Action Plan 68–69"}]}]},"4":{"status":"missing"},"5":{"status":"missing"}},"good":["มีการกำหนดนโยบายและแนวทางการกำกับดูแลที่ดีแก่ผู้ถือหุ้นภาครัฐอย่างครบถ้วน ครอบคลุม 3 ประเด็นสำคัญ","การเงิน/ไม่ใช่การเงิน","CG","Compliance","มีการแนบไฟล์หลักฐานการส่งรายงานต่อหน่วยงานภายนอกในระบบจำนวนมากอย่างเป็นระบบ"],"results":["แม้จะมีการแนบเอกสารอย่างครบถ้วนตั้งแต่ระดับ 1-3 (เช่น CG_1.1.1_002 ถึง CG_1.1.3_026) แต่ในช่องคำอธิบายกลับระบุเพียงคำว่า \"-ไม่มี-\" ในทุกระดับชั้น (Level 1-5) ทำให้ขาดการเล่าเรื่องว่าเอกสารนำไปสู่ผลลัพธ์อะไร"],"crossLinks":{"1":["RM&IC","RM"],"2":["SP"],"3":["SP"],"4":["IA"],"5":["DT"]}},{"id":"2.1","grp":"2","gname":"บทบาทของรัฐวิสาหกิจเพื่อการตลาดที่เป็นธรรม","gw":10,"gs68":2.9,"name":"การกำหนดนโยบายเพื่อการแข่งขันที่เป็นธรรม","w":10,"s68":2.9,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"ประเมินนโยบายและกระบวนการส่งเสริมการแข่งขันที่เป็นธรรม ครบ 5 ด้าน: คู่แข่ง · เจ้าหนี้ · คู่ค้า/จัดซื้อ · ต่อต้านทุจริต · แยกบัญชีเชิงสังคม — ขาดด้านใดด้านหนึ่งปัดตก L3 ทันที","levelSumm":["มีนโยบาย/คู่มือ 5 ด้าน (ยังไม่เป็นระบบ)","มีนโยบาย/คู่มือ 5 ด้าน (เป็นระบบ ประกาศใช้อย่างเป็นทางการ)","กำหนดผู้รับผิดชอบและรายงานผลการปฏิบัติ ครบ 5 ด้าน","ประเมินประสิทธิผล — ลดข้อร้องเรียนจากคู่แข่ง/คู่ค้า","นำผลประเมินปรับปรุงนโยบาย/กระบวนการ"],"dimLevels":["L1 — Policy (ไม่เป็นระบบ): มีนโยบาย 5 ด้านแต่ยังไม่ถูกประกาศใช้อย่างเป็นทางการ","L2 — Policy (เป็นระบบ): กำหนดและประกาศใช้อย่างเป็นทางการครบ 5 ด้าน","L3 — Execution: กำหนด 'ผู้รับผิดชอบ' ชัดเจนใน 5 ด้าน + มีรายงานผล ⚠️ ขาดด้านใดด้านหนึ่ง = ปัดตกทันที","L4 — Effectiveness: ประเมินว่าระบบช่วยลดข้อร้องเรียนได้จริง","L5 — Improvement: นำผลประเมินปรับปรุงนโยบาย/กระบวนการ"],"minReqs":{"1":["นโยบาย/คู่มือการแข่งขันที่เป็นธรรม ครบ 5 ด้าน"],"2":["ชุดนโยบาย 5 ด้าน ที่ผ่านการประกาศใช้อย่างเป็นทางการ"],"3":["เอกสารแต่งตั้งผู้รับผิดชอบในทุกขั้นตอน ครบ 5 ด้าน","หลักฐานการดำเนินงานจริง"],"4":["รายงานประเมินประสิทธิผลว่าระบบช่วยลดข้อร้องเรียนได้จริง"],"5":["หลักฐานการนำผลประเมินปรับปรุงคู่มือ/ระบบงาน"]},"integLinks":{"3":["IA"],"4":["SCM"]},"subComps":{"3":["Critical Blocker: ต้องครบ 5 ด้าน — ขาดด้านใด (แม้ 'เจ้าหนี้' หรือ 'บัญชีเชิงสังคม') ผู้ประเมินปัดตก L3 ทันที"]},"gaps":["ขาดการระบุ 'ผู้รับผิดชอบ' ที่ชัดเจนในแต่ละกระบวนการ โดยเฉพาะด้านคู่แข่ง","ยังไม่มีการประเมินประสิทธิผลเพื่อลดข้อร้องเรียน","ช่องคำอธิบาย L1–L3 ระบุ '-ไม่มี-' แม้มีเอกสารครบ"],"actions":["จัดทำเอกสารประกาศแต่งตั้งผู้รับผิดชอบในแต่ละขั้นตอน (โดยเฉพาะด้านคู่แข่ง)","จัดทำรายงานประเมินประสิทธิผล — วัดว่าระบบช่วยลดข้อร้องเรียนได้จริง","อัปเดตช่องคำอธิบาย L1–L5 ด้วย Self-Assessment Script"],"docsNeeded":[{"level":"L4","item":"รายงานประเมินประสิทธิผลลดข้อร้องเรียน"},{"level":"L5","item":"หลักฐานนำผลประเมินปรับปรุงคู่มือ"}],"selfAssessment":[{"level":"L1–2","note":"มีนโยบายครบ 5 ด้าน","text":"กทท. มีการกำหนดนโยบายและแนวปฏิบัติเพื่อเสริมสร้างการแข่งขันทางการตลาดที่เป็นธรรม ครอบคลุม 5 ด้าน ได้แก่ 1) คู่แข่ง 2) เจ้าหนี้ 3) คู่ค้า/ผู้ส่งมอบ 4) ต่อต้านทุจริต 5) แยกบัญชีเชิงสังคม โดยมีการจัดทำคู่มือและประกาศใช้อย่างเป็นทางการ\n\nอ้างอิง: CG_2.1.1_001–007, CG_2.1.2_001–010"},{"level":"L3","note":"กำหนดผู้รับผิดชอบ มีรายงานผล","text":"กทท. ได้นำนโยบายไปสู่การปฏิบัติจริง โดยได้ 'กำหนดผู้รับผิดชอบที่ชัดเจน' ในแต่ละขั้นตอนของทั้ง 5 ด้าน พร้อมบูรณาการร่วมกับฝ่าย IA ในการสอบทานข้อเท็จจริง และมีการรายงานผลการสอดส่องการแข่งขันต่อฝ่ายบริหารอย่างต่อเนื่อง\n\nอ้างอิง: CG_2.1.3_001–031"},{"level":"L4","note":"ประเมินประสิทธิผล ลดข้อร้องเรียน","text":"กทท. ดำเนินการ 'ประเมินประสิทธิผล' ของกระบวนการการตลาดที่เป็นธรรม โดยบูรณาการข้อมูลร่วมกับ SCM เพื่อวิเคราะห์สถิติข้อร้องเรียนจากคู่ค้าและคู่แข่ง\n\nอ้างอิง: CG_2.1.4_001–002"},{"level":"L5","note":"ปรับปรุงนโยบาย/กระบวนการ","text":"กทท. นำผลการประเมินประสิทธิผล (L4) มาทบทวนและปรับปรุงคู่มือแนวปฏิบัติการตลาดที่เป็นธรรมให้รัดกุมยิ่งขึ้น\n\nอ้างอิง: CG_2.1.5_001–004"}],"docsByLevel":{"1":{"status":"ok","count":10,"groups":[{"label":"นโยบาย/คู่มือ 5 ด้าน","files":[{"code":"CG_2.1.1_001–007","name":"คู่มือ CG / นโยบายคู่แข่ง / เจ้าหนี้ / จัดซื้อ / ต่อต้านทุจริต / บัญชีเชิงสังคม"}]}]},"2":{"status":"ok","count":10,"groups":[{"label":"นโยบาย 5 ด้าน (ประกาศใช้อย่างเป็นทางการ)","files":[{"code":"CG_2.1.2_001–010","name":"ชุดนโยบาย 5 ด้าน (ฉบับอย่างเป็นทางการ)"}]}]},"3":{"status":"ok","count":15,"groups":[{"label":"คู่มือ/นโยบาย + หลักฐานผู้รับผิดชอบ","files":[{"code":"CG_2.1.3_001–031","name":"คู่มือ CG / นโยบาย 5 ด้าน / ประกาศ / รายงานผลต่อต้านทุจริต"}]}]},"4":{"status":"ok","count":2,"groups":[{"label":"รายงานประเมินประสิทธิผล","files":[{"code":"CG_2.1.4_001–002","name":"นโยบายจัดซื้อ (คู่ค้า) + การประเมินประสิทธิผล"}]}]},"5":{"status":"ok","count":4,"groups":[{"label":"การปรับปรุงนโยบาย/กระบวนการ","files":[{"code":"CG_2.1.5_001–004","name":"นโยบายจัดซื้อ / ประเมินประสิทธิผลต่อต้านทุจริต / ปรับปรุงคู่ค้า / ปรับปรุงนโยบายทุจริต"}]}]}},"good":["กทท. มีการกำหนดนโยบายและแนวปฏิบัติในการบริหารจัดการเพื่อเสริมสร้างการแข่งขันที่เป็นธรรมอย่างครบถ้วนสมบูรณ์ ครอบคลุมทั้ง 5 ประเด็นสำคัญ","1. คู่แข่ง","2. เจ้าหนี้","3. จัดซื้อจัดจ้าง/คู่ค้า","4. ต่อต้านการทุจริต","5. การแยกบัญชีเชิงสังคมและพาณิชย์)","มีการทำ MOU แบ่งปันทรัพยากรกับภาคเอกชน"],"results":[],"crossLinks":{"3":["IA"],"4":["SCM"]}},{"id":"3.1","grp":"3","gname":"สิทธิและความเท่าเทียมกันของผู้ถือหุ้น","gw":10,"gs68":2.6667,"name":"สิทธิของผู้ถือหุ้นทั้งตามกฎหมายและข้อบังคับอื่นที่เกี่ยวข้อง","w":10,"s68":2.6667,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"ประเมินการป้องกัน COI และ RPT ครบ 3 ประเด็น: ข้อมูลภายใน · COI · RPT — ต้องพิสูจน์ 'Substance over Form' ไม่ใช่แค่ลงนามในแบบฟอร์ม","levelSumm":["มีนโยบาย/แนวปฏิบัติ 3 ประเด็น (Insider/COI/RPT)","มีแบบฟอร์มที่ลงนามครบ — คณะกรรมการ/ผู้บริหาร/พนักงาน","IA สุ่มตรวจธุรกรรม — Substance over Form (ครบ 3 ประเด็น)","ประเมินประสิทธิผล — สถิติข้อร้องเรียน COI ลดลงหรือเป็นศูนย์","บอร์ดสั่งการปรับปรุงมาตรการ — บันทึกลงระบบ KM"],"dimLevels":["L1 — Form (Policy): มีนโยบายและแนวปฏิบัติครอบคลุม 3 ประเด็น (Insider/COI/RPT) แต่ยังไม่ถูกนำไปปฏิบัติอย่างสม่ำเสมอ","L2 — Form (Execution): มีแบบฟอร์มที่ได้รับการลงนามครบถ้วน จากคณะกรรมการ ผู้บริหาร และพนักงานทุกระดับ","L3 — Substance over Form: IA เข้าสอบทานและสุ่มตรวจธุรกรรมสำคัญ พิสูจน์ว่าไม่มีการถ่ายเทผลประโยชน์จริง ⚠️ ต้องครบ 3 ประเด็น ไม่ใช่แค่ลงนามแบบฟอร์ม","L4 — Effectiveness: มีรายงานผลสุ่มตรวจและสถิติข้อร้องเรียน COI/RPT ที่ลดลงหรือเป็นศูนย์","L5 — Improvement: บอร์ดมีมติข้อสั่งการให้ปรับปรุงมาตรการ และบันทึกองค์ความรู้ลงระบบ KM"],"minReqs":{"1":["นโยบายและแนวปฏิบัติ Insider Information","นโยบายและแนวปฏิบัติ COI","นโยบายและแนวปฏิบัติ RPT"],"2":["แบบฟอร์มที่ลงนามครบ: คณะกรรมการ ผู้บริหาร และพนักงาน (COI Declaration)"],"3":["รายงานผลการสุ่มตรวจ (Audit Report) จากฝ่าย IA ที่ยืนยันไม่มี COI/RPT จริง"],"4":["รายงานประเมินประสิทธิผลมาตรการป้องกัน COI พร้อมสถิติข้อร้องเรียน"],"5":["รายงานประชุมบอร์ดที่มีมติข้อสั่งการให้ปรับปรุงมาตรการ","หลักฐานการบันทึกองค์ความรู้ลงระบบ KM"]},"integLinks":{"3":["IA"],"4":["HCM"],"5":["HCM"]},"subComps":{"3":["Hidden Trap: ต้องครบ 3 ประเด็น (Insider/COI/RPT) — ต้องมีหลักฐาน Substance ไม่ใช่แค่ลงนามแบบฟอร์ม"]},"gaps":["กทท. ส่งหลักฐานเป็น 'แบบฟอร์มลงนาม' แต่ขาดการพิสูจน์ 'ข้อเท็จจริง (Substance)' ว่าไม่มีการเอื้อประโยชน์กันจริง — ผู้ประเมินปัดตก L3","ต้องการ 'รายงานผลการสุ่มตรวจ (Audit Report)' จากฝ่าย IA ที่ยืนยันความโปร่งใส","L5 ยังไม่มีเอกสาร — บอร์ดยังไม่มีมติข้อสั่งการปรับปรุงมาตรการ"],"actions":["ให้ฝ่าย IA เข้าสุ่มตรวจธุรกรรมที่อาจเกิด COI/RPT และออกรายงานผล (L3)","จัดทำรายงานประเมินประสิทธิผลมาตรการป้องกัน COI พร้อมสถิติข้อร้องเรียน (L4)","นำเสนอบอร์ดให้มีมติข้อสั่งการปรับปรุงมาตรการ และบันทึกลง KM (L5)"],"docsNeeded":[{"level":"L5","item":"รายงานประชุมบอร์ดมีมติข้อสั่งการปรับปรุงมาตรการ COI"},{"level":"L5","item":"หลักฐานบันทึกองค์ความรู้ลงระบบ KM Portal"}],"selfAssessment":[{"level":"L1–2","note":"มีนโยบาย/แบบฟอร์ม COI ครบ 3 ประเด็น","text":"กทท. ได้กำหนดนโยบายและแนวปฏิบัติในการป้องกันความขัดแย้งทางผลประโยชน์ (COI) และรายการที่เกี่ยวโยงกัน (RPT) อย่างชัดเจน ครอบคลุม 3 ประเด็น และดำเนินการให้คณะกรรมการ กทท. ผู้บริหารระดับสูง และพนักงานทุกระดับ ลงนามในหนังสือแสดงความโปร่งใสและแจ้ง COI อย่างครบถ้วนเป็นประจำทุกปี\n\nอ้างอิง: CG_3.1.1_001–010, CG_3.1.2_001–010"},{"level":"L3","note":"IA สุ่มตรวจ — Substance over Form","text":"กทท. ไม่เพียงแต่ให้บุคลากรลงนามประกาศ COI ในเชิงรูปแบบ (Form) แต่ได้บูรณาการร่วมกับหน่วยตรวจสอบภายใน (IA) โดยให้ IA เข้าสอบทานและสุ่มตรวจธุรกรรมที่มีนัยสำคัญ เพื่อยืนยัน 'ข้อเท็จจริง (Substance)' ว่าไม่มีการถ่ายเทผลประโยชน์อย่างแท้จริง\n\nอ้างอิง: CG_3.1.3_001–030, CG_3.1.4_001"},{"level":"L4","note":"ประเมินประสิทธิผล — ข้อร้องเรียนเป็นศูนย์","text":"กทท. ได้ดำเนินการประเมิน 'ประสิทธิผล' ของมาตรการป้องกันความขัดแย้งทางผลประโยชน์ โดยติดตามสถิติและผลลัพธ์จากช่องทางรับเรื่องร้องเรียน ซึ่งพบว่ามาตรการสุ่มตรวจเชิงรุกร่วมกับ IA ส่งผลให้ไม่มีข้อร้องเรียนหรือประเด็น COI ที่มีนัยสำคัญเกิดขึ้น\n\nอ้างอิง: CG_3.1.4_001"},{"level":"L5","note":"บอร์ดสั่งการปรับปรุง + บันทึกลง KM (ปี 69)","text":"กทท. นำผลการประเมินและรายงานการสุ่มตรวจเสนอต่อคณะกรรมการ กทท. ซึ่งมีมติข้อสั่งการให้ฝ่ายบริหารนำข้อค้นพบไปปรับปรุงกระบวนการคัดกรองความสัมพันธ์ของคู่ค้าให้รัดกุมยิ่งขึ้น และบันทึกองค์ความรู้ลงระบบ KM Portal\n\nอ้างอิง: จัดทำในปี 69"}],"docsByLevel":{"1":{"status":"ok","count":10,"groups":[{"label":"นโยบาย/แนวปฏิบัติ 3 ประเด็น","files":[{"code":"CG_3.1.1_001–002","name":"นโยบายป้องกัน Insider Information / COI"},{"code":"CG_3.1.1_004–010","name":"คู่มือสิทธิผู้ถือหุ้น / ระเบียบ COI / บันทึกทบทวน / นโยบายกำกับดูแลข้อมูล"}]}]},"2":{"status":"ok","count":10,"groups":[{"label":"นโยบาย/แนวปฏิบัติ 3 ประเด็น (เป็นระบบ)","files":[{"code":"CG_3.1.2_001–010","name":"นโยบาย Insider/COI/RPT / คู่มือสิทธิผู้ถือหุ้น / ระเบียบ / นโยบายกำกับดูแลข้อมูล v4.0"}]}]},"3":{"status":"ok","count":10,"groups":[{"label":"หลักฐานการสอบทาน Substance over Form","files":[{"code":"CG_3.1.3_001–030","name":"คำสั่งคณะทำงาน / นโยบาย Insider/COI/RPT ปี 68 / โครงสร้างกำกับดูแลข้อมูล / คู่มือสิทธิผู้ถือหุ้น"}]}]},"4":{"status":"ok","count":1,"groups":[{"label":"รายงานผลการสุ่มตรวจ","files":[{"code":"CG_3.1.4_001","name":"รายงานผลสอบทานความขัดแย้งฯ ปี 67"}]}]},"5":{"status":"missing"}},"good":["กทท. มีการดำเนินการในรูปแบบของแบบฟอร์มที่ชัดเจน โดยให้คณะกรรมการ (บอร์ด), ผู้บริหาร, และพนักงาน เซ็นหนังสือแสดงความโปร่งใสและแจ้งความขัดแย้งทางผลประโยชน์ (COI)"],"results":["กทท. มักส่งหลักฐานเป็น \"แบบฟอร์มลงนามแสดงความโปร่งใส\" ที่มีการเซ็นชื่อครบถ้วน"],"crossLinks":{"3":["IA","CG"],"4":["HCM"],"5":["HCM"]}},{"id":"4.1","grp":"4","gname":"บทบาทของผู้มีส่วนได้เสีย","gw":10,"gs68":2.6667,"name":"การกำกับดูแลการดำเนินงานที่คำนึงถึงผู้มีส่วนได้ส่วนเสีย","w":10,"s68":2.6667,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"ประเมินการกำกับดูแลให้ผลดีต่อผู้มีส่วนได้ส่วนเสียครบทุกกลุ่ม — จุดตัด L3: บอร์ดต้องมี 'ข้อสังเกต/ข้อสั่งการเชิงกลยุทธ์' ครบ 3 ประเด็น ไม่ใช่แค่ 'รับทราบ'","levelSumm":["มีนโยบาย/แนวปฏิบัติ ระบุ 3 ประเด็น (ความต้องการ/วัตถุประสงค์/ขอบเขต)","บอร์ดอนุมัติแผนยุทธศาสตร์ระยะยาว + แผนปฏิบัติการ ก่อนเริ่มปีบัญชี","บอร์ดติดตามผลรายไตรมาส + มอบ 'ข้อสั่งการเชิงกลยุทธ์' (3 ประเด็นครบ)","ประเมินคุณภาพ/ประสิทธิผลกระบวนการ — ระบุ Outcome เชิงรูปธรรม","ปรับปรุงกระบวนการ — มีมติบอร์ด + บันทึกลง KM"],"dimLevels":["L1 — Policy: มีนโยบายและแนวปฏิบัติด้านบริหารจัดการผู้มีส่วนได้ส่วนเสีย ระบุ 3 ประเด็น: (1) ประเด็น/ความต้องการ (2) วัตถุประสงค์ (3) ขอบเขตระดับองค์กร","L2 — Approval: บอร์ดเห็นชอบแผนยุทธศาสตร์ระยะยาวและแผนปฏิบัติการ 'ก่อนเริ่มปีบัญชี (ก่อน 1 ต.ค.)'","L3 — Execution: บอร์ดติดตามผลอย่างน้อยรายไตรมาส และต้องมี 'ข้อสังเกต/ข้อสั่งการ' ครบ 3 ประเด็น ⚠️ บอร์ด กทท. ทำแค่ 'รับทราบ' — ขาดข้อสั่งการเชิงกลยุทธ์","L4 — Effectiveness: ประเมินคุณภาพ/ประสิทธิผลของกระบวนการกำกับดูแล — ต้องระบุ Outcome (ไม่ใช่แค่ Output)","L5 — Improvement: นำผลประเมิน (L4) กลับเข้าที่ประชุมบอร์ด มีมติทบทวนแผนยุทธศาสตร์ Stakeholder และบันทึกลง KM"],"minReqs":{"1":["นโยบายและแนวปฏิบัติด้านบริหารจัดการผู้มีส่วนได้ส่วนเสีย ระบุครบ 3 ประเด็น","มติคณะกรรมการ กทท. เห็นชอบนโยบาย"],"2":["แผนยุทธศาสตร์ระยะยาวและแผนปฏิบัติการ","มติบอร์ดเห็นชอบแผน 'ก่อนวันที่ 1 ตุลาคม'"],"3":["รายงานติดตามผล 4 ไตรมาส เสนอบอร์ด","รายงานประชุมบอร์ดที่มี 'ข้อสังเกตและข้อสั่งการเชิงกลยุทธ์' (ไม่ใช่แค่ 'รับทราบ')"],"4":["รายงานประเมินคุณภาพ/ประสิทธิผลกระบวนการ ระบุ Outcome เชิงรูปธรรม"],"5":["รายงานประชุมบอร์ดที่มีมติทบทวนแผนยุทธศาสตร์ Stakeholder","หลักฐานบันทึกลง KM Portal"]},"integLinks":{"1":["SCM"],"2":["SCM"],"4":["SCM"],"5":["SCM"]},"subComps":{"3":["Hidden Trap: บอร์ดต้องครบ 3 ประเด็น — (1) ติดตามรายไตรมาส (2) บรรลุเป้าตามแผน (3) มอบข้อสั่งการเชิงกลยุทธ์ — กทท. พลาดประเด็นที่ 3 ทำให้ล็อกคะแนนที่ 2.6667"]},"gaps":["บอร์ด กทท. ทำเพียงแค่ 'รับทราบ' ขาดหลักฐานว่ามีข้อสังเกตหรือ 'ข้อสั่งการเชิงกลยุทธ์' ที่มีสาระสำคัญ — คะแนนหยุดที่ 2.6667","ต้องการ 'รายงานประเมินคุณภาพ' ที่ระบุ Outcome เชิงรูปธรรม ไม่ใช่แค่บอกว่าทำเสร็จตามแผน"],"actions":["ฝ่ายเลขาฯ บอร์ดต้องบันทึกรายงานประชุมให้เห็น 'ข้อสั่งการเชิงกลยุทธ์' ชัดเจน (L3)","จัดทำรายงานประเมินประสิทธิผลที่ระบุ Outcome เชิงรูปธรรม เช่น ลดข้อร้องเรียน X% (L4)","นำผลประเมินกลับเข้าที่ประชุมบอร์ด มีมติทบทวนแผนระยะยาว และบันทึกลง KM (L5)"],"docsNeeded":[{"level":"L3","item":"รายงานประชุมบอร์ดที่มี 'ข้อสั่งการเชิงกลยุทธ์' (เพิ่มเติมจากปัจจุบัน)"}],"selfAssessment":[{"level":"L1–2","note":"มีนโยบาย/แนวปฏิบัติ บอร์ดอนุมัติแผนก่อนปีบัญชี","text":"กทท. ได้จัดทำนโยบายและแนวปฏิบัติด้านบริหารจัดการผู้มีส่วนได้ส่วนเสียอย่างเป็นระบบ โดยระบุประเด็นความต้องการ วัตถุประสงค์ และขอบเขตการดำเนินงานระดับองค์กรครบถ้วน และคณะกรรมการ กทท. ได้พิจารณาให้ความเห็นชอบแผนยุทธศาสตร์ระยะยาวและแผนปฏิบัติการ 'ก่อน' เริ่มปีงบประมาณ\n\nอ้างอิง: CG_4.1.1_001.0–001.2, 002.1–002.2, 004.1–004.2"},{"level":"L3","note":"บอร์ดติดตามรายไตรมาส + ข้อสั่งการ (ปี 69)","text":"คณะกรรมการ กทท. ได้ติดตามผลการดำเนินงานตามแผนงานอย่างสม่ำเสมอครบ 4 ไตรมาส พร้อมทั้งได้มอบ 'ข้อสังเกตและข้อสั่งการเชิงกลยุทธ์' แก่ฝ่ายบริหาร เพื่อผลักดันให้การดำเนินงานบรรลุเป้าหมายตามแผน\n\n⚠️ รายงานประชุมต้องระบุ 'ข้อสั่งการเชิงกลยุทธ์' ชัดเจน ห้ามบันทึกแค่ 'รับทราบ'\n\nอ้างอิง: CG_4.1.2_001, CG_4.1.3_001.1–001 (ไตรมาส 1–4)"},{"level":"L4","note":"ประเมินประสิทธิผล ระบุ Outcome (ปี 69)","text":"กทท. มีแนวทางในการประเมินคุณภาพและประสิทธิผลของกระบวนการผ่านการดำเนินงานตามแผนปฏิบัติ โดยระบุตัวชี้วัดของกระบวนการ (Process KPI) ให้เห็นเป็น 'ผลลัพธ์ (Outcome)' อย่างเป็นรูปธรรม\n\nอ้างอิง: CG_4.1.4_001"},{"level":"L5","note":"ปรับปรุงกระบวนการ + บันทึกลง KM (ปี 69)","text":"กทท. มีแนวทางในการประเมินคุณภาพและประสิทธิผลของกระบวนการ และนำผลการประเมินมาสร้างการพัฒนา โดยมีการจัดทำ AAR นำเสนอให้คณะกรรมการพิจารณา เพื่อปรับปรุงกระบวนการปฏิบัติงานให้มีประสิทธิภาพยิ่งขึ้น\n\nอ้างอิง: CG_4.1.5_001–003"}],"docsByLevel":{"1":{"status":"ok","count":9,"groups":[{"label":"นโยบาย/แนวปฏิบัติ + มติบอร์ด","files":[{"code":"CG_4.1.1_001.0–001.2","name":"เล่มนโยบายและแนวปฏิบัติด้านบริหารจัดการผู้มีส่วนได้ส่วนเสีย ปี 68–69"},{"code":"CG_4.1.1_002.1–002.2","name":"มติคณะกรรมการ กทท. ครั้งที่ 8/2567 และ 9/2568 เห็นชอบนโยบาย"}]}]},"2":{"status":"ok","count":3,"groups":[{"label":"รายงานประชุม + มติบอร์ด (อนุมัติแผนก่อนปีบัญชี)","files":[{"code":"CG_4.1.3_002","name":"รายงานประชุม กทท. ครั้งที่ 8/2567"},{"code":"CG_4.1.1_002.1–002.2","name":"มติบอร์ดเห็นชอบนโยบายปี 68 และ 69"}]}]},"3":{"status":"ok","count":8,"groups":[{"label":"รายงานติดตามผล 4 ไตรมาส + มติบอร์ด","files":[{"code":"CG_4.1.2_001","name":"มติคณะกรรมการกลั่นกรอง ครั้งที่ 1/2568"},{"code":"CG_4.1.3_001.1–001","name":"มติ/บท. บอร์ด รับทราบผลการดำเนินงาน ไตรมาส 1–4"}]}]},"4":{"status":"ok","count":1,"groups":[{"label":"รายงานประเมินคุณภาพ","files":[{"code":"CG_4.1.4_001","name":"สรุปการประเมินคุณภาพ"}]}]},"5":{"status":"ok","count":3,"groups":[{"label":"การปรับปรุงกระบวนการ + AAR","files":[{"code":"CG_4.1.5_001–003","name":"สรุปการประเมินคุณภาพ (ฉบับ 1–2) + AAR"}]}]}},"good":["กทท. มีการจัดทำนโยบายและแนวปฏิบัติด้านการบริหารจัดการผู้มีส่วนได้ส่วนเสียอย่างเป็นระบบ โดยมีการระบุประเด็นความต้องการของผู้มีส่วนได้ส่วนเสียครบทั้ง 7 กลุ่มหลัก (พนักงาน/ลูกจ้าง, ลูกค้า, คู่ค้า, ชุมชน, สิ่งแวดล้อม, การแข่งขันอย่างเป็นธรรม, การต่อต้านการทุจริตและคอร์รัปชัน) และมีการทำแผนยุทธศาสตร์/แผนปฏิบัติการเสนอให้คณะกรรมการ กทท. (บอร์ด) อนุมัติก่อนเริ่มปีบัญชี รวมถึงมีการติดตามแผน 100%"],"results":["กทท. ประเมินตนเองถึงระดับ 5 โดยระบุว่ามีการทำแผนให้บอร์ดอนุมัติ บอร์ดรับทราบผลการดำเนินงานรายไตรมาส และมีการนำผลไปประเมินประสิทธิผลเพื่อทบทวนแผนในปีถัดไปแล้ว"],"crossLinks":{"1":["SCM"],"2":["SCM"],"3":["CG"],"4":["SCM","CG"],"5":["SCM","CG"]}},{"id":"5.1","grp":"5","gname":"การเปิดเผยข้อมูล","gw":10,"gs68":4.35,"name":"การเปิดเผยข้อมูลผ่านรายงานประจำปี ที่มีข้อมูลครบถ้วน ถูกต้อง ทันกาล เชื่อถือได้","w":7,"s68":4.5,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"วัดจากจำนวนประเด็นที่เปิดเผยในรายงานประจำปี (14 ประเด็นตาม SE-AM) — L1=3 L2=5 L3=7 L4=10 L5=14 — ✅ Checkbox Simulator: เช็คประเด็นที่มีในรายงานประจำปีแล้ว ระบบคำนวณ L อัตโนมัติ","checkboxMode":true,"checkboxItems":["โครงสร้างของกลุ่มธุรกิจ/โครงสร้างผู้ถือหุ้น เพื่อสะท้อนผู้มีอำนาจควบคุมที่แท้จริง","ประวัติคณะกรรมการ (อายุ/วุฒิการศึกษา/ประวัติการทำงาน/ตำแหน่งอื่นนอกจากในรัฐวิสาหกิจ/การถือหลักทรัพย์)","ข้อมูลประวัติผู้บริหาร","การอธิบายเชิงวิเคราะห์ฐานะการเงิน ผลดำเนินงาน และปัจจัยที่มีผลกระทบ (MD&A)","งบการเงินที่สอบบัญชีรับรอง (งบดุล/กำไรขาดทุน/กระแสเงินสด/หมายเหตุประกอบงบ)","รายงานความรับผิดชอบของคณะกรรมการ/คณะกรรมการตรวจสอบต่อรายงานทางการเงิน","ความเสี่ยงหลักของการดำเนินธุรกิจ","นโยบายและการจ่ายค่าตอบแทนกรรมการ","นโยบายและการจ่ายค่าตอบแทนผู้บริหารระดับสูง","จำนวนครั้งของการประชุมคณะกรรมการและคณะอนุกรรมการ (รายบุคคลทุกคณะ)","การดำเนินงานด้านการกำกับดูแลกิจการที่ดี (CG)","การดำเนินงานด้านความรับผิดชอบต่อสังคมและสิ่งแวดล้อม (CSR/ESG)","นโยบายและผลการจัดการรายการที่เกี่ยวโยงกัน (RPT) — ต้องมีรายละเอียด: ลักษณะ/มูลค่า/ความจำเป็น/ความเห็นบอร์ด","สภาพธุรกิจ แผนงานทางธุรกิจและกลยุทธ์องค์กร"],"checkboxThresholds":{"L1":3,"L2":5,"L3":7,"L4":10,"L5":14},"levelSumm":["เปิดเผยข้อมูลครบ 3 ประเด็น","เปิดเผยข้อมูลครบ 5 ประเด็น","เปิดเผยข้อมูลครบ 7 ประเด็น","เปิดเผยข้อมูลครบ 10 ประเด็น","เปิดเผยข้อมูลครบ 14 ประเด็น"],"dimLevels":["L1: เปิดเผยข้อมูลในรายงานประจำปีครบ 3 ประเด็น จากทั้งหมด 14 ประเด็นตามเกณฑ์ SE-AM","L2: ครบ 5 ประเด็น","L3: ครบ 7 ประเด็น","L4: ครบ 10 ประเด็น","L5: ครบ 14 ประเด็น ⚠️ จุดสำคัญ: ประเด็นที่ 13 (RPT) ต้องมีรายละเอียด ลักษณะความสัมพันธ์/มูลค่า/ความจำเป็น/ความเห็นบอร์ด — หากไม่มี RPT ต้องระบุชัดว่า 'ไม่มี' พร้อมกระบวนการยืนยันจากบอร์ด"],"minReqs":{"1":["รายงานประจำปีที่มีข้อมูลอย่างน้อย 3 ประเด็น"],"2":["ครบ 5 ประเด็น"],"3":["ครบ 7 ประเด็น"],"4":["ครบ 10 ประเด็น"],"5":["ครบ 14 ประเด็น โดยเฉพาะ RPT ต้องมีรายละเอียดเชิงลึก"]},"integLinks":{"1":["RM&IC","SCM","SP","DT"],"5":["RM&IC","SCM","SP","DT"]},"subComps":{"5":["Hidden: ถ้าไม่มี RPT เลย ต้องระบุในรายงานประจำปีว่า 'ไม่มี' พร้อมกระบวนการยืนยัน — ห้ามปล่อยว่าง"]},"gaps":["L5: ข้อมูล RPT ในรายงานประจำปียังไม่สะท้อนสาระสำคัญครบถ้วน — ถูกหักคะแนนเหลือ 4.50 (ไม่เต็ม 5)","ช่องคำอธิบายทุกระดับในระบบ สคร. ระบุ '-ไม่มี-' แม้แนบลิงค์เล่มรายงานประจำปีไว้แล้ว"],"actions":["เพิ่มข้อมูล RPT ในรายงานประจำปีให้ครบถ้วน (ลักษณะความสัมพันธ์/มูลค่า/ความจำเป็น/ความเห็นบอร์ด)","อัปเดตช่องคำอธิบายระบบ สคร. ทุกระดับด้วย Self-Assessment Script"],"docsNeeded":[{"level":"L5","item":"บทวิเคราะห์/รายงาน RPT ที่ระบุมูลค่า ความจำเป็น และความเห็นบอร์ดอย่างชัดเจน"}],"selfAssessment":[{"level":"L1–4","note":"เปิดเผยข้อมูลครบ 3–10 ประเด็น","text":"กทท. ได้ดำเนินการรวบรวมข้อมูลผลการดำเนินงานทั้งด้านการเงินและไม่ใช่การเงิน เพื่อจัดทำเป็นรายงานประจำปี (Annual Report) ประจำปี 2567 โดยมีการเปิดเผยข้อมูลสารสนเทศที่สำคัญครบถ้วนตามเกณฑ์มากกว่า 10 ประเด็น\n\nอ้างอิง: เล่มรายงานประจำปี 2567 (ระบุประเด็นและเลขหน้าตามที่ Checkbox Simulator แสดง)"},{"level":"L5","note":"เปิดเผยครบ 14 ประเด็น — เน้น RPT","text":"กทท. มีการเปิดเผยข้อมูลในรายงานประจำปีครบถ้วนสมบูรณ์ทั้ง 14 ประเด็น โดยในปี 2569 กทท. ได้ยกระดับการเปิดเผยข้อมูลในส่วนของ 'รายการที่เกี่ยวโยงกัน (Related Party Transactions — RPT)' ให้มีความโปร่งใสและรายละเอียดเชิงลึกมากยิ่งขึ้น ครอบคลุมถึงลักษณะความสัมพันธ์ มูลค่ารายการ ความจำเป็น และความเห็นของคณะกรรมการ\n\nอ้างอิง: เล่มรายงานประจำปี 2568 (14 ประเด็น) + CG_5.1.1_001"}],"docsByLevel":{"1":{"status":"ok","count":1,"groups":[{"label":"รายงานประจำปี 2567 (E-Book)","files":[{"code":"เล่มรายงานประจำปี 2567","name":"ประเด็นที่ 1–14 ระบุหน้าในรายงาน"}]}]},"2":{"status":"ok","count":1,"groups":[{"label":"รายงานประจำปี 2567 (5 ประเด็น)","files":[{"code":"เล่มรายงานประจำปี 2567","name":"ประเด็นที่ 1–5"}]}]},"3":{"status":"ok","count":1,"groups":[{"label":"รายงานประจำปี 2567 (7 ประเด็น)","files":[{"code":"เล่มรายงานประจำปี 2567","name":"ประเด็นที่ 1–7"}]}]},"4":{"status":"ok","count":1,"groups":[{"label":"รายงานประจำปี 2567 (10 ประเด็น)","files":[{"code":"เล่มรายงานประจำปี 2567","name":"ประเด็นที่ 1–10"}]}]},"5":{"status":"ok","count":1,"groups":[{"label":"รายงานประจำปี 2567 (14 ประเด็น) — ต้องปรับปรุง RPT","files":[{"code":"เล่มรายงานประจำปี 2567","name":"ประเด็นที่ 1–14 (ต้องเพิ่มรายละเอียด RPT ในรายงานปี 68)"}]}]}},"good":["กทท. มีการจัดทำรายงานประจำปี (E-Book) ที่รวบรวมข้อมูลตามเกณฑ์ประเมินได้ครบทั้ง 14 ประเด็นสำคัญ"],"results":["กทท. ประเมินตนเองถึงระดับ 5 โดยแนบลิงก์หน้าเว็บไซต์รายงานประจำปี และระบุหน้าของเอกสารทั้ง 14 ประเด็นไว้ชัดเจน แต่ในช่องคำอธิบายทุกระดับ (Level 1-5) กลับใส่เพียงคำว่า \"-ไม่มี-\""],"crossLinks":{"1":["DT","RM&IC","SCM","SP"],"2":["DT","RM&IC","SCM","SP"],"3":["DT","RM&IC","SCM","SP"],"4":["DT","RM&IC","SCM","SP"],"5":["DT","RM&IC","SCM","SP"]}},{"id":"5.2","grp":"5","gname":"การเปิดเผยข้อมูล","gw":10,"gs68":4.35,"name":"ระยะเวลาการเผยแพร่รายงานประจำปี","w":1,"s68":4.0,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"วัดระยะเวลาเผยแพร่รายงานประจำปีหลัง สตง. รับรองงบ — L1=ไม่มี L2=ภายใน 3 เดือน L3=2 เดือน L4=1 เดือน L5=ประเมินและปรับปรุงกระบวนการ — กทท. ทำได้ L4 (ภายใน 1 เดือน)","levelSumm":["ไม่มีการเผยแพร่","เผยแพร่ภายใน 3 เดือน หลัง สตง. รับรองงบ","เผยแพร่ภายใน 2 เดือน","เผยแพร่ภายใน 1 เดือน — กทท. ทำได้แล้ว ✓","ประเมินและปรับปรุงกระบวนการเปิดเผยข้อมูล"],"dimLevels":["L1: ไม่มีการเผยแพร่รายงานประจำปี หรือเผยแพร่ล่าช้ามาก","L2: เผยแพร่ภายใน 3 เดือนหลัง สตง. รับรองงบ","L3: เผยแพร่ภายใน 2 เดือนหลัง สตง. รับรองงบ","L4: เผยแพร่ภายใน 1 เดือนหลัง สตง. รับรองงบ ⚠️ วันที่ใน 2 ไฟล์หลักฐานต้องห่างกันไม่เกิน 1 เดือน — หากนับแล้วเกิน 31 วัน ถูกปัดตก L4 ทันที","L5 — Improvement: ประเมินและปรับปรุงกระบวนการเปิดเผยข้อมูล — วิเคราะห์คอขวดเพื่อรักษาสถิติ 1 เดือนอย่างยั่งยืน ผู้ประเมินต้องการเห็น 'Storytelling' ว่า กทท. นำปัญหาจากปีก่อนมาแก้ไขได้อย่างไร"],"minReqs":{"1":["ไม่มีเอกสาร (L1 = ยังไม่ผ่าน)"],"2":["หลักฐานวันที่ สตง. รับรองงบ + วันที่เผยแพร่บนเว็บไซต์ (ห่างกัน ≤ 3 เดือน)"],"3":["วันที่ สตง. รับรองงบ + วันที่เผยแพร่ (ห่างกัน ≤ 2 เดือน)"],"4":["CG_5.2.4_001 วันที่ สตง. รับรองงบการเงินของ กทท.","CG_5.2.4_002 วันที่เผยแพร่บนเว็บไซต์ กทท. (ห่างกัน ≤ 1 เดือน)"],"5":["รายงานประเมินประสิทธิผลและคุณภาพกระบวนการจัดทำรายงานประจำปี"]},"integLinks":{"1":["DT"],"2":["DT"],"3":["DT"],"4":["DT"]},"subComps":{},"gaps":["ช่องคำอธิบายทุกระดับในระบบ สคร. ระบุ '-ไม่มี-' ทำให้ผู้ประเมินไม่เห็นกระบวนการ","L5 ต้องการ 'Storytelling' ว่า กทท. นำปัญหาจากปีก่อนมาวิเคราะห์ลดคอขวดได้อย่างไร — ผู้ประเมินต้องการเห็น Outcome"],"actions":["อัปเดตช่องคำอธิบายด้วย Self-Assessment Script","จัดทำรายงานประเมินประสิทธิผลกระบวนการจัดทำรายงานประจำปี วิเคราะห์คอขวด (L5)"],"docsNeeded":[{"level":"L5","item":"รายงานประเมินประสิทธิผลและคุณภาพกระบวนการจัดทำรายงานประจำปี (วิเคราะห์คอขวด)"}],"selfAssessment":[{"level":"L1–4","note":"เผยแพร่ภายใน 1 เดือน หลัง สตง. รับรองงบ","text":"กทท. ให้ความสำคัญกับความโปร่งใสและความทันกาล โดยสามารถรวบรวมข้อมูล จัดทำ และเผยแพร่รายงานประจำปี (Annual Report) ขึ้นสู่เว็บไซต์องค์กรได้อย่างรวดเร็ว โดยดำเนินการแล้วเสร็จและเผยแพร่ 'ภายใน 1 เดือน' นับจากวันที่ สตง. ลงนามรับรองงบการเงิน ซึ่งถือเป็นความสำเร็จที่รวดเร็วกว่าเกณฑ์มาตรฐาน\n\nอ้างอิง: CG_5.2.4_001 (วันที่ สตง. รับรองงบ) + CG_5.2.4_002 (วันที่เผยแพร่บนเว็บไซต์)"},{"level":"L5","note":"ประเมินและปรับปรุงกระบวนการ (ปี 69)","text":"กทท. ไม่ได้หยุดเพียงการเผยแพร่รายงานได้ตามกรอบเวลา 1 เดือน แต่ได้มีการ 'ประเมินประสิทธิผลและคุณภาพ' ของกระบวนการจัดทำและเปิดเผยข้อมูลทั้งระบบ โดยวิเคราะห์ปัญหา อุปสรรค และคอขวดจากกระบวนการปีที่ผ่านมา เพื่อนำมาปรับปรุงขั้นตอนการส่งมอบข้อมูลข้ามสายงาน ส่งผลให้ กทท. สามารถรักษาสถิติการเปิดเผยข้อมูลภายใน 1 เดือนได้อย่างยั่งยืน\n\nอ้างอิง: CG_5.2.5_001"}],"docsByLevel":{"1":{"status":"ok","count":2,"groups":[{"label":"หลักฐานวันที่ (L1–L4 ใช้ไฟล์เดียวกัน)","files":[{"code":"CG_5.2.4_001","name":"วันที่ สตง. รับรองงบการเงินของ กทท."},{"code":"CG_5.2.4_002","name":"วันที่เผยแพร่บนเว็บไซต์ กทท."}]}]},"2":{"status":"ok","count":2,"groups":[{"label":"หลักฐานวันที่","files":[{"code":"CG_5.2.4_001–002","name":"วันที่ สตง. รับรองงบ + วันที่เผยแพร่บนเว็บไซต์"}]}]},"3":{"status":"ok","count":2,"groups":[{"label":"หลักฐานวันที่","files":[{"code":"CG_5.2.4_001–002","name":"วันที่ สตง. รับรองงบ + วันที่เผยแพร่บนเว็บไซต์"}]}]},"4":{"status":"ok","count":2,"groups":[{"label":"หลักฐานวันที่ (ต้องห่างกัน ≤ 1 เดือน)","files":[{"code":"CG_5.2.4_001","name":"วันที่ สตง. รับรองงบการเงินของ กทท."},{"code":"CG_5.2.4_002","name":"วันที่เผยแพร่บนเว็บไซต์ กทท."}]}]},"5":{"status":"ok","count":1,"groups":[{"label":"รายงานประเมินประสิทธิผล","files":[{"code":"CG_5.2.5_001","name":"รายงานประเมินประสิทธิผลและคุณภาพกระบวนการจัดทำรายงานประจำปี (วิเคราะห์ปัญหาอุปสรรค)"}]}]}},"good":["กทท. มีความรวดเร็วในการเปิดเผยข้อมูล โดยสามารถจัดทำและเผยแพร่รายงานประจำปีลงบนเว็บไซต์ได้สำเร็จ \"ภายใน 1 เดือน\" หลังจากที่สำนักงานการตรวจเงินแผ่นดิน (สตง.) รับรองงบการเงิน ซึ่งถือว่าทำได้ดีที่สุดตามเกณฑ์ระดับ 4"],"results":["กทท. มีการแนบไฟล์หลักฐานครบถ้วน คือ \"วันที่ สตง. รับรองงบการเงิน\" และ \"วันที่เผยแพร่บนเว็บไซต์\" รวมถึงแนบเอกสารประเมินกระบวนการในระดับ 5 แต่ในช่องคำอธิบายกลับระบุเพียงคำว่า\n\"-ไม่มี-\" ในทุกระดับชั้น"],"crossLinks":{"1":["DT","CG"],"2":["DT","CG"],"3":["DT","CG"],"4":["DT","CG"]}},{"id":"5.3","grp":"5","gname":"การเปิดเผยข้อมูล","gw":10,"gs68":4.35,"name":"การเปิดเผยข้อมูลผ่าน Website ของรัฐวิสาหกิจ","w":2,"s68":4.0,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"วัดจากจำนวนประเด็นที่เปิดเผยบนเว็บไซต์ (8 ประเด็นบังคับ) — L1=5 L2=6 L3=7 L4=8 ✅ Checkbox สำหรับ L1–L4, L5=ประเมินประสิทธิผลกระบวนการ (radio 0/0.5/1.0)","checkboxMode":true,"checkboxItems":["การแถลงทิศทางนโยบายขององค์กรโดยผู้บริหารสูงสุด","นโยบายการกำกับดูแลที่ดี","การดำเนินงานตามนโยบายรัฐ","แผนงานที่สำคัญ","ข้อมูลโครงการลงทุนที่สำคัญ","การจัดซื้อจัดจ้าง","ผลการดำเนินงานทั้งการเงินและไม่ใช่การเงินที่สำคัญ","รายงานประจำปี"],"checkboxThresholds":{"L1":5,"L2":6,"L3":7,"L4":8},"checkboxMaxLevel":4,"levelSumm":["เปิดเผยข้อมูลครบ 5 ประเด็นบนเว็บไซต์","เปิดเผยข้อมูลครบ 6 ประเด็น","เปิดเผยข้อมูลครบ 7 ประเด็น","เปิดเผยข้อมูลครบ 8 ประเด็น — กทท. ทำได้แล้ว ✓","ประเมินคุณภาพ/ประสิทธิผลกระบวนการ — แสดง Outcome"],"dimLevels":["L1: เปิดเผยข้อมูลบนเว็บไซต์ครบ 5 ประเด็น (จาก 8 ประเด็นบังคับ)","L2: ครบ 6 ประเด็น","L3: ครบ 7 ประเด็น","L4: ครบ 8 ประเด็น (ทุกประเด็น) พร้อมระบบเวียนแจ้งให้หน่วยงานทบทวนข้อมูลสม่ำเสมอ","L5 — Outcome: ประเมินคุณภาพและประสิทธิผลของกระบวนการเปิดเผยข้อมูล — วิเคราะห์ว่าเว็บไซต์ช่วยสร้างความโปร่งใสได้อย่างไร (Outcome)"],"minReqs":{"1":["ไฟล์หลักฐานการเปิดเผยข้อมูลในเว็บไซต์ครบ 5 ประเด็น"],"2":["ครบ 6 ประเด็น"],"3":["ครบ 7 ประเด็น"],"4":["CG_5.3.4_004 ไฟล์หลักฐาน 8 ประเด็น","CG_5.3.4_001–003 บันทึกเวียนแจ้งหน่วยงาน"],"5":["รายงานประเมินประสิทธิผลและคุณภาพกระบวนการ","ผลประเมิน ITA","หลักฐานการนำเว็บไซต์ใหม่ออกใช้งาน"]},"integLinks":{"1":["DT"],"2":["DT"],"3":["DT"],"4":["DT"],"5":["DT"]},"subComps":{},"gaps":["ช่องคำอธิบายทุกระดับระบุ '-ไม่มี-' ทำให้ผู้ประเมินไม่เห็นว่าเว็บไซต์สร้าง 'Value' ให้องค์กรอย่างไร","L5 ต้องพิสูจน์ว่าการเปลี่ยนเว็บไซต์ใหม่หรือกระบวนการเปิดเผยข้อมูลช่วยลดต้นทุน/เพิ่มความโปร่งใส (Outcome)"],"actions":["อัปเดตช่องคำอธิบายทุกระดับด้วย Self-Assessment Script","จัดทำรายงานประเมินประสิทธิผลกระบวนการเปิดเผยข้อมูล — ระบุ Outcome (L5)"],"docsNeeded":[{"level":"L5","item":"รายงานประเมินประสิทธิผลและ Outcome จากการปรับปรุงเว็บไซต์ใหม่"}],"selfAssessment":[{"level":"L1–4","note":"เปิดเผยข้อมูลครบ 8 ประเด็นบนเว็บไซต์","text":"กทท. ให้ความสำคัญกับการเข้าถึงข้อมูลของประชาชนอย่างเท่าเทียม โดยได้ดำเนินการเปิดเผยข้อมูลข่าวสารที่สำคัญผ่านเว็บไซต์องค์กร (www.port.co.th) อย่างครบถ้วนมากกว่า 8 ประเด็นตามเกณฑ์ประเมิน นอกจากนี้ กทท. ยังมีกระบวนการเวียนแจ้งให้ทุกหน่วยงานทำการทบทวนและยืนยันความถูกต้องของข้อมูลอย่างสม่ำเสมอทุกไตรมาส\n\nอ้างอิง: CG_5.3.4_001–005"},{"level":"L5","note":"ประเมินประสิทธิผล — Outcome และการใช้ประโยชน์ (ปี 69)","text":"กทท. ได้ดำเนินการประเมินคุณภาพและ 'ประสิทธิผล' ของกระบวนการเปิดเผยข้อมูลผ่านเว็บไซต์ โดยนำผลคะแนน ITA รวมถึงผลสำรวจความพึงพอใจของผู้ใช้งานมาวิเคราะห์หาจุดบกพร่อง ซึ่งผลจากการประเมินได้นำไปสู่การปรับปรุงและ 'นำเว็บไซต์รูปแบบใหม่ออกใช้งานจริง'\n\nอ้างอิง: CG_5.3.5_001–006"}],"docsByLevel":{"1":{"status":"ok","count":4,"groups":[{"label":"หลักฐานเปิดเผยข้อมูลเว็บไซต์ + บันทึกเวียน","files":[{"code":"เว็บไซต์ กทท.","name":"ประเด็นที่ 1–8 (link) + CG_5.3.4_001–003"}]}]},"2":{"status":"ok","count":5,"groups":[{"label":"หลักฐาน 6 ประเด็น + บันทึกเวียน","files":[{"code":"CG_5.3.4_001–004","name":"บันทึกเวียนหน่วยงาน / ยืนยัน / ตาราง / การเปิดเผย 8 ประเด็น"}]}]},"3":{"status":"ok","count":5,"groups":[{"label":"หลักฐาน 7 ประเด็น + บันทึกเวียน","files":[{"code":"CG_5.3.4_001–005","name":"บันทึกเวียน / ยืนยัน / ตาราง / การเปิดเผย 8 ประเด็น / รายงานผลรายไตรมาส"}]}]},"4":{"status":"ok","count":5,"groups":[{"label":"หลักฐานครบ 8 ประเด็น + บันทึกเวียน","files":[{"code":"CG_5.3.4_001–005","name":"บันทึกเวียน / ยืนยัน / ตาราง / การเปิดเผย 8 ประเด็น / รายงานผลรายไตรมาส"}]}]},"5":{"status":"ok","count":6,"groups":[{"label":"รายงานประเมินประสิทธิผล + ITA + เว็บไซต์ใหม่","files":[{"code":"CG_5.3.5_001–006","name":"รายงานประเมิน / ผลสำรวจความพึงพอใจ / ITA / นำเว็บไซต์ใหม่ออกใช้งาน"}]}]}},"good":["กทท. มีการจัดการข้อมูลบนเว็บไซต์ได้เป็นอย่างดี สามารถเปิดเผยข้อมูลสารสนเทศได้ครบถ้วนถึง \"8 ประเด็น\" ตามเกณฑ์ระดับ 4 และมีระบบการเวียนแจ้งให้หน่วยงานต่างๆ ยืนยันและทบทวนข้อมูลของตนเองอย่างสม่ำเสมอ"],"results":["กทท. มีการแนบไฟล์ตารางลงข้อมูล ลิงก์เปิดเผยข้อมูล 8 ประเด็น รวมถึงแนบผลสำรวจความพึงพอใจ, ผลคะแนน ITA และหลักฐานการทำเว็บไซต์ใหม่ (ในระดับ 5) ไว้ครบถ้วน แต่จุดบอดเดิมคือในช่องคำอธิบายระบุเพียงคำว่า \"-ไม่มี-\""],"crossLinks":{"1":["DT","CG"],"2":["DT","CG"],"3":["DT","CG"],"4":["DT","CG"],"5":["DT"]}},{"id":"6.1","grp":"6","gname":"คณะกรรมการ","gw":17,"gs68":2.5625,"name":"องค์ประกอบ ความรู้ความสามารถของคณะกรรมการ และการสรรหากรรมการจากบัญชีรายชื่อของกระทรวงการคลัง","w":2,"s68":2.0,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"วัดการมีอยู่ของ Skill Matrix และวัด 'ผลสัมฤทธิ์' ว่าเครื่องมือเหล่านั้นช่วยให้ได้กรรมการที่ตอบโจทย์ทิศทางธุรกิจหรือไม่ — จุดตาย L3: ต้อง 'สรรหาได้ครบถ้วน' ไม่ใช่แค่ส่งอบรม","levelSumm":["มีแนวทาง/คู่มือ Skill Matrix และแนวทาง Director Pool","ใช้ Skill Matrix จริง แต่สรรหากรรมการได้ไม่ครบตาม Skill","ใช้ Skill Matrix จริง และ 'สรรหาได้ครบถ้วน' ตามทักษะที่ต้องการ","ประเมินคุณภาพ/ประสิทธิผลกระบวนการสรรหา","ปรับปรุงนโยบายจากผลประเมิน"],"dimLevels":["L1 — Guideline: มีแนวทางในการกำหนด Skill Matrix และการสรรหากรรมการจากบัญชีรายชื่อ (Director Pool) ของ สคร.","L2 — Execution (partial): นำ Skill Matrix มาใช้จริง แต่สรรหากรรมการได้ 'ไม่ครบถ้วน' ตามทักษะที่ต้องการ","L3 — Execution (full): นำ Skill Matrix มาใช้จริง และสรรหากรรมการได้ 'ครบถ้วน 100%' ⚠️ ต้องมีหลักฐาน Skill Matrix Utilization — นำทักษะบอร์ดไปจัดวางในคณะอนุกรรมการให้ตรงความเชี่ยวชาญ","L4 — Evaluation: ประเมินคุณภาพ/ประสิทธิผลของกระบวนการนำ Skill Matrix มาใช้สรรหา","L5 — Improvement: ปรับปรุงนโยบาย/กระบวนการโดยใช้ผลประเมินเป็นฐาน"],"minReqs":{"1":["คู่มือหรือแนวทางการกำหนด Skill Matrix","ขั้นตอนการสรรหากรรมการจาก Director Pool"],"2":["หลักฐานว่ามีการพยายามใช้ Skill Matrix ในการสรรหา แต่ผลลัพธ์ยังไม่ครบ 100%"],"3":["ตาราง Skill Matrix ปัจจุบันที่แสดงว่าครอบคลุมครบทุกทักษะ","หลักฐาน Skill Matrix Utilization — นำทักษะไปจัดวางในคณะอนุกรรมการ"],"4":["รายงานประเมินประสิทธิผลกระบวนการสรรหาและ Skill Matrix"],"5":["รายงานประชุมที่มีมติสั่งการให้ทบทวน Skill Matrix ประจำปี"]},"integLinks":{"1":["HCM","SP"],"2":["HCM","SP"],"3":["HCM"],"4":["HCM"],"5":["HCM"]},"subComps":{"3":["Critical Blocker: การ 'ส่งอบรม' บอร์ดไม่เพียงพอสำหรับ L3 — ต้องมีหลักฐาน 'Skill Matrix Utilization' ว่านำทักษะไปจัดวางในคณะอนุกรรมการที่ตรงความเชี่ยวชาญ"]},"gaps":["กทท. ส่งบอร์ดอบรม ESG (8 ท่าน) แต่ยังขาดหลักฐาน 'Skill Matrix Utilization' — นำทักษะจัดวางในคณะอนุกรรมการ — ผู้ประเมินล็อกคะแนนไว้ที่ L2","L4–L5 ยังไม่มีเอกสาร"],"actions":["จัดทำตาราง Mapping ว่าทักษะของบอร์ดแต่ละท่านถูกนำไปจัดวางในคณะอนุกรรมการใด (L3)","จัดทำ 'รายงานประเมินประสิทธิผลกระบวนการ Skill Matrix' (L4)"],"docsNeeded":[{"level":"L4","item":"รายงานประเมินประสิทธิผลกระบวนการสรรหาและ Skill Matrix"},{"level":"L5","item":"รายงานประชุมที่มีมติทบทวน Skill Matrix เพิ่มทักษะ Emerging Risks"}],"selfAssessment":[{"level":"L1–2","note":"มีแนวทาง Skill Matrix และ Director Pool","text":"กทท. ได้จัดทำคู่มือและกำหนดแนวทางในการจัดทำ Skill Matrix อย่างเป็นระบบ สอดคล้องกับวิสัยทัศน์องค์กร พร้อมทั้งนำแนวทางการสรรหากรรมการจากบัญชีรายชื่อ (Director Pool) ของ สคร. มาใช้ โดยมีการประเมินทักษะ ความรู้ ความเชี่ยวชาญของคณะกรรมการ กทท. เพื่อหา Skill Gap ประกอบการพิจารณา\n\nอ้างอิง: CG_6.1.1_001–006, CG_6.1.2_001–002"},{"level":"L3","note":"สรรหาครบถ้วน + Skill Matrix Utilization (ปี 69)","text":"กทท. ได้นำผลการประเมิน Skill Matrix มาใช้ประโยชน์ (Utilization) อย่างเป็นรูปธรรม โดยนำผลประเมิน Skill Gap เสนอต่อหน่วยงานกำกับดูแลเพื่อประกอบการสรรหากรรมการ และนำ Skill Matrix มาเป็นเกณฑ์หลักในการ 'แต่งตั้งและจัดสรรคณะกรรมการเข้าดำรงตำแหน่งในคณะอนุกรรมการ' ให้ตรงความเชี่ยวชาญ\n\nอ้างอิง: CG_6.1.3_001–005"},{"level":"L4–5","note":"ประเมินประสิทธิผล + ปรับปรุงนโยบาย (ปี 69)","text":"กทท. ได้ดำเนินการประเมินคุณภาพและประสิทธิผลของกระบวนการนำ Skill Matrix มาใช้สรรหาคณะกรรมการ และนำผลประเมินมาปรับปรุงเกณฑ์ Skill Matrix ให้ครอบคลุมทักษะ Emerging Risks (เช่น AI, Cybersecurity, Green Logistics) เพื่อใช้ในการสรรหาบอร์ดในอนาคต\n\nอ้างอิง: จัดทำในปี 69"}],"docsByLevel":{"1":{"status":"ok","count":7,"groups":[{"label":"แนวทาง Skill Matrix + Director Pool","files":[{"code":"CG_6.1.1_001–003","name":"ขั้นตอนทบทวน / รายงานประชุมบอร์ด / บันทึกทบทวน Skill Matrix"},{"code":"CG_6.1.1_005–006","name":"คู่มือ CG ปี 68–69 (หน้า 23–27)"},{"code":"CG_6.1.2_001–002","name":"การสรรหา/แต่งตั้งกรรมการ / ขั้นตอนตามแนวทาง สคร."}]}]},"2":{"status":"ok","count":2,"groups":[{"label":"หลักฐานการสรรหา (ยังไม่ครบ)","files":[{"code":"CG_6.1.2_001–002","name":"การสรรหาและแต่งตั้งกรรมการ กทท. / ขั้นตอนตามแนวทาง สคร."}]}]},"3":{"status":"ok","count":5,"groups":[{"label":"Skill Matrix + ผลประเมิน + หลักฐานอบรม ESG","files":[{"code":"CG_6.1.3_001–002","name":"Skill Matrix ปี 68–69"},{"code":"CG_6.1.3_003–004","name":"ผลประเมินทักษะ Skill Matrix บอร์ด ปี 67–68"},{"code":"CG_6.1.3_005","name":"รายงานประชุมที่เกี่ยวข้อง"}]}]},"4":{"status":"missing"},"5":{"status":"missing"}},"good":["กทท. มีการกำหนดขั้นตอนการทบทวน Skill Matrix อย่างเป็นระบบ มีการส่งคณะกรรมการเข้ารับการประเมินตนเอง และส่งคณะกรรมการเข้าอบรมเพื่อปิดช่องว่างทักษะ (เช่น อบรมหลักสูตร ESG ของ IRDP จำนวน 8 ท่าน)"],"results":["กทท. พยายามขอคะแนนระดับ 3 โดยแนบผลประเมิน Skill Matrix ปี 67-68 และอธิบายว่าได้ส่งบอร์ดไปอบรมเรื่อง ESG แล้ว แต่อย่างไรก็ตาม ในบริบทของการ \"สรรหา\" ผู้ประเมินยังมองว่ายังไม่บรรลุเกณฑ์ระดับ 3 อย่างแท้จริง"],"crossLinks":{"1":["HCM","SP","CG"],"2":["HCM","SP","CG"],"3":["HCM","CG"],"4":["HCM","CG"],"5":["HCM","CG"]}},{"id":"6.2","grp":"6","gname":"คณะกรรมการ","gw":17,"gs68":2.5625,"name":"การกำหนดทิศทาง กลยุทธ์ และจัดให้มีแผนยุทธศาสตร์ระยะยาวและแผนปฏิบัติการประจำปี","w":2.5,"s68":2.5,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"วัดการมีส่วนร่วมของ 'คณะกรรมการ (Board)' ในการคลอดแผนยุทธศาสตร์ — จุดตาย L3: บอร์ดต้องเป็นผู้ 'จุดประกาย (Initiate)' กลยุทธ์ด้านนวัตกรรม ไม่ใช่แค่รอ 'รับทราบและอนุมัติ'","levelSumm":["คณะกรรมการรัฐวิสาหกิจไม่มีส่วนร่วมในการกำหนดทิศทางฯ","บอร์ดมีส่วนร่วม + อนุมัติแผนก่อนเริ่มปีบัญชี ✓","บอร์ด 'จุดประกาย' กลยุทธ์ด้านนวัตกรรม — มีข้อสั่งการในรายงานประชุม","ประเมินคุณภาพ/ประสิทธิผลกระบวนการทำแผน","ปรับปรุงระยะเวลา (Timeline Improvement) — กทท. ทำได้แล้ว ✓"],"dimLevels":["L1: คณะกรรมการรัฐวิสาหกิจไม่มีส่วนร่วมในการกำหนดทิศทางฯ หรืออนุมัติแผนล่าช้ากว่า 1 ตุลาคม","L2: บอร์ดมีส่วนร่วมและมีมติอนุมัติแผนยุทธศาสตร์/แผนปฏิบัติการ 'ก่อนเริ่มปีบัญชี (ก่อน 1 ต.ค.)' ⚠️ หากอนุมัติล่าช้า ปัดตกเหลือ L1 ทันที","L3: ข้อเสนอแนะของบอร์ดนำไปสู่การ 'ริเริ่มโครงการใหม่ด้านนวัตกรรม/เทคโนโลยี' — ต้องมีหลักฐานในรายงานประชุม ⚠️ กทท. ยังขาดหลักฐานนี้","L4: ประเมินคุณภาพ/ประสิทธิผลกระบวนการทำแผนที่มีบอร์ดร่วม","L5: ปรับปรุง 'ระยะเวลาและกระบวนการ' — กทท. ทำได้แล้ว (ร่นมาเป็นเดือนพฤษภาคม)"],"minReqs":{"1":["ไม่มี (L1 = ยังไม่ผ่าน)"],"2":["รูปถ่าย/รายงานประชุม Workshop ที่บอร์ดเข้าร่วม","มติบอร์ดอนุมัติแผน 'ก่อนวันที่ 1 ตุลาคม'"],"3":["รายงานประชุมบอร์ดที่ระบุ 'ข้อสั่งการเชิงกลยุทธ์' ให้ฝ่ายบริหารทำโครงการนวัตกรรม ⚠️ ห้ามใช้คำ 'รับทราบ'"],"4":["รายงานประเมินประสิทธิผลและคุณภาพกระบวนการทำแผนวิสาหกิจ"],"5":["หลักฐานการปรับร่นระยะเวลา (SIPOC ปีก่อน vs ปีนี้ + มติบอร์ด)"]},"integLinks":{"2":["SP","IM"],"3":["SP","IM"]},"subComps":{"3":["Critical Blocker: ต้องมีหลักฐานว่าบอร์ด 'จุดประกาย' โครงการนวัตกรรม — รายงานประชุมต้องระบุ 'ข้อสั่งการ/ข้อเสนอแนะ' ให้ฝ่ายบริหารนำเทคโนโลยีมาขับเคลื่อน ห้ามแค่ 'รับทราบ'"]},"gaps":["กทท. เก่งเรื่อง Process และ Timeline แต่ตกที่ L3 เพราะรายงานประชุมบอร์ดสะท้อนเพียงการ 'รับทราบและอนุมัติ' ขาดหลักฐานว่าบอร์ด 'จุดประกาย' กลยุทธ์ด้านนวัตกรรม"],"actions":["เปลี่ยนวิธีจดรายงานประชุมบอร์ดจาก 'รับทราบ' เป็น 'ข้อสั่งการ/ข้อเสนอแนะเชิงกลยุทธ์' (L3)","ให้บอร์ด Input เชิงชี้นำตั้งแต่ช่วงทำ Workshop ไม่ใช่รอแค่อนุมัติเล่ม"],"docsNeeded":[{"level":"L3","item":"รายงานประชุมบอร์ดที่ระบุ 'ข้อสั่งการเชิงกลยุทธ์' ด้านนวัตกรรม/เทคโนโลยี"}],"selfAssessment":[{"level":"L1–2","note":"บอร์ดมีส่วนร่วม อนุมัติแผนก่อนปีบัญชี","text":"คณะกรรมการ กทท. ได้เข้ามามีส่วนร่วมในการกำหนดทิศทางการดำเนินงานอย่างใกล้ชิด ตั้งแต่การให้ความเห็นชอบปฏิทินการจัดทำแผน การมอบนโยบาย และเข้าร่วมสัมมนาทบทวนแผน (Workshop) จนถึงการให้ความเห็นชอบแผนยุทธศาสตร์ระยะยาวและแผนปฏิบัติการประจำปี 'ก่อน' เริ่มปีงบประมาณ\n\nอ้างอิง: CG_6.2.2_001–006"},{"level":"L3","note":"บอร์ดจุดประกายกลยุทธ์นวัตกรรม (ปี 69)","text":"ในการจัดทำแผนยุทธศาสตร์ คณะกรรมการ กทท. ไม่ได้เพียงแค่อนุมัติแผนตามที่ฝ่ายบริหารเสนอ แต่ได้มอบ 'ข้อสั่งการและข้อเสนอแนะเชิงกลยุทธ์ (Strategic Guidance)' ที่นำไปสู่การริเริ่มโครงการใหม่ๆ โดยสั่งการให้นำเทคโนโลยีดิจิทัลและนวัตกรรมมาประยุกต์ใช้ขับเคลื่อนองค์กรสู่ความยั่งยืนตามกรอบ ESG\n\nอ้างอิง: CG_6.2.3_001–006"},{"level":"L4–5","note":"ประเมินประสิทธิผล + ปรับร่น Timeline","text":"กทท. มีการประเมินคุณภาพและประสิทธิผลของกระบวนการจัดทำแผนยุทธศาสตร์อย่างต่อเนื่อง ซึ่งผลประเมินนำไปสู่การ 'ปรับปรุงระยะเวลา (Timeline Improvement)' โดยปรับร่นการนำเสนอแผนให้คณะกรรมการเห็นชอบได้สำเร็จภายในเดือนพฤษภาคม (เร็วกว่าเดิม)\n\nอ้างอิง: CG_6.2.4_001–005, CG_6.2.5_002–010"}],"docsByLevel":{"1":{"status":"ok","count":0,"groups":[{"label":"(L1 = ยังไม่ผ่านเกณฑ์)","files":[]}]},"2":{"status":"ok","count":6,"groups":[{"label":"กระบวนการทำแผน + มติบอร์ด","files":[{"code":"CG_6.2.2_001–002","name":"SIPOC กระบวนการ / PPT ขั้นตอนทบทวนแผนวิสาหกิจ"},{"code":"CG_6.2.2_003","name":"ปฏิทินการทบทวนและจัดทำแผนปฏิบัติการ"},{"code":"CG_6.2.2_005–006","name":"มติบอร์ดเสี่ยง / สรุปผลการประชุมบอร์ดความเสี่ยง"}]}]},"3":{"status":"ok","count":6,"groups":[{"label":"รายงานประชุม + มติบอร์ด + ข้อสั่งการ","files":[{"code":"CG_6.2.3_001–006","name":"บท. ขอความเห็นชอบ / PPT / มติบอร์ดเสี่ยง / มติปฏิทิน / นโยบายบอร์ด / รายงานประชุม 10/2567"}]}]},"4":{"status":"ok","count":5,"groups":[{"label":"รายงานประเมินประสิทธิผล + SIPOC","files":[{"code":"CG_6.2.4_001","name":"การประเมินประสิทธิผลและคุณภาพกระบวนการทบทวนและจัดทำแผนวิสาหกิจ"},{"code":"CG_6.2.4_002–005","name":"หลักเกณฑ์ สคร./คค. + SIPOC ปี 67–68"}]}]},"5":{"status":"ok","count":5,"groups":[{"label":"หลักฐาน Timeline Improvement","files":[{"code":"CG_6.2.5_002–005","name":"หลักเกณฑ์ สคร./คค. + SIPOC ปี 67–68"},{"code":"CG_6.2.5_009–010","name":"ผลการดำเนินงานตามนโยบายบอร์ด ปีงบ 68"}]}]}},"good":["บอร์ดมีส่วนร่วมตั้งแต่การจัดทำ Workshop ทบทวนแผน และ กทท. มีการปรับปรุง \"ระยะเวลา (Timeline)\" โดยเลื่อนการอนุมัติแผนให้เสร็จไวขึ้น (เป็นภายในเดือนพฤษภาคม) เพื่อให้ทันกรอบเวลาของ สคร. และกระทรวงคมนาคม"],"results":["กทท. ประเมินตนเองถึงระดับ 5 โดยแนบเอกสารตารางปฏิทินการทำงาน มติคณะกรรมการอนุมัติแผนก่อนเริ่มปีบัญชี และหลักฐานการปรับร่นระยะเวลาการทำแผนไว้อย่างครบถ้วน"],"crossLinks":{"2":["SP","IM","DT"],"3":["SP","IM","DT"]}},{"id":"6.3","grp":"6","gname":"คณะกรรมการ","gw":17,"gs68":2.5625,"name":"การกำกับดูแลการดำเนินตามแผนงานของระบบการจัดการองค์กรที่สำคัญ","w":3,"s68":2.5,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"วัดบทบาทของ 'บอร์ด' ในการ Oversight แผนงาน Enablers สำคัญ (DT/HCM/IA/KM/RM/SP/IM) — จุดตาย L3: ต้องมีหลักฐาน 'ข้อสั่งการ' จากบอร์ดในรายงานประชุม — ห้ามมีแค่ 'รับทราบ'","levelSumm":["บอร์ดปล่อยให้ฝ่ายต่างๆ ทำแผนกันเอง ไม่เคยขอดูเป้าหมายก่อน","บอร์ดเห็นชอบแผนงาน Enablers ก่อนเริ่มปีบัญชี ✓","บอร์ดมี 'ข้อสั่งการเชิงกลยุทธ์' แก่ฝ่ายบริหาร (ไม่ใช่แค่รับทราบ)","ประเมินประสิทธิผลกระบวนการกำกับดูแลบอร์ดต่อแผนงาน","ปรับปรุงรูปแบบการรายงาน — เช่น Dashboard Real-time"],"dimLevels":["L1: บอร์ดปล่อยให้ฝ่ายต่างๆ (DT/HR/IA/KM) ทำแผนกันเอง ไม่เคยขอดูเป้าหมายก่อน","L2: บอร์ด/อนุกรรมการพิจารณาให้ความเห็นชอบแผนงาน Enablers ก่อนเริ่มปีบัญชี","L3: บอร์ดมี 'ข้อเสนอแนะ/ข้อสั่งการ' เพื่อแก้ไขอุปสรรคและผลักดันแผนงาน ⚠️ ห้ามมีแค่มติ 'รับทราบ'","L4: ประเมินประสิทธิผลกระบวนการกำกับดูแลบอร์ดต่อแผนงาน — วัดว่าช่วยลดความล่าช้าได้จริงไหม","L5: ปรับปรุงรูปแบบการรายงาน — เช่น นำ Dashboard Real-time มาแทนกระดาษ"],"minReqs":{"1":["ไม่มี (L1 = ยังไม่ผ่าน)"],"2":["รายงานประชุมบอร์ด/อนุกรรมการที่มีวาระ 'พิจารณาอนุมัติ/เห็นชอบแผนงาน Enablers'"],"3":["รายงานประชุมบอร์ดที่ระบุ 'บอร์ดมีข้อเสนอแนะ/ข้อสั่งการให้ฝ่าย...' ⚠️ ห้ามแค่ 'รับทราบ'"],"4":["รายงานสรุปผลประเมินว่าข้อสั่งการบอร์ดช่วยลดความล่าช้า/แก้ปัญหา Bottleneck ได้กี่เปอร์เซ็นต์"],"5":["ภาพหน้าจอ Dashboard ติดตามผล Real-time + มติบอร์ดสั่งการให้ใช้งาน"]},"integLinks":{"1":["DT","HCM","KM","IA"],"2":["DT","HCM","KM","IA"],"3":["DT","HCM","KM","IA"],"4":["DT","HCM","KM","IA","SP"],"5":["KM"]},"subComps":{"3":["Cross-Check Warning: ถ้าฝ่าย CG แนบรายงานประชุมอ้างว่า 'บอร์ดมีข้อสั่งการเรื่อง DT' — ผู้ประเมินจะพลิกไปตรวจหลักฐานของฝ่าย DT ว่าได้นำข้อสั่งการนั้นไปปรับแผนจริงหรือไม่"]},"gaps":["บอร์ดทำเพียงแค่ 'รับทราบ' ขาดหลักฐาน 'ข้อสั่งการ (Strategic Guidance)' ในรายงานประชุม — ทำให้ L3 ไม่ผ่าน","L4–L5 ยังไม่มีเอกสาร"],"actions":["ฝ่ายเลขาฯ บอร์ดต้องบันทึกรายงานประชุมให้เห็น 'ข้อสั่งการเชิงกลยุทธ์' ชัดเจน (L3)","ส่งสำเนาข้อสั่งการบอร์ดให้เจ้าภาพ Enablers แต่ละด้านนำไปแนบเป็นหลักฐานด้วย"],"docsNeeded":[{"level":"L4","item":"รายงานสรุปว่าข้อสั่งการบอร์ดช่วยลดความล่าช้าได้จริงไหม"},{"level":"L5","item":"ภาพหน้าจอ Dashboard Real-time + มติบอร์ดสั่งใช้งาน"}],"selfAssessment":[{"level":"L1–2","note":"บอร์ดเห็นชอบแผนงาน Enablers ก่อนปีบัญชี","text":"คณะกรรมการ กทท. ให้ความสำคัญกับการกำกับดูแลระบบการจัดการองค์กรที่สำคัญ โดยได้กำหนดให้ฝ่ายบริหารนำเสนอรายงานความคืบหน้าของแผนงานหลัก ได้แก่ DT, HCM, IA และ KM ให้คณะกรรมการรับทราบและติดตามอย่างต่อเนื่องเป็นประจำทุกไตรมาส\n\nอ้างอิง: CG_6.3.2_001–004"},{"level":"L3","note":"บอร์ดมีข้อสั่งการเชิงกลยุทธ์ (ปี 69)","text":"ในการกำกับดูแลแผนงาน คณะกรรมการ กทท. ไม่ได้ทำเพียงแค่รับทราบรายงาน แต่ได้ทำหน้าที่พิจารณา วิเคราะห์ความล่าช้า และให้ 'ข้อสังเกตและข้อสั่งการเชิงกลยุทธ์' แก่ฝ่ายบริหารอย่างเป็นรูปธรรม เพื่อช่วยปลดล็อก Bottleneck และผลักดันให้แผนงานบรรลุ KPI\n\nอ้างอิง: CG_6.3.3_001–005"},{"level":"L4–5","note":"ประเมินประสิทธิผล + Dashboard Real-time (ปี 69)","text":"กทท. ได้จัดทำการประเมินประสิทธิผลของกระบวนการกำกับดูแลแผนงานโดยคณะกรรมการ ซึ่งผลประเมินพบว่าข้อสั่งการบอร์ดช่วยลดความล่าช้าของโครงการสำคัญได้จริง และได้นำผลประเมินไปปรับปรุงรูปแบบการนำเสนอ โดยเปลี่ยนจากกระดาษเป็น Dashboard Real-time\n\nอ้างอิง: จัดทำในปี 69"}],"docsByLevel":{"1":{"status":"ok","count":0,"groups":[{"label":"(L1 = ยังไม่ผ่านเกณฑ์)","files":[]}]},"2":{"status":"ok","count":4,"groups":[{"label":"รายงานประชุม + มติ (อนุมัติแผน Enablers)","files":[{"code":"CG_6.3.2_001–004","name":"แผนปฏิบัติการดิจิทัล / รายงานประชุมบอร์ด / รายงานประชุม KMDTIM / รายงานประชุมบอร์ด HR"}]}]},"3":{"status":"ok","count":5,"groups":[{"label":"รายงานติดตามผล 4 ไตรมาส","files":[{"code":"CG_6.3.3_001–005","name":"รายงานบอร์ด กทท. ไตรมาส 1–3 + รายงานการดำเนินงาน KMDTIM (ต.ค.–ธ.ค.67 / ม.ค.–มิ.ย.68)"}]}]},"4":{"status":"missing"},"5":{"status":"missing"}},"good":["กทท. มีการนำเสนอรายงานความคืบหน้าของแผนงานระบบการจัดการองค์กรที่สำคัญ (เช่น แผนด้านเทคโนโลยีดิจิทัล-DT, ด้านบริหารทุนมนุษย์-HCM, ด้านตรวจสอบภายใน-IA และด้านจัดการความรู้-KM) ให้คณะกรรมการ (บอร์ด) รับทราบเป็นรายไตรมาสได้อย่างสม่ำเสมอ"],"results":["กทท. มีการแนบรายงานการประชุมบอร์ดเพื่อยืนยันว่าบอร์ดได้ติดตามแผนงานทั้ง 4 ด้านแล้ว (DT, HR, KM, IA)"],"crossLinks":{"1":["DT","HCM","KM","IA","CG"],"2":["DT","HCM","KM","IA","CG"],"3":["DT","HCM","KM","IA"],"4":["SP","DT","HCM","KM","IA"],"5":["KM"]}},{"id":"6.4","grp":"6","gname":"คณะกรรมการ","gw":17,"gs68":2.5625,"name":"การกำกับดูแลการดำเนินตามแผนงาน — การประเมินผลและกำหนดค่าตอบแทนผู้บริหาร","w":2,"s68":4.0,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"วัดระบบประเมินผล CEO และผู้บริหารระดับสูง ครบ 2 ระดับ — L1–2: มีเกณฑ์ครบ 2 ระดับ L3–4: ผูกกับระบบแรงจูงใจครบ 2 ระดับ L5: ประเมินประสิทธิผลของระบบ","levelSumm":["มีหลักเกณฑ์ชัดเจน แต่ 'ไม่ครบ 2 ระดับ'","มีหลักเกณฑ์ชัดเจน 'ครบทั้ง 2 ระดับ' ✓","ผูกกับระบบแรงจูงใจ แต่ 'ไม่ครบ 2 ระดับ'","ผูกกับระบบแรงจูงใจ 'ครบทั้ง 2 ระดับ' ✓","ประเมินประสิทธิผลของระบบ — ปรับปรุง KPI ให้ท้าทายขึ้น"],"dimLevels":["L1: มีหลักเกณฑ์การประเมินที่ชัดเจน แต่ 'ไม่ครบ 2 ระดับ' (มีแค่ CEO หรือแค่รองผู้อำนวยการ)","L2: มีหลักเกณฑ์การประเมินที่ชัดเจน 'ครบทั้ง 2 ระดับ' (CEO + รองผู้อำนวยการทุกคน)","L3: มีการนำไปผูกกับระบบแรงจูงใจ แต่ 'ไม่ครบ 2 ระดับ'","L4: มีการนำไปผูกกับระบบแรงจูงใจ 'ครบทั้ง 2 ระดับ' (ทั้ง CEO และรองผู้อำนวยการได้รับผลตอบแทนตาม KPI จริง)","L5: นำระบบมา 'ประเมินประสิทธิผล' ว่าโครงสร้างผลตอบแทนและ KPI กระตุ้นผู้บริหารได้จริงหรือไม่ และนำผลไปปรับปรุง"],"minReqs":{"1":["สัญญาจ้างผู้อำนวยการ กทท. และ KPI เฉพาะ CEO"],"2":["หลักเกณฑ์/คู่มือบริหารผลการปฏิบัติงาน KPI และพฤติกรรม (ครบทั้ง 2 ระดับ)"],"3":["มติบอร์ดเห็นชอบผลการประเมิน + หลักเกณฑ์ Pay for Performance (CEO เท่านั้น)"],"4":["มติบอร์ดเห็นชอบผลการประเมิน + Pay for Performance + แต่งตั้งระดับ 14–16 (ครบทั้ง 2 ระดับ)"],"5":["รายงานผลการประเมินประสิทธิผลระบบประเมินผลและกำหนดค่าตอบแทนผู้บริหาร","มติบอร์ดสั่งการให้ปรับปรุงเกณฑ์การประเมิน"]},"integLinks":{"1":["SP"],"2":["SP"],"4":["HCM"],"5":["HCM"]},"subComps":{},"gaps":["กทท. ส่งหลักฐาน HR Audit ระดับ 5 แต่ผู้ประเมินมองว่าเป็นการทบทวน 'กระบวนการ' ทั่วไป ยังขาดการประเมินเชิงลึกถึง 'ประสิทธิผล' ว่าจูงใจและรักษาผู้บริหารคนเก่งไว้ได้จริงหรือไม่"],"actions":["จัดทำ 'รายงานประเมินประสิทธิผลระบบประเมินผลและกำหนดค่าตอบแทนผู้บริหาร' (L5)","นำผลประเมินเสนอบอร์ดมีมติสั่งการปรับปรุงเกณฑ์การประเมิน"],"docsNeeded":[{"level":"L5","item":"รายงานประเมินประสิทธิผลระบบประเมินผลและกำหนดค่าตอบแทนผู้บริหาร"},{"level":"L5","item":"มติบอร์ดสั่งการให้ปรับปรุงเกณฑ์การประเมิน"}],"selfAssessment":[{"level":"L1–4","note":"มีระบบประเมินผล CEO และผู้บริหารระดับสูงครบ 2 ระดับ","text":"กทท. ให้ความสำคัญกับการบริหารผลการปฏิบัติงาน โดยจัดให้มีการประเมิน 'ผู้บริหารสูงสุด' และ 'ผู้บริหารระดับสูง' อย่างเป็นระบบ มีการประเมินแบบ 360 องศา และ Cascading KPIs นอกจากนี้ ได้นำผลการประเมินผูกโยงกับ 'ระบบแรงจูงใจ' ครบทั้ง 2 ระดับ ทั้งตัวเงิน (Pay for Performance) และไม่ใช่ตัวเงิน (คะแนนเลื่อนตำแหน่ง 14–16)\n\nอ้างอิง: CG_6.4.1–6.4.4"},{"level":"L5","note":"ประเมินประสิทธิผลระบบประเมินผล (ปี 69)","text":"กทท. ได้ดำเนินการ 'ประเมินประสิทธิผล' ของตัวระบบการประเมินผลงานและกำหนดค่าตอบแทนผู้บริหาร โดยวิเคราะห์ความสอดคล้องระหว่างค่าตอบแทนที่จ่ายกับผลสัมฤทธิ์ยุทธศาสตร์องค์กร และนำผลไปปรับปรุงเกณฑ์ถ่ายทอดตัวชี้วัด (KPIs) ให้มีความท้าทายและสะท้อน Outcome มากยิ่งขึ้น\n\nอ้างอิง: CG_6.4.5_001–004"}],"docsByLevel":{"1":{"status":"ok","count":5,"groups":[{"label":"หลักเกณฑ์ประเมิน CEO","files":[{"code":"CG_6.4.1_001–005","name":"คำสั่งแต่งตั้งคณะกรรมการประเมิน / กระบวนการประเมิน / แผนงาน / สัญญาจ้าง / มติบอร์ดลับ"}]}]},"2":{"status":"ok","count":5,"groups":[{"label":"หลักเกณฑ์ประเมินครบ 2 ระดับ","files":[{"code":"CG_6.4.2_001–005","name":"คำสั่ง / กระบวนการ / แผนงาน / สัญญาจ้าง / มติบอร์ด"}]}]},"3":{"status":"ok","count":6,"groups":[{"label":"หลักเกณฑ์ผูกกับระบบแรงจูงใจ","files":[{"code":"CG_6.4.3_001–006","name":"สัญญาจ้าง / บัญชีโครงสร้างเงินเดือน / เกณฑ์แต่งตั้ง 14–16 / Pay for Performance / การประเมินอิงตัวชี้วัด / สรุปคะแนนประเมิน"}]}]},"4":{"status":"ok","count":6,"groups":[{"label":"ระบบแรงจูงใจครบ 2 ระดับ","files":[{"code":"CG_6.4.4_001–006","name":"สัญญาจ้าง / บัญชีโครงสร้างเงินเดือน / เกณฑ์แต่งตั้ง 14–16 / Pay for Performance / การประเมินอิงตัวชี้วัด / สรุปคะแนนประเมิน"}]}]},"5":{"status":"ok","count":4,"groups":[{"label":"ประเมินประสิทธิผลระบบ","files":[{"code":"CG_6.4.5_001","name":"ผลการประเมิน Enabler ด้าน HCM"},{"code":"CG_6.4.5_002–003","name":"มติ คกก. 13/67 และ 2/68 กำหนดตัวชี้วัดระดับสายงาน"},{"code":"CG_6.4.5_004","name":"SIPOC กระบวนการประเมินผลการปฏิบัติงาน"}]}]}},"good":["กทท. มีหลักเกณฑ์การประเมินผลผู้อำนวยการ กทท. (CEO) และผู้บริหารระดับสูงที่ชัดเจนมาก มีการใช้กระบวนการถ่ายทอดตัวชี้วัด (Cascading KPIs) และการประเมินแบบ 360 องศา (น้ำหนัก 20% สำหรับ CEO) รวมถึงมีการผูกผลการประเมินเข้ากับระบบแรงจูงใจที่เป็นรูปธรรม ทั้งตัวเงิน (ปรับขึ้นเงินเดือน/ค่าตอบแทนผันแปร) และไม่ใช่ตัวเงิน (คะแนนสำหรับการปรับเลื่อนตำแหน่ง 14-16)"],"results":["ข้อนี้ กทท. เขียนคำอธิบายมาได้ดีมาก ไม่ได้ใส่คำว่า\n\"-ไม่มี-\" เหมือนข้ออื่นๆ โดยอธิบายกระบวนการครบถ้วน และในระดับ 5 มีการแนบหลักฐานเรื่องการทำ \"HR Audit\" เพื่อทบทวนกระบวนการ"]},{"id":"6.5","grp":"6","gname":"คณะกรรมการ","gw":17,"gs68":2.5625,"name":"ประสิทธิภาพการประชุมของคณะกรรมการ","w":2,"s68":1.5,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"ประเมิน 4 มิติ: วางแผน (ปฏิทิน) · ทันกาล (ส่งเอกสาร 7 วัน) · คุณภาพเอกสาร · ประเมินและปรับปรุง — จุดตาย L2: ต้องส่งเอกสารล่วงหน้า 7 วัน 'ครบทุกครั้ง' ไม่มีข้อยกเว้น","levelSumm":["มีปฏิทินการประชุมล่วงหน้าทั้งปี","ส่งวาระ/เอกสาร 'เฉลี่ยอย่างน้อย 7 วัน' ✗ (กทท. ยังทำไม่ได้สม่ำเสมอ)","ส่งเอกสาร 7 วัน 100% ทุกครั้ง — ไม่มีวาระจร + ระบบ Timestamp","ประเมินประสิทธิภาพการประชุม — แบบสำรวจจากบอร์ด","นำผลประเมินมาปรับปรุงกระบวนการ"],"dimLevels":["L1 — Planning: กำหนดปฏิทินการประชุมคณะกรรมการล่วงหน้าทั้งปี และแจ้งบอร์ด","L2 — Timeliness: ส่งวาระและเอกสารประกอบการประชุม 'เฉลี่ยอย่างน้อย 7 วัน' ⚠️ กทท. ถูกปัดตกเพราะส่งข้อมูลผ่าน Line Group ซึ่งจับเวลาได้ยาก และบางครั้งส่งล่าช้า","L3 — Quality: ส่งเอกสาร 7 วัน '100% ทุกครั้ง' — ไม่มีวาระจร + ต้องมี Log/Timestamp ยืนยัน ⚠️ ต้องนำ Digital Boardroom มาบังคับใช้","L4 — Evaluation: ประเมินประสิทธิภาพการประชุม — แบบสำรวจถามบอร์ดว่าเอกสารอ่านง่ายไหม เวลาประชุมพอไหม","L5 — Improvement: นำผลประเมินมาปรับปรุงกระบวนการ เช่น ทำ Executive Summary หน้าเดียวแทนเอกสารหนา"],"minReqs":{"1":["ปฏิทินแผนการประชุมคณะกรรมการทั้งปี"],"2":["หลักฐานการนำส่งวาระและเอกสารประกอบ + หนังสือเชิญประชุม","e-Meeting / ตารางส่งเอกสาร"],"3":["ระเบียบวาระการประชุมที่ไม่มีวาระจร","Log/Timestamp ยืนยันส่งเอกสาร >7 วัน ทุกครั้ง (Digital Boardroom)"],"4":["สถิติการเข้าร่วมประชุมของกรรมการทุกชุด"],"5":["รายงานประเมินความพึงพอใจต่อการจัดประชุมบอร์ด","หลักฐานการปรับปรุงกระบวนการจัดประชุม"]},"integLinks":{},"subComps":{"2":["Critical Blocker: การส่งข้อมูลผ่าน Line Group ถือว่าไม่เป็นทางการ — ต้องใช้ระบบ Digital Boardroom และมี Timestamp ยืนยันส่งล่วงหน้า 7 วัน ทุกครั้งโดยไม่มีข้อยกเว้น"]},"gaps":["กทท. ส่งข้อมูลผ่าน Line Group สำหรับวาระเร่งด่วน — TRIS มองว่าไม่เป็นทางการและจับเวลาได้ยาก","ยังไม่ครบเกณฑ์ 7 วันทุกครั้ง — คะแนนถูกปัดตก L2 (ได้แค่ 1.5 เป็นเยียวยา)","L5 ยังไม่มีเอกสาร"],"actions":["นำ Digital Boardroom มาบังคับใช้ — Lock เวลาส่งเอกสาร ≥ 7 วัน ทุกครั้ง","ตัดวาระจรออกจากการประชุม (Zero Tolerance Policy)","จัดทำแบบสำรวจประเมินประสิทธิภาพการประชุมจากบอร์ด (L4)"],"docsNeeded":[{"level":"L3","item":"หลักฐาน Timestamp ยืนยันส่งเอกสาร 7 วัน 100% ทุกครั้ง (Digital Boardroom)"},{"level":"L5","item":"รายงานประเมินความพึงพอใจ + หลักฐานปรับปรุงกระบวนการประชุม"}],"selfAssessment":[{"level":"L1–2","note":"มีปฏิทิน + ส่งเอกสารล่วงหน้า (เฉลี่ย 7 วัน)","text":"กทท. ได้ยกระดับประสิทธิภาพการประชุมคณะกรรมการ โดยมีการกำหนดปฏิทินการประชุมล่วงหน้าตลอดทั้งปีอย่างชัดเจน และได้นำ 'ระบบการประชุมอิเล็กทรอนิกส์ (Digital Boardroom)' มาใช้บังคับ ทำให้สามารถจัดส่งวาระและเอกสารให้คณะกรรมการล่วงหน้าอย่างน้อย 7 วัน เฉลี่ยครบถ้วน\n\nอ้างอิง: CG_6.5.1_001–002, CG_6.5.2_001–005"},{"level":"L3","note":"ส่งเอกสาร 7 วัน 100% — คัดกรองวาระ (ปี 69)","text":"กทท. ยกระดับขั้นตอนให้ได้ 'ส่งเอกสาร 7 วัน ครบถ้วน 100% ทุกครั้ง' โดยนำ Digital Boardroom มาใช้บังคับเพื่อ Lock กำหนดเวลา และฝ่ายเลขาฯ บอร์ดมีกลไกคัดกรองวาระ จัดทำ Executive Summary ในทุกวาระสำคัญ\n\nอ้างอิง: CG_6.5.3_001–005"},{"level":"L4–5","note":"ประเมินประสิทธิภาพ + ปรับปรุงกระบวนการ","text":"กทท. มีการประเมินประสิทธิภาพการจัดประชุมคณะกรรมการเป็นประจำทุกปี โดยรวบรวมข้อเสนอแนะจากคณะกรรมการมาวิเคราะห์และ 'ปรับปรุงกระบวนการ' อย่างต่อเนื่อง เช่น การปรับปรุงคู่มือการนำเสนอวาระเพื่อลดความซ้ำซ้อน\n\nอ้างอิง: CG_6.5.4_001–004"}],"docsByLevel":{"1":{"status":"ok","count":2,"groups":[{"label":"ปฏิทินการประชุม","files":[{"code":"CG_6.5.1_001","name":"กำหนดแผนการประชุม กทท. ปีงบประมาณ 2568"},{"code":"CG_6.5.1_002","name":"รายงานกำหนดแผนการประชุม กทท. ปีงบประมาณ 2568"}]}]},"2":{"status":"ok","count":5,"groups":[{"label":"หลักฐานส่งเอกสาร 7 วัน","files":[{"code":"CG_6.5.2_001","name":"รายการเอกสารนำส่งคณะกรรมการ กทท. ปีงบ 2568"},{"code":"CG_6.5.2_002","name":"หนังสือเชิญประชุม กทท. ปีงบประมาณ 2568"},{"code":"CG_6.5.2_003","name":"e-Meeting ปีงบประมาณ 2568"},{"code":"CG_6.5.2_004–005","name":"คู่มือ CG ปี 68–69 (หน้า 83–84)"}]}]},"3":{"status":"ok","count":5,"groups":[{"label":"ระเบียบวาระ + รายงานประชุม","files":[{"code":"CG_6.5.3_001","name":"ระเบียบวาระการประชุม กทท. ปีงบประมาณ 2568"},{"code":"CG_6.5.3_002–005","name":"รายงานประชุมคณะกรรมการ กทท. ครั้งที่ 11–13/2567 + 1/2568"}]}]},"4":{"status":"ok","count":4,"groups":[{"label":"สถิติการเข้าร่วมประชุม","files":[{"code":"CG_6.5.4_001–004","name":"สถิติการเข้าร่วมประชุม: กรรมการ กทท. / กรรมการตรวจสอบ / กรรมการบริหารความเสี่ยง / กรรมการกำกับดูแลที่ดี"}]}]},"5":{"status":"missing"}},"good":["มีการจัดทำปฏิทินการประชุมล่วงหน้าตลอดปี และมีความพยายามแก้ปัญหาเฉพาะหน้าในกรณีวาระเร่งด่วน โดยการส่งข้อมูลให้คณะกรรมการทราบล่วงหน้าผ่านทาง \"กลุ่ม Line\""],"results":[]},{"id":"6.6","grp":"6","gname":"คณะกรรมการ","gw":17,"gs68":2.5625,"name":"การเสริมสร้างการกำกับดูแลที่ดีในรัฐวิสาหกิจ (Compliance & CG)","w":4,"s68":3.0,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"ประเมิน Board Meeting Lifecycle ทั้งระบบ — L3 ผ่านแล้วจากการตั้งหน่วยงาน Compliance แยก — L4 ต้องพิสูจน์ว่า 'ปลอดคดี' ในรอบปี","levelSumm":["มีนโยบาย CG / คู่มือ / คณะอนุกรรมการครบ 6 ชุด ✓","บอร์ดอนุมัติแผน CG ก่อนปีบัญชี + ติดตาม + ข้อสั่งการเชิงกลยุทธ์","ตั้งหน่วยงาน Compliance แยกเป็นเอกเทศ — กทท. ผ่านแล้ว ✓","ปลอดข้อร้องเรียน/ฟ้องร้อง + แผน Compliance เชิงรุก","ประเมินและยกระดับ — Dashboard แจ้งเตือนกฎหมาย Early Warning"],"dimLevels":["L1 — Foundation: มีนโยบาย คู่มือ CG และ 'คำสั่งแต่งตั้งและกฎบัตร' คณะอนุกรรมการบังคับครบ 6 ชุด (ตรวจสอบ/สรรหา/CG/บริหารความเสี่ยง/ดิจิทัล/นวัตกรรม)","L2 — Planning & Oversight: บอร์ดอนุมัติแผน CG ระยะยาวและแผนปฏิบัติการ 'ก่อนเริ่มปีบัญชี' + ติดตามผลรายไตรมาส + มี 'ข้อสังเกตและข้อเสนอแนะ' + ดำเนินการบรรลุเป้าหมายของแผนปฏิบัติการประจำปีได้อย่างครบถ้วน","L3 — Compliance Unit: กำหนดผู้รับผิดชอบ/หน่วยงานทำหน้าที่ Compliance Unit อย่างเป็นระบบ (ตั้งหน่วยใหม่ หรือปรับปรุงอำนาจหน้าที่หน่วยงานเดิมที่มีอยู่ก็ได้ ตามคู่มือ สคร.) — กทท. ผ่านแล้ว ✓","L4 — Zero Lawsuits: ปฏิบัติตามกฎหมายโดย 'ไม่ถูกร้องเรียนหรือฟ้องร้อง' จากการฝ่าฝืนกฎระเบียบ (Zero Legal Incident)","L5 — System Improvement: นำ Dashboard แจ้งเตือนกฎหมาย (Early Warning System) ออกใช้จริง — ประเมินและยกระดับกระบวนการ"],"minReqs":{"1":["นโยบาย CG + คู่มือ CG (ฉบับประกาศใช้)","คำสั่งแต่งตั้ง + กฎบัตร คณะอนุกรรมการครบ 6 ชุด"],"2":["แผน CG ระยะยาว 2568–2572 + แผนปฏิบัติการ 2568 (มติบอร์ดก่อน 1 ต.ค.)","รายงานติดตามผลรายไตรมาสพร้อม 'ข้อสังเกต/ข้อสั่งการ'"],"3":["คำสั่งตั้งแผนก Compliance + Job Description หัวหน้าแผนก","มติคณะกรรมการ กทท. ตั้งแผนก Compliance"],"4":["แผนปฏิบัติการ Compliance เชิงรุก","รายงานสรุปสถิติ 'ไม่ถูกฟ้องร้อง/ร้องเรียน' ในรอบปี"],"5":["รายงานประเมินประสิทธิผลกระบวนการ Compliance","Dashboard แจ้งเตือนความเสี่ยงด้านกฎหมาย (Early Warning System)"]},"integLinks":{"4":["RM&IC","DT"],"5":["RM&IC","DT"]},"subComps":{},"gaps":["กทท. ผ่าน L3 แล้ว (ตั้งหน่วยงาน Compliance) แต่ยังขาดแผนปฏิบัติการ Compliance เชิงรุกและรายงาน 'Zero Legal Incident' สำหรับ L4","L5 ยังไม่มีเอกสาร — ต้องพัฒนา Dashboard แจ้งเตือนกฎหมาย"],"actions":["จัดทำแผนปฏิบัติการ Compliance เชิงรุกและรายงานสถิติ 'ไม่ถูกฟ้องร้อง' (L4)","พัฒนา Dashboard แจ้งเตือนกฎหมายร่วมกับ RM&IC และ DT (L5)"],"docsNeeded":[{"level":"L4","item":"แผนปฏิบัติการ Compliance เชิงรุก + รายงานสถิติ Zero Legal Incident"},{"level":"L5","item":"รายงานประเมินประสิทธิผลกระบวนการ Compliance"},{"level":"L5","item":"Dashboard แจ้งเตือนความเสี่ยงด้านกฎหมาย"}],"selfAssessment":[{"level":"L1–3","note":"มีโครงสร้าง CG + หน่วยงาน Compliance ✓","text":"กทท. มีโครงสร้างการกำกับดูแลกิจการที่ดีอย่างเป็นระบบ โดยมีการประกาศใช้นโยบาย คู่มือ CG และจัดตั้งคณะอนุกรรมการกำกับดูแลครบถ้วนทั้ง 6 ชุด พร้อมกฎบัตรที่ชัดเจน นอกจากนี้ กทท. ได้จัดตั้ง 'หน่วยงานกำกับการปฏิบัติตามกฎเกณฑ์ (Compliance Unit)' แยกเป็นเอกเทศ เพื่อทำหน้าที่ติดตามและสอดส่องให้สอดคล้องกับกฎหมายและระเบียบภาครัฐ\n\nอ้างอิง: CG_6.6.1_001–008, CG_6.6.2.1–2.3, CG_6.6.3_001"},{"level":"L4","note":"ดำเนิน Compliance เชิงรุก — ปลอดคดีความ","text":"กทท. ได้ดำเนินการตามแผนปฏิบัติการ Compliance เชิงรุกอย่างเคร่งครัด ส่งผลให้ในรอบปีที่ผ่านมา กทท. สามารถควบคุมและป้องกันความเสี่ยงด้านกฎหมายได้อย่างมีประสิทธิผล โดย 'ไม่ปรากฏกรณีการถูกฟ้องร้องหรือถูกร้องเรียนที่มีนัยสำคัญ'\n\nอ้างอิง: CG_6.6.4_001–002"},{"level":"L5","note":"Dashboard แจ้งเตือนกฎหมาย Early Warning (ปี 69)","text":"เพื่อยกระดับกระบวนการสู่การทำงานเชิงป้องกัน กทท. ได้ประเมินประสิทธิผลของระบบ Compliance และบูรณาการร่วมกับฝ่ายบริหารความเสี่ยงและฝ่าย DT ในการ 'พัฒนาระบบ Dashboard แจ้งเตือนกฎหมายกลุ่มเสี่ยง (Early Warning System)' ออกใช้งานจริง\n\nอ้างอิง: จัดทำในปี 69"}],"docsByLevel":{"1":{"status":"ok","count":8,"groups":[{"label":"นโยบาย CG + คู่มือ + กฎบัตร 6 คณะอนุกรรมการ","files":[{"code":"CG_6.6.1_001–002","name":"นโยบาย CG 2568 + คู่มือ CG ฉบับประกาศใช้"},{"code":"CG_6.6.1_003–004","name":"มติคณะกรรมการกำกับฯ เห็นชอบ / บอร์ด รับทราบนโยบาย"},{"code":"CG_6.6.1_006–008","name":"คำสั่งแต่งตั้งคณะกรรมการตรวจสอบ / สรรหา / CG / บริหารความเสี่ยง / ดิจิทัล / นวัตกรรม"}]}]},"2":{"status":"ok","count":8,"groups":[{"label":"แผน CG + การติดตามผลรายไตรมาส","files":[{"code":"CG_6.6.2.1_001","name":"แผน CG 2568–2572 + แผนปฏิบัติการ 2568"},{"code":"CG_6.6.2.2_001–002","name":"มติ/รายงาน กรรมการ CG เห็นชอบ + บอร์ดรับทราบแผน CG"},{"code":"CG_6.6.2.3_001–004","name":"รายงานแผน CG ปี 2568 ไตรมาส 1–4"}]}]},"3":{"status":"ok","count":7,"groups":[{"label":"หน่วยงาน Compliance — คำสั่ง + JD","files":[{"code":"CG_6.6.3_001","name":"มติบอร์ด ตั้งแผนก Compliance + คำสั่ง กทท. ที่ 40/2568"},{"code":"CG_6.6.3_001 (JDs)","name":"Job Description: หัวหน้าแผนก / ผู้ช่วยแผนก / จนท.ระดับต่างๆ"}]}]},"4":{"status":"ok","count":5,"groups":[{"label":"PDPA + DPO + แผน Compliance","files":[{"code":"CG_6.6.4_001","name":"คำสั่ง กทท. ที่ 105/2568 แต่งตั้ง DPO + บันทึกเสนอ + มติฝ่ายบริหาร"},{"code":"CG_6.6.4_002","name":"บันทึกจัดฝึกอบรม PDPA + สรุป PDPA ผู้บริหาร"}]}]},"5":{"status":"missing"}},"good":["กทท. มีการจัดทำนโยบายและคู่มือ CG รวมถึงจัดตั้งคณะอนุกรรมการครบทั้ง 6 ชุด และในปี 2568 กทท. สามารถคว้าคะแนนระดับ 3 มาได้สำเร็จจากการ \"จัดตั้งหน่วยงาน Compliance (กำกับการปฏิบัติตามกฎเกณฑ์) แยกออกมาอย่างชัดเจน\""],"results":[]},{"id":"6.7","grp":"6","gname":"คณะกรรมการ","gw":17,"gs68":2.5625,"name":"การประเมินและพัฒนาตนเองของคณะกรรมการ","w":1.5,"s68":1.875,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"ประเมินวงจรการประเมินผล-พัฒนาบอร์ด — จุดตาย L3: แผนพัฒนาต้องสอดคล้องกับผลประเมินรายบุคคล (IDP) ไม่ใช่ส่งอบรมแบบเหมาเข่ง","levelSumm":["มีระบบประเมินตนเอง + แบบฟอร์มครบถ้วน","ประเมินแล้ว อภิปรายผล + ปฐมนิเทศบอร์ดใหม่","จัดทำ IDP รายบุคคล — สอดคล้องกับผลประเมิน (จุดตาย L3)","ดำเนินการตามแผน IDP + หลักฐานการอบรม","ประเมินประสิทธิผล + ปรับปรุงแผน IDP ปีถัดไป"],"dimLevels":["L1 — Assessment Setup: จัดให้มีการประเมินตนเองทั้งแบบคณะและรายบุคคลเป็นประจำทุกปี พร้อมแบบฟอร์มที่ครอบคลุม","L2 — Alignment: นำผลประเมินไปอภิปรายในที่ประชุมบอร์ด และมีชุดเอกสารปฐมนิเทศบอร์ดใหม่ (Onboarding Program)","L3 — Execution & IDP: จัดทำ 'แผนพัฒนากรรมการรายบุคคล (IDP)' ที่ระบุชัดว่ากรรมการท่านใดอ่อนด้านไหน → จัดให้อบรมตรงกับจุดอ่อนนั้น ⚠️ ห้ามส่งอบรมแบบเหมาเข่งโดยไม่อิงผลประเมิน","L4 — Evaluation: มีหลักฐานการเข้ารับการอบรมตามแผน IDP + รายงานผลตามแผน","L5 — Improvement: ประเมินประสิทธิผลกระบวนการพัฒนาบอร์ด + มติบอร์ดสั่งการให้ปรับปรุง IDP ปีถัดไป"],"minReqs":{"1":["คู่มือการประเมินตนเองของคณะกรรมการ","ชุดแบบฟอร์มประเมิน (รายคณะ/รายบุคคล/Skill Matrix/จริยธรรม)"],"2":["สรุปผลคะแนนประเมินตนเองบอร์ดประจำปี","รายงานประชุมบอร์ดที่นำผลประเมินไปอภิปราย"],"3":["แผนพัฒนา IDP รายบุคคล ระบุว่ากรรมการท่านใดอ่อนด้านไหน → หลักสูตรอบรมที่ตรงกัน","แผนพัฒนาการกำกับดูแลที่ได้รับความเห็นชอบจากบอร์ด"],"4":["รายงานผลการดำเนินงานตามแผน + ใบประกาศนียบัตร/ภาพถ่ายการอบรม","แผนการอบรมสำหรับคณะกรรมการ + ประวัติการอบรม"],"5":["รายงานประเมินประสิทธิผลกระบวนการพัฒนาบอร์ด","มติบอร์ดสั่งการให้ปรับปรุงหลักเกณฑ์/รูปแบบ IDP ปีถัดไป"]},"integLinks":{"1":["HCM"],"2":["HCM"],"3":["HCM"],"4":["HCM","SP"],"5":["HCM","KM"]},"subComps":{"3":["Critical Blocker: ต้องมี 'ตาราง Mapping' ในแผนพัฒนา — ระบุชัดว่า 'กรรมการท่านใด ได้คะแนนประเมินด้านไหนต่ำ → ถูกจัดให้อบรมหลักสูตรนั้น' — ห้ามส่งอบรมแบบเหมาเข่งโดยไม่อิงผลประเมิน"]},"gaps":["ผู้ประเมินตรวจพบว่า กทท. มีผลประเมินจุดอ่อนแบบหนึ่ง แต่กลับส่งบอร์ดไปอบรมอีกแบบหนึ่ง — แผนพัฒนาไม่สอดคล้องกับผลประเมิน Skill Matrix — ล็อกคะแนนไว้ที่ L2","L5 ยังไม่มีเอกสาร"],"actions":["จัดทำ IDP รายบุคคล ระบุให้ชัดว่าอ่อนด้านไหน → จับคู่กับหลักสูตรที่ตรงกัน (L3)","แนบใบประกาศนียบัตร ESG ของกรรมการ 8 ท่านเป็นหลักฐานการอบรมตาม IDP (L4)","จัดทำรายงานประเมินประสิทธิผลกระบวนการพัฒนาบอร์ด (L5)"],"docsNeeded":[{"level":"L3","item":"แผนพัฒนา IDP รายบุคคล พร้อม Mapping จุดอ่อน → หลักสูตรอบรม"},{"level":"L5","item":"รายงานประเมินประสิทธิผลกระบวนการพัฒนาบอร์ด + มติบอร์ดสั่งการปรับปรุง"}],"selfAssessment":[{"level":"L1–3","note":"มีระบบประเมิน + IDP รายบุคคล สอดคล้องกับผลประเมิน (ปี 69)","text":"กทท. ได้จัดให้มีการประเมินผลคณะกรรมการทั้งแบบคณะและรายบุคคลอย่างเป็นระบบ โดยในปี 2569 กทท. ได้นำผล Skill Gap มาบูรณาการร่วมกับฝ่าย HCM เพื่อจัดทำ 'แผนพัฒนากรรมการรายบุคคล (IDP)' ที่ 'สอดคล้อง' กับจุดอ่อนของกรรมการแต่ละท่านอย่างเฉพาะเจาะจง และส่งเข้ารับการอบรมตามแผนครบถ้วน\n\nอ้างอิง: CG_6.7.1_001–005, CG_6.7.2_001–005, CG_6.7.3_001–004"},{"level":"L4–5","note":"ประเมินประสิทธิผล + ปรับปรุง IDP ปีถัดไป","text":"กทท. ไม่ได้มุ่งเน้นเพียงการเข้ารับการอบรม แต่ได้จัดทำ 'การประเมินประสิทธิผล' ของกระบวนการพัฒนาคณะกรรมการ โดยติดตามผลลัพธ์เชิงประจักษ์ (Outcome) ว่าคณะกรรมการที่ผ่านการอบรม (เช่น ESG) สามารถให้ข้อเสนอแนะเชิงกลยุทธ์ที่เป็นประโยชน์ต่อองค์กรได้อย่างไร และนำผลไปปรับปรุง IDP ปีถัดไป\n\nอ้างอิง: CG_6.7.4_001–004"}],"docsByLevel":{"1":{"status":"ok","count":5,"groups":[{"label":"คู่มือ + แบบฟอร์มประเมินตนเอง","files":[{"code":"CG_6.7.1_001","name":"คู่มือการประเมินตนเองของคณะกรรมการ กทท."},{"code":"CG_6.7.1_002–003","name":"คู่มือ CG ปี 68–69 (หน้า 84–85 / 127–129)"},{"code":"CG_6.7.1_004–005","name":"(ร่าง) แบบประเมินฯ + แบบประเมินจริยธรรม"}]}]},"2":{"status":"ok","count":5,"groups":[{"label":"ผลการประเมินบอร์ด + รายงานประชุม","files":[{"code":"CG_6.7.2_001–004","name":"ผลประเมินรายคณะ / รายบุคคล / Skill Matrix / จริยธรรม ปี 2568"},{"code":"CG_6.7.2_005","name":"บันทึกรายงานผลการประเมินตนเองของคณะกรรมการ"}]}]},"3":{"status":"ok","count":4,"groups":[{"label":"แผนพัฒนาบอร์ด + มติบอร์ด","files":[{"code":"CG_6.7.3_001–002","name":"แผนพัฒนาการกำกับดูแลและพัฒนาตนเองของคณะกรรมการ กทท. ปี 68–69"},{"code":"CG_6.7.3_003–004","name":"รายงานประชุมบอร์ด ครั้งที่ 10/2567 + บันทึกแผนพัฒนา"}]}]},"4":{"status":"ok","count":4,"groups":[{"label":"รายงานผล + แผนอบรม + ประวัติการอบรม","files":[{"code":"CG_6.7.4_001","name":"รายงานผลการดำเนินงานตามแผน CG ปี 2568 ไตรมาส 1–4"},{"code":"CG_6.7.4_002","name":"บันทึกแผนพัฒนาบอร์ด ปี 69"},{"code":"CG_6.7.4_003","name":"แผนการอบรมคณะกรรมการ กทท. ปี 2568"},{"code":"CG_6.7.4_004","name":"ประวัติการเข้าอบรมภายในประเทศของคณะกรรมการ"}]}]},"5":{"status":"missing"}},"good":["คณะกรรมการมีการประเมินตนเองตามหลักเกณฑ์ และ กทท. มีการส่งคณะกรรมการไปอบรมเพิ่มเติม (เช่น หลักสูตร ESG)"],"results":[],"crossLinks":{"1":["HCM"],"2":["HCM"],"3":["HCM"],"4":["HCM","SP"],"5":["HCM","KM"]}},{"id":"7.1","grp":"7","gname":"การบริหารความเสี่ยงและการควบคุมภายใน","gw":8,"gs68":2.6667,"name":"การจัดให้มีการบริหารความเสี่ยงและควบคุมภายในที่มีประสิทธิภาพ","w":8,"s68":2.6667,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"ประเมินบทบาทบอร์ดในการกำกับดูแลความเสี่ยง ทั้งภาวะปกติและวิกฤต รวมถึง GRC Integration — จุดตาย L3: ตัวเลขความเสี่ยงต้องลดลงตามเป้า 'โดยมีคำอธิบายที่สมเหตุสมผล (Logic)' — ห้ามปรับตัวเลขโดยไม่อธิบาย","levelSumm":["มีกฎบัตร / นโยบาย RM&IC / คู่มือรายงานวิกฤต","บอร์ดเห็นชอบแผนบริหารความเสี่ยง 'ก่อนเริ่มปีบัญชี' ✓","บอร์ดติดตาม + ข้อสั่งการ + ผลความเสี่ยงบรรลุเป้า (Logic ชัด)","บูรณาการ GRC + บอร์ดกำกับติดตาม + ข้อเสนอแนะ","ประเมินกระบวนการกำกับดูแลบอร์ด + GRC Dashboard"],"dimLevels":["L1 — Foundation: บอร์ดกำหนดแนวทางกำกับดูแล RM&IC ทั้งกรณีปกติและเหตุการณ์พิเศษ — มีกฎบัตร นโยบาย และ 'คู่มือรายงานวิกฤตต่อบอร์ดอย่างเป็นทางการ' (ห้ามรายงานผ่าน Line)","L2 — Timely Approval: บอร์ด/อนุกรรมการเห็นชอบแผนบริหารความเสี่ยง 'ก่อนวันที่ 1 ตุลาคม'","L3 — Oversight & Target: บอร์ดติดตามรายไตรมาส มอบ 'ข้อสังเกต/ข้อเสนอแนะ' และผลการบริหารความเสี่ยง 'บรรลุเป้าหมายครบถ้วน' ⚠️ TRIS จับได้ว่า กทท. ปรับตัวเลขความเสี่ยงลงดื้อๆ โดยไม่อธิบาย — ต้องมี Logic ชัด","L4 — GRC Integration: บอร์ดกำกับและติดตาม GRC (CG+RM+Compliance) พร้อม Dashboard/รายงาน GRC เสนอบอร์ดรายไตรมาส","L5 — Board Process Improvement: ประเมินประสิทธิผลกระบวนการกำกับดูแลบอร์ดต่อความเสี่ยง + นำผลปรับปรุงรูปแบบรายงาน"],"minReqs":{"1":["กฎบัตรคณะกรรมการบริหารความเสี่ยง (ผ่านบอร์ดเห็นชอบ)","นโยบาย RM&IC + คู่มือรายงานเหตุการณ์วิกฤตต่อบอร์ดอย่างเป็นทางการ"],"2":["แผนบริหารความเสี่ยงระดับองค์กร","มติบอร์ดอนุมัติแผน 'ก่อน 1 ตุลาคม'"],"3":["รายงานติดตามผล 4 ไตรมาส เสนอบอร์ด","รายงานประชุมบอร์ดที่มี 'ข้อสังเกต/ข้อสั่งการ' ชัดเจน","รายงานผลความเสี่ยงที่บรรลุเป้า พร้อม Logic คำอธิบายที่สมเหตุสมผล"],"4":["นโยบาย/คู่มือ GRC","Dashboard/รายงาน GRC ที่เสนอบอร์ดรายไตรมาส"],"5":["รายงานประเมินประสิทธิผลกระบวนการกำกับดูแลบอร์ด","GRC Dashboard Real-time + มติบอร์ดสั่งใช้"]},"integLinks":{"3":["HCM"],"4":["HCM","SP"],"5":["HCM","KM"]},"subComps":{"3":["Critical Blocker: TRIS ตั้งข้อสังเกตว่าตัวเลขความเสี่ยงเปลี่ยนแปลงผิดปกติ (เช่น จาก 5×2 เหลือ 1×1 ในไตรมาส 4) — ต้องมีคำอธิบายที่สมเหตุสมผลว่าดำเนินมาตรการอะไรจึงลดลง","ห้ามรายงานวิกฤตผ่าน Line Group — ต้องเป็นช่องทางทางการ และมีหลักฐาน Timestamp"]},"gaps":["TRIS ไม่เชื่อมั่นว่าตัวเลขความเสี่ยงลดลงจริง เพราะเปลี่ยนแปลงผิดปกติและไม่มีคำอธิบาย","บอร์ดรายงานวิกฤตผ่าน Line Group — ถือว่าไม่เป็นทางการ","L5 ยังไม่มีเอกสาร"],"actions":["จัดทำรายงานที่อธิบายอย่างสมเหตุสมผลว่า 'มาตรการใดทำให้ตัวเลขความเสี่ยงลดลง' (L3)","เปลี่ยนรูปแบบรายงานวิกฤตจาก Line เป็นช่องทางทางการ (L1)","พัฒนา GRC Dashboard Real-time ร่วมกับ DT (L5)"],"docsNeeded":[{"level":"L5","item":"รายงานประเมินประสิทธิผลกระบวนการกำกับดูแลบอร์ด"},{"level":"L5","item":"GRC Dashboard Real-time + มติบอร์ดสั่งใช้งาน"}],"selfAssessment":[{"level":"L1–2","note":"มีกฎบัตร / นโยบาย RM&IC / อนุมัติแผนก่อนปีบัญชี","text":"คณะกรรมการ กทท. ได้มอบนโยบายและกำหนดกรอบการกำกับดูแล RM&IC อย่างเป็นระบบ โดยพิจารณาให้ความเห็นชอบแผนบริหารความเสี่ยงประจำปีล่วงหน้าก่อนเริ่มปีบัญชีอย่างเคร่งครัด พร้อมจัดทำคู่มือแนวทางการรายงานเหตุการณ์วิกฤตต่อคณะกรรมการอย่างเป็นทางการ\n\nอ้างอิง: CG_7.1.1_001–012, CG_7.1.2_001–006"},{"level":"L3–4","note":"บอร์ดติดตาม + ข้อสั่งการ + GRC Integration","text":"ในการติดตามแผนงาน คณะกรรมการ กทท. ได้พิจารณารายงานความเสี่ยงและรายงานบูรณาการ GRC เป็นประจำทุกไตรมาส โดยบอร์ดได้ให้ 'ข้อสั่งการเชิงกลยุทธ์' แก่ฝ่ายบริหาร และระดับความเสี่ยงลดลงตามเป้าหมายอย่างมีเหตุและผล (Logic) โปร่งใส\n\nอ้างอิง: CG_7.1.3_001–006, CG_7.1.4_001–006"},{"level":"L5","note":"ประเมินประสิทธิผล + GRC Dashboard (ปี 69)","text":"กทท. ได้ดำเนินการ 'ประเมินประสิทธิผลกระบวนการกำกับดูแลความเสี่ยงของคณะกรรมการ' และนำผลปรับปรุงแนวทางการรายงานเหตุการณ์ฉุกเฉิน ยกระดับเป็นการรายงานผ่านระบบ GRC Dashboard ที่ได้มาตรฐาน\n\nอ้างอิง: จัดทำในปี 69"}],"docsByLevel":{"1":{"status":"ok","count":12,"groups":[{"label":"กฎบัตร + นโยบาย RM&IC + กระบวนงานวิกฤต","files":[{"code":"CG_7.1.1_001–012","name":"กฎบัตร / รายงานประชุมบอร์ด 8/2567 / มติบอร์ด / นโยบาย RM&IC / กระบวนงานภาวะปกติ/พิเศษ"}]}]},"2":{"status":"ok","count":6,"groups":[{"label":"แผนบริหารความเสี่ยง + มติบอร์ด (ก่อน 1 ต.ค.)","files":[{"code":"CG_7.1.2_001–006","name":"มติบอร์ดรับทราบแผน 68 / รายงานประชุม 8/2567 / อนุมัติแผน RM ปี 68–69 / มติ"}]}]},"3":{"status":"ok","count":6,"groups":[{"label":"รายงานติดตามผล 4 ไตรมาส + มติบอร์ด","files":[{"code":"CG_7.1.3_001–006","name":"รายงานประชุมบอร์ด 1/2568 (ไตรมาส 1) / 3/2568 (ไตรมาส 2) / มติ / ไตรมาส 3–4"}]}]},"4":{"status":"ok","count":6,"groups":[{"label":"GRC Integration + Dashboard","files":[{"code":"CG_7.1.4_001–006","name":"มติบอร์ดรับทราบคู่มือ GRC / รายงานประชุม 8/2567 / มติบอร์ดเห็นชอบตัวชี้วัด GRC ไตรมาส 1–4"}]}]},"5":{"status":"missing"}},"good":["มีการจัดทำกฎบัตรคณะกรรมการ นโยบาย แผนบริหารความเสี่ยง และมีการอนุมัติแผนก่อนเริ่มปีบัญชี นอกจากนี้ยังเริ่มนำกรอบ GRC (Governance, Risk, Compliance) มาบูรณาการและติดตามผลรายไตรมาสได้สำเร็จ"],"results":["กทท. ยื่นหลักฐานครบถ้วนตั้งแต่ระดับ 1-4 (นโยบาย, แผน, รายงานผลรายไตรมาส, คู่มือ GRC) แต่ในระดับ 5 ใส่คำว่า \"-ไม่มี-\""],"crossLinks":{"1":["HCM"],"2":["HCM"],"3":["HCM"],"4":["HCM","SP"],"5":["HCM","KM"]}},{"id":"8.1","grp":"8","gname":"จรรยาบรรณ","gw":8,"gs68":2.75,"name":"การจัดให้มีและเสริมสร้างพฤติกรรมตามคู่มือจริยธรรมจรรยาบรรณในรัฐวิสาหกิจ","w":8,"s68":2.75,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"ประเมินการบริหารจรรยาบรรณแบบครบวงจร: มีคู่มือ → รณรงค์สื่อสาร → ติดตามพฤติกรรม → วัดผลสัมฤทธิ์ — จุดตาย L3: ต้องมี Outcome เชิงประจักษ์ (สถิติข้อร้องเรียนลดลง) ไม่ใช่แค่ Output","levelSumm":["มีคู่มือจรรยาบรรณ (ครอบคลุมผู้บริหารหรือพนักงาน)","มีคู่มือครอบคลุมครบทั้ง 3 ระดับ (บอร์ด/ผู้บริหาร/พนักงาน)","รณรงค์สื่อสาร + มี Outcome เชิงประจักษ์ (สถิติข้อร้องเรียนลดลง)","ประเมินประสิทธิผลกระบวนการ — เปลี่ยนจาก Output เป็น Outcome","นำผลประเมินปรับปรุงรูปแบบกิจกรรม + มติบอร์ด"],"dimLevels":["L1 — Basic Manual: มีคู่มือจรรยาบรรณที่สอดคล้องมาตรฐานสากล ครอบคลุมอย่างน้อย 1 ระดับ","L2 — Full Coverage: คู่มือครอบคลุมครบทั้ง 3 ระดับ (คณะกรรมการ ผู้บริหาร และพนักงาน)","L3 — Campaign & Outcome: เผยแพร่คู่มือและจัดกิจกรรมรณรงค์สม่ำเสมอครบ 3 ระดับ ⚠️ ต้องมีหลักฐาน Outcome เช่น สถิติข้อร้องเรียนลดลง หรือคะแนน Pre/Post-test เพิ่มขึ้น","L4 — System Evaluation: ประเมินประสิทธิผลกระบวนการ — วิเคราะห์ว่ากิจกรรมใดเข้าถึงคนไม่เพียงพอ ต้องแสดง Outcome ไม่ใช่ Output","L5 — Improvement: มีมติบอร์ด/อนุ CG สั่งการให้ปรับปรุงคู่มือหรือรูปแบบกิจกรรมรณรงค์"],"minReqs":{"1":["คู่มือจริยธรรมและจรรยาบรรณ กทท.","มติคณะกรรมการรับทราบ/เห็นชอบคู่มือ"],"2":["คู่มือที่ครอบคลุมครบ 3 ระดับ (บอร์ด/ผู้บริหาร/พนักงาน)"],"3":["หลักฐานการเผยแพร่และจัดกิจกรรมรณรงค์ครบ 3 ระดับ","หลักฐาน Outcome เชิงประจักษ์ (สถิติข้อร้องเรียน/การทำผิดวินัยที่ลดลง)"],"4":["รายงานประเมินประสิทธิผลกระบวนการ — ระบุ Outcome ชัดเจน (ไม่ใช่แค่จำนวนคนเข้าอบรม)"],"5":["มติบอร์ด/อนุ CG สั่งการให้ปรับปรุงรูปแบบกิจกรรม","แผนรณรงค์แก้ไขปัญหาเฉพาะจุดตามผลประเมิน"]},"integLinks":{"1":["HCM"],"2":["HCM"],"3":["HCM"],"4":["HCM","IA"],"5":["CG","HCM"]},"subComps":{"3":["Critical Blocker: TRIS ระบุว่าต้องมีหลักฐาน Outcome ว่าพฤติกรรมคนในองค์กรดีขึ้นจริง — สถิติข้อร้องเรียนทุจริตลดลง หรือ คะแนน Pre/Post-test เพิ่มขึ้น — แค่ 'จำนวนคนเข้าอบรม' ไม่เพียงพอ"]},"gaps":["กทท. ส่งหลักฐานเพียง 'สรุปผลการรับรู้/แบบสอบถาม' ซึ่งเป็น Output ไม่ใช่ Outcome","ต้องการสถิติเชิงประจักษ์ว่า 'หลังจากอบรมหรือทำกิจกรรมไปแล้ว พฤติกรรมคนในองค์กรดีขึ้นจริงหรือไม่'"],"actions":["เพิ่มการวัด Outcome เช่น สถิติข้อร้องเรียนทุจริตที่ลดลง หรือ Pre/Post-test ความตระหนักรู้ตามค่านิยม SMART (L3)","จัดทำรายงานประเมินประสิทธิผลที่ระบุ Outcome ชัดเจน (L4)"],"docsNeeded":[{"level":"L4","item":"รายงานประเมินประสิทธิผลกระบวนการ — ระบุ Outcome (สถิติข้อร้องเรียน/Pre-Post-test)"},{"level":"L5","item":"มติบอร์ดสั่งปรับปรุงรูปแบบกิจกรรม + แผนรณรงค์เฉพาะจุด"}],"selfAssessment":[{"level":"L1–2","note":"มีคู่มือจรรยาบรรณครบ 3 ระดับ","text":"กทท. ให้ความสำคัญกับการขับเคลื่อนองค์กรด้วยความโปร่งใส โดยคณะกรรมการ กทท. ได้กำกับดูแลให้มีการทบทวนและประกาศใช้ 'คู่มือจริยธรรมและจรรยาบรรณ (Code of Conduct)' ที่ทันสมัย สอดคล้องกับมาตรฐานสากล โดยมีเนื้อหาครอบคลุมข้อพึงปฏิบัติสำหรับ คณะกรรมการ ผู้บริหาร และพนักงานครบถ้วน\n\nอ้างอิง: CG_8.1.1_001–004, CG_8.1.2_001–004"},{"level":"L3","note":"รณรงค์ + Outcome เชิงประจักษ์","text":"กทท. ได้ยกระดับการติดตามผลไปสู่การวัด 'ผลลัพธ์การเปลี่ยนแปลงพฤติกรรม (Behavioral Outcome)' เชิงประจักษ์ โดยบูรณาการข้อมูลร่วมกับฝ่าย HR และ IA เพื่อวิเคราะห์สถิติข้อร้องเรียนและการทำผิดวินัย ซึ่งพบว่าสถิติการฝ่าฝืนจรรยาบรรณลดลงอย่างมีนัยสำคัญ\n\nอ้างอิง: CG_8.1.3_001–008"},{"level":"L4–5","note":"ประเมินประสิทธิผล + ปรับปรุงกิจกรรม","text":"กทท. ได้ดำเนินการประเมินประสิทธิผลของกระบวนการรณรงค์ โดยนำข้อคิดเห็นของพนักงานและสถิติผลลัพธ์มาวิเคราะห์หาช่องว่าง และคณะกรรมการได้มีมติสั่งการให้ 'ปรับปรุงกระบวนการ' เช่น เปลี่ยนรูปแบบการสื่อสารจากเอกสารเป็น e-Learning\n\nอ้างอิง: CG_8.1.4, CG_8.1.5"}],"docsByLevel":{"1":{"status":"ok","count":4,"groups":[{"label":"คู่มือจรรยาบรรณ + มติบอร์ด","files":[{"code":"CG_8.1.1_001","name":"คู่มือจริยธรรมและจรรยาบรรณของ กทท. 2568"},{"code":"CG_8.1.1_002","name":"มติคณะกรรมการรับทราบคู่มือฯ 2568"},{"code":"CG_8.1.1_003","name":"มติคณะกรรมการ CG เห็นชอบคู่มือฯ 2568"},{"code":"CG_8.1.1_004","name":"มติอนุกรรมการจริยธรรมเห็นชอบคู่มือฯ 2568"}]}]},"2":{"status":"ok","count":4,"groups":[{"label":"คู่มือครอบคลุมครบ 3 ระดับ","files":[{"code":"CG_8.1.2_001–004","name":"คู่มือจรรยาบรรณ + มติรับทราบ + มติ CG + มติอนุจริยธรรม"}]}]},"3":{"status":"ok","count":8,"groups":[{"label":"การเผยแพร่และกิจกรรมรณรงค์","files":[{"code":"CG_8.1.3_001–004","name":"เผยแพร่คู่มือระดับบอร์ด/ผู้บริหาร/พนักงาน + สรุปผลรับรู้"},{"code":"CG_8.1.3_005–008","name":"กิจกรรมเสริมสร้างบรรยากาศ 2568 / ผลประเมินจริยธรรมบอร์ด / ผลสำรวจพฤติกรรม"}]}]},"4":{"status":"ok","count":1,"groups":[{"label":"รายงานประเมินประสิทธิผล","files":[{"code":"CG_8.1.4","name":"การประเมินประสิทธิผลและคุณภาพของกระบวนการ 2568"}]}]},"5":{"status":"ok","count":1,"groups":[{"label":"รายงานประเมินประสิทธิผล (L5)","files":[{"code":"CG_8.1.5","name":"การประเมินประสิทธิผลและคุณภาพของกระบวนการ 2568 (ฉบับ L5)"}]}]}},"good":["กทท. มีการทบทวนและประกาศใช้ \"คู่มือจริยธรรมและจรรยาบรรณ\" ที่ครบถ้วน ครอบคลุมทั้งคณะกรรมการ ผู้บริหาร และพนักงาน รวมถึงมีการจัดกิจกรรมรณรงค์และประเมินพฤติกรรม 3 ระดับเชื่อมโยงค่านิยม SMART"],"results":[],"crossLinks":{"1":["HCM","CG"],"2":["HCM","CG"],"3":["HCM","CG"],"4":["HCM","IA"],"5":["CG","HCM"]}},{"id":"9.1","grp":"9","gname":"ความยั่งยืนและนวัตกรรม","gw":12,"gs68":2.0741,"name":"การจัดให้มีระบบการบริหารจัดการนวัตกรรมที่มีประสิทธิภาพ","w":4,"s68":2.2222,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"ประเมินบทบาทบอร์ดในการกำกับดูแลระบบนวัตกรรมองค์กร (CIS) — จุดตาย L3: ต้องมี 'Innovation Impact' เป็นตัวเลขลดต้นทุน/เพิ่มรายได้ — แค่จำนวนชิ้นงาน = TRIS ปัดตก","levelSumm":["มีนโยบาย/คู่มือนวัตกรรม + คำสั่งแต่งตั้ง KMDTIM","บอร์ดอนุมัติแผนนวัตกรรมระยะยาว + แผนปฏิบัติการ ก่อนปีบัญชี","บอร์ดมีข้อสั่งการ + มี Innovation Impact เป็นตัวเลขชัดเจน","มีระบบ CIS (Corporate Innovation System) + ประเมินประสิทธิภาพ","นำผลประเมินปรับปรุง CIS + มติบอร์ด"],"dimLevels":["L1 — Foundation: มีนโยบายและคู่มือการบริหารจัดการนวัตกรรม + คำสั่งแต่งตั้งคณะกรรมการ KMDTIM","L2 — Alignment & Timeliness: บอร์ดพิจารณาเห็นชอบแผนนวัตกรรมระยะยาวและแผนปฏิบัติการ 'ก่อนเริ่มปีบัญชี'","L3 — Oversight & Innovation Impact: บอร์ดติดตามผล มอบข้อสั่งการ และมีเอกสาร 'Innovation Impact' ระบุตัวเลขลดต้นทุน/เพิ่มรายได้ ⚠️ แค่จำนวนชิ้นงาน = TRIS ปัดตก","L4 — System Evaluation: มีระบบ CIS (Corporate Innovation System) ที่ระบุบทบาทผู้รับผิดชอบ และประเมินปัญหาอุปสรรค","L5 — Improvement: นำผลประเมิน CIS มาปรับปรุงคู่มือ/ระบบงาน + มติบอร์ดสั่งการ"],"minReqs":{"1":["นโยบายส่งเสริมความคิดสร้างสรรค์และการจัดการนวัตกรรม","คู่มือการส่งเสริมความคิดสร้างสรรค์และนวัตกรรม","คำสั่งแต่งตั้งคณะกรรมการ KMDTIM"],"2":["แผนยุทธศาสตร์ด้านนวัตกรรมระยะยาว + แผนปฏิบัติการ","มติบอร์ดหรือ KMDTIM อนุมัติแผน 'ก่อน 1 ตุลาคม'"],"3":["รายงานผล Q1–Q4 เสนอบอร์ด","รายงานประชุมบอร์ดที่มี 'ข้อสั่งการ/ข้อเสนอแนะ' ด้านนวัตกรรม","เอกสาร Innovation Impact ระบุตัวเลข (ลดต้นทุน/เพิ่มรายได้)"],"4":["โครงสร้างระบบ CIS ระบุบทบาทผู้รับผิดชอบ + มติบอร์ดรับทราบการปรับปรุง CIS"],"5":["รายงานประเมินประสิทธิผลระบบ CIS","มติบอร์ดสั่งการให้ปรับปรุง CIS"]},"integLinks":{"1":["SP"],"2":["SP"],"3":["IM"],"4":["HCM","IM"],"5":["KM"]},"subComps":{"3":["Critical Blocker: TRIS ต้องการ Innovation Impact เป็นตัวเลขเชิงพาณิชย์ — 'ลดต้นทุน X บาท' หรือ 'เพิ่มรายได้ Y บาท' — ห้ามวัดแค่จำนวนชิ้นงานนวัตกรรม"]},"gaps":["แม้แผนนวัตกรรมได้รับอนุมัติทันเวลา (L2) แต่ยังไม่มีหลักฐาน 'Innovation Impact' เป็นตัวเลขลดต้นทุน/เพิ่มรายได้ — TRIS ยังไม่ให้ผ่าน L3 เต็มร้อย","L5 ยังไม่มีเอกสาร"],"actions":["จัดทำสรุป Innovation Impact ระบุตัวเลขชัดเจน (ลดต้นทุน/เพิ่มรายได้) (L3)","ฝ่ายเลขาฯ บอร์ดบันทึกรายงานประชุมให้เห็น 'ข้อสั่งการเชิงกลยุทธ์ด้านนวัตกรรม'","จัดทำรายงานประเมินประสิทธิผลระบบ CIS + มติบอร์ดสั่งการ (L5)"],"docsNeeded":[{"level":"L3","item":"เอกสาร Innovation Impact ระบุตัวเลข (ลดต้นทุน/เพิ่มรายได้) ชัดเจน"},{"level":"L5","item":"รายงานประเมินประสิทธิผลระบบ CIS + มติบอร์ดสั่งปรับปรุง"}],"selfAssessment":[{"level":"L1–2","note":"มีนโยบาย/คู่มือ + บอร์ดอนุมัติแผนก่อนปีบัญชี","text":"คณะกรรมการ กทท. ได้กำกับดูแลและผลักดันให้เกิดระบบนวัตกรรมองค์กรที่เข้มแข็ง โดยจัดทำนโยบายและคู่มือการส่งเสริมความคิดสร้างสรรค์และการจัดการนวัตกรรมอย่างเป็นระบบ พร้อมพิจารณาอนุมัติแผนบริหารจัดการนวัตกรรมระยะยาวและแผนปฏิบัติการล่วงหน้าก่อนเริ่มปีงบประมาณ\n\nอ้างอิง: CG_9.1.1_001–005, CG_9.1.2_001–005"},{"level":"L3","note":"บอร์ดมีข้อสั่งการ + Innovation Impact เป็นตัวเลข","text":"ในการกำกับดูแล คณะกรรมการ กทท. ได้ติดตามความก้าวหน้าอย่างใกล้ชิดเป็นรายไตรมาส โดยมอบข้อสั่งการและข้อเสนอแนะเชิงกลยุทธ์ เพื่อมุ่งเน้นให้นำนวัตกรรมไปต่อยอดใช้งานจริง (Commercialization) ซึ่งส่งผลให้ กทท. สามารถสร้าง 'Innovation Impact' เป็นตัวเลขการลดต้นทุนและยกระดับประสิทธิภาพได้อย่างชัดเจน\n\nอ้างอิง: CG_9.1.3_001–004"},{"level":"L4–5","note":"ระบบ CIS + ประเมินประสิทธิผล","text":"กทท. ได้ดำเนินการประเมินประสิทธิภาพของ 'ระบบนวัตกรรมองค์กร (CIS)' โดยวิเคราะห์จุดแข็งและคอขวด และคณะกรรมการมีมติสั่งการให้ 'ปรับปรุงโครงสร้าง CIS' เพื่อบูรณาการความร่วมมือข้ามสายงาน\n\nอ้างอิง: CG_9.1.4_001–003"}],"docsByLevel":{"1":{"status":"ok","count":5,"groups":[{"label":"นโยบาย/คู่มือ + KMDTIM","files":[{"code":"CG_9.1.1_001","name":"นโยบายส่งเสริมความคิดสร้างสรรค์และการจัดการนวัตกรรม"},{"code":"CG_9.1.1_002","name":"คู่มือการส่งเสริมความคิดสร้างสรรค์และนวัตกรรม"},{"code":"CG_9.1.1_003","name":"KMDTIM พิจารณาเอกสารสำคัญ"},{"code":"CG_9.1.1_004","name":"คำสั่ง กทท. ที่ 5/2567 แต่งตั้งคณะกรรมการ KMDTIM"},{"code":"CG_9.1.1_005","name":"บทบาทหน้าที่ด้านนวัตกรรมของ KMDTIM"}]}]},"2":{"status":"ok","count":5,"groups":[{"label":"แผนยุทธศาสตร์นวัตกรรม + มติบอร์ด","files":[{"code":"CG_9.1.2_001","name":"มติคณะกรรมการ กทท. เอกสารสำคัญด้านนวัตกรรม"},{"code":"CG_9.1.2_002","name":"KMDTIM พิจารณาเอกสารสำคัญ"},{"code":"CG_9.1.2_003","name":"แผนยุทธศาสตร์ด้านนวัตกรรม 2568 (ฉบับสมบูรณ์)"},{"code":"CG_9.1.2_004","name":"คู่มือการส่งเสริมความคิดสร้างสรรค์ (หน้า 6)"},{"code":"CG_9.1.2_005","name":"บทบาทหน้าที่ด้านนวัตกรรมของ KMDTIM"}]}]},"3":{"status":"ok","count":4,"groups":[{"label":"รายงานผล Q1–Q4 + รายงานประชุม","files":[{"code":"CG_9.1.3_001","name":"รายงานความคืบหน้าผลการดำเนินงาน IM Q1–Q4"},{"code":"CG_9.1.3_002","name":"รายงานการประชุม KMDTIM ไตรมาส 1–4 ปี 2568"},{"code":"CG_9.1.3_003","name":"รายงานผลการดำเนินงาน Q1–Q4 ต่อคณะกรรมการ กทท."},{"code":"CG_9.1.3_004","name":"บทบาทหน้าที่ด้านนวัตกรรมของ KMDTIM"}]}]},"4":{"status":"ok","count":3,"groups":[{"label":"ระบบ CIS + มติบอร์ด","files":[{"code":"CG_9.1.4_001","name":"คู่มือการส่งเสริมความคิดสร้างสรรค์ (หน้า 6 — โครงสร้าง CIS)"},{"code":"CG_9.1.4_002","name":"KMDTIM พิจารณาเอกสารสำคัญ"},{"code":"CG_9.1.4_003","name":"มติคณะกรรมการ กทท. เอกสารสำคัญด้านนวัตกรรม"}]}]},"5":{"status":"missing"}},"good":["บอร์ดมีการอนุมัตินโยบาย คู่มือ และแผนบริหารจัดการนวัตกรรม (ทั้งระยะสั้นและระยะยาว) ก่อนเริ่มปีงบประมาณอย่างครบถ้วน"],"results":["กทท. พยายามส่งหลักฐานการติดตามงานรายไตรมาสเพื่อขอคะแนนระดับ 3 แต่ผู้ประเมินยังไม่ให้ผ่านเต็มร้อย"],"crossLinks":{"1":["SP","CG"],"2":["SP","CG"],"3":["IM"],"4":["HCM","IM","CG"],"5":["KM"]}},{"id":"9.2","grp":"9","gname":"ความยั่งยืนและนวัตกรรม","gw":12,"gs68":2.0741,"name":"การพัฒนาความยั่งยืนเชิงยุทธศาสตร์","w":4,"s68":2.0,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"ประเมินบทบาทบอร์ดในการวางรากฐานความยั่งยืน (ESG) — จุดตาย L3: ปัจจัย ESG 16 ข้อต้องถูกนำไป 'ฝัง' ในแผนวิสาหกิจจริง ไม่ใช่วางบนหิ้ง","levelSumm":["มีนโยบายความยั่งยืน + ตั้งคณะทำงาน ESG","กำหนด 16 ปัจจัย Materiality + บอร์ดอนุมัติแผนก่อนปีบัญชี","นำ 16 ปัจจัย ESG เป็น Input จัดทำแผนวิสาหกิจ + In-process ESG","ประเมินประสิทธิผลกระบวนการพัฒนาความยั่งยืน","บอร์ดสั่งการทบทวน Materiality + ปรับปรุงแผน"],"dimLevels":["L1 — Foundation: มีนโยบายความยั่งยืนและตั้งคณะทำงาน (Sustainable Committee) ขับเคลื่อน ESG","L2 — Identification & Timeliness: กำหนดปัจจัยความยั่งยืน 16 ข้อ (Materiality Matrix) + บอร์ดอนุมัติแผนพัฒนาความยั่งยืน 'ก่อนเริ่มปีบัญชี'","L3 — Integration & Oversight: นำปัจจัย ESG 16 ข้อ ไปเป็น 'Input' ในการจัดทำแผนวิสาหกิจ + บอร์ดมีข้อสั่งการ + มีหลักฐาน In-process ESG ⚠️ ปัจจัย ESG ต้องไม่ 'วางบนหิ้ง' — ต้องมีตาราง Mapping","L4 — Process Evaluation: ประเมินคุณภาพ/ประสิทธิผลกระบวนการพัฒนาความยั่งยืน — ตอบโจทย์ Stakeholder ได้จริงหรือไม่","L5 — Improvement: บอร์ดมีมติทบทวน 16 ปัจจัย (Materiality Review) ให้ทันต่อสถานการณ์ และปรับปรุงแผนปฏิบัติการ"],"minReqs":{"1":["นโยบายความยั่งยืนขององค์กร","คำสั่งแต่งตั้งคณะกรรมการ/คณะทำงาน ESG"],"2":["Materiality Matrix 16 ปัจจัย (เศรษฐกิจ/สังคม/สิ่งแวดล้อม)","มติบอร์ดอนุมัติแผนพัฒนาความยั่งยืน 'ก่อน 1 ตุลาคม'"],"3":["ตาราง Mapping ว่า 16 ปัจจัย ESG ถูกนำผูกกับแผนวิสาหกิจ/แผนงานใด","หลักฐาน In-process ESG ในกระบวนการปฏิบัติงานหลัก","รายงานประชุมบอร์ดที่มี 'ข้อสั่งการเชิงกลยุทธ์'"],"4":["รายงานประเมินประสิทธิผลกระบวนการพัฒนาความยั่งยืน"],"5":["รายงานประชุมบอร์ดมีมติทบทวน Materiality 16 ปัจจัย","แผนปฏิบัติการที่ปรับปรุงจากผลประเมิน"]},"integLinks":{"2":["SCM"],"3":["SP"],"4":["RM&IC"],"5":["KM"]},"subComps":{"3":["Critical Blocker: TRIS มองว่าปัจจัย ESG 16 ข้อของ กทท. 'ยังวางบนหิ้ง' ไม่ได้ถูกนำเป็น Input จริงในแผนวิสาหกิจ — ต้องมีตาราง Mapping และหลักฐาน In-process ESG ที่จับต้องได้"]},"gaps":["ปัจจัยความยั่งยืน 16 ข้อถูกกำหนดแล้ว แต่ยังไม่ถูกนำไปเป็น Input ในแผนวิสาหกิจ — งานแยกส่วน (Silo)","L4–L5 ยังไม่มีเอกสาร"],"actions":["จัดทำตาราง Mapping ว่า 16 ปัจจัย ESG ผูกกับแผนงาน/โครงการใดในแผนวิสาหกิจ (L3)","จัดทำหลักฐาน In-process ESG ในกระบวนการปฏิบัติงานหลัก (L3)","จัดทำรายงานประเมินประสิทธิผล (L4) และบอร์ดมีมติทบทวน Materiality (L5)"],"docsNeeded":[{"level":"L3","item":"ตาราง Mapping 16 ปัจจัย ESG กับแผนวิสาหกิจ"},{"level":"L3","item":"หลักฐาน In-process ESG ในกระบวนการปฏิบัติงานหลัก"},{"level":"L4","item":"รายงานประเมินประสิทธิผลกระบวนการพัฒนาความยั่งยืน"},{"level":"L5","item":"มติบอร์ดทบทวน Materiality 16 ปัจจัย"}],"selfAssessment":[{"level":"L1–2","note":"มีนโยบาย + 16 ปัจจัย ESG + บอร์ดอนุมัติแผน","text":"คณะกรรมการ กทท. ได้มอบนโยบายและวางรากฐานการพัฒนาความยั่งยืนอย่างเป็นระบบ โดยแต่งตั้งคณะทำงานขับเคลื่อน ESG โดยเฉพาะ และดำเนินการวิเคราะห์และกำหนด 'ปัจจัยที่ส่งผลกระทบต่อความยั่งยืน (Materiality Matrix) จำนวน 16 ปัจจัย' โดยคณะกรรมการพิจารณาให้ความเห็นชอบล่วงหน้าก่อนเริ่มปีงบประมาณ\n\nอ้างอิง: CG_9.2.1_001–003, CG_9.2.2_001–005"},{"level":"L3","note":"In-process ESG + ปัจจัยเป็น Input แผนวิสาหกิจ (ปี 69)","text":"กทท. ได้ยกระดับจาก CSR ทั่วไปสู่ 'In-process ESG' โดยนำปัจจัยความยั่งยืนทั้ง 16 ประการเข้าเป็น 'ปัจจัยนำเข้า (Input)' ในการจัดทำแผนวิสาหกิจ และคณะกรรมการ กทท. ได้มอบ 'ข้อสั่งการเชิงกลยุทธ์' เพื่อผลักดันให้เกิดโครงการที่เชื่อมโยงความยั่งยืนกับธุรกิจหลัก\n\nอ้างอิง: CG_9.2.3_001–003"},{"level":"L4–5","note":"ประเมินประสิทธิผล + Materiality Review (ปี 69)","text":"กทท. มีการประเมินคุณภาพและประสิทธิผลของกระบวนการพัฒนาความยั่งยืนเชิงยุทธศาสตร์ โดยนำข้อคิดเห็นจากผู้มีส่วนได้ส่วนเสียมาเป็นข้อมูลฐาน และคณะกรรมการได้มีมติสั่งการให้ 'ทบทวนและปรับปรุง' Materiality 16 ปัจจัยใหม่ให้ทันต่อสถานการณ์\n\nอ้างอิง: จัดทำในปี 69"}],"docsByLevel":{"1":{"status":"ok","count":5,"groups":[{"label":"นโยบาย + แนวทางความยั่งยืน + มติบอร์ด","files":[{"code":"CG_9.2.1_001","name":"แนวทางการพัฒนาความยั่งยืน"},{"code":"CG_9.2.1_002","name":"นโยบายด้านการพัฒนาความยั่งยืนของ กทท."},{"code":"CG_9.2.1_003","name":"มติคณะกรรมการ กทท. เห็นชอบปัจจัยและนโยบาย"},{"code":"CG_9.2_SIPOC","name":"SIPOC กระบวนการจัดทำปัจจัยความยั่งยืน"}]}]},"2":{"status":"ok","count":5,"groups":[{"label":"โครงสร้าง ESG + มติตั้งแผนก + แนวทาง","files":[{"code":"CG_9.2.2_โครงสร้าง","name":"โครงสร้างผู้รับผิดชอบ ESG"},{"code":"CG_9.2.2_003–004","name":"มติ CG เห็นชอบจัดตั้งแผนก + มติบอร์ด HR"},{"code":"CG_9.2.2_เล่ม","name":"เล่มแนวทางการพัฒนาความยั่งยืน 2568"}]}]},"3":{"status":"ok","count":3,"groups":[{"label":"ตาราง Mapping ESG กับแผนวิสาหกิจ","files":[{"code":"CG_9.2.3_001","name":"เอกสารแสดงความเชื่อมโยงปัจจัยยั่งยืนกับแผนยุทธศาสตร์"},{"code":"CG_9.2.3_002","name":"ปัจจัยนำเข้า (Input) ESG"},{"code":"CG_9.2.3_ความเชื่อมโยง","name":"ความเชื่อมโยงปัจจัยยั่งยืนและความสอดคล้องยุทธศาสตร์"}]}]},"4":{"status":"missing"},"5":{"status":"missing"}},"good":["กทท. สามารถค้นหาและกำหนด \"ปัจจัยความยั่งยืน 16 ปัจจัย\" ตามกรอบ ESG ได้สำเร็จ และมีการจัดตั้งคณะกรรมการ/หน่วยงานด้านความยั่งยืน (Sustainable Committee) เพื่อรองรับการทำงานในปีต่อไป"],"results":[],"crossLinks":{"2":["SCM"],"3":["SP"],"4":["RM&IC"],"5":["KM"]}},{"id":"9.3","grp":"9","gname":"ความยั่งยืนและนวัตกรรม","gw":12,"gs68":2.0741,"name":"จัดทำรายงานการพัฒนาความยั่งยืน","w":4,"s68":2.0,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"ประเมินความน่าเชื่อถือและความสมบูรณ์ของรายงานความยั่งยืน — จุดตาย L3: ต้องมี 'ตาราง GRI Content Index' และ 'Statement of Use' ในเล่มรายงาน — เกณฑ์ปี 69 บังคับเพิ่มการรายงานสิทธิมนุษยชน","levelSumm":["ยังไม่มีรายงานความยั่งยืนตามมาตรฐานสากล (มีแค่นโยบายทั่วไป)","จัดทำและเผยแพร่รายงานความยั่งยืน (แต่ยังไม่ตาม GRI)","จัดทำตาม GRI Standards + มี GRI Content Index + รายงานสิทธิมนุษยชน (ปี 69 บังคับ)","ประเมินประสิทธิผลกระบวนการจัดทำ + Third Party Assurance","นำผลประเมินปรับปรุง Data Management System"],"dimLevels":["L1 — Baseline (ยังไม่ผ่านเกณฑ์): รัฐวิสาหกิจยังไม่มีการจัดทำรายงานการพัฒนาความยั่งยืนที่เป็นไปตามมาตรฐานสากลที่ยอมรับ (มีเพียงนโยบายหรือแนวทางทั่วไปเท่านั้น)","L2 — Publishing: จัดทำและเผยแพร่รายงานความยั่งยืนประจำปี แต่ยังไม่เป็นไปตามมาตรฐานสากล","L3 — Global Standards: รายงานต้อง 'จัดทำตาม GRI Standards' มี 'GRI Content Index' ท้ายเล่ม และ 'Statement of Use' ⚠️ เกณฑ์ปี 69 บังคับเพิ่ม: ต้องรายงาน 'สิทธิมนุษยชน (Human Rights)'","L4 — External Assurance: มีรายงานประเมินประสิทธิผลกระบวนการจัดทำ + ถ้ามีงบ: Third Party Assurance จากหน่วยงานภายนอก","L5 — Improvement: นำข้อบกพร่องจากผู้ตรวจสอบภายนอก/AAR ไปปรับปรุง Data Management System"],"minReqs":{"1":["ยังไม่มีรายงานความยั่งยืนตามมาตรฐานสากล — มีเพียงนโยบาย/แนวทางทั่วไป (สถานะตั้งต้นตามคู่มือ 2569 ยังไม่ผ่านเกณฑ์)"],"2":["เล่มรายงานความยั่งยืนประจำปี (แม้ยังไม่ครบตาม GRI)","หลักฐานการเผยแพร่บนเว็บไซต์"],"3":["เล่มรายงานความยั่งยืนที่มี 'ตาราง GRI Content Index' ท้ายเล่ม","'Statement of Use' ระบุว่าจัดทำตาม GRI Standards","หน้าสรุปนโยบายและผลการดำเนินงานด้านสิทธิมนุษยชน (บังคับปี 69)"],"4":["รายงาน After Action Review (AAR): บันทึกปัญหาคอขวดการเก็บข้อมูล","ใบรับรองจากหน่วยงานภายนอก (Third Party Assurance) — ถ้ามีงบ"],"5":["รายงานประชุมมีมติสั่งการให้ปรับปรุง Data Management System จากผล AAR/External Assurance"]},"integLinks":{"2":["SCM"],"3":["HCM"],"4":["IA"],"5":["DT"]},"subComps":{"3":["Critical Blocker: เกณฑ์ปี 69 บังคับ — ต้องมีตาราง GRI Content Index ท้ายเล่ม และ Statement of Use — ขาดสิ่งใดสิ่งหนึ่งปัดตกจาก L3"]},"gaps":["รายงานความยั่งยืนที่จัดทำอยู่ยังไม่มีตาราง GRI Content Index และ Statement of Use — ผู้ประเมินหักคะแนนหยุดที่ L2","L4–L5 ยังไม่มีเอกสาร"],"actions":["อัปเกรดเล่มรายงานความยั่งยืนให้มี GRI Content Index + Statement of Use + หน้าสิทธิมนุษยชน (L3)","พิจารณาจ้าง Third Party มาตรวจสอบ/รับรองรายงาน (L4)","จัดทำ AAR วิเคราะห์คอขวดการเก็บข้อมูล (L4)"],"docsNeeded":[{"level":"L3","item":"ตาราง GRI Content Index ท้ายเล่มรายงาน + Statement of Use"},{"level":"L3","item":"หน้าสรุปนโยบายและผลการดำเนินงานด้านสิทธิมนุษยชน"},{"level":"L4","item":"รายงาน AAR คอขวดการเก็บข้อมูล"},{"level":"L4","item":"ใบรับรอง Third Party Assurance (ถ้ามีงบ)"},{"level":"L5","item":"มติสั่งการปรับปรุง Data Management System"}],"selfAssessment":[{"level":"L1–2","note":"จัดทำและเผยแพร่รายงานความยั่งยืน","text":"คณะกรรมการ กทท. ให้ความสำคัญกับการเปิดเผยข้อมูลอย่างโปร่งใส โดยได้กำกับดูแลให้มีการจัดทำและเผยแพร่ 'รายงานการพัฒนาความยั่งยืน' ประจำปีผ่านช่องทางเว็บไซต์องค์กร เพื่อสื่อสารผลการดำเนินงานด้านเศรษฐกิจ สังคม และสิ่งแวดล้อม ให้ผู้มีส่วนได้ส่วนเสียรับทราบ"},{"level":"L3","note":"จัดทำตาม GRI Standards + GRI Content Index + สิทธิมนุษยชน (ปี 69)","text":"เพื่อยกระดับความน่าเชื่อถือ กทท. ได้ยกระดับรูปแบบการจัดทำรายงานความยั่งยืนให้เป็นไปตาม 'มาตรฐานสากล (GRI Standards)' อย่างสมบูรณ์ โดยมีการแสดงตาราง GRI Content Index อย่างชัดเจนท้ายเล่มรายงาน พร้อม Statement of Use ที่ประกาศอย่างเป็นทางการ และรายงานผลการดำเนินงานด้านสิทธิมนุษยชนตามที่เกณฑ์ปี 69 กำหนด\n\nอ้างอิง: CG_9.3.3_001–003"},{"level":"L4–5","note":"ประเมินประสิทธิผล + Third Party + ปรับปรุง Data System","text":"กทท. ได้จัดให้มีการตรวจสอบและรับรองผลการดำเนินงานด้านความยั่งยืนโดย 'หน่วยงานอิสระภายนอก (Third Party Assurance)' และนำข้อบกพร่องที่พบไปปรับปรุงระบบการจัดเก็บข้อมูล ESG ให้มีความแม่นยำและครอบคลุมมากยิ่งขึ้น\n\nอ้างอิง: CG_9.3.4_001, CG_9.3_SIPOC"}],"docsByLevel":{"1":{"status":"missing"},"2":{"status":"missing"},"3":{"status":"ok","count":4,"groups":[{"label":"รายงานความยั่งยืน 2567 (GRI)","files":[{"code":"CG_9.3.3_001","name":"รายงานความยั่งยืน 2567 กทท."},{"code":"CG_9.3.3_002","name":"การสื่อสารรายงานความยั่งยืน 2567 ของ กทท."},{"code":"CG_9.3.3_003","name":"การดำเนินการจัดทำรายงานความยั่งยืนตามมาตรฐาน GRI"},{"code":"กระบวนการพิจารณา","name":"กระบวนการพิจารณารายงานความยั่งยืน 2567"}]}]},"4":{"status":"ok","count":2,"groups":[{"label":"ประเมินประสิทธิผล + SIPOC","files":[{"code":"CG_9.3.4_001","name":"การประเมินประสิทธิผลของรายงานความยั่งยืน"},{"code":"CG_9.3_SIPOC","name":"SIPOC กระบวนการจัดทำรายงานความยั่งยืน"}]}]},"5":{"status":"missing"}},"good":["กทท. มีการจัดตั้งหน่วยงาน/คณะทำงานด้านความยั่งยืน มีการกำหนด 16 ปัจจัย ESG และได้จัดทำ \"รายงานความยั่งยืน\" เผยแพร่ออกมาแล้ว"],"results":[],"crossLinks":{"2":["SCM"],"3":["HCM"],"4":["IA"],"5":["DT"]}},{"id":"10.1","grp":"10","gname":"การติดตามผลการดำเนินงาน","gw":10,"gs68":3.0,"name":"การติดตามผลการดำเนินงานด้านการเงินและไม่ใช่การเงิน","w":5,"s68":3.0,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"ประเมินบทบาทบอร์ดในการ 'ติดตามและประเมินผล' การดำเนินงาน — กทท. ทำได้ดีมากจนระดับ 3 แต่ยังขาดการ 'ประเมินประสิทธิผลของระบบติดตาม' สำหรับ L4","levelSumm":["มีแนวทางติดตามผลและกรอบการรายงาน","บอร์ดติดตามผลอย่างน้อยรายไตรมาส — กทท. ทำได้ 'ทุกเดือน' ✓","บอร์ดมีข้อสั่งการ + ตาราง e-Tracking ติดตามมติบอร์ด ✓","ประเมินประสิทธิผลระบบติดตามผล — ระบุ Outcome ชัดเจน","ยกระดับสู่ Digital Dashboard Real-time"],"dimLevels":["L1 — Foundation: มีแนวทางและกรอบการติดตามผลการดำเนินงานทั้งการเงินและไม่ใช่การเงิน","L2 — Tracking: บอร์ดติดตามผลอย่างสม่ำเสมออย่างน้อยรายไตรมาส — กทท. ทำได้ 'ทุกเดือน' ซึ่งดีกว่าเกณฑ์","L3 — Oversight & Follow-up: บอร์ดมอบข้อสังเกต/ข้อเสนอแนะ + มี 'ตาราง e-Tracking ติดตามมติ' — กทท. ทำได้แล้ว ✓","L4 — Process Evaluation: ประเมินคุณภาพ/ประสิทธิผลของ 'ระบบ' ติดตามผล — ระบุ Outcome ⚠️ กทท. ยังขาดตรงนี้","L5 — System Improvement: ปรับปรุงระบบงาน — เช่น นำ Dashboard มาแทนกระดาษ + มติบอร์ดสั่งการ"],"minReqs":{"1":["คู่มือ CG หรือปฏิทินแผนการเสนอเรื่อง ที่แสดงกรอบแนวทางติดตามผล"],"2":["รายงานการประชุมบอร์ดที่มีวาระรายงานผลการดำเนินงาน (ทุกเดือน)","รายงานการเงินและแผนการเบิกจ่าย"],"3":["ตารางติดตามมติ e-Tracking ที่ระบุสถานะการดำเนินการตามข้อสั่งการบอร์ด","รายงานผลการดำเนินงานตามแผน CG ปี 68 (Q1–Q4)"],"4":["รายงานประเมินคุณภาพ/ประสิทธิผลของกระบวนการ/ระบบการติดตามผล — ระบุ Outcome"],"5":["ภาพหน้าจอ Dashboard ติดตามผล Real-time","มติบอร์ดสั่งการให้นำ Dashboard มาใช้แทนกระดาษ"]},"integLinks":{"2":["SP"],"4":["SP"],"5":["DT"]},"subComps":{},"gaps":["กทท. ทำดีมากถึงระดับ 3 แต่ยังขาดการ 'ประเมินประสิทธิผลของระบบ' ติดตามผล — ผู้ประเมินต้องการเห็นว่ากระบวนการมีประสิทธิภาพจริงหรือไม่ — ยังขาด Outcome","L5 ยังไม่มีเอกสาร — ต้องนำ Dashboard Real-time มาใช้"],"actions":["จัดทำรายงานประเมินประสิทธิผลระบบติดตาม ระบุ Outcome (เช่น ลดระยะเวลารวบรวมข้อมูล ความพึงพอใจบอร์ด) (L4)","นำ Data Analytics/Dashboard มาแทนกระดาษ + มติบอร์ดสั่งใช้งาน (L5)"],"docsNeeded":[{"level":"L4","item":"รายงานประเมินประสิทธิผลระบบติดตาม — ระบุ Outcome ชัดเจน"},{"level":"L5","item":"ภาพหน้าจอ Dashboard Real-time + มติบอร์ดสั่งการใช้งาน"}],"selfAssessment":[{"level":"L1–3","note":"บอร์ดติดตามทุกเดือน + ข้อสั่งการ + e-Tracking","text":"คณะกรรมการ กทท. ได้กำกับดูแลและติดตามผลการดำเนินงานด้านการเงินและภารกิจหลักอย่างใกล้ชิดเป็นประจำ 'ทุกเดือน' (สูงกว่าเกณฑ์ที่กำหนดรายไตรมาส) โดยในการประชุมคณะกรรมการได้มอบข้อสั่งการและข้อเสนอแนะเชิงกลยุทธ์เพื่อแก้ไขปัญหาอุปสรรคอย่างเป็นรูปธรรม นอกจากนี้ กทท. ยังมี 'กลไกตาราง e-Tracking ติดตามมติ' เพื่อรายงานผลสัมฤทธิ์ย้อนกลับให้คณะกรรมการรับทราบ\n\nอ้างอิง: CG_10.1.1_001–008, CG_10.1.2_001–025, CG_10.1.3_001–002"},{"level":"L4","note":"ประเมินประสิทธิผลระบบติดตาม ระบุ Outcome (ปี 69)","text":"เพื่อยกระดับมาตรฐาน กทท. ได้ดำเนินการ 'ประเมินคุณภาพและประสิทธิผลของกระบวนการติดตามผล' อย่างเป็นระบบ โดยกำหนดตัวชี้วัดทั้งมิติ Output และ Outcome เช่น ลดระยะเวลารวบรวมข้อมูล และความพึงพอใจของคณะกรรมการต่อความชัดเจนของรายงาน\n\nอ้างอิง: CG_10.1.4_001–004"},{"level":"L5","note":"Digital Dashboard + มติบอร์ดสั่งการ (ปี 69)","text":"จากผลการประเมิน (L4) คณะกรรมการ กทท. มีมติสั่งการให้ปรับปรุงกระบวนการโดยบูรณาการร่วมกับฝ่าย DT ในการนำ 'ระบบ e-Tracking & Dashboard' มาใช้รายงานผลแบบ Real-time แทนรูปแบบเอกสารเดิม\n\nอ้างอิง: จัดทำในปี 69"}],"docsByLevel":{"1":{"status":"ok","count":8,"groups":[{"label":"คู่มือ CG + แผนพัฒนา + ปฏิทิน","files":[{"code":"CG_10.1.1_001–002","name":"คู่มือ CG ปี 68–69 (หน้า 84–85 / 127–129)"},{"code":"CG_10.1.1_003–004","name":"แผนพัฒนาการกำกับดูแลและพัฒนาตนเองของคณะกรรมการ กทท. ปี 68–69"},{"code":"CG_10.1.1_005–008","name":"มติบอร์ด / ปฏิทินแผนการเสนอเรื่อง Core Business Enablers / รายงานประชุม"}]}]},"2":{"status":"ok","count":25,"groups":[{"label":"รายงานประชุมบอร์ด (รายเดือน ปี 67–68)","files":[{"code":"CG_10.1.2_001–025","name":"รายงานการประชุมคณะกรรมการ กทท. ครั้งที่ 11/2567–8/2568 + รายงานการเงิน + ตัวชี้วัด"}]}]},"3":{"status":"ok","count":2,"groups":[{"label":"e-Tracking ตาราง + รายงานผลแผน CG","files":[{"code":"CG_10.1.3_001","name":"ตารางติดตามความคืบหน้าการดำเนินการตามมติ ครั้งที่ 11/2567–8/2568"},{"code":"CG_10.1.3_002","name":"รายงานผลการดำเนินงานตามแผน CG ปี 2568 ไตรมาส 1–4"}]}]},"4":{"status":"ok","count":4,"groups":[{"label":"รายงานประเมินประสิทธิผล + ระบบ QR Code","files":[{"code":"CG_10.1.4_001","name":"บันทึกรายงานติดตามความคืบหน้า (QR Code) ครั้งที่ 11/2567–9/2568"},{"code":"CG_10.1.4_002","name":"SIPOC การติดตามผลการดำเนินการตามมติคณะกรรมการ"},{"code":"CG_10.1.4_003","name":"การประเมินประสิทธิผลและคุณภาพกระบวนการติดตามผล"},{"code":"CG_10.1.4_004","name":"ระบบติดตามผลการดำเนินการตามสั่งการ"}]}]},"5":{"status":"missing"}},"good":["มีคณะกรรมการ กทท. (บอร์ด) มีการติดตามผลการดำเนินงานด้านการเงินและภารกิจหลักอย่างครบถ้วน สม่ำเสมอเป็นรายเดือน (ดีกว่าเกณฑ์ที่กำหนดแค่รายไตรมาส) และบอร์ดมีการมอบข้อสังเกตและข้อเสนอแนะค่อนข้างมาก รวมถึงมีการทำตารางติดตามผลมติที่ประชุมอย่างเป็นระบบ"],"results":[],"crossLinks":{"2":["SP"],"4":["SP","CG"],"5":["DT","CG"]}},{"id":"10.2","grp":"10","gname":"การติดตามผลการดำเนินงาน","gw":10,"gs68":3.0,"name":"คุณภาพของรายงานผลการดำเนินงานด้านการเงินและไม่ใช่การเงิน","w":5,"s68":3.0,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"ประเมินคุณภาพและองค์ประกอบของเล่มรายงานที่เสนอบอร์ด — L1=1 ประเด็น L2=2 ประเด็น L3=3 ประเด็นครบ (สาเหตุ/ปัญหา/แนวทางแก้ไข) — กทท. ได้ L3 เต็ม — ต้องการ L4: ประเมินกระบวนการจัดทำ","levelSumm":["รายงานมีประเด็นสำคัญ 1 ประเด็น (สาเหตุ)","รายงานมีประเด็นสำคัญ 2 ประเด็น (สาเหตุ + ปัญหา)","รายงานมีครบ 3 ประเด็น (สาเหตุ/ปัญหา/แนวทางแก้ไข) — กทท. ทำได้ ✓","ประเมินกระบวนการจัดทำรายงาน — ระบุ Outcome","นำ Data Analytics/Executive Dashboard มาใช้แทนกระดาษ"],"dimLevels":["L1 — Content (1 ประเด็น): รายงานที่เสนอบอร์ดมีการวิเคราะห์ครอบคลุมอย่างน้อย 1 ประเด็น (สาเหตุของการเปลี่ยนแปลง)","L2 — Content (2 ประเด็น): ครอบคลุม 2 ประเด็น (เพิ่ม ปัญหา/อุปสรรค)","L3 — Content (3 ประเด็น): ครอบคลุมครบ 3 ประเด็น (1) สาเหตุ (2) ปัญหา/อุปสรรค (3) แนวทางแก้ไข — กทท. ทำได้ครบ ✓","L4 — Process Evaluation: ประเมินคุณภาพ/ประสิทธิผลของ 'กระบวนการ' จัดทำรายงาน — ระบุ Outcome ⚠️ หากส่งแค่เล่มรายงานเหมือนปี 68 ผู้ตรวจปัดตก L4 ทันที","L5 — Improvement: นำผลประเมินมาปรับปรุง — เช่น เปลี่ยนจากกระดาษเป็น Data Analytics / Executive Dashboard"],"minReqs":{"1":["รายงานการเงินและผลการดำเนินงาน (มีการวิเคราะห์สาเหตุ)"],"2":["รายงานที่ระบุทั้งสาเหตุและปัญหา/อุปสรรค"],"3":["รายงานที่ครบ 3 ประเด็น: สาเหตุ + ปัญหา + แนวทางแก้ไข","รายงานผลการดำเนินงานตาม PA / แผนยุทธศาสตร์ / โครงการสำคัญ"],"4":["รายงานประเมินคุณภาพ/ประสิทธิผลของกระบวนการจัดทำรายงาน","แบบสำรวจความพึงพอใจบอร์ดต่อรูปแบบและความชัดเจนของรายงาน"],"5":["ภาพหน้าจอ Data Analytics / Executive Dashboard","มติบอร์ดสั่งการให้เปลี่ยนรูปแบบการรายงาน"]},"integLinks":{"1":["SP"],"2":["SP"],"3":["SP"],"4":["บอร์ด CG"],"5":["DT"]},"subComps":{},"gaps":["กทท. จัดทำรายงานได้ดีมากถึงระดับ 3 แต่ผู้ประเมินระบุว่า 'ควรจัดให้มีการประเมินคุณภาพ/ประสิทธิผลของกระบวนการ/ระบบการจัดทำรายงาน' สำหรับ L4 — ยังขาด Outcome","L5 ยังไม่มีเอกสาร"],"actions":["จัดทำรายงานประเมินประสิทธิผลกระบวนการจัดทำรายงาน — ระบุ Outcome (L4)","ทำแบบสำรวจความพึงพอใจบอร์ดต่อรูปแบบรายงาน (L4)","นำ Executive Dashboard มาแทนกระดาษ + มติบอร์ดสั่งการ (L5)"],"docsNeeded":[{"level":"L4","item":"รายงานประเมินประสิทธิผลกระบวนการจัดทำรายงาน + แบบสำรวจความพึงพอใจบอร์ด"},{"level":"L5","item":"ภาพหน้าจอ Executive Dashboard + มติบอร์ดสั่งการเปลี่ยนรูปแบบ"}],"selfAssessment":[{"level":"L1–3","note":"รายงานครบ 3 ประเด็น สาเหตุ/ปัญหา/แนวทางแก้ไข","text":"กทท. ให้ความสำคัญกับคุณภาพของรายงานผลการดำเนินงานที่นำเสนอต่อคณะกรรมการ กทท. โดยได้จัดทำรายงานด้านการเงินและไม่ใช่การเงินที่มีองค์ประกอบครบถ้วนและเป็นมาตรฐาน ครอบคลุมประเด็นสำคัญทั้ง 3 มิติ ได้แก่ 1) สาเหตุของการเปลี่ยนแปลงเทียบเป้าหมาย 2) ปัญหาและอุปสรรค 3) แนวทางแก้ไขปัญหาอย่างเป็นรูปธรรม\n\nอ้างอิง: CG_10.2.1_001–005, CG_10.2.2_001, CG_10.2.3_001–009"},{"level":"L4","note":"ประเมินกระบวนการจัดทำรายงาน ระบุ Outcome (ปี 69)","text":"เพื่อลดข้อจำกัดในการจัดทำข้อมูล กทท. ได้ดำเนินการ 'ประเมินคุณภาพและประสิทธิผลของกระบวนการจัดทำรายงาน' โดยสำรวจความพึงพอใจของคณะกรรมการต่อความชัดเจนและความทันกาลของรายงาน รวมถึงวิเคราะห์คอขวดในขั้นตอนการรวบรวมข้อมูลจากหน่วยงานต่างๆ\n\nอ้างอิง: CG_10.2.4_001–003"},{"level":"L5","note":"Executive Dashboard แทนกระดาษ (ปี 69)","text":"จากผลการประเมิน (L4) คณะกรรมการ กทท. มีมติสั่งการให้นำ 'Data Analytics และ Executive Dashboard' มาช่วยสรุปวิเคราะห์และนำเสนอรายงานผลการดำเนินงานแบบ Real-time ซึ่งช่วยลดระยะเวลาจัดทำเอกสาร และยกระดับคุณภาพรายงานให้คณะกรรมการสามารถเจาะลึกข้อมูล (Drill-down) เพื่อตัดสินใจเชิงนโยบายได้อย่างแม่นยำ\n\nอ้างอิง: จัดทำในปี 69"}],"docsByLevel":{"1":{"status":"ok","count":5,"groups":[{"label":"รายงานประชุมบอร์ด (มีวาระรายงานผล)","files":[{"code":"CG_10.2.1_001–005","name":"รายงานการประชุมคณะกรรมการ กทท. ครั้งที่ 11/2567–3/2568"}]}]},"2":{"status":"ok","count":1,"groups":[{"label":"รายงานการเงินและผลการดำเนินงาน","files":[{"code":"CG_10.2.2_001","name":"รายงานการเงินและผลการดำเนินงาน เดือน ต.ค.2567–ส.ค.2568"}]}]},"3":{"status":"ok","count":9,"groups":[{"label":"รายงานผลการดำเนินงาน (ครบ 3 ประเด็น)","files":[{"code":"CG_10.2.3_001–009","name":"รายงานประชุมบอร์ด ครั้งที่ 12/2567–9/2568 (วาระรายงานผลการดำเนินงาน ทลฉ. + แผนยุทธศาสตร์ + โครงการสำคัญ)"}]}]},"4":{"status":"ok","count":3,"groups":[{"label":"รายงานประเมินประสิทธิผลการรายงาน","files":[{"code":"CG_10.2.4_001–002","name":"การประเมินประสิทธิผลและคุณภาพการรายงานความคืบหน้าโครงการ ทลฉ. ส่วนที่ 1–2"},{"code":"CG_10.2.4_003","name":"ติดตามเรื่องที่ประธานแจ้งที่ประชุมทราบ"}]}]},"5":{"status":"missing"}},"good":["กทท. จัดทำรายงานการเงินและไม่ใช่การเงินเสนอคณะกรรมการได้อย่างครบถ้วน โดยรายงานมีการระบุองค์ประกอบสำคัญครบทั้ง 3 มิติ คือ","สาเหตุของการเปลี่ยนแปลง","ปัญหา/อุปสรรค","แนวทางแก้ไข"],"results":[],"crossLinks":{"1":["SP"],"2":["SP"],"3":["SP"],"5":["DT","CG"]}}]}};// ══ State ══════════════════════════════════════════════════════
+let focusId=null;
+const targets={cg:{}};
+const clChecked={};
+const cgDimRad={};
+const cgChecked={};
+const cgSubChecked={};
+const cgDocChecked={};
+const LS_KEY='cg_ck_69';
+const DIM_KEY='cg';
+
+DATA.cg.subs.forEach(s=>{
+  targets.cg[s.id]=0; // ยังไม่ได้ประเมิน = 0 ไม่ใช่คะแนนปีก่อน
+  cgDimRad[s.id]={1:0,2:0,3:0,4:0,5:0};
+  cgChecked[s.id]={};
+  cgSubChecked[s.id]={};
+  cgDocChecked[s.id]={};
+  [1,2,3,4,5].forEach(L=>{cgChecked[s.id][L]={};cgSubChecked[s.id][L]={};cgDocChecked[s.id][L]={};});
+});
+async function loadState(){
+  try{const d=JSON.parse(localStorage.getItem(LS_KEY)||'{}');
+    if(d.ck) Object.assign(cgChecked,d.ck);
+    if(d.sc) Object.assign(cgSubChecked,d.sc);
+    if(d.dc) Object.assign(cgDocChecked,d.dc);
+    if(d.rad) Object.keys(d.rad).forEach(id=>{cgDimRad[id]=Object.assign({1:0,2:0,3:0,4:0,5:0},d.rad[id]);});
+    if(d.cl) Object.assign(clChecked,d.cl);
+    if(d.chkSim) Object.assign(cgChkSim,d.chkSim);
+    if(d.tgt) Object.keys(d.tgt).forEach(id=>{targets.cg[id]=Number(d.tgt[id]);});
+    if(d.feIn) Object.assign(feInput,d.feIn);
+  }catch(e){}
+  const remote=await ebFetchDim(DIM_KEY,4000);
+  if(remote&&remote.data&&Object.keys(remote.data).length){
+    try{
+      const d=remote.data;
+      if(d.ck) Object.assign(cgChecked,d.ck);
+      if(d.sc) Object.assign(cgSubChecked,d.sc);
+      if(d.dc) Object.assign(cgDocChecked,d.dc);
+      if(d.rad) Object.keys(d.rad).forEach(id=>{cgDimRad[id]=Object.assign({1:0,2:0,3:0,4:0,5:0},d.rad[id]);});
+      if(d.cl) Object.assign(clChecked,d.cl);
+      if(d.chkSim) Object.assign(cgChkSim,d.chkSim);
+      if(d.tgt) Object.keys(d.tgt).forEach(id=>{targets.cg[id]=Number(d.tgt[id]);});
+      if(d.feIn) Object.assign(feInput,d.feIn);
+      localStorage.setItem(LS_KEY,JSON.stringify(d));
+    }catch(e){}
+  }
+}
+function save(){
+  try{localStorage.setItem(LS_KEY,JSON.stringify({ck:cgChecked,sc:cgSubChecked,dc:cgDocChecked,rad:cgDimRad,cl:clChecked,tgt:targets.cg,chkSim:cgChkSim,feIn:feInput}));}catch(e){}
+  syncHomeStatus();
+  ebScheduleSaveDim(DIM_KEY,
+    ()=>JSON.parse(localStorage.getItem(LS_KEY)||'{}'),
+    ()=>{const h=JSON.parse(localStorage.getItem('seam_status_69')||'{}');return h[DIM_KEY]||{};},
+    800);
+}
+function syncHomeStatus(){
+  try{
+    const home=JSON.parse(localStorage.getItem('seam_status_69')||'{}');
+    if(!home[DIM_KEY])home[DIM_KEY]={};
+    DATA.cg.subs.forEach(s=>{
+      const score=cgCalcRaw(s.id);
+      const gc=(s.gaps||[]).length;
+      home[DIM_KEY][s.id]={level:score,hasOpenGap:gc>0,gapCount:gc};
+    });
+    localStorage.setItem('seam_status_69',JSON.stringify(home));
+  }catch(e){}
+}
+function feGet(sid,field,key){return(feInput[sid]&&feInput[sid][field]&&feInput[sid][field][key])||'';}
+function feSet(sid,field,key,val){if(!feInput[sid])feInput[sid]={};if(!feInput[sid][field])feInput[sid][field]={};feInput[sid][field][key]=val;save();}
+function feGapClosed(sid,i){const fi=feInput[sid];if(!fi||!fi.gapClosed)return null;return fi.gapClosed.hasOwnProperty(i)?fi.gapClosed[i]:null;}
+function cgGetChk(id,L,k){return !!(cgChecked[id]&&cgChecked[id][L]&&cgChecked[id][L][k]);}
+function cgSetDim(id,L,v){if(!cgDimRad[id])cgDimRad[id]={};cgDimRad[id][L]=Number(v);save();renderAll();}
+function cgToggleMR(id,L,k,v){if(!cgChecked[id])cgChecked[id]={};if(!cgChecked[id][L])cgChecked[id][L]={};cgChecked[id][L][k]=v;save();}
+function cgGetSC(id,L,k){return !!(cgSubChecked[id]&&cgSubChecked[id][L]&&cgSubChecked[id][L][k]);}
+function cgToggleSC(id,L,k,v){
+  if(!cgSubChecked[id])cgSubChecked[id]={};if(!cgSubChecked[id][L])cgSubChecked[id][L]={};
+  cgSubChecked[id][L][k]=v;
+  const s=DATA.cg.subs.find(x=>x.id===id);
+  const scs=(s.subComps&&s.subComps[L])||[];
+  const chk=scs.filter((_,i)=>cgGetSC(id,L,i)).length;
+  const frac=scs.length?Math.round((chk/scs.length)*1000)/1000:0;
+  cgSetDim(id,L,frac); // cgSetDim already calls save()+renderAll()
+}
+function cgGetDoc(id,L,code){return !!(cgDocChecked[id]&&cgDocChecked[id][L]&&cgDocChecked[id][L][code]);}
+function cgToggleDoc(id,L,code,v){if(!cgDocChecked[id])cgDocChecked[id]={};if(!cgDocChecked[id][L])cgDocChecked[id][L]={};cgDocChecked[id][L][code]=v;save();renderAll();}
+function cgClearAll(){DATA.cg.subs.forEach(s=>{cgChecked[s.id]={};cgSubChecked[s.id]={};cgDocChecked[s.id]={};[1,2,3,4,5].forEach(L=>{cgChecked[s.id][L]={};cgSubChecked[s.id][L]={};cgDocChecked[s.id][L]={};});cgDimRad[s.id]={1:0,2:0,3:0,4:0,5:0};targets.cg[s.id]=0;});try{localStorage.removeItem(LS_KEY);}catch(e){}save();renderAll();}
+function cgCalcRaw(id){let c=0,g=false;for(let L=1;L<=5;L++){if(g)break;const v=cgDimRad[id]?cgDimRad[id][L]:0;c+=v;if(v<1)g=true;}return c;}
+function fmt(n){return n.toFixed(4);}
+function sClass(st){return st==='เสร็จแล้ว'?'s2':st==='กำลังดำเนินการ'?'s1':'s0';}
+function sIcon(st){return st==='เสร็จแล้ว'?'✓':st==='กำลังดำเนินการ'?'●':'○';}
+function dotColor(id){const t=targets.cg[id],s=DATA.cg.subs.find(x=>x.id===id);const d=t-s.s68;return d>0.001?'dg':d<-0.001?'dr':'da';}
+
+// ── Expand helper ──────────────────────────────────────────────
+let _eu=0;
+function exp(txt,lim=110){
+  if(!txt||txt.length<=lim) return txt||'';
+  const id='ex'+(_eu++);
+  const b='border:none;background:#fdf1de;cursor:pointer;color:#b8291c;font-size:10px;padding:0 5px;border-radius:8px;line-height:1.6;white-space:nowrap;';
+  return `<span id="${id}s">${txt.slice(0,lim)}<span style="color:#bbb;">…</span>&nbsp;<button onclick="document.getElementById('${id}s').style.display='none';document.getElementById('${id}f').style.display='inline';" style="${b}">▼ ดูเพิ่ม</button></span><span id="${id}f" style="display:none;">${txt}&nbsp;<button onclick="document.getElementById('${id}f').style.display='none';document.getElementById('${id}s').style.display='inline';" style="${b}">▲ ย่อ</button></span>`;
+}
+
+// ── Simulator ──────────────────────────────────────────────────
+function renderSim(s){
+  const sid=s.id;
+  let gated=false;
+  const lvlSc=[];
+  for(let L=1;L<=5;L++){
+    if(gated){lvlSc.push({rv:0,bl:true});continue;}
+    const rv=(cgDimRad[sid]&&cgDimRad[sid][L])||0;
+    lvlSc.push({rv,bl:false});
+    if(rv<1) gated=true;
+  }
+  const raw=lvlSc.reduce((a,x)=>a+x.rv,0);
+  const wt=raw*(s.w/100);
+  targets.cg[sid]=raw; // ยังไม่ติ๊ก = 0 จริงๆ ไม่ fallback ไปคะแนนปีก่อน
+  requestAnimationFrame(()=>{
+    const inp=document.getElementById('ti-'+sid);
+    if(inp){inp.value=fmt(targets.cg[sid]);inp.style.borderColor=targets.cg[sid]>=4?'#2a8a4a':targets.cg[sid]>=3?'#5a8a00':targets.cg[sid]>=2?'#c07000':'#c03020';}
+  });
+
+  function countMR(L){const mrs=(s.minReqs&&s.minReqs[L])||[];let t=0,c=0;mrs.forEach((_,ri)=>{t++;if(cgGetChk(sid,L,ri))c++;});return{tot:t,chk:c};}
+
+  let lvlHTML='';
+  lvlSc.forEach((ls,i)=>{
+    const L=i+1;
+    const summ=(s.levelSumm&&s.levelSumm[L-1])||'';
+    const detail=(s.dimLevels&&s.dimLevels[L-1])||'';
+    const mrs=(s.minReqs&&s.minReqs[L])||[];
+    const ints=(s.integLinks&&s.integLinks[L])||[];
+    const traps=(s.subComps&&s.subComps[L])||[];
+    const{tot,chk}=countMR(L);
+    const rv=ls.rv;
+    const hdBg=ls.bl?'#eee8f8':rv>=1?'#e4f5e4':rv>0?'#fef8e8':'#f0ebff';
+    const nBg=ls.bl?'#aaa':rv>=1?'#1a7a4a':rv>0?'#c07000':'#3a1870';
+    const sCol=ls.bl?'#bbb':rv>=1?'#1a7a4a':rv>0?'#c07000':'#9a80c8';
+    const barPct=tot>0?Math.round(chk/tot*100):0;
+    const intB=ints.map(d=>`<a href="${LINK_URL}" target="_blank" class="cg-int-link">🔗 ${d}</a>`).join('');
+    const xId=`cgx-${sid}-${L}`;
+    const xBtn=detail?`<button class="cg-toggle" onclick="event.stopPropagation();var e=document.getElementById('${xId}'),b=this;e.classList.toggle('open');b.textContent=e.classList.contains('open')?'▲':'▼';">▼</button>`:'';
+    const xPan=detail?`<div id="${xId}" class="cg-lvl-detail">${detail}</div>`:'';
+
+    let mrH='';
+    if(mrs.length){
+      mrH=`<div class="cg-sect-lbl">🔒 หลักฐานขั้นต่ำ (L${L}) <span style="color:#b8291c;">${chk}/${tot} (${barPct}%)</span></div>
+      <div class="cg-prog-bar"><div class="cg-prog-fill" style="width:${barPct}%;background:${chk===tot?'#1a7a4a':'#b8291c'};"></div></div>`;
+      mrs.forEach((txt,ri)=>{
+        const kid=`cgmr-${sid}-${L}-${ri}`;const ck=cgGetChk(sid,L,ri)?'checked':'';const dis=ls.bl?'disabled':'';
+        mrH+=`<div class="cg-req-item"><input type="checkbox" id="${kid}" ${ck} ${dis} onchange="cgToggleMR('${sid}',${L},${ri},this.checked);renderAll();" style="accent-color:#b8291c;"><label for="${kid}">${txt}</label></div>`;
+      });
+    }
+    const dis=ls.bl?'disabled':'';
+    const mrGateOk = tot===0 || chk===tot; // minReqs ต้องครบก่อน Dimension ถึงจะติ๊กได้ (maturity gating)
+    let dimH='';
+    if(traps.length){
+      // ── Dimension = Hidden Sub-components (checkbox-driven fraction, ตาม pattern SP/IA/KM) ──
+      const scDis = ls.bl||!mrGateOk ? 'disabled' : '';
+      const scChk = traps.filter((_,i)=>cgGetSC(sid,L,i)).length;
+      dimH=`<div class="cg-sect-lbl" style="margin-top:8px;">📐 มิติที่ประเมิน (Dimension) — L${L} <span style="color:#b8291c;">${scChk}/${traps.length}</span></div>`;
+      if(!mrGateOk){dimH+=`<div class="cg-trap">🔒 ต้องติ๊กหลักฐานขั้นต่ำ (${chk}/${tot}) ให้ครบก่อน ถึงจะประเมินมิตินี้ได้</div>`;}
+      traps.forEach((t,ti)=>{
+        const kid=`cgsc-${sid}-${L}-${ti}`;const ck=cgGetSC(sid,L,ti)?'checked':'';
+        dimH+=`<div class="cg-req-item"><input type="checkbox" id="${kid}" ${ck} ${scDis} onchange="cgToggleSC('${sid}',${L},${ti},this.checked);renderAll();" style="accent-color:#b8291c;"><label for="${kid}">${t}</label></div>`;
+      });
+    } else {
+      dimH=`<div class="cg-sect-lbl" style="margin-top:8px;">📐 มิติที่ประเมิน (L${L})</div><div class="cg-radio-grp">`;
+      [[0,'0 — ไม่ครบตามเกณฑ์'],[0.5,'0.5 — ทำได้บางส่วน'],[1,'1.0 — ครบตามมิติที่ประเมิน']].forEach(([v,lbl])=>{
+        const ck=(rv===v)?'checked':'';const col=v===1?'#1a7a4a':v===0.5?'#c07000':'#c03020';
+        dimH+=`<label style="padding:3px 6px;border-radius:5px;background:${ck?(v===1?'#e0f5e8':v===0.5?'#fef8e0':'#fee8e8'):'transparent'};border:1px solid ${ck?(v===1?'#1a7a4a':v===0.5?'#c07000':'#c03020'):'transparent'};color:${ck?col:'#444'};font-weight:${ck?'700':'400'};cursor:${ls.bl?'not-allowed':'pointer'};"><input type="radio" name="cgdim-${sid}-${L}" value="${v}" ${ck} ${dis} onchange="cgSetDim('${sid}',${L},${v});" style="accent-color:${col};flex-shrink:0;"> ${lbl}</label>`;
+      });
+      dimH+='</div>';
+    }
+
+    // Integration links — วางหลัง Dimension
+    const intSection=intB?`<div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap;">${intB}</div>`:'';
+    const trapH='';
+
+    lvlHTML+=`<div class="cg-lvl-row${ls.bl?' blocked':''}">
+      <div class="cg-lvl-hd" style="background:${hdBg};">
+        <span class="cg-lvl-num" style="background:${nBg};">L${L}</span>
+        <span class="cg-lvl-summ"><span class="kt">${summ}</span></span>
+        <span style="display:flex;gap:3px;align-items:center;flex-shrink:0;">${xBtn}<span style="font-size:10px;font-weight:700;color:${sCol};min-width:28px;text-align:right;">${ls.bl?'—':rv.toFixed(2)}</span></span>
+      </div>
+      ${xPan}
+      <div class="cg-lvl-body"${ls.bl?' style="pointer-events:none;opacity:.4;"':''}>
+        ${mrH}${dimH}${intSection}${trapH}
+      </div>
+    </div>`;
+  });
+
+  return `<div class="cg-sim">
+    <div class="cg-sim-hd">
+      <span style="font-size:11px;padding:2px 8px;border-radius:6px;background:var(--chili);color:#fff;font-weight:700;">CG</span>
+      &nbsp;Target Score Simulator — Maturity Gating
+      <span style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+        <button onclick="cgClearAll()" style="font-size:9px;padding:1px 8px;border:1.5px solid var(--border);border-radius:6px;background:#fff;cursor:pointer;color:var(--text2);font-weight:700;">🗑 Clear</button>
+        <span style="font-size:11px;font-weight:700;color:var(--chili-d);">${raw.toFixed(4)}/5.0</span>
+      </span>
+    </div>
+    <div class="cg-scope-box">${s.scopeNote||''}</div>
+    ${lvlHTML}
+    <div class="cg-total-bar">
+      <span class="cg-total-lbl">คะแนนสะสม (0–5)</span>
+      <span class="cg-raw">${raw.toFixed(4)}</span>
+      <span class="cg-wt">× ${s.w}% = <strong>${wt.toFixed(4)} pts</strong></span>
+    </div>
+  </div>`;
+}
+
+// ── Frame B: เอกสารลงระบบ ──────────────────────────────────────
+function renderFrameB(s){
+  const db=s.docsByLevel;
+  let html='';
+  [1,2,3,4,5].forEach(L=>{
+    const d=db[L];
+    const hasDocs=d&&d.status==='ok';
+    const missing=d&&d.status==='missing';
+    const bdId=`docbd-${s.id}-${L}`;
+    const cnt=hasDocs?d.count:0;
+    const badge=`<span class="doc-lvl-badge">L${L}</span>`;
+    const title=hasDocs?`มีเอกสาร ${cnt} ไฟล์`:missing?'ยังไม่มีเอกสาร — ดู Frame 1':'—';
+    const indicator=hasDocs?`<span style="color:#1a7a4a;font-size:10px;font-weight:600;">✓ ${cnt} ไฟล์</span>`:missing?`<span style="color:#b05000;font-size:10px;font-weight:600;">⚠️ ยังไม่มี</span>`:'';
+
+    let body='';
+    if(hasDocs){
+      let allCodes=[];
+      d.groups.forEach(g=>{g.files.forEach(f=>{allCodes.push(f.code);});});
+      const dChk=allCodes.filter(c=>cgGetDoc(s.id,L,c)).length;
+      const dPct=allCodes.length?Math.round(dChk/allCodes.length*100):0;
+      body+=`<div style="font-size:10.5px;color:var(--text2);font-weight:700;margin-bottom:3px;">ยืนยันแล้ว ${dChk}/${allCodes.length} รายการ (${dPct}%)</div>
+      <div class="doc-progbar"><div class="doc-progbar-fill" style="width:${dPct}%;"></div></div>`;
+      d.groups.forEach(g=>{
+        body+=`<div class="doc-grp"><div class="doc-grp-lbl">📁 ${g.label}</div>`;
+        g.files.forEach(f=>{
+          const fid=`cgdoc-${s.id}-${L}-${f.code}`.replace(/[^a-zA-Z0-9_-]/g,'_');
+          const ck=cgGetDoc(s.id,L,f.code)?'checked':'';
+          body+=`<div class="doc-file"><input type="checkbox" class="doc-chk" id="${fid}" ${ck} onchange="cgToggleDoc('${s.id}',${L},'${f.code}',this.checked);"><label for="${fid}" style="cursor:pointer;"><span class="doc-file-code">${f.code}</span><span class="doc-file-name">${f.name}</span></label></div>`;
+        });
+        body+='</div>';
+      });
+      body+=`<button class="doc-all-btn" onclick="window.open('${DOC_DETAIL_URL}#L${L}','_blank')">📋 ดูเอกสารแนบทั้งหมด (L${L})</button>`;
+    } else if(missing){
+      // รวม Frame D มาไว้ที่นี่สำหรับระดับที่ไม่มีเอกสาร
+      const needed=s.docsNeeded?s.docsNeeded.filter(x=>x.level===`L${L}`):[];
+      body=`<div class="doc-missing">⚠️ ยังไม่มีเอกสารสำหรับระดับนี้</div>`;
+      if(needed.length){
+        body+=`<div class="doc-missing-req"><strong>📋 เอกสารที่ต้องจัดทำในปี 69:</strong><ul style="margin:4px 0 0 14px;line-height:1.6;">`;
+        needed.forEach(n=>{body+=`<li>${n.item}</li>`;});
+        body+='</ul></div>';
+      }
+    }
+
+    html+=`<div class="doc-lvl-block">
+      <div class="doc-lvl-hd" onclick="var e=document.getElementById('${bdId}');e.classList.toggle('open');">
+        ${badge}<span class="doc-lvl-title">${title}</span>${indicator}
+        <span style="font-size:10px;color:#7080b0;">▼</span>
+      </div>
+      <div class="doc-lvl-body" id="${bdId}">${body}</div>
+    </div>`;
+  });
+  return html;
+}
+
+// ── Frame E: Self-Assessment Script ───────────────────────────
+function feCopyOut(outId,btn){
+  const el=document.getElementById(outId);if(!el||!el.value)return;
+  const orig=btn.textContent;
+  if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(el.value).then(()=>{btn.textContent='✓ คัดลอกแล้ว';setTimeout(()=>btn.textContent=orig,1500);}).catch(()=>{el.select();document.execCommand('copy');});}
+  else{el.select();document.execCommand('copy');btn.textContent='✓ คัดลอกแล้ว';setTimeout(()=>btn.textContent=orig,1500);}
+}
+function genScript(sid){
+  const s=DATA.cg.subs.find(x=>x.id===sid);if(!s)return'';
+  const fi=feInput[sid]||{};
+  const lvlNotes=fi.lvlNotes||{};const gapClosed=fi.gapClosed||{};const gapNotes=fi.gapNotes||{};
+  const mr=s.minReqs||{};
+  const saMap={};(s.selfAssessment||[]).forEach(sa=>{saMap[sa.level]=sa;});
+  const simMax=[5,4,3,2,1].find(L=>cgDimRad[sid]&&cgDimRad[sid][L]>0)||0;
+  const lines=[];
+  lines.push(`รายงานประเมินตนเอง — ด้าน CG ข้อ ${sid}`);
+  lines.push(s.name);
+  lines.push(`ระดับที่ประเมินได้ (Simulator): L${simMax||'—'}`);
+  lines.push('─'.repeat(60));
+  lines.push('');
+  [1,2,3,4,5].forEach(L=>{
+    const items=mr[L]||[];
+    const isPass=simMax>=L&&simMax>0;
+    const sa=saMap[`L${L}`];
+    const lvlTitle=(s.levelSumm&&s.levelSumm[L-1])||`ระดับ ${L}`;
+    const note=lvlNotes[L]||'';
+    const tickedDocs=items.filter((_,i)=>cgGetChk(sid,L,i));
+    lines.push(`${isPass?'✓':'○'} ระดับ ${L} — ${lvlTitle}`);
+    if(sa&&sa.text){
+      const saLines=sa.text.split('\n').map(l=>`   ${l}`);
+      lines.push(...saLines);
+    }
+    if(note){lines.push('');lines.push(`   [บันทึกเพิ่มเติม] ${note}`);}
+    if(tickedDocs.length){lines.push(`   หลักฐาน: ${tickedDocs.length}/${items.length} รายการ พร้อมแล้ว`);}
+    lines.push('');
+  });
+  const goods=s.good||[];const results=s.results||[];
+  if(goods.length){lines.push('จุดแข็งขององค์กร:');goods.forEach(g=>lines.push(`• ${g}`));lines.push('');}
+  if(results.length){lines.push('ผลการดำเนินงานที่นำเสนอ:');results.forEach((r,i)=>lines.push(`(${i+1}) ${r}`));lines.push('');}
+  const gaps=s.gaps||[];
+  if(gaps.length){
+    lines.push('ช่องว่าง TRIS — สถานะการปิด:');
+    gaps.slice(0,5).forEach((gap,i)=>{
+      const cl=gapClosed[i];const gNote=gapNotes[i]||'';
+      const st=cl===true?'✓ ปิดได้แล้ว':cl===false?'○ อยู่ระหว่างดำเนินการ':'— ยังไม่ระบุ';
+      lines.push(`• ${gap}`);
+      lines.push(`  → ${st}${gNote?': '+gNote:''}`);
+    });
+  }
+  return lines.join('\n');
+}
+function feCopyText(btn,txt){
+  if(navigator.clipboard&&window.isSecureContext){
+    navigator.clipboard.writeText(txt).then(function(){btn.textContent='✓ คัดลอก';setTimeout(function(){btn.textContent='📋 Copy'},1500);});
+  }else{
+    var ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);btn.textContent='✓ คัดลอก';setTimeout(function(){btn.textContent='📋 Copy'},1500);
+  }
+}
+function renderFrameE(s){
+  const sid=s.id;
+  const mr=s.minReqs||{};
+  const gaps=s.gaps||[];
+  const cross=s.crossLinks||s.integLinks||{};
+  const simMax=[5,4,3,2,1].find(L=>cgDimRad[sid]&&cgDimRad[sid][L]>0)||0;
+  const saMap={};
+  (s.selfAssessment||[]).forEach(sa=>{saMap[sa.level]=sa;});
+
+  // ── Simulator state pills ──
+  const pills=[1,2,3,4,5].map(L=>{
+    const pass=simMax>=L&&simMax>0;
+    return `<span style="font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;background:${pass?'#1a7a4a':'#e0ddd8'};color:${pass?'#fff':'#888'};">L${L}</span>`;
+  }).join('');
+  let html=`<div class="fe-sim-row">
+    <span style="font-size:11px;color:var(--text3);">ระดับ Simulator:</span>
+    <div style="display:flex;gap:4px;">${pills}</div>
+    ${simMax===0?'<span style="font-size:11px;color:#b8291c;margin-left:4px;">⚠️ ยังไม่กำหนดระดับใน Simulator</span>':''}
+  </div>`;
+
+  // ── Per-level blocks ──
+  html+=`<div class="fe-sect-lbl">ร่างคำตอบรายระดับ — กด Copy แล้ววางในช่อง สคร.</div>`;
+  [1,2,3,4,5].forEach(L=>{
+    const sa=saMap[`L${L}`];
+    const saText=sa?sa.text:'';
+    const saNote=sa?sa.note:`ระดับ ${L}`;
+    const isPass=simMax>=L&&simMax>0;
+    const note=feGet(sid,'lvlNotes',L);
+    const bdId=`fe-bd-${sid}-${L}`;
+    const badgeBg=isPass?'#1a7a4a':'#94a3b8';
+    const levelCross=(cross[String(L)]||[]);
+    const mr_items=mr[String(L)]||[];
+    const tickedCnt=mr_items.filter((_,i)=>cgGetChk(sid,L,i)).length;
+    const saId=`fe-sa-${sid}-${L}`;
+    const saFull=saText+(note?('\n\n[บันทึกเพิ่มเติม]\n'+note):'');
+    html+=`<div class="fe-lvl-block${isPass?' fe-lvl-active':''}">
+      <div class="fe-lvl-hd" onclick="var e=document.getElementById('${bdId}');e.classList.toggle('open');">
+        <span class="fe-lvl-badge" style="background:${badgeBg};">L${L}</span>
+        <span class="fe-lvl-title">${saNote}</span>
+        ${mr_items.length?`<span class="fe-doc-ref">📄 ${tickedCnt}/${mr_items.length}</span>`:''}
+        <button class="fe-copy-btn" onclick="event.stopPropagation();feCopyText(this,document.getElementById('${saId}')?(document.getElementById('${saId}').value||'${saText.replace(/'/g,"\\'")}'):'${saText.replace(/'/g,"\\'")}')">📋 Copy</button>
+      </div>
+      <div class="fe-lvl-body${isPass?' open':''}" id="${bdId}">
+        <div id="${saId}-pre" class="fe-sa-text" style="${saText?'':'display:none;'}">${saText}</div>
+        ${levelCross.length?`<div class="fe-cross-row">${levelCross.map(d=>`<span class="fe-cross-chip">→ ${d}</span>`).join('')}</div>`:''}
+        <div class="fe-sect-lbl" style="margin-top:8px;">บันทึกเพิ่มเติม (จะรวมกับข้อความด้านบนเมื่อ Copy)</div>
+        <textarea class="fe-textarea" id="${saId}" rows="2"
+          placeholder="เพิ่มรายละเอียดเฉพาะ เช่น เลขเอกสาร วันที่ หรือบริบทพิเศษ..."
+          onchange="feSet('${sid}','lvlNotes',${L},this.value)"
+          onblur="feSet('${sid}','lvlNotes',${L},this.value)">${note}</textarea>
+      </div>
+    </div>`;
+  });
+
+  // ── Gaps section ──
+  if(gaps.length){
+    html+=`<div class="fe-sect-lbl" style="margin-top:12px;">ช่องว่าง TRIS — ปิดได้หรือยัง?</div>`;
+    gaps.slice(0,5).forEach((gap,i)=>{
+      const cl=feGapClosed(sid,i);
+      const gNote=feGet(sid,'gapNotes',i);
+      html+=`<div class="fe-gap-item">
+        <div class="fe-gap-text">⚠️ ${gap}</div>
+        <div class="fe-gap-status">
+          <label class="fe-radio-lbl"><input type="radio" name="gc-${sid}-${i}" value="1"${cl===true?' checked':''}
+            onchange="feSet('${sid}','gapClosed',${i},true)"> ✓ ปิดได้แล้ว</label>
+          <label class="fe-radio-lbl"><input type="radio" name="gc-${sid}-${i}" value="0"${cl===false?' checked':''}
+            onchange="feSet('${sid}','gapClosed',${i},false)"> ✗ ยังขาดอยู่</label>
+        </div>
+        ${cl===true?`<textarea class="fe-textarea fe-gap-note" rows="1"
+          placeholder="ระบุเอกสารที่ใช้ปิดช่องว่างนี้..."
+          onchange="feSet('${sid}','gapNotes',${i},this.value)"
+          onblur="feSet('${sid}','gapNotes',${i},this.value)">${gNote}</textarea>`:''}
+      </div>`;
+    });
+  }
+
+  // ── Gen + Output ──
+  const outId=`fe-out-${sid}`;
+  html+=`<div style="margin-top:14px;">
+    <button class="fe-gen-btn" onclick="document.getElementById('${outId}').value=genScript('${sid}');">🔄 Gen Script</button>
+    <span style="font-size:11px;color:var(--text3);margin-left:8px;">รวม Script ทุกระดับ + gap status + บันทึกเพิ่มเติม → Copy ไปวางในระบบ สคร.</span>
+  </div>
+  <div style="margin-top:8px;">
+    <textarea class="fe-output" id="${outId}" rows="14"
+      placeholder="กด Gen Script เพื่อสร้างคำตอบ — สามารถแก้ไขก่อน Copy ได้"></textarea>
+    <button class="fe-copy-btn" onclick="feCopyOut('${outId}',this)" style="margin-top:6px;">📋 Copy ทั้งหมด</button>
+  </div>`;
+
+  return html;
+}
+
+// ── Right panel ─────────────────────────────────────────────────
+function renderRight(){
+  const body=document.getElementById('rightBody');
+  if(!focusId){body.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#aaa;font-size:13px;">คลิก sub-item ด้านซ้ายเพื่อดูรายละเอียด</div>';return;}
+  const s=DATA.cg.subs.find(x=>x.id===focusId);if(!s){body.innerHTML='';return;}
+  const simHTML=s.checkboxMode ? renderCheckboxSim(s) : renderSim(s);
+  const tval=targets.cg[s.id];
+
+  // Frame A — ช่องว่าง (กระชับ + expand)
+  const gA=(s.gaps||[]).map((g,i)=>`<div class="box box-red" style="margin-bottom:4px;">• ${exp(g,90)}</div>`).join('');
+
+  // Frame C — กทท. ตอบอะไรไป
+  const rC=(s.results||[]).map(r=>`<div class="match-row m-ok"><span>✓</span><span>${exp(r,80)}</span></div>`).join('');
+  const lC=(s.gaps||[]).slice(0,3).map(g=>`<div class="match-row m-no"><span>✗</span><span style="font-size:10.5px;">${g.split(' —')[0].slice(0,70)}</span></div>`).join('');
+
+  // Frame D — สิ่งที่ต้องทำเพิ่ม (เฉพาะ L1–L3 เพราะ L4–L5 รวมใน B แล้ว)
+  const dD=(s.actions||[]).map(a=>`<div style="display:flex;align-items:flex-start;gap:5px;font-size:11px;color:#333;padding:3px 0;"><span style="color:#b8291c;flex-shrink:0;">→</span><span>${exp(a,100)}</span></div>`).join('');
+
+  body.innerHTML=`
+    <div style="padding:8px 16px;font-size:11px;background:var(--bg2);border-bottom:3px solid var(--border);display:flex;align-items:center;gap:8px;flex-shrink:0;position:sticky;top:0;z-index:2;">
+      <span style="font-weight:800;color:var(--chili-d);">ข้อ ${s.id}</span>
+      <span style="color:var(--text2);font-size:10.5px;">${s.name}</span>
+      <span style="margin-left:auto;font-size:10px;background:#fff;border:1.5px solid var(--border);color:var(--text2);padding:1px 8px;border-radius:20px;font-weight:600;">ปัจจุบัน ${fmt(s.s68)}</span>
+      <span style="font-size:10px;">→</span>
+      <span style="font-size:10px;background:var(--lv5);color:#fff;padding:1px 8px;border-radius:20px;font-weight:700;">คำนวณ ${fmt(tval)}</span>
+    </div>
+    <div class="frame">
+      <div class="frame-hd fa-hd"><span class="ftag fa-tag">1</span><span>ช่องว่างจาก TRIS + สิ่งที่ต้องทำปี 69 — อ่านก่อนเริ่มติ๊ก Checkbox</span></div>
+      <div class="frame-bd">
+        <div style="font-size:10px;font-weight:800;color:#7a1010;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;">⚠ ผู้ประเมินมองว่ายังขาด</div>
+        ${gA||'<div style="color:#999;">—</div>'}
+        <div style="border-top:2px dashed var(--border-s);margin:12px 0;"></div>
+        <div style="font-size:10px;font-weight:800;color:#1f7a4a;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;">✅ ต้องทำต่อในปี 69</div>
+        ${dD||'<div style="color:#999;">—</div>'}
+      </div>
+    </div>
+    ${simHTML}
+    <div class="frame">
+      <div class="frame-hd fb-hd"><span class="ftag fb-tag">2</span><span>เอกสารลงระบบ — แยกตามระดับ</span>
+        <a href="${DOC_DETAIL_URL}" target="_blank" style="margin-left:auto;font-size:9.5px;padding:2px 9px;border-radius:20px;background:var(--navy);color:#fff;text-decoration:none;font-weight:700;">📋 ดูทั้งหมด</a>
+      </div>
+      <div class="frame-bd" style="padding:6px 8px;">${renderFrameB(s)}</div>
+    </div>
+    <div class="frame">
+      <div class="frame-hd fc-hd"><span class="ftag fc-tag">3</span><span>กทท. ตอบอะไรไป / จุดแข็ง</span></div>
+      <div class="frame-bd">
+        <div class="box box-gray" style="margin-bottom:6px;font-size:11px;">${exp((s.good||[''])[0]||'—',100)}</div>
+        <div style="font-size:9.5px;color:#888;margin:4px 0 2px;font-weight:600;">ผลที่นำเสนอ:</div>${rC}
+        <div style="font-size:9.5px;color:#888;margin:6px 0 2px;font-weight:600;">ช่องว่างที่ยังขาด:</div>${lC}
+      </div>
+    </div>
+    <div class="frame" style="border-bottom:none;">
+      <div class="frame-hd fe-hd"><span class="ftag fe-tag">4</span><span>Self-Assessment Script — ร่างคำตอบระบบ สคร.</span></div>
+      <div class="frame-bd" style="padding:6px 8px;">${renderFrameE(s)}</div>
+    </div>`;
+}
+
+// ── Left panel ─────────────────────────────────────────────────
+function renderLeft(){
+  const body=document.getElementById('leftBody');body.innerHTML='';
+  document.getElementById('dimTitle').textContent=DATA.cg.dimName;
+  document.getElementById('dimOrig').textContent='ปัจจุบัน '+fmt(DATA.cg.orig);
+  document.getElementById('totalLbl').textContent='คะแนนรวม '+DATA.cg.dimId;
+  document.getElementById('totalOrig').textContent=fmt(DATA.cg.orig);
+  const grps=[...new Set(DATA.cg.subs.map(s=>s.grp))];
+  grps.forEach(gid=>{
+    const ss=DATA.cg.subs.filter(s=>s.grp===gid);const first=ss[0];
+    const gs=ss.reduce((a,s)=>a+s.w*targets.cg[s.id],0)/first.gw;
+    const diff=gs-first.gs68;
+    const tot=ss.length;
+    const assessed=ss.filter(s=>cgDimRad[s.id]&&[1,2,3,4,5].some(L=>cgDimRad[s.id][L]>0)).length;
+    const fillPct=Math.round(gs/5*100);
+    const fillCol=gs>=3.5?'#1f7a4a':gs>=2.5?'#f0a92e':'#b8291c';
+    const chkCls=assessed===tot?'chk-all':assessed>0?'chk-part':'chk-none';
+    const chkLbl=assessed===tot?`✓ ครบ ${tot}/${tot}`:`${assessed}/${tot} ข้อย่อย`;
+    const gDiv=document.createElement('div');gDiv.className='grp';
+    gDiv.innerHTML=`<div class="grp-row1"><span class="grp-id">${gid}</span><span class="grp-name">${first.gname}</span><span class="grp-wt">(${first.gw}%)</span><div class="grp-scores"><span class="chip cn" style="font-size:10px;">${fmt(first.gs68)}</span><span style="color:#999;font-size:10px;">→</span><span class="chip ${diff<-0.001?'cr':diff>0.001?'ct':'cn'}" style="font-size:10px;" id="gs-cg-${gid}">${fmt(gs)}</span></div></div><div class="grp-row2"><span class="grp-chk ${chkCls}" id="rollup-chk-${gid}">${chkLbl}</span><span class="grp-score2"><strong id="rollup-gs-${gid}" style="color:${diff>0.001?'#1a7a4a':diff<-0.001?'#c03020':'#555'};">${gs.toFixed(4)}</strong><span id="rollup-delta-${gid}" style="font-size:9px;color:${diff>0.001?'#1a7a4a':diff<-0.001?'#c03020':'#aaa'};">(${diff>=0?'+':''}${diff.toFixed(4)})</span></span><div class="grp-prog"><div class="grp-prog-fill" id="rollup-bar-${gid}" style="width:${fillPct}%;background:${fillCol};"></div></div></div>`;
+    body.appendChild(gDiv);
+    ss.forEach(s=>{
+      const row=document.createElement('div');
+      row.className='sub'+(focusId===s.id?' focus-cg':'');row.id='subrow-'+s.id;
+      row.innerHTML=`<div class="sub-left"><div class="sub-meta"><span class="sub-num">${s.id}</span><span class="sub-name">${s.name}</span><span class="sub-wt">(${s.w}%)</span><span class="sub-now">ปี 68: ${fmt(s.s68)}</span></div></div><div class="sub-target" id="st-${s.id}"><span class="target-lbl">คำนวณ</span><input class="target-inp" id="ti-${s.id}" type="text" value="${fmt(targets.cg[s.id])}" readonly style="border-color:#ccc;"><span class="dot ${dotColor(s.id)}" id="dot-${s.id}"></span></div>`;
+      row.addEventListener('click',()=>{focusId=s.id;renderAll();});
+      body.appendChild(row);
+      const strip=document.createElement('div');strip.className='sstrip';
+      strip.innerHTML=`<span class="sbadge ${sClass(s.status)}">${sIcon(s.status)} ${s.status}</span><span style="font-size:10px;color:#999;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-left:6px;">${s.statusNote||'ยังไม่มีข้อมูล'}</span>`;
+      strip.addEventListener('click',()=>{focusId=s.id;renderAll();});
+      body.appendChild(strip);
+    });
+  });
+}
+
+// ── Checklist ──────────────────────────────────────────────────
+function renderChecklist(){
+  if(!focusId){document.getElementById('clTitle').textContent='เลือก sub-item เพื่อดู Action Checklist';document.getElementById('clItems').innerHTML='';return;}
+  const s=DATA.cg.subs.find(x=>x.id===focusId);if(!s)return;
+  document.getElementById('clTitle').textContent=`Action Checklist — ข้อ ${s.id} · เป้า ${fmt(targets.cg[s.id])}`;
+  if(!clChecked[s.id])clChecked[s.id]=(s.actions||[]).map(()=>false);
+  document.getElementById('clItems').innerHTML=(s.actions||[]).map((a,i)=>{
+    const chk=clChecked[s.id][i];
+    const sty=chk?'background:#E6F8F1;border-left:3px solid #51BF8E;border-radius:5px;padding:4px 8px;margin-bottom:4px;':'background:#FFF0EE;border-left:3px solid #FF6766;border-radius:5px;padding:4px 8px;margin-bottom:4px;';
+    return `<div class="cl-item" id="clrow-${s.id}-${i}" style="${sty}"><input type="checkbox" id="cl-${s.id}-${i}" ${chk?'checked':''} onchange="toggleCL('${s.id}',${i},this.checked)"><label for="cl-${s.id}-${i}">${a}</label></div>`;
+  }).join('');
+}
+function toggleCL(id,i,val){
+  if(!clChecked[id])clChecked[id]=[];clChecked[id][i]=val;save();
+  const r=document.getElementById('clrow-'+id+'-'+i);if(!r)return;
+  r.style.cssText=val?'background:#E6F8F1;border-left:3px solid #51BF8E;border-radius:5px;padding:4px 8px;margin-bottom:4px;':'background:#FFF0EE;border-left:3px solid #FF6766;border-radius:5px;padding:4px 8px;margin-bottom:4px;';
+}
+
+// ── Score totals ────────────────────────────────────────────────
+function updateScores(){
+  const subs=DATA.cg.subs;const tw=subs.reduce((a,s)=>a+s.w,0);
+  const total=subs.reduce((a,s)=>a+s.w/tw*targets.cg[s.id],0);
+  const delta=total-DATA.cg.orig;
+  document.getElementById('totalChip').textContent='คาดการณ์ '+fmt(total);
+  document.getElementById('totalChip').className='chip '+(delta>0?'ct':delta<0?'cr':'cn');
+  document.getElementById('totalFooter').textContent=fmt(total);
+  document.getElementById('totalFooter').className='chip '+(delta>0?'ct':delta<0?'cr':'cn');
+  document.getElementById('deltaChip').textContent=(delta>=0?'+':'')+fmt(delta)+' pts';
+  document.getElementById('deltaChip').style.color=delta>0?'#1a9a50':delta<0?'#c03020':'#888';
+  document.getElementById('deltaFooter').textContent=(delta>=0?'+':'')+fmt(delta);
+  document.getElementById('deltaFooter').style.color=delta>0?'#5fcf8a':delta<0?'#f0806a':'#888';
+  const grps=[...new Set(subs.map(s=>s.grp))];
+  grps.forEach(gid=>{
+    const ss=subs.filter(s=>s.grp===gid);const first=ss[0];
+    const gs=ss.reduce((a,s)=>a+s.w*targets.cg[s.id],0)/first.gw;
+    const diff=gs-first.gs68;
+    const el=document.getElementById('gs-cg-'+gid);
+    if(el){el.textContent=fmt(gs);el.className='chip '+(diff<-0.001?'cr':diff>0.001?'ct':'cn');}
+    const chkEl=document.getElementById('rollup-chk-'+gid);
+    if(chkEl){const assessed=ss.filter(s=>cgDimRad[s.id]&&[1,2,3,4,5].some(L=>cgDimRad[s.id][L]>0)).length;const tot=ss.length;chkEl.textContent=assessed===tot?`✓ ครบ ${tot}/${tot}`:`${assessed}/${tot} ข้อย่อย`;chkEl.className='grp-chk '+(assessed===tot?'chk-all':assessed>0?'chk-part':'chk-none');}
+    const gsEl=document.getElementById('rollup-gs-'+gid);
+    if(gsEl){gsEl.textContent=gs.toFixed(4);gsEl.style.color=diff>0.001?'#1a7a4a':diff<-0.001?'#c03020':'#555';}
+    const dtEl=document.getElementById('rollup-delta-'+gid);
+    if(dtEl){dtEl.textContent='('+(diff>=0?'+':'')+diff.toFixed(4)+')';dtEl.style.color=diff>0.001?'#1a7a4a':diff<-0.001?'#c03020':'#aaa';}
+    const barEl=document.getElementById('rollup-bar-'+gid);
+    if(barEl){const fp=Math.round(gs/5*100);const fc=gs>=3.5?'#1f7a4a':gs>=2.5?'#f0a92e':'#b8291c';barEl.style.width=fp+'%';barEl.style.background=fc;}
+  });
+  subs.forEach(s=>{const d=document.getElementById('dot-'+s.id);if(d)d.className='dot '+dotColor(s.id);});
+}
+
+function exportProgress(){
+  const d=JSON.parse(localStorage.getItem(LS_KEY)||'{}');
+  d._dim='CG'; d._exported=new Date().toISOString(); d._label='CBE Enablers CG 2569';
+  const blob=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;
+  const th=new Date().toLocaleDateString('th-TH',{year:'numeric',month:'2-digit',day:'2-digit'}).replace(/\//g,'');
+  a.download=`CG_progress_${th}.json`;
+  a.click();URL.revokeObjectURL(url);
+}
+function importProgress(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    try{
+      const d=JSON.parse(ev.target.result);
+      if(d._dim&&d._dim!=='CG'){if(!confirm(`ไฟล์นี้เป็นของด้าน "${d._dim}" ไม่ใช่ CG — นำเข้าต่อไปเลยไหม?`))return;}
+      if(d.ck)Object.assign(cgChecked,d.ck);
+      if(d.sc)Object.assign(cgSubChecked,d.sc);
+      if(d.dc)Object.assign(cgDocChecked,d.dc);
+      if(d.rad)Object.keys(d.rad).forEach(id=>{cgDimRad[id]=Object.assign({1:0,2:0,3:0,4:0,5:0},d.rad[id]);});
+      if(d.cl)Object.assign(clChecked,d.cl);
+      if(d.chkSim)Object.assign(cgChkSim,d.chkSim);
+      if(d.tgt)Object.keys(d.tgt).forEach(id=>{targets.cg[id]=Number(d.tgt[id]);});
+      save();renderAll();
+      const exp=d._exported?new Date(d._exported).toLocaleString('th-TH'):'ไม่ระบุ';
+      alert(`✅ Import สำเร็จ\nไฟล์ส่งออกเมื่อ: ${exp}`);
+    }catch(err){alert('ไฟล์ไม่ถูกต้อง: '+err.message);}
+    input.value='';
+  };
+  reader.readAsText(file);
+}
+// ── Cross-dimension dependency bar ──────────────────────────────
+const DIM_COL={CG:'#b8291c',CM:'#c2298f',DT:'#2e6fe8',HCM:'#7c4fd6',IA:'#1e3a5c',IM:'#f0793e',KM:'#1f9d8f','RM&IC':'#9c5a2e','RM':'#9c5a2e',SM:'#d69e2e',SP:'#1f7a4a'};
+function renderDepTotal(){
+  const el=document.getElementById('depTotalBar');if(!el)return;
+  const counts={};
+  DATA.cg.subs.forEach(s=>{
+    const links=s.integLinks||{};
+    Object.values(links).forEach(arr=>{(arr||[]).forEach(d=>{counts[d]=(counts[d]||0)+1;});});
+  });
+  const dims=Object.keys(counts).sort((a,b)=>counts[b]-counts[a]);
+  if(!dims.length){el.innerHTML='';return;}
+  const chips=dims.map(d=>{
+    const col=DIM_COL[d]||'#8a8578';
+    return `<span class="dep-chip" style="background:${col};">${d} <b>×${counts[d]}</b></span>`;
+  }).join('');
+  el.className='deptotal';
+  el.innerHTML=`<span class="dt-lbl">🔗 พึ่งพาข้ามด้าน:</span>${chips}`;
+}
+function renderAll(){renderLeft();renderRight();renderChecklist();updateScores();renderDepTotal();}
+(async function init(){
+  await loadState();
+  renderAll();
+  syncHomeStatus();
+})();
+
+// ── Checkbox Simulator (สำหรับ 5.1 และ 5.3) ────────────────────
+const cgChkSim = {}; // { sid: { itemIdx: bool } }
+const feInput = {};  // { sid: { lvlNotes:{L:str}, gapClosed:{i:bool}, gapNotes:{i:str} } }
+
+function cgGetChkSim(sid, i) {
+  return !!(cgChkSim[sid] && cgChkSim[sid][i]);
+}
+function cgSetChkSim(sid, i, v) {
+  if (!cgChkSim[sid]) cgChkSim[sid] = {};
+  cgChkSim[sid][i] = v;
+  save();
+  renderAll();
+}
+
+// คำนวณ L จาก checkbox ที่เช็คไว้
+function calcLevelFromCheckbox(s) {
+  const sid = s.id;
+  const items = s.checkboxItems || [];
+  const thresholds = s.checkboxThresholds || {};
+  const maxL = s.checkboxMaxLevel || 5;
+  let checked = 0;
+  items.forEach((_, i) => { if (cgGetChkSim(sid, i)) checked++; });
+
+  let score = 0;
+  for (let L = maxL; L >= 1; L--) {
+    if (checked >= (thresholds['L' + L] || 999)) { score = L; break; }
+  }
+  return { checked, score };
+}
+
+function renderCheckboxSim(s) {
+  const sid = s.id;
+  const items = s.checkboxItems || [];
+  const thresholds = s.checkboxThresholds || {};
+  const maxL = s.checkboxMaxLevel || 5;
+  const { checked, score } = calcLevelFromCheckbox(s);
+
+  // ถ้า 5.3 มี L5 แยกเป็น radio
+  const hasL5Radio = s.checkboxMaxLevel === 4;
+  const l5rv = hasL5Radio ? ((cgDimRad[sid] && cgDimRad[sid][5]) || 0) : 0;
+  const raw = score + l5rv;
+  const wt = raw * (s.w / 100);
+  targets.cg[sid] = raw; // ยังไม่ติ๊ก = 0 จริงๆ ไม่ fallback ไปคะแนนปีก่อน
+  requestAnimationFrame(() => {
+    const inp = document.getElementById('ti-' + sid);
+    if (inp) {
+      inp.value = fmt(targets.cg[sid]);
+      inp.style.borderColor = targets.cg[sid] >= 4 ? '#2a8a4a' : targets.cg[sid] >= 3 ? '#5a8a00' : targets.cg[sid] >= 2 ? '#c07000' : '#c03020';
+    }
+  });
+
+  // สร้าง progress bar ตาม thresholds
+  const thKeys = Object.keys(thresholds).sort((a, b) => thresholds[a] - thresholds[b]);
+  let progressHTML = `<div style="margin-bottom:8px;">`;
+  progressHTML += `<div style="display:flex;justify-content:space-between;font-size:9px;color:#7a6a9a;margin-bottom:3px;">`;
+  thKeys.forEach(lk => {
+    const t = thresholds[lk];
+    const pct = Math.min(100, Math.round(checked / items.length * 100));
+    const reached = checked >= t;
+    progressHTML += `<span style="color:${reached ? '#1a7a4a' : '#9a90b8'};font-weight:${reached ? '700' : '400'};">${lk}≥${t}</span>`;
+  });
+  progressHTML += `</div>`;
+  const pct = Math.round(checked / items.length * 100);
+  progressHTML += `<div class="cg-prog-bar"><div class="cg-prog-fill" style="width:${pct}%;background:${score >= maxL ? '#1a7a4a' : '#b8291c'};"></div></div>`;
+  progressHTML += `<div style="font-size:10px;color:#4a3a6a;margin-top:3px;">เช็คแล้ว <strong>${checked}/${items.length}</strong> ประเด็น → <strong style="color:${score >= maxL ? '#1a7a4a' : '#c07000'}">L${score || '-'}</strong></div>`;
+  progressHTML += `</div>`;
+
+  // Checkbox list
+  let listHTML = `<div style="background:#f0ebff;border:1px solid #c8b8e8;border-radius:6px;padding:8px 10px;margin-bottom:8px;">`;
+  listHTML += `<div class="cg-sect-lbl" style="margin-bottom:6px;">📋 ประเด็นที่เปิดเผยในรายงาน — เช็คทุกประเด็นที่มีอยู่จริง</div>`;
+  items.forEach((item, i) => {
+    const ck = cgGetChkSim(sid, i);
+    const kid = `chksim-${sid}-${i}`;
+    listHTML += `<div class="cg-req-item"><input type="checkbox" id="${kid}" ${ck ? 'checked' : ''} onchange="cgSetChkSim('${sid}',${i},this.checked);" style="accent-color:#b8291c;"><label for="${kid}" style="font-size:10.5px;">${item}</label></div>`;
+  });
+  listHTML += `</div>`;
+
+  // L5 radio (เฉพาะ 5.3)
+  let l5HTML = '';
+  if (hasL5Radio) {
+    const trap = (s.subComps && s.subComps[5]) || [];
+    l5HTML = `<div class="cg-lvl-row" style="border:1px solid #d4cce8;border-radius:6px;margin-bottom:6px;overflow:hidden;">
+      <div class="cg-lvl-hd" style="background:${l5rv >= 1 ? '#e4f5e4' : l5rv > 0 ? '#fef8e8' : '#f0ebff'};">
+        <span class="cg-lvl-num">L5</span>
+        <span class="cg-lvl-summ"><span class="kt">${s.levelSumm[4]}</span></span>
+        <span style="font-size:10px;font-weight:700;color:${l5rv >= 1 ? '#1a7a4a' : l5rv > 0 ? '#c07000' : '#9a80c8'};">${l5rv.toFixed(2)}</span>
+      </div>
+      <div class="cg-lvl-body">
+        <div class="cg-sect-lbl">📐 มิติที่ประเมิน (L5)</div>
+        <div class="cg-radio-grp">`;
+    [[0, '0 — ไม่ครบตามเกณฑ์'], [0.5, '0.5 — ทำได้บางส่วน'], [1, '1.0 — ครบตามมิติที่ประเมิน']].forEach(([v, lbl]) => {
+      const ck = l5rv === v;
+      const col = v === 1 ? '#1a7a4a' : v === 0.5 ? '#c07000' : '#c03020';
+      l5HTML += `<label style="padding:3px 6px;border-radius:5px;background:${ck ? (v === 1 ? '#e0f5e8' : v === 0.5 ? '#fef8e0' : '#fee8e8') : 'transparent'};border:1px solid ${ck ? col : 'transparent'};color:${ck ? col : '#444'};font-weight:${ck ? '700' : '400'};cursor:pointer;">
+        <input type="radio" name="cgdim-${sid}-5" value="${v}" ${ck ? 'checked' : ''} onchange="cgSetDim('${sid}',5,${v});" style="accent-color:${col};"> ${lbl}</label>`;
+    });
+    l5HTML += `</div>`;
+    if (trap.length) {
+      l5HTML += `<div class="cg-sect-lbl" style="margin-top:6px;color:#7a2800;">⚠️ จุดดักคะแนน</div>`;
+      trap.forEach(t => { l5HTML += `<div class="cg-trap">• ${t}</div>`; });
+    }
+    l5HTML += `</div></div>`;
+  }
+
+  // Integration links
+  const allLinks = [];
+  for (let L = 1; L <= 5; L++) {
+    const ls = (s.integLinks && s.integLinks[L]) || [];
+    ls.forEach(d => { if (!allLinks.includes(d)) allLinks.push(d); });
+  }
+  const intB = allLinks.map(d => `<a href="${LINK_URL}" target="_blank" class="cg-int-link">🔗 ${d}</a>`).join('');
+  const intSection = intB ? `<div style="margin:6px 0;display:flex;gap:4px;flex-wrap:wrap;">${intB}</div>` : '';
+
+  // Traps (5.1)
+  let trapHTML = '';
+  const traps5 = (s.subComps && s.subComps[5]) || [];
+  if (traps5.length && !hasL5Radio) {
+    trapHTML = `<div class="cg-sect-lbl" style="color:#7a2800;">⚠️ จุดดักคะแนน</div>`;
+    traps5.forEach(t => { trapHTML += `<div class="cg-trap">• ${t}</div>`; });
+  }
+
+  return `<div class="cg-sim">
+    <div class="cg-sim-hd">
+      <span style="font-size:11px;padding:2px 8px;border-radius:6px;background:var(--chili);color:#fff;font-weight:700;">CG</span>
+      &nbsp;Checkbox Simulator — เช็คประเด็นที่เปิดเผยแล้ว
+      <span style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+        <button onclick="cgClearAll()" style="font-size:9px;padding:1px 8px;border:1.5px solid var(--border);border-radius:6px;background:#fff;cursor:pointer;color:var(--text2);font-weight:700;">🗑 Clear</button>
+        <span style="font-size:11px;font-weight:700;color:var(--chili-d);">${raw.toFixed(4)}/5.0</span>
+      </span>
+    </div>
+    <div class="cg-scope-box">${s.scopeNote || ''}</div>
+    ${progressHTML}
+    ${listHTML}
+    ${intSection}
+    ${l5HTML}
+    ${trapHTML}
+    <div class="cg-total-bar">
+      <span class="cg-total-lbl">คะแนนสะสม (0–5)</span>
+      <span class="cg-raw">${raw.toFixed(4)}</span>
+      <span class="cg-wt">× ${s.w}% = <strong>${wt.toFixed(4)} pts</strong></span>
+    </div>
+  </div>`;
+}
+
+</script>
+</body>
+</html>
