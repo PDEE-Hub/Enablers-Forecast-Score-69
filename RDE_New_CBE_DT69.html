@@ -530,6 +530,14 @@ function dtClearAll(){
   DATA.dt.subs.forEach(s=>{targets.dt[s.id]=s.s68;});
   renderAll();
 }
+function dtClearOne(sid){
+  const s=DATA.dt.subs.find(x=>x.id===sid);if(!s)return;
+  dtMrChk[sid]={};dtScChk[sid]={};dtDimMlt[sid]={};
+  [1,2,3,4,5].forEach(L=>{dtMrChk[sid][L]={};dtScChk[sid][L]=[];dtDimMlt[sid][L]=0;});
+  delete docCk[sid];delete feInput[sid];delete clChecked[sid];
+  targets.dt[sid]=s.s68;
+  save();renderAll();
+}
 
 // ── UTILITIES ────────────────────────────────────────────────────────
 function docGetChk(sid,L,i){return !!(docCk[sid]&&docCk[sid][L]&&docCk[sid][L][i]);}
@@ -837,6 +845,7 @@ function renderRight(){
       <span style="margin-left:auto;font-size:10px;background:#fff;border:1.5px solid var(--border);color:var(--text2);padding:1px 8px;border-radius:20px;font-weight:600;">ปัจจุบัน ${fmt(s.s68)}</span>
       <span style="font-size:10px;">→</span>
       <span style="font-size:10px;background:var(--lv5);color:#fff;padding:1px 8px;border-radius:20px;font-weight:700;">คำนวณ ${fmt(tval)}</span>
+      <button onclick="if(confirm('ล้างข้อมูลข้อ ${s.id} ทั้งหมด?'))dtClearOne('${s.id}')" style="font-size:10.5px;padding:3px 12px;border:none;border-radius:20px;background:#e2554f;color:#fff;cursor:pointer;font-weight:800;box-shadow:0 1px 5px rgba(226,85,79,.5);white-space:nowrap;">🗑 ล้างข้อนี้</button>
     </div>
     <div class="frame">
       <div class="frame-hd fa-hd"><span class="ftag fa-tag">1</span><span>ช่องว่างจาก TRIS + สิ่งที่ต้องทำปี 69 — อ่านก่อนเริ่มติ๊ก Checkbox</span></div>

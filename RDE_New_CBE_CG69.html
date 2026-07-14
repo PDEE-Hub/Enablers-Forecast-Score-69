@@ -402,6 +402,7 @@ function cgToggleSC(id,L,k,v){
 function cgGetDoc(id,L,code){return !!(cgDocChecked[id]&&cgDocChecked[id][L]&&cgDocChecked[id][L][code]);}
 function cgToggleDoc(id,L,code,v){if(!cgDocChecked[id])cgDocChecked[id]={};if(!cgDocChecked[id][L])cgDocChecked[id][L]={};cgDocChecked[id][L][code]=v;save();renderAll();}
 function cgClearAll(){DATA.cg.subs.forEach(s=>{cgChecked[s.id]={};cgSubChecked[s.id]={};cgDocChecked[s.id]={};[1,2,3,4,5].forEach(L=>{cgChecked[s.id][L]={};cgSubChecked[s.id][L]={};cgDocChecked[s.id][L]={};});cgDimRad[s.id]={1:0,2:0,3:0,4:0,5:0};targets.cg[s.id]=0;});try{localStorage.removeItem(LS_KEY);}catch(e){}save();renderAll();}
+function cgClearOne(sid){const s=DATA.cg.subs.find(x=>x.id===sid);if(!s)return;cgChecked[sid]={};cgSubChecked[sid]={};cgDocChecked[sid]={};[1,2,3,4,5].forEach(L=>{cgChecked[sid][L]={};cgSubChecked[sid][L]={};cgDocChecked[sid][L]={};});cgDimRad[sid]={1:0,2:0,3:0,4:0,5:0};targets.cg[sid]=0;save();renderAll();}
 function cgCalcRaw(id){let c=0,g=false;for(let L=1;L<=5;L++){if(g)break;const v=cgDimRad[id]?cgDimRad[id][L]:0;c+=v;if(v<1)g=true;}return c;}
 function fmt(n){return n.toFixed(4);}
 function sClass(st){return st==='เสร็จแล้ว'?'s2':st==='กำลังดำเนินการ'?'s1':'s0';}
@@ -752,6 +753,7 @@ function renderRight(){
       <span style="margin-left:auto;font-size:10px;background:#fff;border:1.5px solid var(--border);color:var(--text2);padding:1px 8px;border-radius:20px;font-weight:600;">ปัจจุบัน ${fmt(s.s68)}</span>
       <span style="font-size:10px;">→</span>
       <span style="font-size:10px;background:var(--lv5);color:#fff;padding:1px 8px;border-radius:20px;font-weight:700;">คำนวณ ${fmt(tval)}</span>
+      <button onclick="if(confirm('ล้างข้อมูลข้อ ${s.id} ทั้งหมด?'))cgClearOne('${s.id}')" style="font-size:10.5px;padding:3px 12px;border:none;border-radius:20px;background:#e2554f;color:#fff;cursor:pointer;font-weight:800;box-shadow:0 1px 5px rgba(226,85,79,.5);white-space:nowrap;">🗑 ล้างข้อนี้</button>
     </div>
     <div class="frame">
       <div class="frame-hd fa-hd"><span class="ftag fa-tag">1</span><span>ช่องว่างจาก TRIS + สิ่งที่ต้องทำปี 69 — อ่านก่อนเริ่มติ๊ก Checkbox</span></div>
