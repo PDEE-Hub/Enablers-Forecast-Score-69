@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CBE Enablers — HCM การบริหารทุนมนุษย์ ปี 2569</title>
+<style>
+@font-face{font-family:'Anakotmai';font-weight:300;font-style:normal;src:url('https://pdee-hub.github.io/Enablers-Link-Document-69/Anakotmai/webfont/anakotmai-light.woff2') format('woff2');}
+@font-face{font-family:'Anakotmai';font-weight:500;font-style:normal;src:url('https://pdee-hub.github.io/Enablers-Link-Document-69/Anakotmai/webfont/anakotmai-medium.woff2') format('woff2');}
+@font-face{font-family:'Anakotmai';font-weight:700;font-style:normal;src:url('https://pdee-hub.github.io/Enablers-Link-Document-69/Anakotmai/webfont/anakotmai-bold.woff2') format('woff2');}
+</style>
+<style>
+/* ── PAT Editorial Light ── */
+:root{
+  --bg:#f8f7f4;--bg2:#f1efe9;--card:#ffffff;
+  --border:#e6e3dc;--border-s:#ece9e1;
+  --text:#1c1f24;--text2:#5a5f68;--text3:#9a9da3;
+  --navy:#1e3a5c;--gold:#b8862f;
+  --lv1:#e2554f;--lv2:#ef9483;--lv3:#e3a82e;--lv4:#5bc69a;--lv5:#1f9d6f;
+  --shadow:0 1px 3px rgba(28,31,36,.06);
+  --shadow-h:0 4px 12px rgba(28,31,36,.10);
+  --radius:6px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Anakotmai',sans-serif;font-size:14px;background:var(--bg);color:var(--text);line-height:1.6;}
+.sub-num,.sub-wt,.sub-now,.target-inp,.cg-raw,.cg-wt,.doc-file-code,.grp-id,.grp-wt,.cg-sect-lbl,.doc-grp-lbl,.doc-lvl-count{font-family:'Anakotmai',sans-serif;}
+
+/* TOP NAV */
+.top-nav{background:var(--navy);color:#fff;padding:0 24px;height:48px;display:flex;align-items:center;gap:8px;border-bottom:3px solid var(--gold);}
+.top-nav a{color:rgba(255,255,255,.55);text-decoration:none;font-size:13px;transition:color .15s;}
+.top-nav a:hover{color:#fff;}
+.top-nav h1{font-size:13px;font-weight:600;color:rgba(255,255,255,.9);margin-left:2px;}
+.top-nav .sep{color:rgba(255,255,255,.2);font-size:13px;}
+
+/* DIM HEADER */
+.dim-hd{background:var(--card);border-bottom:1px solid var(--border);padding:10px 24px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;box-shadow:var(--shadow);}
+
+/* CHIPS */
+.chip{font-size:12px;padding:3px 10px;border-radius:20px;font-weight:600;white-space:nowrap;}
+.cn{background:var(--bg2);color:var(--text2);}
+.ct{background:rgba(31,157,111,.12);color:#0f7a55;}
+.cr{background:rgba(226,85,79,.10);color:#b91c1c;}
+
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:46% 54%;height:calc(100vh - 97px);overflow:hidden;}
+
+/* LEFT */
+.left{display:flex;flex-direction:column;overflow:hidden;border-right:1px solid var(--border);background:var(--bg);}
+.left-hd{padding:10px 16px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;flex-shrink:0;background:var(--navy);color:rgba(255,255,255,.9);letter-spacing:.2px;}
+.left-body{flex:1;overflow-y:auto;}
+
+/* GROUP HEADER — 2 rows */
+.grp{display:flex;flex-direction:column;gap:3px;padding:7px 16px;background:var(--bg2);border-bottom:1px solid var(--border);border-top:1px solid var(--border);position:sticky;top:0;z-index:2;}
+.grp-row1{display:flex;align-items:center;gap:6px;}
+.grp-row2{display:flex;align-items:center;gap:6px;padding-left:20px;}
+.grp-id{font-size:12px;font-weight:700;color:var(--navy);min-width:16px;}
+.grp-name{font-size:12px;font-weight:600;flex:1;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.grp-wt{font-size:11px;color:var(--text3);white-space:nowrap;}
+.grp-scores{display:flex;align-items:center;gap:4px;flex-shrink:0;}
+.grp-chk{font-size:9px;font-weight:500;padding:1px 6px;border-radius:10px;white-space:nowrap;flex-shrink:0;}
+.chk-all{background:#e4f5e4;color:#0f766e;}
+.chk-part{background:#fef8e0;color:#92400e;}
+.chk-none{background:#ebe8e0;color:var(--text3);}
+.grp-score2{font-size:10px;color:var(--text2);display:flex;align-items:center;gap:4px;flex:1;white-space:nowrap;}
+.grp-prog{width:48px;height:4px;background:#d8d4cc;border-radius:2px;overflow:hidden;flex-shrink:0;}
+.grp-prog-fill{height:100%;border-radius:2px;transition:width .3s;}
+
+/* SUB ROWS */
+.sub{display:flex;align-items:stretch;cursor:pointer;border-bottom:1px solid var(--border-s);transition:background .12s;}
+.sub:hover{background:rgba(30,58,92,.04);}
+.sub.focus-cg{background:rgba(30,58,92,.07);border-left:3px solid var(--navy);}
+.sub.focus-cg .sub-target{border-left-color:var(--navy);}
+.sub-left{display:flex;align-items:center;padding:10px 10px 10px 20px;flex:1;min-width:0;}
+.sub-meta{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;min-width:0;}
+.sub-num{font-size:11px;color:var(--text3);flex-shrink:0;}
+.sub-wt{font-size:11px;color:var(--text3);flex-shrink:0;}
+.sub-now{font-size:11px;color:var(--text2);flex-shrink:0;}
+.sub-name{font-size:13px;color:var(--text);flex:1;min-width:0;line-height:1.4;}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.dg{background:var(--lv5);}.da{background:var(--lv3);}.dr{background:var(--lv1);}
+
+/* TARGET INPUT */
+.sub-target{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px 12px;flex-shrink:0;border-left:2px solid var(--border);width:96px;min-width:96px;background:var(--card);}
+.target-lbl{font-size:10px;color:var(--text3);font-weight:500;letter-spacing:.3px;}
+.target-inp{width:78px;font-size:12px;font-weight:700;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg2);color:var(--navy);text-align:center;transition:border-color .15s,box-shadow .15s;}
+.target-inp:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 2px rgba(30,58,92,.12);background:#fff;}
+
+/* SSTRIP */
+.sstrip{padding:6px 12px 6px 24px;border-bottom:1px solid var(--border-s);display:flex;align-items:center;gap:8px;background:var(--card);cursor:pointer;transition:background .12s;}
+.sstrip:hover{background:var(--bg2);}
+.sbadge{font-size:11px;padding:2px 9px;border-radius:20px;font-weight:600;white-space:nowrap;}
+.s0{background:var(--bg2);color:var(--text3);}
+.s1{background:rgba(227,168,46,.15);color:#92400e;}
+.s2{background:rgba(31,157,111,.12);color:#0f7a55;}
+
+/* CHECKLIST */
+.cl-wrap{padding:12px 16px;border-top:2px solid var(--navy);background:var(--card);flex-shrink:0;box-shadow:0 -2px 8px rgba(28,31,36,.04);}
+.cl-title{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:8px;}
+.cl-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text);margin-bottom:7px;line-height:1.55;}
+.cl-item input{flex-shrink:0;margin-top:3px;accent-color:var(--navy);width:14px;height:14px;}
+.cl-note{font-size:11px;color:var(--text3);padding-top:6px;border-top:1px solid var(--border-s);margin-top:6px;}
+
+/* TOTAL BAR */
+.total{display:flex;align-items:center;gap:8px;padding:10px 16px;background:var(--navy);color:#fff;flex-shrink:0;}
+.total-lbl{font-size:13px;font-weight:600;flex:1;}
+.total-note{font-size:11px;color:rgba(255,255,255,.45);}
+
+/* RIGHT */
+.right{display:flex;flex-direction:column;overflow:hidden;background:var(--card);}
+.right-body{flex:1;overflow-y:auto;display:flex;flex-direction:column;}
+.frame{border-bottom:1px solid var(--border);}
+.frame-hd{padding:8px 16px;font-size:12px;font-weight:700;border-bottom:1px solid rgba(0,0,0,.06);display:flex;align-items:center;gap:8px;}
+.frame-bd{padding:12px 16px;font-size:13px;line-height:1.65;}
+.ftag{font-size:11px;padding:2px 8px;border-radius:20px;font-weight:700;}
+.fa-hd{background:rgba(30,58,92,.06);}.fa-tag{background:rgba(30,58,92,.14);color:var(--navy);}
+.fb-hd{background:rgba(2,132,199,.06);}.fb-tag{background:rgba(2,132,199,.14);color:#0369a1;}
+.fc-hd{background:rgba(184,134,47,.08);}.fc-tag{background:rgba(184,134,47,.18);color:#92400e;}
+.fd-hd{background:rgba(71,85,105,.06);}.fd-tag{background:rgba(71,85,105,.14);color:#475569;}
+.fe-hd{background:rgba(31,157,111,.07);}.fe-tag{background:rgba(31,157,111,.14);color:#0f7a55;}
+
+.box{border-radius:5px;padding:8px 12px;margin-bottom:6px;font-size:13px;line-height:1.55;}
+.box-red{background:rgba(226,85,79,.08);color:#7a1010;border-left:3px solid var(--lv1);}
+.box-gray{background:var(--bg2);color:var(--text2);}
+.match-row{display:flex;align-items:flex-start;gap:6px;font-size:13px;padding:3px 0;}
+.m-ok{color:var(--lv5);}.m-no{color:var(--lv1);}
+.exp-btn{border:1px solid var(--border);background:var(--bg2);cursor:pointer;color:var(--navy);font-size:11px;padding:1px 8px;border-radius:20px;line-height:1.8;white-space:nowrap;transition:background .12s;}
+.exp-btn:hover{background:var(--border);}
+
+/* SIMULATOR */
+.cg-sim{padding:12px 16px;background:var(--bg);border-bottom:1px solid var(--border);}
+.cg-sim-hd{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.cg-scope-box{background:rgba(30,58,92,.05);border-left:3px solid var(--navy);border-radius:0 5px 5px 0;padding:8px 12px;font-size:13px;line-height:1.6;color:var(--text);margin-bottom:10px;}
+.cg-lvl-row{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:8px;overflow:hidden;transition:opacity .2s,box-shadow .15s;background:var(--card);}
+.cg-lvl-row:not(.blocked):hover{box-shadow:var(--shadow-h);}
+.cg-lvl-row.blocked{opacity:.3;pointer-events:none;}
+.cg-lvl-hd{display:flex;align-items:center;gap:8px;padding:8px 12px;cursor:pointer;transition:background .12s;}
+.cg-lvl-hd:hover{background:var(--bg2);}
+.cg-lvl-num{font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;background:var(--navy);color:#fff;flex-shrink:0;}
+.cg-lvl-summ{font-size:13px;color:var(--text);flex:1;line-height:1.4;display:flex;align-items:center;gap:5px;overflow:hidden;min-width:0;}
+.cg-lvl-summ .kt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;max-width:100%;}
+.cg-toggle{background:none;border:1px solid #c0b0e0;border-radius:4px;cursor:pointer;font-size:11px;color:#5a20a0;padding:1px 6px;flex-shrink:0;transition:background .1s;}
+.cg-toggle:hover{background:#ece6ff;}
+.cl-short{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.5;}
+.cl-exp-btn{font-size:9.5px;color:#5a20a0;cursor:pointer;user-select:none;margin-top:2px;display:inline-block;}
+.dep-count-bar{display:flex;flex-wrap:wrap;gap:5px;align-items:center;padding:6px 12px 5px;background:#f8f5ff;border-bottom:1px solid #d8ccee;}
+.dep-pill{display:inline-flex;align-items:center;gap:3px;font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;color:#fff;white-space:nowrap;}
+.dep-pill span{font-weight:400;opacity:.85;}
+.cg-lvl-summ .kt{font-weight:700;color:var(--navy);}
+.cg-lvl-detail{padding:8px 14px 10px;background:rgba(30,58,92,.04);border-top:1px dashed var(--border);font-size:13px;color:var(--text2);line-height:1.7;display:none;}
+.cg-lvl-detail.open{display:block;}
+.cg-lvl-body{padding:8px 12px 12px;background:var(--card);border-top:1px solid var(--border-s);}
+.cg-sect-lbl{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin:10px 0 6px;}
+.cg-req-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text);margin-bottom:6px;line-height:1.55;padding:6px 10px;border-radius:5px;transition:background .1s;}
+.cg-req-item:hover{background:var(--bg2);}
+.cg-req-item input[type=checkbox]{flex-shrink:0;margin-top:2px;accent-color:var(--navy);width:15px;height:15px;cursor:pointer;}
+.cg-int-link{display:inline-flex;align-items:center;gap:3px;font-size:10px;padding:2px 8px;border-radius:20px;background:var(--navy);color:#fff;font-weight:600;text-decoration:none;white-space:nowrap;flex-shrink:0;transition:opacity .15s;}
+.cg-int-link:hover{opacity:.8;}
+.cg-radio-grp{display:flex;flex-direction:column;gap:4px;}
+.cg-radio-grp label{display:flex;align-items:center;gap:8px;font-size:13px;padding:6px 10px;border-radius:5px;cursor:pointer;transition:background .12s;line-height:1.4;}
+.cg-radio-grp label:hover{background:var(--bg2);}
+.cg-radio-grp input[type=radio]{accent-color:var(--navy);flex-shrink:0;width:15px;height:15px;}
+.cg-trap{font-size:13px;color:#7a2800;margin-bottom:6px;padding:5px 10px 5px 12px;border-left:3px solid var(--lv1);border-radius:0 4px 4px 0;background:rgba(226,85,79,.05);line-height:1.55;}
+.cg-prog-bar{height:4px;background:var(--border);border-radius:2px;margin-bottom:8px;}
+.cg-prog-fill{height:4px;border-radius:2px;transition:width .3s ease;}
+.cg-total-bar{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--bg2);border-radius:5px;border:1px solid var(--border);margin-top:8px;}
+.cg-total-lbl{font-size:12px;color:var(--text2);flex:1;}
+.cg-raw{font-size:16px;font-weight:700;color:var(--navy);}
+.cg-wt{font-size:12px;color:var(--text3);}
+
+/* FRAME B — Documents */
+.doc-lvl-block{margin-bottom:10px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+.doc-lvl-hd{display:flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(2,132,199,.06);cursor:pointer;transition:background .12s;}
+.doc-lvl-hd:hover{background:rgba(2,132,199,.10);}
+.doc-lvl-badge{font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;background:#0369a1;color:#fff;flex-shrink:0;}
+.doc-lvl-title{font-size:13px;font-weight:600;color:#0369a1;flex:1;}
+.doc-lvl-count{font-size:11px;color:var(--text3);}
+.doc-lvl-body{padding:8px 12px 12px;display:none;background:var(--bg);border-top:1px solid var(--border);}
+.doc-lvl-body.open{display:block;}
+.doc-grp{margin-bottom:8px;}
+.doc-grp-lbl{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin:6px 0 4px;display:flex;align-items:center;gap:6px;}
+.doc-file{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--text);padding:3px 0 3px 8px;line-height:1.5;}
+.doc-file-code{color:#0369a1;font-weight:700;flex-shrink:0;font-family:'IBM Plex Mono',monospace;font-size:11px;}
+.doc-file-name{color:var(--text2);flex:1;}
+.doc-missing{background:rgba(184,134,47,.08);border:1px dashed rgba(184,134,47,.4);border-radius:5px;padding:8px 12px;font-size:13px;color:#92400e;}
+.doc-missing-req{background:rgba(30,58,92,.05);border:1px solid rgba(30,58,92,.15);border-radius:5px;padding:8px 12px;font-size:13px;color:var(--navy);margin-top:8px;}
+.doc-all-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 12px;border-radius:20px;background:#0369a1;color:#fff;text-decoration:none;font-weight:600;margin-top:8px;cursor:pointer;border:none;transition:opacity .15s;}
+.doc-all-btn:hover{opacity:.85;}
+.fb-prog-bar{display:flex;align-items:center;gap:8px;padding:8px 12px;margin-bottom:8px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);}
+.fb-prog-track{flex:1;height:4px;background:#e0ddd8;border-radius:2px;overflow:hidden;}
+.fb-item{display:flex;align-items:flex-start;gap:8px;padding:5px 8px;border-radius:5px;cursor:pointer;font-size:12.5px;line-height:1.55;margin:2px 0;border:1px solid transparent;transition:background .12s;}
+.fb-item:hover{background:rgba(2,132,199,.05);}
+.fb-item-done{background:#f0faf0 !important;border-color:#c3e6cb !important;}
+.fb-item-done .fb-item-text{color:#0f766e;text-decoration:line-through;opacity:.7;}
+.fb-item-gap{border-left:3px solid #d97706;}
+.fb-gap-tag{font-size:10px;font-weight:700;color:#92400e;background:#fef3c7;padding:1px 5px;border-radius:10px;flex-shrink:0;white-space:nowrap;margin-top:1px;}
+.fb-item input[type=checkbox]{margin-top:2px;flex-shrink:0;accent-color:#0369a1;width:14px;height:14px;cursor:pointer;}
+.fb-item-text{color:var(--text2);flex:1;}
+
+/* FRAME E — Self-Assessment Input + Gen */
+.fe-sim-row{display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;flex-wrap:wrap;}
+.fe-sect-lbl{font-size:10.5px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin:10px 0 5px;}
+.fe-lvl-block{margin-bottom:5px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+.fe-lvl-active{border-color:#86efac;}
+.fe-lvl-hd{display:flex;align-items:center;gap:7px;padding:7px 11px;cursor:pointer;transition:background .12s;background:var(--bg2);}
+.fe-lvl-hd:hover{background:rgba(0,0,0,.03);}
+.fe-lvl-badge{font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;color:#fff;flex-shrink:0;}
+.fe-lvl-title{font-size:12px;font-weight:600;color:var(--text);flex:1;}
+.fe-doc-ref{font-size:11px;color:#0369a1;font-weight:600;flex-shrink:0;}
+.fe-lvl-body{padding:8px 11px 10px;display:none;border-top:1px solid var(--border);background:var(--bg);}
+.fe-lvl-body.open{display:block;}
+.fe-textarea{width:100%;box-sizing:border-box;padding:7px 10px;font-size:12.5px;line-height:1.65;border:1px solid var(--border);border-radius:5px;background:var(--card);color:var(--text);font-family:'Anakotmai',sans-serif;resize:vertical;transition:border-color .15s;}
+.fe-textarea:focus{outline:none;border-color:#0369a1;box-shadow:0 0 0 2px rgba(3,105,161,.1);}
+.fe-gap-item{padding:8px 11px 10px;margin-bottom:5px;background:rgba(217,119,6,.05);border:1px solid rgba(217,119,6,.22);border-radius:var(--radius);}
+.fe-gap-text{font-size:12.5px;color:#92400e;margin-bottom:6px;line-height:1.55;}
+.fe-gap-status{display:flex;gap:14px;margin-bottom:7px;}
+.fe-radio-lbl{font-size:12px;cursor:pointer;display:flex;align-items:center;gap:4px;color:var(--text2);}
+.fe-radio-lbl input{accent-color:#0f766e;cursor:pointer;}
+.fe-gen-btn{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;padding:8px 20px;border-radius:20px;background:#1e3a5c;color:#fff;font-weight:600;cursor:pointer;border:none;transition:opacity .15s;}
+.fe-gen-btn:hover{opacity:.85;}
+.fe-output{width:100%;box-sizing:border-box;padding:10px 12px;font-size:12px;line-height:1.75;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-family:'Anakotmai',sans-serif;resize:vertical;}
+.fe-copy-btn{display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:5px 14px;border-radius:20px;background:#0369a1;color:#fff;font-weight:600;cursor:pointer;border:none;transition:opacity .15s;margin-top:6px;}
+.fe-copy-btn:hover{opacity:.85;}
+
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--bg2);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:#c9c5bc;}
+
+/* ── Cross-Dimension Linkage Badges ── */
+.dim-badge{display:inline-flex;align-items:center;font-size:8.5px;font-weight:700;padding:1px 6px;border-radius:4px;color:#fff;letter-spacing:.4px;white-space:nowrap;flex-shrink:0;cursor:pointer;transition:opacity .15s;}
+.dim-badge:hover{opacity:.75;}
+.dim-gap-tag{font-size:9px;font-weight:700;color:#b05000;padding:1px 5px;border-radius:3px;background:#fff3e0;border:1px solid #e07000;white-space:nowrap;}
+.crosslink-summ{display:flex;align-items:center;gap:5px;flex-wrap:wrap;padding:5px 12px;background:#f5f0ff;border-bottom:1px solid #d8ccee;font-size:9.5px;color:#4a3a6a;}
+.lvl-dim-strip{display:flex;gap:3px;flex-wrap:wrap;padding:3px 12px 4px;background:rgba(240,235,255,.6);border-bottom:1px solid #e8e0f8;}
+.cg-lvl-row.is-gap>.cg-lvl-hd{border-left:3px solid #e07000;}
+</style>
+
+<style>
+/* ── SM dimension accent: green ── */
+:root{--dim:#0f766e;--dim-lt:rgba(26,122,74,.12);}
+/* structural: ใช้ navy เหมือน CG — สม่ำเสมอ ไม่ฉูดฉาด */
+/* accent เฉพาะ small elements เท่านั้น */
+.sub.focus-cg{border-left-color:var(--dim)!important;}
+.cg-scope-box{border-left-color:var(--dim)!important;}
+.cg-prog-fill{background:var(--dim)!important;}
+.cg-req-item input[type=checkbox]{accent-color:var(--dim)!important;}
+.cg-radio-grp input[type=radio]{accent-color:var(--dim)!important;}
+.cl-item input{accent-color:var(--dim)!important;}
+/* IM dimension badge in header */
+.left-hd .sm-badge{background:var(--dim);color:#fff;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700;}
+</style>
+
+
+<body>
+<div class="top-nav">
+  <a href="index.html">← หน้าหลัก</a>
+  <span class="sep">|</span>
+  <h1>HCM — การบริหารทุนมนุษย์ ปี 2569</h1>
+  <span style="margin-left:auto;display:flex;align-items:center;gap:6px;">
+    <button onclick="exportProgress()" style="font-size:11px;padding:3px 11px;border:1px solid #86efac;border-radius:5px;background:#f0faf4;cursor:pointer;color:#166534;font-weight:600;">📤 Export</button>
+    <label style="font-size:11px;padding:3px 11px;border:1px solid #bfdbfe;border-radius:5px;background:#eff6ff;cursor:pointer;color:#1e40af;font-weight:600;">
+      📥 Import<input type="file" accept=".json" style="display:none;" onchange="importProgress(this)">
+    </label>
+  </span>
+</div>
+<div class="dim-hd">
+  <span id="dimTitle" style="font-size:13px;font-weight:600;"></span>
+  <span class="chip cn" id="dimOrig"></span>
+  <span style="color:var(--text3);font-size:13px;">→</span>
+  <span class="chip ct" id="totalChip">คาดการณ์ —</span>
+  <span style="font-size:11px;font-weight:600;margin-left:auto;" id="deltaChip"></span>
+</div>
+<div id="depTotalBar" style="padding:0 14px 2px;background:#f8f7f4;"></div>
+<div class="layout">
+  <div class="left">
+    <div class="left-hd">
+      <span style="font-size:11px;padding:2px 9px;border-radius:20px;font-weight:700;background:var(--navy);color:#fff;">HCM</span>
+      &nbsp;Sequential Gating Simulator &amp; Action Checklist
+    </div>
+    <div class="left-body" id="leftBody"></div>
+    <div class="cl-wrap">
+      <div class="cl-title" id="clTitle">เลือก sub-item เพื่อดู Action Checklist</div>
+      <div id="clItems"></div>
+      <div class="cl-note">คลิก sub-item → checklist และ panel ขวาอัปเดตตาม</div>
+    </div>
+    <div class="total">
+      <span class="total-lbl" id="totalLbl">คะแนนรวม HCM</span>
+      <span class="total-note">sub → ข้อ → ด้าน</span>
+      <span class="chip cn" style="font-size:11px;" id="totalOrig"></span>
+      <span style="font-size:14px;color:rgba(255,255,255,.5);">→</span>
+      <span class="chip ct" style="font-size:13px;font-weight:700;" id="totalFooter">—</span>
+      <span style="font-size:12px;color:#5bc69a;font-weight:700;" id="deltaFooter"></span>
+    </div>
+  </div>
+  <div class="right">
+    <div class="right-body" id="rightBody">
+      <div style="display:flex;align-items:center;justify-content:center;height:100%;color:#aaa;font-size:13px;">คลิก sub-item ด้านซ้ายเพื่อดูรายละเอียด</div>
+    </div>
+  </div>
+</div>
+
+<script src="enablers-backend.js"></script>
+<script>
+const LINK_URL='https://pdee-hub.github.io/Enablers-Link-Document-69/';
+const DOC_DETAIL_URL='SM_Documents.html';
+const LS_KEY='hcm_ck_69';
+const DIM_KEY='hcm';
+
+// ── DATA ─────────────────────────────────────────────────────────────
+const DATA={ hcm: {
+  dimId:"HCM",
+  dimName:"การบริหารทุนมนุษย์",
+  orig:3.074,
+  color:"#0f766e",
+  subs:[
+  {id:"1.1",grp:"1",gname:"ยุทธศาสตร์/กลยุทธ์ด้านบริหารและพัฒนาทุนมนุษย์ และการขับเคลื่อนของผู้บริหารระดับสูง",gw:30.0,gs68:3.15,name:"คุณภาพของยุทธศาสตร์/กลยุทธ์/การติดตามผล/ผลลัพธ์",w:20.0,s68:3.0,status:"ยังไม่เริ่ม",statusNote:"",scope:"\"คุณภาพและวงจรชีวิตของแผนยุทธศาสตร์ด้านการบริหารทุนมนุษย์ (HCM)\" ครอบคลุมตั้งแต่กระบวนการเริ่มต้นคือการวิเคราะห์สภาพแวดล้อม (ปัจจัยภายใน/ภายนอกและเทียบเคียงคู่เทียบ) นำไปสู่การจัดทำแผนยุทธศาสตร์ที่มีความเหมาะสม การแปลงยุทธศาสตร์เป็นแผนปฏิบัติการรายปีที่มีการตั้งตัวชี้วัด (Outcome) การติดตามผลอย่างมีประสิทธิภาพ การบูรณาการยุทธศาสตร์ HR ให้เป็นเนื้อเดียวกันกับระบบงานหรือแผนแม่บทอื่นๆ (Enablers) ในระดับปฏิบัติการ และการนำข้อมูลป้อนกลับ (Feedback) มาทบทวนปรับปรุงแผนยุทธศาสตร์ให้ทันต่อการเปลี่ยนแปลงอย่างสม่ำเสมอ",levelSumm:["การวิเคราะห์ปัจจัยภายใน/ภายนอก ที่ส่งผลกระทบต่อการบริหารทุนมนุษย์และการดำเนินธุรกิจขององค์กร การศึกษาแนวปฏิบัติที่ดี (Best Practices) และการเปรียบเทียบการดำเนินงานที่สำคัญกับคู่เทียบ","ยุทธศาสตร์มีความครบถ้วน เพียงพอ และเหมาะสม โดยออกแบบให้สอดรับกับวิสัยทัศน์ เจตนารมณ์ นโยบายทางธุรกิจของภาครัฐ และ สคร. รวมถึงสอดคล้องกับบริบทการดำเนินงานขององค์กร","การแปลงยุทธศาสตร์ด้าน HR เป็นแผนปฏิบัติการประจำปี มีการกำหนดเป้าหมายและตัวชี้วัดที่ครอบคลุม Output/Outcome กรอบเวลา และผู้รับผิดชอบ รวมทั้งมีกลไกติดตามและประเมินผลการดำเนินงานที่มีประสิทธิภาพเพื่อให้บรรลุผลลัพธ์ตามที่กำหนด","แผนยุทธศาสตร์ด้าน HR ถูกบูรณาการไปกับแผนงาน/ระบบงานที่สำคัญต่าง ๆ เช่น แผนบริหารความเสี่ยง, แผนงานด้านลูกค้าและตลาด, แผนเทคโนโลยีดิจิทัล (DT), แผนงานนวัตกรรม และการจัดการความรู้ (KM) เป็นต้น","การใช้ข้อมูลป้อนกลับจากการดำเนินงานในการทบทวนยุทธศาสตร์ด้าน HR รวมถึงการนำข้อมูลจากแหล่งอื่น ๆ มาใช้ในการปรับปรุงยุทธศาสตร์ให้สอดคล้องกับการเปลี่ยนแปลงอยู่เสมอ"],good:["กทท. มีการวางระบบพื้นฐานที่ดีมาก ทั้งในแง่การจัดทำแผนยุทธศาสตร์ที่สอดรับกับวิสัยทัศน์ขององค์กร การตั้งคณะกรรมการ มีการแปลงแผนลงสู่ระดับปฏิบัติการ 9 แผนงาน และมีกลไกการติดตามผลอย่างชัดเจนเป็นรายไตรมาสทำให้มั่นใจได้ว่าคะแนนพื้นฐานใน 3 ระดับแรกนั้นผ่านเกณฑ์","การที่ กทท. ประเมินตนเองไว้ที่ระดับ 5 แต่ผลประเมินจริงคะแนนจำลองออกมาที่ 3.0000 ถือเป็นตัวเลขที่สะท้อนความเป็นจริงได้อย่างสมเหตุสมผล เนื่องจากองค์กรมีเอกสารกระบวนการวางแผน (Process) ที่แข็งแกร่งในระดับ 1-3"],gaps:["\"หลักฐานเชิงประจักษ์ในการลงมือทำร่วมกันข้ามสายงาน (Actual Integration)\" ในระดับ 4 และขาด \"การพิสูจน์ผลลัพธ์เชิงประสิทธิภาพที่เพิ่มขึ้น (Proven Effectiveness)\" ในระดับ 5","มีการวิเคราะห์ PESTEL, SWOT และได้ทำการเทียบเคียง (Benchmarking) กับคู่เทียบ เช่น กทพ., รฟม., กฟผ. และ ธอส."],results:["มีการแปลงยุทธศาสตร์เป็นแผนปฏิบัติการ 9 แผนงาน/โครงการ โดยกำหนดตัวชี้วัดที่ครอบคลุม Output/Outcome มีกรอบเวลา ผู้รับผิดชอบ และกลไกรายงานผลรายไตรมาสต่อ กนบ.","อ้างว่ามีการบูรณาการแผน HR กับระบบงานที่สำคัญ เช่น แผนบริหารความเสี่ยง (RM), ดิจิทัล (DT), การจัดการความรู้ (KM), นวัตกรรม (IM) และด้านลูกค้า (SCM) โดยแสดงเป็นตารางความเชื่อมโยง","อ้างว่ามีการใช้ข้อมูลป้อนกลับจาก Feedback Report ปี 2567, ผลสำรวจความพึงพอใจ, แนวโน้ม HR Trends และโครงการความร่วมมือกับ กฟภ. มาปรับปรุงแผนแม่บท HR ปี 2569","มีการกำหนดวิสัยทัศน์และจัดทำตำแหน่งเชิงยุทธศาสตร์ด้าน HR แบ่งเป็น 3 ระยะ (สั้น กลาง ยาว) ที่สอดรับกับแผนวิสาหกิจองค์กร"],tris:["คู่เทียบไม่สอดคล้อง : กทท. ใช้ กทพ., รฟม., กฟผ., ธอส. เป็นคู่เทียบ แต่ผู้ประเมินระบุว่า กทท. ต้อง \"คัดเลือกคู่เทียบด้านทรัพยากรบุคคลที่สอดคล้องกับคู่เทียบในแผนวิสาหกิจ\" (ซึ่งแผนวิสาหกิจมองคู่เทียบเป็นท่าเรือระดับโลกหรืออุตสาหกรรมท่าเรือ)","ตัวชี้วัดผลลัพธ์ยังไม่ถึงมาตรฐานสากล : ผู้ประเมินระบุว่าต้อง \"กำหนดตัวชี้วัดผลลัพธ์ด้านทรัพยากรบุคคลตามแนวปฏิบัติที่ดีในระดับสากล ให้ครอบคลุมทุกกระบวนการด้านทรัพยากรบุคคลที่สำคัญ\" แสดงว่าตัวชี้วัดที่ กทท. ใช้ยังสะท้อนผลลัพธ์เชิงธุรกิจไม่เพียงพอ","การบูรณาการยังเป็นแค่บนแผ่นกระดาษ : กทท. นำเสนอตารางความเชื่อมโยง (Mapping) ข้ามสายงาน แต่ผู้ประเมินชี้ชัดว่า \"การบูรณาการไม่ได้หมายถึงการแสดงให้เห็นความเชื่อมโยงเพียงอย่างเดียว แต่ต้องพิสูจน์ให้ได้ว่ามีการร่วมกันดำเนินงาน... รวมถึงการปฏิบัติงานที่ส่งเสริมกันและกัน หรือร่วมกันปฏิบัติงานจริง\"","ขาดการแสดงประสิทธิผลหลังการปรับปรุง : แม้ กทท. จะมีการนำข้อมูลมาทบทวนแผน แต่ผู้ประเมินมองว่ายังขาด \"การแสดงให้เห็นว่าการปรับปรุง หรือทบทวนดังกล่าว ทำให้เกิดประสิทธิผลตามที่กำหนดไว้ และมีประสิทธิภาพที่ดีขึ้นเมื่อเทียบกับการดำเนินงานในอดีต\""],suggest:["ในปีถัดไป กทท. ไม่ควรทำแค่ตาราง Mapping เพื่อแสดงการบูรณาการ แต่ควรตั้ง Project ข้ามสายงาน (Cross-functional team) ที่ทำงานร่วมกันจริง ๆ (เช่น HR ทำงานร่วมกับ IT เพื่อสร้างแพลตฟอร์ม) และในส่วนของการหาข้อมูลป้อนกลับ (Feedback) ต้องมีตัวเล-เปรียบเทียบ Before/After เพื่อพิสูจน์ให้ผู้ประเมินเห็นว่าเมื่อทบทวนแผนแล้ว \"ประสิทธิภาพดีขึ้นกว่าในอดีตอย่างไร\" พร้อมทั้งต้องเปลี่ยนคู่เทียบด้าน HR ให้สอดคล้องกับคู่เทียบท่าเรือสากลในแผนวิสาหกิจด้วย"],docs:["ตารางเปรียบเทียบตัวชี้วัดระดับโลก (World-Class Benchmarking Table): เอกสารเทียบเคียงข้อมูลด้าน HR ของ กทท. กับ \"ท่าเรือชั้นนำระดับโลก\" (World Class Port) และเอกสารการนำมาตรฐาน ISO 30414:2018 มาประยุกต์ใช้ในการตั้งเป้าหมาย (แทนการเทียบกับรัฐวิสาหกิจในประเทศ)","แผนปฏิบัติการร่วม (Joint Action Plan): เอกสารแผนงานที่ระบุชื่อผู้รับผิดชอบร่วมและ KPI ร่วมกันระหว่างสายงาน HR กับสายงานอื่นๆ (เช่น IT, ยุทธศาสตร์) เพื่อพิสูจน์ \"การบูรณาการข้าม Enablers เชิงประจักษ์\" และลดความซ้ำซ้อน"],bestprac:["การแปลงแผนและการบูรณาการเชิงประจักษ์ (Alignment & Integration): ทั้ง กทพ. และ รฟม. มีความโดดเด่นในการจัดทำแผนยุทธศาสตร์ HR ที่แปลงเป็นแผนปฏิบัติการประจำปี โดยมีการกำหนดเป้าหมาย ตัวชี้วัด กรอบเวลา และผู้รับผิดชอบอย่างชัดเจน และที่สำคัญคือต้อง \"บูรณาการเชื่อมโยงกับแผนยุทธศาสตร์และแผนแม่บทองค์กรอย่างเป็นรูปธรรม\" ไม่ใช่แค่การเขียนอ้างอิงถึงกันในกระดาษ","การวิเคราะห์ปัจจัยและคู่เทียบที่ชัดเจน (Fact-based Scanning): มีการวิเคราะห์ปัจจัยภายใน/ภายนอกและเทียบเคียงคู่เทียบเพื่อนำมากำหนดกลยุทธ์ด้าน HR อย่างเป็นระบบ และนำผลจากการเปรียบเทียบนั้นมาวิเคราะห์เพื่อทบทวนและปรับปรุงยุทธศาสตร์จริงๆ"],minReqs:{"1":["เล่มแผนแม่บททรัพยากรบุคคล (ที่แสดงรายละเอียดการวิเคราะห์ปัจจัยสภาพแวดล้อม SWOT/C-PEST)","[สิ่งที่ควรเพิ่มในปี 69] ตารางเปรียบเทียบตัวชี้วัดด้าน HR (HR Metrics) กับท่าเรือชั้นนำระดับโลก (World Class Port) หรือเทียบเคียงกับมาตรฐานสากล ISO 30414:2018"],"2":["เล่มแผนยุทธศาสตร์/กลยุทธ์ด้านบริหารและพัฒนาทุนมนุษย์ ที่ระบุเป้าหมาย สอดคล้องกับวิสัยทัศน์ชัดเจน","รายงานการประชุมหรือมติคณะกรรมการ (เช่น มติ กนบ. หรือ บอร์ด กทท.) ที่อนุมัติและเห็นชอบแผนยุทธศาสตร์นั้น"],"3":["แผนปฏิบัติการด้าน HR ประจำปี ที่มีการระบุตัวชี้วัดแบบผลลัพธ์ (Outcome) พร้อมกรอบเวลาและระบุผู้รับผิดชอบชัดเจน","รายงานผลการดำเนินงานตามแผนปฏิบัติการรายไตรมาสที่นำเสนอต่อผู้บริหาร"],"4":["ตารางแสดงความเชื่อมโยง (Mapping) ระหว่างผลลัพธ์ตามแผนแม่บท HR กับแผนงาน/ระบบงานที่สำคัญ (Enablers)","[สิ่งที่ควรเพิ่มในปี 69] แผนปฏิบัติการร่วม (Joint Action Plan) ระหว่างสายงาน HR และสายงานยุทธศาสตร์อื่นๆ ที่ระบุผู้รับผิดชอบ งบประมาณ และตัวชี้วัดร่วมกัน"],"5":["ตารางสรุปข้อมูลป้อนกลับ (Feedback Table) จากการดำเนินงานและจากภายนอก","[สิ่งที่ควรเพิ่มในปี 69] เอกสารตาราง Before & After (T-1 vs T+1) ที่แสดงหลักฐานว่าได้นำข้อเสนอแนะจาก TRIS และกระแสการเปลี่ยนแปลงของโลก (HR Trends) มาปรับปรุงแผนยุทธศาสตร์อย่างไร และแสดงผลลัพธ์เชิงตัวเลข (Outcome) ที่ดีขึ้นอย่างเป็นรูปธรรม"]},subComps:{"1":["คู่เทียบ (Benchmark) ต้องเป็นระดับโลก (World-class Port) ไม่ใช่แค่การเทียบกับรัฐวิสาหกิจในประเทศ เพื่อให้สะท้อนกับวิสัยทัศน์องค์กร"],"3":["การกำหนดตัวชี้วัด (KPIs) ต้องเน้นที่ ผลลัพธ์เชิงธุรกิจ (Outcome) มากกว่าการวัดผลสำเร็จของกิจกรรม (Output)"],"4":["คำว่า \"บูรณาการ\" TRIS ไม่ต้องการเห็นแค่ตารางโยงความสัมพันธ์บนกระดาษ แต่ต้องการเห็น \"การทำงานร่วมกันจริง\" (Joint Operation) เช่น แผนปฏิบัติการร่วมที่มีการใช้ทรัพยากรข้ามสายงานร่วมกัน เพื่อลดความซ้ำซ้อน"]}},
+  {id:"1.2",grp:"1",gname:"ยุทธศาสตร์/กลยุทธ์ด้านบริหารและพัฒนาทุนมนุษย์ และการขับเคลื่อนของผู้บริหารระดับสูง",gw:30.0,gs68:3.15,name:"การขับเคลื่อนของผู้บริหารระดับสูง",w:10.0,s68:3.45,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมิน \"บทบาทและภาวะผู้นำ (Leadership)\" ของผู้บริหารระดับสูงและคณะกรรมการยุทธศาสตร์ด้าน HR ว่าเป็นปัจจัยแห่งความสำเร็จ (Key Success Factor) ที่ช่วยขับเคลื่อนการบริหารทุนมนุษย์ขององค์กรหรือไม่ โดยไม่ได้มองแค่การทำหน้าที่ \"อนุมัติ\" แผนงานบนกระดาษ แต่มองลึกไปถึงการริเริ่มกลยุทธ์ การติดตามผลอย่างสม่ำเสมอ การเข้าร่วมกิจกรรมเพื่อเป็นแบบอย่าง (Role Model) การจัดสรรทรัพยากรที่จำเป็น ตลอดจนการทำงานบูรณาการข้ามสายงานร่วมกับองค์คณะอื่น (Enablers) และใช้ข้อมูลป้อนกลับมาปรับปรุงการบริหารงาน HR ให้พร้อมรับมือกับการเปลี่ยนแปลง",levelSumm:["การกำหนดให้มีคณะกรรมการยุทธศาสตร์ด้าน HR โดยมีบทบาท/หน้าที่ที่ชัดเจนในการริเริ่มและกำหนดยุทธศาสตร์/กลยุทธ์ด้าน HCM รวมถึง มีบทบาทในการติดตาม สนับสนุนสายงาน HR และร่วมกิจกรรมที่สำคัญของสายงาน HR","คณะกรรมการยุทธศาสตร์ด้าน HR กำหนดให้มีแนวทางในการติดตามและการสนับสนุนอย่างเป็นระบบ อย่างน้อยเป็นรายไตรมาส","คณะกรรมการยุทธศาสตร์ด้าน HR สามารถดำเนินการได้ครบถ้วนตามบทบาท/หน้าที่ที่กำหนด ขับเคลื่อนการดำเนินงานเชิงกลยุทธ์ได้ผลลัพธ์ตามเป้าหมาย รวมถึงมีส่วนร่วมในกิจกรรมประจำปีที่สำคัญด้าน HCM อย่างต่อเนื่อง","คณะกรรมการยุทธศาสตร์ด้าน HR มีการบูรณาการการทำงานร่วมกับองค์คณะอื่น ๆ เช่น คณะกรรมการรัฐวิสาหกิจ คณะอนุกรรมการด้าน HR คณะทำงานฯ ด้านยุทธศาสตร์องค์กร ด้านลูกค้าและตลาด ด้านการจัดการความรู้และนวัตกรรม เป็นต้น","คณะกรรมการยุทธศาสตร์ด้าน HR มีการใช้ข้อมูลป้อนกลับจากการดำเนินงาน รวมถึงข้อมูลจากแหล่งอื่น ๆ มาปรับปรุงให้สอดคล้องกับการเปลี่ยนแปลงอยู่เสมอ รวมถึงเป็นการปรับปรุงที่มุ่งเน้นการพัฒนาอย่างต่อเนื่อง เพื่อให้การทำงานเกิดประสิทธิภาพสูงสุด"],good:["กทท. มีโครงสร้างคณะกรรมการ (กนบ.) ที่เข้มแข็ง มีการจัดประชุมสม่ำเสมอถึง 8 ครั้ง ผู้บริหารระดับสูงลงมาคลุกคลีและร่วมกิจกรรม HR อย่างเป็นรูปธรรม (เช่น เป็น Role Model ใน PAT Care U Day) ทำให้ได้คะแนนเกินระดับ 3 ขึ้นมาอยู่ที่ประมาณ 3.4500 ถือเป็นจุดแข็งของ กทท. ในหมวดนี้","มีการแต่งตั้งคณะกรรมการกำหนดนโยบายการบริหารงานบุคคลและพัฒนาบุคลากรของ กทท. (กนบ.) มีบทบาทหน้าที่ชัดเจน และมีการติดตามการสนับสนุนอย่างเป็นระบบเป็นรายไตรมาส"],gaps:["การแก้ปัญหายังเป็นลักษณะ \"HR แก้ปัญหาของ HR\"","ผู้ประเมินต้องการเห็นภาพของ \"ผู้บริหารสูงสุดทุกสายงานมารุมแก้ปัญหา HR และ Enablers อื่นร่วมกัน\""],results:["มีการแต่งตั้งคณะกรรมการกำหนดนโยบายการบริหารงานบุคคลและพัฒนาบุคลากรของ กทท. (กนบ.) มีบทบาทหน้าที่ชัดเจน และมีการติดตามการสนับสนุนอย่างเป็นระบบเป็นรายไตรมาส","กนบ. มีการจัดประชุมและให้ข้อเสนอแนะในการขับเคลื่อนด้านต่างๆ เช่น การพิจารณาอัตรากำลัง ทุนการศึกษา การแก้ปัญหาระบบ HRIS นอกจากนี้ ผู้บริหารระดับสูง (เช่น รอง อทร.) ได้เข้ามามีส่วนร่วมเป็น Role Model และเข้าร่วมกิจกรรมด้าน HR เช่น งาน PAT Care U Day","ผู้บริหารแสดงบทบาทเชิงรุก มีการจัดประชุมผู้บริหารระดับสูง (Top Team) แบบข้ามสายงาน และรอง อทร. ทุกสายงานช่วยพิจารณาประเด็น HR ที่เกี่ยวข้องกับหน่วยงานตนเอง","อ้างว่ามีการใช้ข้อมูลป้อนกลับจาก Feedback Report ปี 2567, กฎหมายใหม่ (พ.ร.บ. รัฐวิสาหกิจ), HR Trends, และการนำแนวปฏิบัติที่ดี (Best Practice) จากการหารือร่วมกับ กฟภ. มาปรับปรุงกระบวนการและแผนของ กนบ."],tris:["ผู้ประเมินระบุว่า \"กนบ. ยังต้องแสดงบทบาทเชิงรุกในการร่วมขับเคลื่อนโครงการกับคณะกรรมการ Enablers ชุดอื่นๆ อย่างเป็นระบบและต่อเนื่อง\"","ในแผน Roadmap ระบุชัดเจนถึงมุมมองของผู้ประเมินว่า \"กนบ. ยังขาดการผลักดันปัญหาระดับบูรณาการข้ามสายงานอย่างเป็นรูปธรรม\" และ \"แม้คณะกรรมการ กนบ. จะมีการประชุมสม่ำเสมอ แต่ยังขาดเวทีการประชุมร่วมกันของผู้บริหารระดับสูงทุกสายงาน (Top Team: N และ N-1) แบบรายไตรมาส เพื่อพูดคุยและแก้ไขปัญหาข้ามสายงาน (Cross-Enablers) อย่างบูรณาการ\""],suggest:["เพื่อให้ข้อนี้ทะลุระดับ 4 กทท. ต้องจัดให้มี \"เวทีประชุม Top Team (ผู้บริหาร N และ N-1 ของทุกสายงาน)\" อย่างเป็นทางการทุกไตรมาส โดยมีวาระการประชุมที่สะท้อนการแก้ปัญหาข้ามสายงาน (Cross-functional) อย่างชัดเจน เช่น นำวาระเรื่องปัญหาอัตรากำลังไปผูกกับแผน Digital Transformation แล้วให้ผู้บริหารระดับสูงของทั้งสองฝั่ง (HR และ IT) ร่วมกันเคาะมติ และบันทึกรายงานการประชุม (MoM) นั้นไว้เป็นหลักฐานชิ้นสำคัญส่งให้ TRIS ตรวจในปีต่อไปครับ"],docs:["รายงานการประชุมผู้บริหารระดับสูงทุกสายงาน (Top Team MoM): บันทึกการประชุม (ระดับ N และ N-1 ของทุกสายงาน) ประจำไตรมาส ที่มีวาระการนำปัญหาด้าน HR และการบูรณาการข้ามสายงาน (Cross-Enablers) มาถกและหาทางแก้ไขร่วมกันอย่างเป็นรูปธรรม"],bestprac:["ความเข้มแข็งของคณะกรรมการยุทธศาสตร์ด้าน HR (HR Committee Role): รฟม. และ กทพ. มีการกำหนดบทบาทคณะกรรมการยุทธศาสตร์ด้าน HR ที่เข้มแข็ง โดยไม่ได้ทำหน้าที่แค่รับทราบ แต่ทำหน้าที่ \"ริเริ่ม กำหนดยุทธศาสตร์ สนับสนุน และร่วมกิจกรรม\" ของสายงาน HR อย่างเป็นรูปธรรม","การติดตามผลอย่างเป็นระบบ (Systematic Monitoring): มีกลไกในการให้คณะกรรมการชุดนี้ติดตามผลการดำเนินงานที่สำคัญของสายงาน HR อย่างเป็นระบบ \"อย่างน้อยเป็นรายไตรมาส\""],minReqs:{"1":["คำสั่งแต่งตั้งคณะกรรมการยุทธศาสตร์ด้าน HR หรือ คณะกรรมการ กนบ. (โดยองค์คณะต้องประกอบด้วยผู้บริหารสูงสุด (อทร.) และรอง อทร. ทุกสายงาน อย่างครบถ้วน)","หลักฐานภาพถ่ายหรือรายงานกิจกรรมที่ผู้บริหารระดับสูงเข้าร่วมกิจกรรมสำคัญของสายงาน HR"],"2":["ปฏิทินการประชุมคณะกรรมการ กนบ. และ ปฏิทินการเข้าร่วมกิจกรรมด้าน HR ของผู้บริหารตลอดทั้งปี","รายงานการประชุมคณะกรรมการ กนบ. (อย่างน้อยรายไตรมาส) ที่แสดงให้เห็นการติดตามและสนับสนุนงาน HR"],"3":["รายงานผลการดำเนินงานตามแผนยุทธศาสตร์ด้าน HR ที่บรรลุเป้าหมายตามที่คณะกรรมการ กนบ. ได้กำกับติดตาม","รายงานสรุปกิจกรรมผู้บริหารประจำปี ที่แสดงให้เห็นว่าผู้บริหารมีส่วนร่วมในกิจกรรมสำคัญด้าน HCM อย่างต่อเนื่อง"],"4":["คำสั่งแต่งตั้งคณะทำงานบูรณาการข้ามสายงาน (ถ้ามี)","[สิ่งที่ต้องเพิ่มในปี 69] รายงานการประชุมผู้บริหารระดับสูง (Top Team MoM: N และ N-1 ทุกสายงาน) ที่มีวาระการนำปัญหาด้าน HR และการบูรณาการข้ามสายงาน (Cross-Enablers เช่น นำเรื่อง HR ไปถกร่วมกับฝ่าย IT หรือ ฝ่ายยุทธศาสตร์) มาหารือและหาทางแก้ไขร่วมกันอย่างเป็นรูปธรรม"],"5":["ตารางสรุปการนำข้อมูลป้อนกลับไปใช้พัฒนาผู้บริหาร/คณะกรรมการ กนบ.","[สิ่งที่ต้องเพิ่มในปี 69] เอกสารตาราง Before & After (T-1 vs T+1) ที่แสดงให้เห็นว่า คณะกรรมการ กนบ. ได้นำข้อมูลจากแหล่งภายนอก (เช่น คู่เทียบ กฟภ. หรือ HR Trends) มาตัดสินใจปรับปรุงนโยบายการทำงานอย่างไร และเกิดผลลัพธ์ที่ดีขึ้นต่อองค์กรอย่างไร"]},subComps:{"1":["โครงสร้างคณะกรรมการ \"ตกม้าตายได้ถ้าไม่ครบ\" (Level 1): TRIS มีคำหมายเหตุตัวเล็กๆ ระบุว่า \"คณะกรรมการยุทธศาสตร์ด้าน HR ต้องมีความครบถ้วนขององค์คณะ โดยอย่างน้อยต้องประกอบด้วยผู้บริหารระดับสูงสุดของ ทุกสายงาน (N-1) และผู้บริหารสูงสุดขององค์กร (N)\" หากแต่งตั้งมาไม่ครบทุกสายงาน จะถือว่าไม่ผ่าน Level 1 ทันที"],"2":["จัดทำปฏิทินงาน HR ล่วงหน้า 1 ปี: TRIS ให้คำแนะนำใน Feedback Report ว่า ทีมเลขานุการ (ฝ่าย HR) ควรจัดทำ \"ปฏิทินการประชุมและปฏิทินกิจกรรมสำคัญด้าน HR ล่วงหน้าทั้งปี\" เพื่อให้ผู้บริหารระดับสูงสามารถจัดสรรเวลาเข้าร่วมงานได้อย่างเป็นระบบและต่อเนื่อง ไม่ใช่การเชิญแบบกะทันหัน"],"3":["หลีกเลี่ยงการนำวาระ \"งานธุรการ\" มาเขียนรายงาน (Level 3-4): ในปี 68 กทท. นำวาระการประชุม กนบ. เช่น การอนุมัติตำแหน่ง หรือการให้ทุนการศึกษามาเขียนเรียงข้อ ซึ่ง TRIS มองว่าเป็นการตัดสินใจงาน Routine (งานธุรการ) สิ่งที่ TRIS คาดหวังคือ \"การตัดสินใจเชิงกลยุทธ์ (Strategic Decision)\" หรือการแก้ปัญหาระดับโครงสร้างองค์กร"],"4":["การบูรณาการข้ามสายงาน = Top Team Meeting (Level 4): การจะผ่านระดับ 4 ได้ ผู้ประเมินต้องการเห็น \"รายงานการประชุม (MoM) ของผู้บริหารระดับ N และ N-1\" (Top Team) ที่นำเอาปัญหาที่ HR แก้ฝ่ายเดียวไม่ได้ (เช่น เรื่อง IT หรือโครงสร้างธุรกิจ) มาถกเถียงและหาทางออกร่วมกับฝ่ายอื่นๆ อย่างเป็นรูปธรรมในห้องประชุม"]}},
+  {id:"2.1",grp:"2",gname:"การบริหารทุนมนุษย์",gw:25.0,gs68:3.11,name:"อัตรากำลัง",w:7.5,s68:3.0,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมิน \"การบริหารจัดการอัตรากำลังให้สอดรับกับภารกิจทั้งในปัจจุบันและอนาคต\" โดยครอบคลุมตั้งแต่การออกแบบโครงสร้างงาน (Job Family) การวิเคราะห์อุปสงค์และอุปทานของอัตรากำลัง (Demand & Supply) การหาอัตรากำลังส่วนขาด/ส่วนเกิน การวางแผนนำเทคโนโลยีมาทดแทนกำลังคน การสรรหาและหมุนเวียนงาน (Job Rotation) และที่สำคัญคือการวิเคราะห์เพื่อเพิ่ม \"ผลผลิตประสิทธิภาพ (Productivity)\" ขององค์กรในภาพรวม",levelSumm:["การกำหนดโครงสร้างงานและกลุ่มของงาน (Job family) และโครงสร้างอัตรากำลัง (Workforce landscape) ที่มีความสอดคล้องกับโครงสร้างธุรกิจ และกระบวนการหลักในการดำเนินการของรัฐวิสาหกิจ","การจัดทำแผนอัตรากำลังระยะสั้นและระยะยาว โดยมีการวิเคราะห์อุปสงค์อุปทาน (Demand and Supply) อัตรากำลังส่วนขาด/ส่วนเกิน มีกระบวนการสรรหา คัดเลือก และการหมุนเวียนบุคลากร (Job rotation) มีการวิเคราะห์ทดแทนอัตรากำลังด้วยเทคโนโลยีดิจิทัล วิเคราะห์ผลผลิตประสิทธิภาพ (Productivity) และการวิเคราะห์กระบวนการทำงานเพื่อเพิ่มประสิทธิภาพ (HROD)","การดำเนินงานที่ครบถ้วนตามแผนอัตรากำลังประจำปี โดยมีกลไกหรือกระบวนการติดตามและประเมินผลการดำเนินงานที่มีประสิทธิภาพ และได้ผลลัพธ์ตามที่กำหนดไว้","แผนอัตรากำลังระยะสั้นและระยะยาว มีความเชื่อมโยงกับแผนยุทธศาสตร์ชาติที่เกี่ยวข้องกับการบริหารอัตรากำลังภาครัฐและแผนยุทธศาสตร์องค์กร โดยสะท้อนให้เห็นถึงความเพียงพอเชิงปริมาณอย่างเหมาะสมของอัตรากำลังที่จะสามารถดำเนินงานให้บรรลุผลสำเร็จ","การใช้ข้อมูลป้อนกลับจากการดำเนินงานตามแผนอัตรากำลังประจำปี รวมถึงข้อมูลจากแหล่งอื่น ๆ มาปรับปรุงให้สอดคล้องกับการเปลี่ยนแปลงอยู่เสมอ รวมถึงเป็นการปรับปรุงที่มุ่งเน้นการพัฒนาอย่างต่อเนื่อง เพื่อให้การทำงานเกิดประสิทธิภาพสูงสุด"],good:["คะแนนระดับ 3.0000 ในข้อนี้มีความเหมาะสมและสะท้อนความจริงอย่างมาก กทท. มีผลงานด้าน Productivity และการคุมค่าใช้จ่ายที่ดี (ซึ่งช่วยพยุงคะแนนไว้ไม่ให้ตกลงไปกว่านี้)"],gaps:[],results:["มีการจัดทำโครงสร้างงาน กลุ่มงาน (Job family) และ Workforce landscape ที่สอดคล้องกับธุรกิจ","มีการจัดทำแผนอัตรากำลังระยะสั้นและระยะยาว โดยวิเคราะห์อุปสงค์อุปทาน (Demand & Supply) ควบคุมสัดส่วนค่าใช้จ่ายบุคลากรต่อรายได้ให้อยู่ที่ไม่เกินร้อยละ 23.33 ซึ่งทำได้ดีกว่าค่าเฉลี่ยรัฐวิสาหกิจอื่นที่อยู่ระดับ 31%","ดำเนินการตั้ง Sandbox เพื่อเตรียมปรับโครงสร้างองค์กร และขอตั้งอัตราตำแหน่งระดับ 13 เพิ่มจำนวน 4 อัตรา","มีค่าผลผลิตประสิทธิภาพ (Productivity) สูงถึง 5.33 ล้านบาทต่อคน ซึ่งสูงกว่าเป้าหมาย"],tris:["ขาดการวิเคราะห์กระบวนการและเวลาทำงานเชิงลึก (Workflow & Time and Motion Study) : ผู้ตรวจระบุอย่างชัดเจนว่า กทท. ต้องจัดทำ Workflow Analysis และ Time and Motion Study ให้ครอบคลุม โดยเฉพาะหน่วยงาน Front-line เนื่องจากผู้ตรวจมองว่าหากไม่ลงไปจับเวลาทำงานจริง องค์กรจะไม่ทราบเลยว่ามี \"อัตรากำลังส่วนเกินที่แท้จริง\" ซ่อนอยู่ที่ใดบ้าง การประเมินกำลังคนจึงยังเป็นเพียงการคาดการณ์แบบกว้างๆ","ขาดการวิเคราะห์การจัดการอุปทานกำลังคน (Supply-side) เชิงลึก : กทท. มุ่งเน้นไปที่การควบคุม Demand หรือการรับคนใหม่ แต่ผู้ประเมินต้องการเห็นกลยุทธ์การจัดการอุปทานคนที่มีอยู่แล้ว (Supply-side) เช่น มีการนำคนที่มีอยู่ไป Re-skill/Up-skill เพื่อจับไปหมุนเวียน (Job Rotation) ทดแทนการขออัตรากำลังจ้างใหม่หรือไม่"],suggest:["งานนี้เป็นงานที่ยากและซับซ้อนมาก ในตาราง Roadmap ได้จัดลำดับความยากไว้ในระดับ \"สูงมาก (ยากสุด)\" หาก กทท. ต้องการดันคะแนนข้อนี้ให้ทะลุระดับ 4 ในปี 2569 ต้องดำเนินการตั้ง Project การทำ Time & Motion Study ร่วมกับสายงานปฏิบัติการ (Front-line) โดยอาจจะต้องมีการจ้างที่ปรึกษาเข้ามาจับเวลาและวิเคราะห์ Workflow จริงๆ เพื่อหาอัตรากำลังส่วนเกิน แล้วนำข้อมูลนั้นมาสร้างแผน Re-skill โยกย้ายพนักงานส่วนเกินไปทำงานอื่นทดแทนการจ้างคนใหม่"],docs:["รายงานการวิเคราะห์เวลาและกระบวนการทำงาน (Time & Motion Study & Workflow Analysis Report): เอกสารวิเคราะห์เชิงลึกโดยเฉพาะกลุ่มปฏิบัติการหน้างาน (Front-line) เพื่อหาอัตรากำลังส่วนเกินที่แท้จริง","แผนการจัดการอุปทานกำลังคน (Supply-Side Management Plan): เอกสารแผนการทำ Multi-skill, Re-skill/Up-skill เพื่อแสดงแนวทางการหมุนเวียนกำลังคนที่มีอยู่เดิมไปทดแทนอัตรากำลังที่จะจ้างใหม่"],bestprac:["การวิเคราะห์ด้าน Supply-side และนำเทคโนโลยีมาทดแทน: รฟม. มีการวิเคราะห์อุปสงค์อุปทาน (Demand & Supply) ทั้งส่วนขาดและส่วนเกินอย่างชัดเจน โดยเฉพาะการประเมินโครงสร้างอัตรากำลังเชิงเปรียบเทียบระหว่าง \"อัตรากำลังที่มีอยู่\" กับ \"อัตรากำลังที่ควรจะเป็น\" ควบคู่ไปกับการพิจารณา \"วางแผนทดแทนอัตรากำลังด้วยเทคโนโลยีดิจิทัลอย่างเป็นระบบ","มีหลักเกณฑ์การหมุนเวียนบุคลากรที่ชัดเจน: มีกระบวนการสรรหาและหลักเกณฑ์การหมุนเวียนบุคลากร (Job Rotation) ทุกระดับที่เป็นระบบและเกิดขึ้นจริง"],minReqs:{"1":["เอกสารโครงสร้างองค์กรปัจจุบัน และประกาศการจัดกลุ่มงาน (Job Family)","เอกสารโครงสร้างอัตรากำลัง (Workforce Landscape) ที่แสดงข้อมูล As-is (ปัจจุบัน) และ To-be (สิ่งที่คาดหวังในอนาคต) รวมถึงข้อมูลประชากรศาสตร์ (Demographic) และทักษะที่จำเป็น (Required Skill set)"],"2":["เล่มแผนอัตรากำลังระยะสั้นและระยะยาว ที่แสดงการวิเคราะห์อุปสงค์อุปทาน (Demand & Supply)","คู่มือ/ระเบียบการสรรหาคัดเลือก และหลักเกณฑ์การหมุนเวียนบุคลากร (Job Rotation)","ตารางวิเคราะห์ผลผลิตประสิทธิภาพ (Productivity) เช่น สัดส่วนรายได้ต่อค่าใช้จ่ายบุคลากร","[สิ่งที่ต้องเพิ่มในปี 69] รายงานการวิเคราะห์กระบวนการทำงาน (Workflow Analysis) หรือรายงานการศึกษาเวลาทำงาน (Time & Motion Study) ของหน่วยงานหน้างาน (Front-line) เพื่อหาอัตรากำลังส่วนเกินที่แท้จริง"],"3":["รายงานผลการบรรจุพนักงานและอัตรากำลังเทียบกับแผน (แสดงตัวเลขผลลัพธ์การจัดการอัตรากำลังส่วนขาด/เกิน)","รายงานผลการดำเนินงานตามแผนอัตรากำลังรายไตรมาส ที่เสนอต่อคณะกรรมการ กนบ."],"4":["ตารางแสดงความเชื่อมโยง (Mapping) แผนอัตรากำลังกับแผนวิสาหกิจ และแผนยุทธศาสตร์ชาติ","[สิ่งที่ต้องเพิ่มในปี 69] แผนการจัดการอุปทานกำลังคน (Supply-Side Management Plan) เช่น หลักฐานการทำ Multi-skill หรือ Re-skill/Up-skill ข้ามสายงาน เพื่อนำกำลังคนที่มีอยู่เดิม (ส่วนเกิน) ไปทดแทนอัตรากำลังที่จะจ้างใหม่ (เทคโนโลยี)"],"5":["ตารางสรุปการนำข้อมูลป้อนกลับ (Feedback) มาใช้ทบทวนแผนอัตรากำลัง","[สิ่งที่ต้องเพิ่มในปี 69] ตาราง Before & After (T-1 vs T+1) แสดงผลลัพธ์ของค่า Productivity ที่เพิ่มขึ้นอย่างเป็นรูปธรรม หรือสัดส่วนค่าใช้จ่ายบุคลากรที่ลดลงเมื่อเทียบกับปีก่อนหน้าและคู่เทียบ"]},subComps:{"1":["คำว่า Workforce Landscape ไม่ใช่แค่ \"ตารางนับคน\" (Level 1): TRIS ระบุในหมายเหตุว่า โครงสร้างอัตรากำลัง ต้องไม่ใช่แค่จำนวนคน แต่ต้องมีข้อมูลเชิงประชากรศาสตร์ (อายุ, เพศ) ทักษะที่จำเป็น (Required Skill Set) และต้องทำตารางวิเคราะห์เปรียบเทียบภาพปัจจุบัน (As-is) กับ ภาพที่องค์กรอยากจะเป็น (To-be) เสมอ"],"2":["จุดตายเรื่อง Time & Motion Study (Level 2): นี่คือจุดที่ กทท. ถูกหักคะแนนหนักที่สุดในปี 68! ผู้ตรวจระบุชัดเจนว่า กทท. คาดการณ์อัตรากำลังแบบเดิมๆ ไม่ได้แล้ว แต่ \"ต้องลงไปจับเวลาการทำงานจริง และวิเคราะห์กระบวนการ (Workflow Analysis) ในพื้นที่ปฏิบัติงาน (Front-line)\" เพื่อหาว่ามีคนล้นงานตรงไหน (อัตรากำลังส่วนเกินที่แท้จริง)"],"4":["Supply-side Management สำคัญกว่าการขอจ้างคนเพิ่ม (Level 4): การแก้ปัญหาอัตรากำลังขาดแคลน ไม่ใช่การเขียนของบประมาณเพื่อรับพนักงานใหม่เพียงอย่างเดียว แต่ TRIS มองหา \"การบริหารจัดการฝั่งอุปทาน (Supply-side)\" คือ การเอาคนที่ล้นงานจากแผนกอื่น มาทำ Multi-skill หรือ Re-skill เพื่อหมุนเวียนไปทำหน้าที่ใหม่ที่ขาดแคลน (ทดแทนการจ้างใหม่)"],"5":["Productivity ต้องเป็นตัวเลข (Level 5): การนำเสนอในกระดาษคำตอบต้องมีตารางชัดเจนว่า การจัดการอัตรากำลังและนำเทคโนโลยีมาใช้ ทำให้ \"รายได้ต่อหัวพนักงาน\" เพิ่มขึ้นเท่าไหร่ หรือ \"ค่าใช้จ่ายพนักงานต่อรายได้รวม\" ลดลงอย่างไร"]}},
+  {id:"2.2",grp:"2",gname:"การบริหารทุนมนุษย์",gw:25.0,gs68:3.11,name:"ระบบประเมินผลการปฏิบัติงาน",w:15.0,s68:3.15,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมิน \"ระบบบริหารผลการปฏิบัติงาน (PMS)\" แบบครบวงจร (End-to-End) เริ่มตั้งแต่การออกแบบระบบและเกณฑ์การวัดผล การถ่ายทอดตัวชี้วัด (KPI) จากระดับองค์กรลงสู่พนักงานระดับปฏิบัติการ การกำกับติดตามให้เกิดการประเมินผลอย่างเป็นธรรมทั่วทั้งองค์กร การนำผลประเมินไปเชื่อมโยงกับการให้รางวัล (การเงิน/ไม่ใช่ตัวเงิน) การเลื่อนตำแหน่ง และการพัฒนาศักยภาพ (IDP) ตลอดจนการนำข้อมูลป้อนกลับมาพัฒนาระบบประเมินผลให้ทันสมัยและเป็นธรรมอย่างต่อเนื่อง",levelSumm:["การกำหนดระบบประเมินผลการดำเนินงานขององค์กรในทุกระดับ โดยมีหลักเกณฑ์/แนวทาง ในการประเมินผล และรอบระยะเวลาในการประเมินผลที่ชัดเจน","กระบวนการถ่ายทอดตัวชี้วัดระดับองค์กรสู่ตัวชี้วัดระดับแผนงานและโครงการ โดยการกำหนดตัวชี้วัดผลการดำเนินงาน (KPI) ระดับสายงาน/หน่วยงานและระดับบุคคลที่สอดคล้องกับแผนยุทธศาสตร์องค์กร แผนธุรกิจ/แผนงานของสายงาน/หน่วยงาน และภาระงานในตำแหน่งงานที่รับผิดชอบ","การประเมินผลการปฏิบัติงานเกิดขึ้นจริงทั่วทั้งองค์กร โดยมีกลไกหรือกระบวนการติดตามและประเมินผลการดำเนินงานที่มีประสิทธิภาพ และได้ผลลัพธ์ตามที่กำหนดไว้","การใช้ประโยชน์จากการวัดและประเมินผลการปฏิบัติงาน โดยนำมาเชื่อมโยงกับการปรับเลื่อนตำแหน่ง (Promotion) และการให้ผลตอบแทนทั้งที่เป็นตัวเงินและไม่ใช่ตัวเงิน การยกย่อง/ชมเชย รวมถึงการนำไปใช้ในระบบการเรียนรู้และการพัฒนา โดยนำผลการประเมินมาใช้ในการวิเคราะห์ เพื่อเสริมสร้างศักยภาพของบุคลากร/ทีมงาน /หน่วยงาน","การใช้ข้อมูลป้อนกลับจากการดำเนินงานของระบบประเมินผลการปฏิบัติงาน รวมถึงข้อมูลจากแหล่งอื่น ๆ มาปรับปรุงให้สอดคล้องกับการเปลี่ยนแปลงอยู่เสมอ รวมถึงเป็นการปรับปรุงที่มุ่งเน้นการพัฒนาอย่างต่อเนื่อง เพื่อให้การทำงานเกิดประสิทธิภาพสูงสุด"],good:["กทท. วางระบบประเมินผลขั้นพื้นฐานได้อย่างยอดเยี่ยมและครบถ้วนมาก มีการผูกผลประเมินกับระบบผลตอบแทนอย่างชัดเจน (Pay for Performance) รวมถึงมีระบบ IT (HRIS) มารองรับกระบวนการทั้งหมด นอกจากนี้การกระจาย KPI จากบนลงล่าง (Cascading) ก็ทำได้อย่างเป็นรูปธรรม ทำให้ได้คะแนนยืนพื้นได้อย่างมั่นคงที่ 3.1500 ซึ่งถือเป็นฐานคะแนนที่สูง","การที่ กทท. ได้คะแนนในข้อย่อยนี้ 3.1500 ถือว่าสมเหตุสมผลและสอดคล้องกับ Gap ที่เกิดขึ้นครับ ระบบของ กทท. ในปัจจุบันมีความเป็น \"ระบบดั้งเดิมที่แข็งแกร่ง (Traditional PMS)\" ซึ่งตอบโจทย์ระดับ 1-3 ได้สมบูรณ์"],gaps:["องค์ประกอบของ \"ระบบประเมินผลยุคใหม่ (Modern/Agile PMS)\" เช่น 360-degree feedback หรือ Continuous Feedback แบบที่องค์กรชั้นนำระดับโลกใช้"],results:["มีการจัดทำคู่มือการประเมินผล มีคำจำกัดความตัวชี้วัดเชิงพฤติกรรม และกำหนดสัดส่วน KPI ต่อ พฤติกรรมที่ 70:30","มีการถ่ายทอดตัวชี้วัด (Cascade KPI) จากระดับองค์กรสู่ระดับสายงานและบุคคล โดยแบ่ง KPI เป็น 3 ประเภท (ตามกลยุทธ์, ตามบทบาทหน้าที่, ตามงานที่ได้รับมอบหมาย)","มีกลไกการประเมินปีละ 2 ครั้งผ่านระบบ HRIS 100% มีคณะกรรมการบริหารผลการปฏิบัติงาน 2 ระดับ และผลประเมินเฉลี่ยของพนักงานอยู่ในเกณฑ์ดีมาก (92.5 คะแนน)","นำผลการประเมินไปเชื่อมโยงกับการเลื่อนตำแหน่ง (ให้น้ำหนัก 10%), การขึ้นเงินเดือน (Pay for Performance), การคัดเลือก Talent/Successor และใช้จัดทำแผนพัฒนารายบุคคล (IDP) เพื่อปิด Gap","มีการนำ Feedback และ HR Trends 2025 มาปรับปรุงกระบวนการเป็น Digital Performance Management โดยใช้ HRIS อย่างเต็มรูปแบบ"],tris:["ขาดกลไกสอบทานคุณภาพตัวชี้วัด (KPI Quality Audit) : ผู้ตรวจมองว่า กทท. มีการถ่ายทอด KPI ก็จริง แต่ต้องมีกลไกสอบทานด้วยว่าตัวชี้วัดในระดับปฏิบัติการนั้น \"มีคุณภาพและสะท้อนยุทธศาสตร์จริงหรือไม่\"","ขาดการประเมินผลแบบ 360 องศา : TRIS เสนอแนะชัดเจนว่า กทท. ควรยกระดับระบบโดยเริ่มพิจารณาการประเมินแบบ 360 องศา (ประเมินจากหัวหน้า, ลูกน้อง, เพื่อนร่วมงาน) โดยให้เริ่มจากระดับผู้บริหารก่อน","ขาดวัฒนธรรมการให้ข้อมูลป้อนกลับ (Feedback Culture) : การประเมินผลในปัจจุบันยังเป็นลักษณะการประเมินตามรอบ (ปีละ 2 ครั้ง) แต่ผู้ประเมินต้องการเห็นแนวทาง \"การให้ข้อมูลป้อนกลับเป็นรายบุคคลระหว่างปี\" อย่างต่อเนื่อง เพื่อให้เกิดการปรับปรุงตนเองได้ทันท่วงที","ขาดการประเมินคณะกรรมการประเมินผล : มีคณะกรรมการ 2 ระดับก็จริง แต่ยังไม่พบการ \"ประเมินประสิทธิผลการทำงานของคณะกรรมการ\" เหล่านี้ว่าทำหน้าที่ได้ดีเพียงใด"],suggest:["ในตารางจัดลำดับความยากง่าย (Ranking) กทท. ประเมินว่าเรื่อง \"นำการประเมิน 360 องศามาใช้ และสร้างวัฒนธรรม Feedback ระหว่างปี\" มีระดับความยากอยู่ในเกณฑ์ \"สูงมาก\" เพราะต้องปรับกระบวนการใหม่และต้องพึ่งพาระบบ IT อย่างมาก ดังนั้น ในปี 2569 กทท. อาจไม่ต้องทำ 360 องศาทั้งองค์กรในทีเดียว แต่ควรสร้าง \"โครงการนำร่อง (Pilot Project)\" การประเมิน 360 องศาสำหรับผู้บริหารระดับสูง (N และ N-1) ออกมาก่อน และออกแบบช่องทางในระบบ HRIS ให้หัวหน้าสามารถเข้าไปกดให้ Feedback ลูกน้องระหว่างปีได้ พร้อมบันทึกเป็นหลักฐานไว้ (Systematic Feedback Loop) สิ่งนี้จะช่วยปิด Gap ของ TRIS และเพิ่มคะแนนในข้อนี้ได้อย่างชัดเจน"],docs:["รายงานการสอบทานคุณภาพตัวชี้วัด (KPI Quality Audit Report): หลักฐานการสอบทานว่า KPI ในระดับปฏิบัติการสะท้อนถึงแผนยุทธศาสตร์องค์กรอย่างแท้จริง","คู่มือ/รายงานผลการนำร่องประเมินแบบ 360 องศา: หลักฐานการเริ่มใช้ระบบประเมิน 360 องศา (โดยเริ่มนำร่องจากกลุ่มผู้บริหารก่อน)","หลักฐานการสร้างวัฒนธรรมให้ข้อมูลป้อนกลับ (Feedback Culture Record): บันทึกหรือ Log ในระบบ HRIS ที่แสดงให้เห็นว่ามีการให้ Feedback เป็นรายบุคคลระหว่างปี"],bestprac:["กลไกการ \"สอบทาน\" ตัวชี้วัด (KPI Audit): รฟม. ไม่ได้ทำแค่ถ่ายทอดตัวชี้วัด (Cascade KPI) จากบนลงล่างเท่านั้น แต่มี \"กระบวนการสอบทานความถูกต้องของตัวชี้วัด\" ในระดับสายงานและระดับบุคคลด้วย เพื่อให้มั่นใจว่า KPI ที่ตั้งไว้นั้นสะท้อนเป้าหมายยุทธศาสตร์ขององค์กรจริงๆ","ผูกผลประเมินกับระบบแรงจูงใจที่ชัดเจน (Clear Pay for Performance): รฟม. นำผลการประเมินไปใช้กำหนดผลตอบแทนและแรงจูงใจ \"ทั้งที่เป็นตัวเงินและไม่ใช่ตัวเงิน\" อย่างเป็นรูปธรรม เช่น ผูกผล KPI เข้ากับการปรับเลื่อนตำแหน่ง, การขึ้นเงินเดือน, และการยกย่องชมเชย (Rewards) อย่างชัดเจน"],minReqs:{"1":["คู่มือการประเมินผลการปฏิบัติงาน และ คู่มือคำจำกัดความตัวชี้วัดเชิงพฤติกรรม (Competency/Behavioral Dictionary)","ประกาศ/ระเบียบที่ระบุหลักเกณฑ์ น้ำหนักคะแนน (เช่น สัดส่วน KPI : พฤติกรรม) และรอบระยะเวลาการประเมินอย่างชัดเจน"],"2":["ผัง/เอกสารแสดงกระบวนการถ่ายทอดตัวชี้วัด (Cascade KPI) จากระดับองค์กร -> ระดับสายงาน/หน่วยงาน -> ระดับบุคคล","[สิ่งที่ต้องเพิ่มในปี 69] รายงานหรือหลักฐานการ \"สอบทานความถูกต้องของตัวชี้วัด (KPI Audit)\" เพื่อยืนยันว่า KPI ระดับบุคคลสะท้อนเป้าหมายยุทธศาสตร์ขององค์กรจริง ไม่ใช่การตั้งเป้าหมายที่ง่ายเกินไป"],"3":["สถิติ/รายงานผลการประเมินการปฏิบัติงานของพนักงานประจำปี (แสดงให้เห็นว่ามีการประเมินจริงผ่านระบบ HRIS ครบถ้วนตามกรอบเวลา)","รายงานการติดตามผลการดำเนินงานของ \"คณะกรรมการบริหารผลการปฏิบัติงาน\" (กลไกกำกับดูแล)"],"4":["หลักฐานการเชื่อมโยงผลประเมินกับรางวัลที่เป็นตัวเงิน (เช่น ระเบียบ Pay for Performance / การเลื่อนขั้นเงินเดือน) และไม่ใช่ตัวเงิน (เช่น ประกาศรางวัลพนักงานดีเด่น)","ประกาศ/คำสั่งการปรับเลื่อนตำแหน่ง (Promotion) ที่ใช้คะแนนประเมินเป็นเกณฑ์พิจารณา","แผนพัฒนารายบุคคล (Individual Development Plan: IDP) ที่นำช่องว่าง (Gap) จากการประเมินผลมาจัดทำ"],"5":["ตารางสรุปการนำข้อมูลป้อนกลับ (Feedback) เช่น ผลสำรวจความพึงพอใจต่อระบบ PMS มาใช้ปรับปรุงระบบประเมินผล","[สิ่งที่ต้องเพิ่มในปี 69] รายงานผลการนำร่องใช้ \"การประเมินแบบ 360 องศา\" (เริ่มจากกลุ่มผู้บริหารก่อน)","[สิ่งที่ต้องเพิ่มในปี 69] หลักฐานเชิงประจักษ์ (Log ในระบบ หรือ ภาพถ่ายกิจกรรม) ที่แสดงให้เห็นว่ามีการสร้าง \"วัฒนธรรมการให้ข้อมูลป้อนกลับ (Feedback Culture)\" ระหว่างผู้ประเมินและผู้ถูกประเมิน \"ระหว่างปี\" (ไม่ใช่แค่รอประเมินตอนสิ้นปี)"]},subComps:{"2":["Cascade KPI ต้องมาพร้อมกับ \"การสอบทาน (Audit)\" (Level 2): TRIS ระบุใน Feedback Report ชัดเจนว่า การแค่ถ่ายทอด KPI ลงไปนั้นไม่พอ แต่ต้องมี \"กลไกการสอบทานคุณภาพของตัวชี้วัดระดับสายงานและระดับบุคคล\" เพื่อป้องกันไม่ให้พนักงานตั้ง KPI ที่ง่ายเกินไป และต้องมั่นใจว่าเป็นมาตรฐานเดียวกันทั้งองค์กร"],"4":["ประเมิน 360 องศา และ Feedback Culture คือตัวตัดคะแนน (Level 4-5): กทท. ประเมินแบบ Top-down (หัวหน้าประเมินลูกน้อง) ซึ่ง TRIS มองว่ายังไม่ Best Practice ผู้ตรวจมีคำสั่งตรงใน Feedback Report ว่า ให้ กทท. เริ่มนำวิธีการประเมินแบบ 360 องศามาใช้ (เริ่มที่ระดับผู้บริหารก่อน) และต้องมีหลักฐานว่าเกิดการพูดคุย/ให้คำแนะนำระหว่างหัวหน้ากับลูกน้อง (Feedback Culture) \"เป็นรายบุคคลระหว่างปี\" ไม่ใช่แค่คุยกันตอนประเมินผลปลายปี"],"5":["ต้องประเมิน \"คณะกรรมการ PMS\" ด้วย (Level 5): กทท. มีการตั้งคณะกรรมการบริหารผลการปฏิบัติงานขึ้นมาดูแล แต่ TRIS แนะนำว่า กทท. ต้อง \"ประเมินประสิทธิผลการทำงานของคณะกรรมการชุดนี้ด้วย\" เพื่อนำผลมาทบทวนบทบาทหน้าที่ให้เหมาะสมยิ่งขึ้น","เชื่อมโยงกับ Hybrid Work (Hidden Issue): ใน Feedback Report มีการระบุหมายเหตุไว้ว่า หาก กทท. มีนโยบายทำงานนอกสำนักงาน (Hybrid Work/WFH) ระบบ PMS จะต้องถูกปรับเปลี่ยนให้เป็นแบบ \"พิจารณาผลลัพธ์ของงาน (Outcome-Based Productivity)\" มากกว่าการประเมินโดยดูจากการเข้าออกสำนักงานตามแนวทางเดิม"]}},
+  {id:"2.3",grp:"2",gname:"การบริหารทุนมนุษย์",gw:25.0,gs68:3.11,name:"ผลตอบแทนและสิทธิประโยชน์",w:2.5,s68:3.2,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมิน \"ความสามารถในการดึงดูดและรักษาบุคลากร (Attract & Retain) ผ่านระบบผลตอบแทนและสวัสดิการ\" โดยระบบดังกล่าวต้องแข่งขันได้กับตลาด (Market Benchmark) ถูกต้องและเป็นธรรมตามกฎหมายแรงงาน และที่สำคัญที่สุดคือ ต้องมีการจำแนกกลุ่มบุคลากร (Segmentation) เพื่อสำรวจความต้องการและนำไปออกแบบ \"สวัสดิการที่ตอบโจทย์ความแตกต่างและหลากหลายของพนักงาน (Diversity/Generation)\" ได้อย่างมีประสิทธิภาพ ภายใต้ขีดความสามารถและกรอบงบประมาณขององค์กร",levelSumm:["มีแนวทางการพัฒนาผลตอบแทนและสิทธิประโยชน์ของกลุ่ม/ส่วนบุคลากร โดยมีการเปรียบเทียบโครงสร้างผลตอบแทนกับตลาดที่ครอบคลุมเงินเดือน, ผลตอบแทนจูงใจ และผลประโยชน์เกื้อกูลอื่น","การปฏิบัติตามกฎหมาย หรือข้อบังคับที่เกี่ยวข้องกับแรงงานของการบริหารทรัพยากรบุคคลเพื่อให้เกิดความเป็นธรรมกับพนักงาน","การดำเนินงานตามแนวทางการพัฒนาฯ ได้ โดยมีกลไกหรือกระบวนการติดตามและประเมินผลการดำเนินงานที่มีประสิทธิภาพ และได้ผลลัพธ์ตามที่กำหนดไว้","แนวทางการพัฒนาฯ สอดคล้องกับระเบียบปฏิบัติขององค์กร รวมถึงมีการนำ \"ความเห็น และความต้องการ\" ของกลุ่มและส่วนบุคลากรมาใช้ประโยชน์ในการออกแบบแนวทางการพัฒนาฯ","การใช้ข้อมูลป้อนกลับจากการดำเนินงานตามแนวทางการพัฒนาฯ รวมถึงข้อมูลจากแหล่งอื่น ๆ มาปรับปรุงให้สอดคล้องกับการเปลี่ยนแปลงอยู่เสมอ รวมถึงเป็นการปรับปรุงที่มุ่งเน้นการพัฒนาอย่างต่อเนื่อง เพื่อให้การทำงานเกิดประสิทธิภาพสูงสุด"],good:["กทท. ทำได้ดีมากในแง่ของ \"การดูแลคุณภาพชีวิตพนักงาน\" มีการตอบสนองต่อผลสำรวจ (เช่น เรื่องประกันชีวิตกลุ่ม) และเกาะติดเทรนด์สังคม (เช่น สมรสเท่าเทียม) รวมทั้งมีการปรับปรุงตัวเงินสวัสดิการให้สอดคล้องกับสภาวะเศรษฐกิจ ทำให้ผู้ประเมินมองเห็นความพยายามที่เป็นรูปธรรม จึงให้คะแนนประเมินสูงถึงระดับ 3.2000 ซึ่งถือว่าเป็นจุดแข็ง","คะแนน 3.2000 สะท้อนว่า กทท. เป็นองค์กรที่ดูแลพนักงานได้ดีเยี่ยมในระดับ \"มาตรฐานแบบดั้งเดิม\" (ให้สวัสดิการถ้วนหน้าและปรับปรุงตามความต้องการพื้นฐาน)"],gaps:["ขาดแนวทางในการก้าวข้ามแนวความคิดปฏิบัติแบบเดิมๆ ไปสู่แนวคิด \"Flexible Benefits (สวัสดิการยืดหยุ่น)\" แบบเต็มรูปแบบที่องค์กรระดับสากลใช้ ซึ่งเป็นเงื่อนไขในการปลดล็อกคะแนนระดับ 4 และ 5"],results:["มีการวิเคราะห์เปรียบเทียบโครงสร้างค่าตอบแทนกับตลาดแรงงานกลุ่มขนส่งและโลจิสติกส์ รวมถึงรัฐวิสาหกิจอื่น มีการปรับอัตราค่าจ้างขั้นต่ำตามกฎหมายและปรับเพิ่มเงินการครองชีพชั่วคราว","มีการสำรวจความต้องการด้านสวัสดิการของพนักงาน และนำมาจัดสวัสดิการที่ตอบโจทย์ความต้องการ เช่น การจัดทำประกันชีวิตกลุ่มให้พนักงาน (จากผลสำรวจพบว่าพนักงาน 86.54% ต้องการ) การติดตั้งตู้จำหน่ายเครื่องดื่มอัตโนมัติ และการปรับปรุงสวัสดิการให้สอดคล้องกับพ.ร.บ. สมรสเท่าเทียม","นำข้อมูลป้อนกลับมาปรับปรุงสวัสดิการให้ดีขึ้นอย่างเป็นรูปธรรม เช่น ปรับเพิ่มค่าช่วยเหลือบุตรจาก 500 บาท เป็น 600 บาท/คน และปรับเพิ่มเงินสงเคราะห์การคลอดบุตรจาก 400 บาท เป็น 3,000 บาท/ครั้ง โดยไม่จำกัดจำนวนครั้ง"],tris:["ขาดการวิเคราะห์กลุ่มส่วนบุคลากรที่ชัดเจน (Unclear Segmentation) : ผู้ตรวจประเมินระบุใน Feedback Report ชัดเจนว่า \"ยังไม่ชัดเจนว่ามีการวิเคราะห์ส่วนบุคลากร ดังนั้น ควรมีการวิเคราะห์และบริหารผลตอบแทนฯ ของส่วนบุคลากรให้ชัดเจน\"","นโยบายสวัสดิการมีความซับซ้อนและยังติดหล่มคำว่า \"ความเท่าเทียม (Equality) : จากเอกสารวิเคราะห์ Roadmap ระบุว่า การจัดส่วนบุคลากร (Segmentation) ของ กทท. ในปัจจุบันมีความซับซ้อนเกินไป และยังไม่ตอบโจทย์ความต้องการเชิงลึก ผู้ตรวจประเมินต้องการให้ กทท. มุ่งเน้นการจัดการแบบ \"ความเสมอภาค (Equity)\" มากกว่าความเท่าเทียม (Equality) แปลว่า ไม่จำเป็นต้องให้สวัสดิการทุกคนเหมือนกันหมด แต่ควรให้ตามความเหมาะสมของความต้องการในแต่ละช่วงวัยหรือกลุ่มความหลากหลาย"],suggest:["ทำ Segmentation 2-3 กลุ่ม ให้ชัดเจน เช่น แบ่งตาม Generation (Baby Boomer, Gen X, Gen Y, Gen Z) หรือ แบ่งตามลักษณะงาน (Front-line vs Back-office)","ออกแบบ สวัสดิการทางเลือก (Cafeteria Benefits) ที่ให้พนักงานแต่ละกลุ่มสามารถเลือก \"แพ็กเกจสวัสดิการ\" ที่ตรงกับ Life Stage ของตนเองได้ (เช่น Gen Z อาจต้องการงบสนับสนุนฟิตเนสหรืออุปกรณ์ IT ในขณะที่ Gen X อาจต้องการแพ็กเกจตรวจสุขภาพที่ครอบคลุมขึ้น) และนำเสนอหลักฐานการวิเคราะห์นี้ให้ TRIS ดูอย่างเป็นระบบ"],docs:["รายงานการวิเคราะห์แบ่งกลุ่มบุคลากร (Segmentation Analysis Report): เอกสารการแบ่งกลุ่มพนักงาน (ไม่เกิน 2-3 กลุ่ม) ตามความหลากหลาย (Diversity) หรือเจเนอเรชัน (Generation)","แผนการจัดสวัสดิการแบบเสมอภาค (Equity-Based Benefits Plan): เอกสารการออกแบบสวัสดิการทางเลือก หรือ Flexible Benefits ที่ตอบสนอง \"ความต้องการเชิงลึก\" ของพนักงานแต่ละกลุ่ม (เปลี่ยนจากหลักความเท่าเทียม (Equality) เป็นหลักความเสมอภาค (Equity))"],bestprac:["ออกแบบสวัสดิการจาก \"เสียงของพนักงาน\" จริงๆ: รฟม. มีการนำ \"ความคาดหวัง ความเห็น และความต้องการ\" ของกลุ่ม/ส่วนบุคลากร มาวิเคราะห์และใช้ประโยชน์ในการออกแบบสวัสดิการและผลตอบแทนจริงๆ (ซึ่ง กทท. ยังติดปัญหาเรื่องการแบ่งกลุ่ม Segmentation ที่ซับซ้อนเกินไป)","การเทียบเคียงผลตอบแทนกับตลาด (Market Benchmarking): มีการเปรียบเทียบโครงสร้างผลตอบแทน (เงินเดือน / ค่าตอบแทนจูงใจ / สวัสดิการ) กับตลาดและรัฐวิสาหกิจอื่นอย่างเป็นระบบ เพื่อนำมาทบทวนการจัดสวัสดิการให้สามารถดึงดูดและรักษาบุคลากรได้"],minReqs:{"1":["รายงานการศึกษา/เทียบเคียงโครงสร้างผลตอบแทน (Benchmarking Report) กับตลาดแรงงานและรัฐวิสาหกิจอื่น ครอบคลุมทั้งเงินเดือน (Salary), ผลตอบแทนจูงใจ (Incentive Pay) และผลประโยชน์เกื้อกูล (Fringe Benefits)","บัญชีโครงสร้างอัตราเงินเดือนและค่าจ้างของพนักงาน"],"2":["ประกาศ ระเบียบ หรือคำสั่งขององค์กรที่ปรับปรุงให้สอดคล้องกับกฎหมายแรงงานใหม่ๆ (เช่น ประกาศปรับค่าจ้างขั้นต่ำ หรือระเบียบที่รองรับ พ.ร.บ. สมรสเท่าเทียม)"],"3":["รายงานสรุปผลการจัดสวัสดิการและผลตอบแทนประจำปี (เช่น การจ่ายโบนัส, การเบิกค่ารักษาพยาบาล)","รายงานการประชุมคณะกรรมการสวัสดิการ ที่มีการติดตามและประเมินผลการดำเนินงานอย่างต่อเนื่อง"],"4":["[สิ่งที่ต้องเพิ่มในปี 69] รายงานการวิเคราะห์การแบ่งกลุ่มบุคลากร (Segmentation Analysis) ที่ระบุความต้องการเชิงลึก (Insight) ของพนักงานแต่ละกลุ่ม","[สิ่งที่ต้องเพิ่มในปี 69] คู่มือหรือหลักเกณฑ์ \"ระบบสวัสดิการทางเลือก (Flexible Benefits)\" ที่พิสูจน์ว่าองค์กรได้นำความต้องการของแต่ละกลุ่มมาออกแบบสวัสดิการจริงๆ"],"5":["ตารางสรุปข้อมูลป้อนกลับ (Feedback Table) จากผลสำรวจความพึงพอใจด้านผลตอบแทน","[สิ่งที่ต้องเพิ่มในปี 69] ตาราง Before & After (T-1 vs T+1) แสดงผลลัพธ์การแก้ไขข้อจำกัดทางสวัสดิการ (เช่น การเพิ่มเงินคลอดบุตรจาก 400 บาท เป็น 3,000 บาท หรือการอนุมัติสวัสดิการประกันชีวิตกลุ่ม)","[สิ่งที่ต้องเพิ่มในปี 69] หลักฐาน/บันทึกข้อความการ \"สื่อสารและทำความเข้าใจกับพนักงาน\" ในกรณีที่ กทท. มีข้อจำกัดด้านงบประมาณ/กฎระเบียบ ทำให้ไม่สามารถให้สวัสดิการตามที่พนักงานร้องขอได้"]},subComps:{"4":["หลุมพรางเรื่อง Segmentation (Level 4): ผู้ตรวจให้ Feedback ไว้ชัดเจนว่า การแบ่งกลุ่มพนักงานของ กทท. เดิมนั้น \"มีความซับซ้อนและยังไม่ตอบโจทย์\" คำแนะนำคือ ในปี 69 ให้แบ่งกลุ่มพนักงาน (Segmentation) เพียง 2-3 กลุ่มเท่านั้น โดยเน้นแบ่งตามความหลากหลาย (Diversity) หรือเจเนอเรชัน (Generation) เช่น แบ่งเป็นกลุ่มคนรุ่นใหม่ (Gen Y, Z) ที่ต้องการสวัสดิการฟิตเนส/ประกันสุขภาพ และกลุ่มผู้ใหญ่ (Gen X, BB) ที่ต้องการการดูแลหลังเกษียณ เป็นต้น","เปลี่ยนจาก Equality เป็น Equity (Level 4): การจัดสวัสดิการแบบเก่าคือการให้ทุกคนเหมือนกันเป๊ะ (Equality) แต่ผู้ตรวจต้องการเห็นการให้สวัสดิการแบบ \"ความเสมอภาค (Equity)\" นั่นคือการออกแบบสวัสดิการให้ตรงกับความต้องการและข้อจำกัดที่แตกต่างกันของพนักงานแต่ละกลุ่ม (Flexible Benefits)"],"5":["คะแนนจะหายหากไม่ชี้แจงเมื่อมีข้อจำกัด (Level 5): รัฐวิสาหกิจมักมีกฎหมายและงบประมาณล็อกไว้ ทำให้ให้สวัสดิการทุกอย่างตามใจพนักงานไม่ได้ TRIS มีหมายเหตุไว้ชัดเจนว่า \"หากมีข้อจำกัดในการจัดผลตอบแทนตามที่บุคลากรคาดหวัง องค์กรต้องมีหลักฐานว่าได้สื่อสารทำความเข้าใจเรื่องนี้กับพนักงานอย่างเป็นระบบ\" (เช่น มีบันทึกชี้แจงเหตุผลทางงบประมาณผ่านช่องทาง Line/Website) และต้องประเมินด้วยว่าพนักงานเข้าใจเหตุผลนั้นหรือไม่","Quick Win (ดึงจุดเด่นมาโชว์): กทท. มีผลงานที่ดีเยี่ยมซ่อนอยู่คือ การแก้ระเบียบค่าคลอดบุตรจาก 400 เป็น 3,000 บาท และการปรับกฎให้รองรับ \"พ.ร.บ. สมรสเท่าเทียม\" ให้นำเรื่องนี้มาใส่เป็นตารางผลงาน (Before & After) ใน Level 5 ชูเป็นหลักฐานยืนยันว่าองค์กรปรับตัวต่อกระแสโลกและการเปลี่ยนแปลงของสังคม (Global Trends) ได้อย่างรวดเร็วและจับต้องได้"]}},
+  {id:"3.1",grp:"3",gname:"การพัฒนาทุนมนุษย์",gw:25.0,gs68:2.87,name:"การเรียนรู้และการพัฒนา",w:10.0,s68:3.2,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมิน \"ความครอบคลุมและประสิทธิผลของระบบการพัฒนาบุคลากร\" โดยไม่ได้เน้นแค่การจัดอบรมในห้องเรียน (Classroom) แต่เน้นการพัฒนาทักษะแห่งอนาคต (New/Up/Re-skill) การสร้างระบบนิเวศการเรียนรู้ (Learning Ecosystem) ที่ผสมผสานการเรียนรู้จากการปฏิบัติงานจริง (Action Learning / Non-Classroom) การพัฒนาผู้นำ และการสร้างสภาพแวดล้อมที่ส่งเสริมให้บุคลากรเรียนรู้ด้วยตนเอง (Self-learning) โดยต้องวัดความคุ้มค่า (ROI) และผลกระทบต่อธุรกิจ (Business Impact) ได้",levelSumm:["การออกแบบระบบการเรียนรู้และการพัฒนาขององค์กร ที่มีองค์ประกอบครบถ้วน (เช่น วิเคราะห์ Competency, ประเมิน Gap ทำ IDP, มี Development Roadmap, มีแผนพัฒนาผู้นำ, สร้าง Learning Ecosystem, และใช้เทคโนโลยีดิจิทัลมาสนับสนุน)","การประเมินประสิทธิผลของระบบการเรียนรู้และพัฒนาที่ครอบคลุมถึงรูปแบบการพัฒนาแบบต่าง ๆ ที่นอกเหนือจากการฝึกอบรม (Non-classroom) รวมถึงการวิเคราะห์ความคุ้มค่าในการพัฒนา (ROI in employee development)","การดำเนินงานที่ครบถ้วนตามแผนงานประจำปี โดยมีกลไกหรือกระบวนการติดตามและประเมินผลการดำเนินงานที่มีประสิทธิภาพ และได้ผลลัพธ์ตามที่กำหนดไว้","ระบบการเรียนรู้และการพัฒนา มีความเชื่อมโยงกับแผนยุทธศาสตร์องค์กร และแผนงาน/ระบบงานที่สำคัญ เช่น แผนงานด้านลูกค้าและตลาด (SCM), แผนเทคโนโลยีดิจิทัล (DT), แผนการจัดการความรู้ (KM) เป็นต้น","การใช้ข้อมูลป้อนกลับจากการดำเนินงาน รวมถึงข้อมูลจากแหล่งอื่น ๆ มาปรับปรุงให้สอดคล้องกับการเปลี่ยนแปลงอยู่เสมอ มุ่งเน้นการพัฒนาอย่างต่อเนื่อง เพื่อให้เกิดประสิทธิภาพสูงสุด"],good:["กทท. มีโครงสร้างการพัฒนาบุคลากรที่ชัดเจน นำเทคโนโลยีมาใช้ (FutureSkill) และมีความพยายามในการวัดผลแบบสากล (Kirk-Patrick & ROI) ถือเป็นการวางรากฐานที่ดี ทำให้คะแนนเกาะกลุ่มอยู่เกือบถึงระดับ 3 (2.9000)"],gaps:["ผู้ตรวจประเมินต้องการเห็น \"ประสิทธิผล (Outcome)\" ที่ชัดเจน โดยเฉพาะการเรียนรู้หน้างาน (Non-classroom) ซึ่งเป็นสิ่งที่พิสูจน์ยากที่สุด นอกจากนี้ การจำกัดการเรียนรู้ไว้แค่ภายในองค์กรทำให้เสียโอกาสในการเรียนรู้จากคู่ค้าและลูกค้าตามแนวคิด Business Ecosystem ครับ"],results:["วิเคราะห์สมรรถนะ (Competency) ครบถ้วน จัดทำ Skill Matching เพื่อรองรับ Global Trend สู่การเป็น Smart Port มีการใช้ระบบนิเวศการเรียนรู้ (Learning Ecosystem) ทั้งแบบชั้นเรียนและนอกชั้นเรียน (OJT, Coaching, Cross-functional) และเรียนรู้ด้วยตนเองผ่าน FutureSkill และ e-Library","ประเมินประสิทธิผลการเรียนรู้ด้วย Kirk-Patrick Model ทั้ง 4 ระดับ และมีการวัดความคุ้มค่าในการฝึกอบรม (ROI) ซึ่งคำนวณผลตอบแทนกลับคืนสู่องค์กรได้ถึง 66.41 ล้านบาท","ดำเนินการตามแผนพัฒนาบุคลากรสำเร็จ 100% บูรณาการแผน HR เข้ากับแผนอื่นๆ เช่น การบูรณาการกับแผนเทคโนโลยีดิจิทัล (DT) เรื่อง Digital Literacy และแผนจัดการความรู้ (KM) ผ่านระบบ NotebookLM","นำผลการประเมิน ROI, ข้อแนะนำจากคณะกรรมการ (กนบ.) และ Feedback Report ปี 67 มาปรับปรุงแผนการอบรมในปีถัดไป"],tris:["Learning Ecosystem ยังจำกัดอยู่แค่ภายใน (Lack of Business Ecosystem Integration) : กทท. ระบุว่ามี Learning Ecosystem ที่ดี แต่ผู้ตรวจมองว่าระบบนิเวศนี้ยังขาดการดึง \"บุคคลภายนอก\" เข้ามามีส่วนร่วม ผู้ตรวจระบุชัดเจนว่า กทท. ต้องกำหนดระบบนิเวศให้ครอบคลุมถึง การเรียนรู้ภายในระบบนิเวศธุรกิจ (Business Ecosystem) หมายถึงต้องมีการเรียนรู้ร่วมกับผู้มีส่วนได้ส่วนเสียภายนอก เช่น ลูกค้า หรือพันธมิตร เพื่อสร้าง Collaborative Learning","การประเมินผลรูปแบบ Non-classroom ยังจับต้องไม่ได้ : แม้ กทท. จะบอกว่ามีการประเมินผลการเรียนรู้ผ่าน OJT และ Coaching แต่ผู้ตรวจชี้ว่า รูปแบบ Non-classroom เหล่านี้ “ยังประเมินประสิทธิผลที่แท้จริงไม่ได้” (ประเมินผลลัพธ์ยาก) อาจเป็นเพราะยังประเมินแค่ความพึงพอใจหรือความรู้ แต่ยังไม่สามารถพิสูจน์ \"การเปลี่ยนแปลงพฤติกรรม (Behavioral Change)\" หรือ \"ผลกระทบต่อธุรกิจ\" อย่างเป็นรูปธรรมได้","เครื่องมือการเรียนรู้ยังไม่ตอบโจทย์ความแตกต่าง (Preference) : ผู้ตรวจระบุว่า กทท. ควรออกแบบแนวทาง/เครื่องมือพัฒนาให้เหมาะสมกับกลุ่มคนที่ต่างกัน เช่น การใช้ \"Micro Learning\" ผ่านมือถือ หรือการใช้ \"Gamification\" ในการสร้างการเรียนรู้ให้สนุกสำหรับคนรุ่นใหม่"],suggest:["สร้าง Collaborative Learning: จัดโครงการเรียนรู้ร่วมกันกับหน่วยงานภายนอก (ลูกค้าหรือคู่ค้า) เช่น กิจกรรมร่วมแบ่งปันแนวปฏิบัติที่ดีกับบริษัทเดินเรือ หรือพัฒนานวัตกรรมร่วมกับคู่เทียบ (เช่น กฟภ.) อย่างเป็นรูปธรรม","เพิ่ม Gamification: เริ่มนำรูปแบบเกมหรือ Micro Learning สั้นๆ มาใช้ในระบบ e-learning ขององค์กร เพื่อตอบโจทย์คน Gen Y/Gen Z (การย่อยเนื้อหาการอบรมหรือความรู้ (KM) ให้เป็นคลิปวิดีโอหรือบทความสั้นๆ หรือ การนำกลไกของ \"เกม\" (เช่น การสะสมแต้ม/Token, การผ่านด่าน, การมี Leaderboard จัดอันดับ) มาประยุกต์ใช้กับการทำงานหรือการเรียนรู้ เพื่อสร้างความสนุกสนานและกระตุ้นให้บุคลากรกลุ่ม Gen Y และ Gen Z ซึมซับและเข้าใจเนื้อหาได้ง่ายขึ้น เป็นต้น)","ปรับวิธีประเมินผล Non-Classroom: สำหรับโครงการ OJT หรือ Coaching กทท. ต้องสร้าง \"หลักฐาน\" การประเมินที่ชัดเจน เช่น แบบฟอร์มประเมินพฤติกรรมโดยหัวหน้างาน ก่อน-หลัง การทำ OJT (Behavioral Assessment) พร้อมแนบหลักฐานว่าผลงานดีขึ้นจริง"],docs:["รายงานผลการจัด Collaborative Learning: เอกสารสรุปโครงการ/หลักฐานการเรียนรู้ร่วมกับ \"ผู้มีส่วนได้ส่วนเสียภายนอก\" หรือลูกค้า เพื่อแสดงให้เห็นการขยาย Business Ecosystem","แบบประเมินและรายงานวัดผลลัพธ์รูปแบบ Non-Classroom: หลักฐานการประเมินประสิทธิผล (ROI หรือ Behavioral Change) ที่จับต้องได้จริงจากการฝึกอบรมแบบ OJT หรือ Coaching"],bestprac:["การวิเคราะห์สมรรถนะแห่งอนาคต: มีการวิเคราะห์และทบทวนสมรรถนะ (Competency) อย่างจริงจัง โดยเฉพาะสมรรถนะที่ \"รองรับการเปลี่ยนแปลงทางเทคโนโลยีดิจิทัล\" เพื่อให้สอดคล้องกับทิศทางขององค์กร","จัดทำแผนพัฒนาระยะยาวที่มุ่งเน้นความเชี่ยวชาญ: มีการประเมินช่องว่าง (Gap) เพื่อนำไปจัดทำแผนพัฒนารายบุคคล (IDP) และมี Development Roadmap ระยะยาวที่ชัดเจน","ระบบนิเวศการเรียนรู้แบบเต็มรูปแบบ: มีการพัฒนาระบบนิเวศการเรียนรู้ร่วมกับระบบ e-learning อย่างเต็มรูปแบบ เพื่อสนับสนุนการพัฒนาบุคลากรอย่างเป็นระบบ"],minReqs:{"1":["คู่มือสมรรถนะ (Competency Dictionary) ที่ครอบคลุม Core/Managerial/Functional Competency และสะท้อนทักษะด้านดิจิทัล","รายงานสรุปการประเมินช่องว่างสมรรถนะ (Competency Gap) และ แผนพัฒนารายบุคคล (IDP)","เล่มแผนพัฒนาบุคลากรระยะยาว (Development Roadmap) และ โครงการพัฒนาผู้นำ (Leadership Development) ทุกระดับ","[สิ่งที่ต้องเพิ่มในปี 69] แผนผัง/คู่มือระบบนิเวศการเรียนรู้ (Learning Ecosystem) ที่ระบุครอบคลุมถึงการเรียนรู้ร่วมกับ \"ผู้มีส่วนได้ส่วนเสียภายนอก/ลูกค้า\""],"2":["[สิ่งที่ต้องเพิ่มในปี 69] แบบประเมินและรายงานผลประสิทธิผลการเรียนรู้สำหรับรูปแบบ Non-classroom (เช่น การประเมินหลังทำ OJT, Coaching, Mentoring) ที่สามารถวัดพฤติกรรมที่เปลี่ยนไปได้จริง","[สิ่งที่ต้องเพิ่มในปี 69] รายงานวิเคราะห์ความคุ้มค่าในการพัฒนาบุคลากร (ROI in employee development) ในหลักสูตรที่สำคัญ"],"3":["รายงานผลการดำเนินงานฝึกอบรม/พัฒนาบุคลากรประจำปี (แสดงจำนวนชั่วโมง/จำนวนคนที่ได้เข้าอบรมเทียบกับแผน)","รายงานการติดตามผลการดำเนินงานของคณะกรรมการที่เกี่ยวข้อง (เช่น กนบ.)"],"4":["ตารางแสดงความเชื่อมโยง (Mapping) ระหว่างระบบการเรียนรู้และการพัฒนา กับแผนยุทธศาสตร์องค์กร และแผนงานอื่นๆ (เช่น แผน DT, แผน SCM, แผน KM/IM)"],"5":["ตารางสรุปการนำข้อมูลป้อนกลับ (Feedback) เช่น ผลสำรวจความพึงพอใจการอบรม มาปรับปรุงแผนการพัฒนา","[สิ่งที่ต้องเพิ่มในปี 69] ตาราง Before & After (T-1 vs T+1) แสดงการปรับเปลี่ยนรูปแบบการเรียนรู้ให้ทันสมัยขึ้น (เช่น การเพิ่มแพลตฟอร์ม Digital Learning ใหม่ๆ หรือการปรับหลักสูตรตามโลก) พร้อมตัวเลขผลลัพธ์ (Productivity) ที่ดีขึ้น"]},subComps:{"1":["Learning Ecosystem ต้องออกไปนอกองค์กร (Level 1, 4): กทท. มักจัดอบรมกันเองภายใน แต่ TRIS ระบุใน Feedback ว่าระบบนิเวศการเรียนรู้ต้องครอบคลุมถึง \"ระบบนิเวศธุรกิจ (Business Ecosystem)\" หมายความว่า ต้องมีหลักฐานการจัด \"การเรียนรู้ร่วมกับผู้มีส่วนได้ส่วนเสียภายนอก หรือ ลูกค้า (Collaborative Learning)\"","ออกแบบการเรียนรู้ตามความชอบ (Preference) และ Gen (Level 1): TRIS ให้ข้อสังเกตว่าการจัดอบรมแบบนั่งฟังในห้องอาจไม่ตอบโจทย์คนรุ่นใหม่ ควรมีรูปแบบ Micro Learning (เรียนสั้นๆ ผ่านมือถือ) หรือ Gamification (การเรียนรู้ผ่านเกม) เข้ามาเสริมในแผนการพัฒนาด้วย","เน้นพัฒนา Power Skills (Level 1): ในแผน Development Roadmap ผู้ตรวจคาดหวังให้มีการเติมเต็มทักษะ \"Power Skills\" ซึ่งประกอบด้วย Soft skill (เช่น ความเห็นอกเห็นใจ Empathy, การปรับตัว), Digital skill, และทักษะการคิดวิเคราะห์เชิงวิพากษ์ (Analytical/Critical thinking) เพื่อรองรับโลกยุคดิจิทัล"],"2":["จุดตายเรื่อง Non-classroom และ ROI (Level 2): นี่คือสาเหตุที่ กทท. ได้คะแนนไม่ถึงระดับ 3 ในปี 68 ผู้ตรวจระบุชัดเจนว่า กทท. มีชั่วโมง OJT/Coaching เยอะ แต่ \"ประเมินผลลัพธ์ไม่ได้\" ดังนั้นในปี 69 ต้องมี \"แบบฟอร์มการประเมินพฤติกรรมก่อน-หลังทำ OJT/Coaching\" และต้องมีการคำนวณ \"ความคุ้มค่าในการลงทุน (ROI)\" ออกมาเป็นตัวเลขหรือมูลค่าทางธุรกิจ"],"4":["Learning Ecosystem ต้องออกไปนอกองค์กร (Level 1, 4): กทท. มักจัดอบรมกันเองภายใน แต่ TRIS ระบุใน Feedback ว่าระบบนิเวศการเรียนรู้ต้องครอบคลุมถึง \"ระบบนิเวศธุรกิจ (Business Ecosystem)\" หมายความว่า ต้องมีหลักฐานการจัด \"การเรียนรู้ร่วมกับผู้มีส่วนได้ส่วนเสียภายนอก หรือ ลูกค้า (Collaborative Learning)\""]}},
+  {id:"3.2",grp:"3",gname:"การพัฒนาทุนมนุษย์",gw:25.0,gs68:2.87,name:"การสืบทอดตำแหน่ง/การบริหารจัดการคนเก่ง",w:10.0,s68:2.9,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมิน \"การบริหารจัดการผู้นำและผู้มีศักยภาพสูง\" แบบครบวงจร ทั้ง 2 ขา ได้แก่ 1) แผนสืบทอดตำแหน่ง (Succession Plan) เพื่อเตรียมความพร้อมผู้บริหารและตำแหน่งสำคัญไม่ให้เกิดภาวะขาดแคลน และ 2) การบริหารจัดการคนเก่ง (Talent Management) เพื่อดึงดูด พัฒนา สร้างแรงจูงใจ และรักษาบุคลากรที่มีศักยภาพสูงไว้กับองค์กร เพื่อนำมาใช้สร้างความได้เปรียบในการแข่งขันทางธุรกิจ",levelSumm:["การวิเคราะห์ข้อมูลภายในที่เกี่ยวข้อง (โครงสร้างอัตรากำลัง ระบบประเมิน การเติบโตสายอาชีพ) รวมถึงข้อมูลจากแหล่งภายนอก (ตลาดแรงงาน แนวปฏิบัติที่ดี) เพื่อใช้จัดทำแผน SP และ Talent","การจัดทำแผนสืบทอดตำแหน่งที่มีความเป็นมาตรฐาน ครอบคลุมตั้งแต่ วิเคราะห์นโยบาย ตำแหน่งเป้าหมาย สรรหา ทำแผนพัฒนา (IDP) ติดตามประเมินผล และ จัดทำแผนบริหารจัดการคนเก่ง (ขั้นตอนคัดเลือก, ทำ IDP, เพื่อใช้ประโยชน์ในการสร้างความได้เปรียบ)","การดำเนินงานตามแผนงานประจำปีที่ครบถ้วน โดยมีกลไกติดตามและประเมินผลการดำเนินงานที่มีประสิทธิภาพ และได้ผลลัพธ์ตามที่กำหนดไว้","แผนงานมีความเชื่อมโยงกับแผนยุทธศาสตร์องค์กร และแผนงาน/ระบบงานที่สำคัญ เช่น ระบบการเรียนรู้ แผนจัดการความรู้ แผนสร้างความผูกพัน","การใช้ข้อมูลป้อนกลับจากการดำเนินงาน รวมถึงข้อมูลจากแหล่งอื่น ๆ มาปรับปรุงให้สอดคล้องกับการเปลี่ยนแปลง และมุ่งเน้นการพัฒนาอย่างต่อเนื่อง เพื่อให้เกิดประสิทธิภาพสูงสุด"],good:["กทท. ทำได้ดีมากในแง่ของ \"การวางระบบสำหรับผู้บริหารระดับสูง\" มีการวิเคราะห์ข้อมูลผู้เกษียณอายุ มีการทำ C-Suite Model และแลกเปลี่ยนความรู้กับ กฟภ. อย่างเป็นรูปธรรม ทำให้สอบผ่านเกณฑ์พื้นฐานในการมีระบบสืบทอดตำแหน่งและระบบ Talent"],gaps:["การที่ กทท. ประเมินตนเองไว้ที่ระดับ 5 แต่ได้คะแนนจำลองที่ 2.8500 นั้นสมเหตุสมผลในมุมมองของ TRIS อย่างยิ่ง เพราะแม้ระบบของผู้บริหารระดับสูงจะทำได้ดีเยียมถึงระดับ 4 หรือ 5 แต่ยังขาดกิจกรรมต่อเนื่องและเชือมโยงในบางประเด็นที่สำคัญ","ระบบดังกล่าวไม่ครบคลุมทั้งองค์กร และทิ้งช่องว่างในระดับปฏิบัติการหน้างานและกลุ่มคนรุ่นใหม่ ทำให้ผู้ตรวจมองว่า กระบวนการนี้ยังนำไปปฏิบัติได้ไม่สมบูรณ์แบบ"],results:["มีการวิเคราะห์อัตราการเกษียณอายุ (พบว่าระดับ 15-16 จะเกษียณมากถึงร้อยละ 80 ใน 5 ปี) จึงได้ขยายการกำหนดตำแหน่งสำคัญ (Key Strategic Position) จากเดิมที่มีแค่ผู้อำนวยการ กทท. (ระดับ 17) เพิ่มเติมอีก 4 ตำแหน่งในระดับ 14 ได้แก่ ผอ.ฝ่ายการเงินฯ, ผอ.ฝ่ายพัฒนาธุรกิจฯ, ผอ.ฝ่ายไอที, และ ผช.ผอ.ท่าเรือแหลมฉบัง มีการนำโมเดลสมรรถนะผู้บริหาร (C-Suite) 6 ด้านมาใช้ประเมินช่องว่าง","มีการนำร่องประเมินผู้บริหาร 4 คนเข้าสู่ Successor Pool และจัดกลุ่มเป็น Ready Now ได้ 4 คน ในส่วนของ Talent มีการคัดเลือกและให้ Talent ไปเป็นวิทยากรเพื่อถ่ายทอดความรู้ (KM) และทำโครงการสร้างมูลค่าเพิ่ม (Idea Box)","อ้างว่ามีการนำแนวปฏิบัติที่ดี (Best Practice) จากการเทียบเคียงกับ กฟภ. (PEA) มาปรับปรุงแผนสืบทอดตำแหน่งให้มีมาตรฐานยิ่งขึ้น"],tris:["ละเลยตำแหน่งยุทธศาสตร์ระดับปฏิบัติการ (Lack of Operational Key Positions) : ผู้ตรวจระบุชัดเจนว่า กทท. ต้องระบุตำแหน่งงานที่มีความสำคัญเชิงกลยุทธ์ \"ที่ไม่ใช่ระดับผู้บริหาร\" ด้วยตัวอย่างเช่น ตำแหน่งพนักงานขับเครื่องมือทุ่นแรง หรือช่างเทคนิคเฉพาะทาง ซึ่งหากคนกลุ่มนี้เกษียณหรือลาออก งานหน้าท่าจะสะดุดทันที แต่ กทท. ยังไม่มีแผนสืบทอดตำแหน่งรองรับคนกลุ่มนี้เลย","ขาดการดูแลกลุ่มคนเก่งรุ่นใหม่ (No Young Talent Focus) : ในกระดาษคำตอบ กทท. คัดเลือก Talent จากอายุงานและตำแหน่ง แต่ผู้ตรวจประเมินระบุว่า องค์กรต้องมุ่งเน้นการใช้ประโยชน์จากความกระตือรือร้นและความคิดสร้างสรรค์จาก \"กลุ่มบุคลากรรุ่นใหม่ (Young Talent)\" อย่างเจาะจง และต้องออกแบบแรงจูงใจ (Incentives) ให้เหมาะสมกับคนกลุ่มนี้โดยเฉพาะ","ขาดแผนบริหารจัดการผู้ที่ไม่ถูกคัดเลือก : แม้ กทท. จะบอกว่ากำลังศึกษาแนวทางบริหารผู้ที่ไม่ได้ไปต่อ (ไม่ได้รับตำแหน่ง) แต่ก็ยังไม่มีแผนรองรับที่เป็นรูปธรรม ซึ่งเป็นองค์ประกอบสำคัญของเกณฑ์ระดับสูง"],suggest:["กทท. ไม่ต้องทำใหม่ทั้งหมด แต่ให้ \"ขยายกรอบ\" (Scale up) โดยคัดเลือกตำแหน่ง Operational Key Position (เช่น พนักงานควบคุมเครื่องมือทุ่นแรงเฉพาะทาง) มา 1-2 ตำแหน่ง และทำ Succession Plan ให้กลุ่มนี้","ตั้งโครงการ \"Young Talent Incubator\" สำหรับพนักงานอายุไม่เกิน 35 ปี แยกออกมาโดยเฉพาะ เพื่อดึงศักยภาพการทำนวัตกรรม (Idea Box) ออกมาใช้งาน และจัดสวัสดิการ Fast-track ให้ชัดเจน จะช่วยปลดล็อกคะแนนให้ทะลุระดับ 3 และ 4 ได้ทันที"],docs:["แผนสืบทอดตำแหน่งระดับปฏิบัติการ (Operational Succession Plan): เอกสารแผนการสืบทอดตำแหน่งที่ระบุกลุ่มเป้าหมายเป็น \"ตำแหน่งสำคัญเชิงกลยุทธ์ระดับปฏิบัติการ\" (เช่น พนักงานขับเครื่องมือทุ่นแรงเฉพาะทาง) ไม่ใช่แค่ระดับผู้บริหาร","แผนพัฒนาและสวัสดิการกลุ่ม Young Talent: เอกสารโครงการดูแลกลุ่มคนเก่งรุ่นใหม่ (อายุไม่เกิน 35 ปี) อย่างเจาะจง เพื่อดึงศักยภาพด้านนวัตกรรม"],bestprac:["การใช้ข้อมูลภายนอกมาประกอบการวางแผน: รฟม. มีการนำ \"ข้อมูลจากแหล่งภายนอก\" (เช่น แนวโน้มตลาดแรงงาน และแนวปฏิบัติที่ดี) มาวิเคราะห์ร่วมกับข้อมูลภายใน เพื่อจัดทำแผนสืบทอดตำแหน่ง (Succession Plan) และแผนบริหารจัดการคนเก่ง (Talent Management) ทำให้แผนมีความทันสมัยและตอบโจทย์ตลาด","การดึงศักยภาพมาใช้จริง (Retention & Utilization): มีกลไกติดตามการประเมินผลกลุ่ม Talent และ Successor อย่างสม่ำเสมอ และมีการดึงศักยภาพของคนเก่งกลุ่มนี้มาใช้ประโยชน์ในการพัฒนาองค์กรอย่างชัดเจน"],minReqs:{"1":["รายงานการวิเคราะห์ข้อมูลภายในองค์กร (เช่น โครงสร้างอัตรากำลัง, ข้อมูลการเกษียณอายุล่วงหน้า)","รายงานการวิเคราะห์ข้อมูลภายนอก (เช่น แนวโน้มตลาดแรงงาน, คู่เทียบ Best Practice) เพื่อนำมาใช้กำหนดหลักเกณฑ์"],"2":["คู่มือ/แผนการสืบทอดตำแหน่ง (Succession Plan) ที่มีกระบวนการเป็นมาตรฐาน ครอบคลุมตั้งแต่การคัดเลือก, ทำ IDP, ประเมินผล และ [สิ่งที่ต้องเพิ่มปี 69] แนวทางการบริหารจัดการผู้ที่ไม่ได้รับคัดเลือก","คู่มือ/แผนการบริหารจัดการคนเก่ง (Talent Management) พร้อมหลักเกณฑ์คัดเลือกที่ชัดเจน","[สิ่งที่ต้องเพิ่มในปี 69] เอกสารระบุ \"ตำแหน่งสำคัญเชิงยุทธศาสตร์ระดับปฏิบัติการ\" (Key Strategic Position ที่ไม่ใช่ระดับผู้บริหาร เช่น พนักงานขับเครื่องมือทุ่นแรงเฉพาะทาง)","[สิ่งที่ต้องเพิ่มในปี 69] แผนงาน/โครงการดูแลกลุ่มคนเก่งรุ่นใหม่ (Young Talent) อย่างเจาะจง"],"3":["รายงานสรุปผลการจัดกลุ่มผู้สืบทอดตำแหน่ง (เช่น บัญชีกลุ่ม Ready Now, Ready Later, Ones to Watch)","รายงานผลการพัฒนาและ \"การดึงศักยภาพคนเก่งมาใช้ประโยชน์จริง (Talent Utilization)\" เช่น หลักฐานการมอบหมาย Talent ให้ทำโครงการนวัตกรรม (Project Assignment) หรือเป็นวิทยากรภายใน"],"4":["ตารางแสดงความเชื่อมโยง (Mapping) ระหว่างแผนการบริหารคนเก่ง/ผู้สืบทอดตำแหน่ง กับ แผนยุทธศาสตร์องค์กร และระบบงานที่สำคัญ (เช่น แผนการจัดการความรู้, แผนนวัตกรรม)"],"5":["ตารางสรุปข้อมูลป้อนกลับ (Feedback Table)","[สิ่งที่ต้องเพิ่มในปี 69] ตาราง Before & After แสดงผลลัพธ์การประเมินการปฏิบัติงาน (KPI) ของกลุ่ม Talent/Successor ก่อนและหลังการพัฒนา และสถิติ \"อัตราการรักษาคนเก่งให้อยู่กับองค์กร (Retention Rate)\" ที่เพิ่มขึ้น"]},subComps:{"2":["อย่ากระจุกตัวแค่ผู้บริหาร (Level 2): กทท. มักทำแผน Succession Plan เฉพาะผู้บริหาร (ระดับ N, N-1 และระดับ 14) แต่ TRIS ระบุชัดเจนว่าต้องขยายการทำแผนไปยัง \"ตำแหน่งสำคัญเชิงกลยุทธ์ระดับปฏิบัติการ\" ด้วย (Critical Workforce Segmentation) เช่น หน้างานท่าเรือที่ต้องใช้ทักษะเฉพาะทาง หากคนกลุ่มนี้เกษียณหรือลาออกจะกระทบธุรกิจทันที","จุดชี้เป็นชี้ตายคือ \"Young Talent\" (Level 2): ในโลกการทำงานยุคใหม่ TRIS คาดหวังให้องค์กรมีแผนคัดเลือกและดูแล กลุ่มคนเก่งรุ่นใหม่ (อายุไม่เกิน 35 ปี) แยกออกมาเป็นพิเศษ เพื่อนำความกระตือรือร้นและความคิดสร้างสรรค์ของคนกลุ่มนี้มาขับเคลื่อนนวัตกรรม (Innovation) ให้กับองค์กร","ต้องมีแผนดูแล \"ผู้ที่ไม่ได้รับคัดเลือก\" (Level 2): นี่คือจุดที่มักถูกมองข้าม! เกณฑ์มาตรฐานระบุว่า เมื่อประกาศผลผู้ที่ได้รับการคัดเลือกเป็น Successor หรือ Talent แล้ว องค์กรต้องมี \"แนวทางในการบริหารความรู้สึกและดูแลผู้ที่ไม่ได้รับคัดเลือก\" เพื่อป้องกันปัญหาความน้อยเนื้อต่ำใจหรือภาวะสมองไหล (Regrettable Attrition)","ให้รางวัลที่แตกต่าง (Rewards & Recognition): ต้องมีการออกแบบแรงจูงใจ (Incentive) ทั้งที่เป็น \"ตัวเงิน\" และ \"ไม่ใช่ตัวเงิน\" เช่น การส่งไปศึกษาดูงานต่างประเทศ, การให้เข้าสู่เส้นทาง Fast Track เพื่อให้คนเก่งรู้สึกว่าได้รับความสำคัญจริงๆ"],"3":["ดึงศักยภาพมาใช้งานจริง (Utilization) (Level 3-4): ผู้ตรวจจะไม่ให้คะแนนหาก Talent มีหน้าที่แค่ \"เข้าอบรม/ไปดูงาน\" แต่ต้องมีหลักฐานว่า กทท. \"นำ Talent เหล่านี้มาใช้งานอย่างไร?\" (เช่น เป็นคณะทำงานพิเศษข้ามสายงาน (Cross-functional), เป็นวิทยากรถ่ายทอดความรู้ (KM), หรือทำ Project นวัตกรรมแก้ปัญหาองค์กร)"]}},
+  {id:"3.3",grp:"3",gname:"การพัฒนาทุนมนุษย์",gw:25.0,gs68:2.87,name:"การจัดการสายอาชีพ",w:5.0,s68:2.85,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมิน \"กลไกและการบริหารจัดการเส้นทางความก้าวหน้าในสายอาชีพ (Career Path & Development)\" เพื่อให้บุคลากรมองเห็นโอกาสเติบโตในองค์กร โดยต้องมีหลักเกณฑ์การหมุนเวียนงาน (Job Rotation) ที่เชื่อมโยงกับการพัฒนาทักษะ มีกลไกขับเคลื่อนที่เข้มแข็งให้คำปรึกษาและสนับสนุนอย่างเป็นรูปธรรม (เช่น CMC, CAC, Career Counselor) และสามารถบูรณาการเข้ากับระบบอื่น เช่น การสืบทอดตำแหน่ง (Succession Plan) การเรียนรู้ (L&D) และอัตรากำลังได้อย่างเป็นเนื้อเดียวกัน",levelSumm:["มีแนวทางในการจัดการความก้าวหน้าในสายอาชีพ (Career Path & Development) โดยมีหลักเกณฑ์การเคลื่อนย้ายและหมุนเวียนที่ชัดเจน รวมถึงการพัฒนาบุคลากรที่สอดคล้องกับการเติบโต","การกำหนดกลไกในการสนับสนุนการจัดการความก้าวหน้าในสายอาชีพขององค์กร เช่น คณะกรรมการจัดการความก้าวหน้าในสายอาชีพ (CMC), ศูนย์ประเมินสายอาชีพ (CAC), การให้คำปรึกษา (Career Counselor)","การดำเนินงานตามแผนงานประจำปีที่ครบถ้วน โดยมีกลไกหรือกระบวนการติดตามและประเมินผลการดำเนินงานที่มีประสิทธิภาพ และได้ผลลัพธ์ตามที่กำหนดไว้","แผนงานมีความเชื่อมโยงกับแผนยุทธศาสตร์องค์กรและแผนงาน/ระบบงานที่สำคัญ เช่น ระบบการเรียนรู้และการพัฒนา การสืบทอดตำแหน่ง การบริหารจัดการคนเก่ง การบริหารอัตรากำลัง","การใช้ข้อมูลป้อนกลับจากการดำเนินงานตามแผนงานประจำปี รวมถึงข้อมูลจากแหล่งอื่น ๆ มาปรับปรุงให้สอดคล้องกับการเปลี่ยนแปลงอยู่เสมอ มุ่งเน้นการพัฒนาอย่างต่อเนื่อง"],good:["กทท. สอบผ่านในการวางโครงสร้างพื้นฐาน (Paperwork) เช่น การจัดทำ Job Family, การเขียนคู่มือ Career Path, และการตั้งคณะกรรมการ (CMC) ซึ่งเป็นการจัดเตรียมระบบในระดับที่ 1 และ 2 ตามเกณฑ์ SE-AM การนำแชทบอทมาช่วยตอบคำถามก็ถือเป็นจุดเริ่มต้นของการสื่อสารที่ดี","คะแนนจำลอง 2.8500 สะท้อนให้เห็นว่าระบบ Career Path ของ กทท. ยังเป็นเพียง \"ภาพวาดบนกระดาษ (Blueprint)\" พนักงานอาจจะรู้ว่าตำแหน่งถัดไปคืออะไร"],gaps:["\"พี่เลี้ยง (Counselor)\" ที่จะมาช่วยวางแผนว่าพนักงานคนนั้นต้องเรียนอะไรเพิ่ม หรือต้อง Rotation ไปกองไหนเพื่อจะได้เลื่อนขั้น เมื่อกระบวนการยังขาดการลงมือปฏิบัติจริง (Action) และไม่มีการหมุนเวียนคนข้ามสายงาน (Internal Mobility) คะแนนจึงยังไม่สามารถข้ามระดับ 3 ไปได้"],results:["มีการออกแบบเส้นทางความก้าวหน้าในสายอาชีพ (Career Path) ตามกลุ่มงาน (Job Family) จัดทำคู่มือรูปแบบเส้นทางความก้าวหน้าฯ และมีการมอบหมายให้คณะกรรมการ กนบ. ทำหน้าที่เป็น คณะกรรมการจัดการความก้าวหน้าในสายอาชีพ (Career Management Committee : CMC)","มีการทบทวนและแก้ไขคุณสมบัติเฉพาะของตำแหน่งงาน (Job Specification: JS) แล้วเสร็จครบ 100% (9 เรื่อง) เช่น การปลดล็อกเพศ การตัดเงื่อนไข \"ว่ายน้ำเป็น\" ออกเพื่อให้สอดคล้องกับเนื้องานจริง นอกจากนี้ยังมีการใช้ Chatbot \"น้อง PATTY\" ในการตอบข้อสงสัยพนักงานเรื่องความก้าวหน้า","อ้างว่ามีการใช้ข้อมูลป้อนกลับเพื่อนำมาทบทวนคุณสมบัติของตำแหน่งงานให้สอดคล้องกับปัจจุบันและกฎหมายกำหนด"],tris:["กลไกสนับสนุน (CMC) ยังไม่เริ่มทำงานเป็นรูปธรรม และขาดการประเมินประสิทธิผล : แม้ กทท. จะระบุว่าให้ กนบ. ทำหน้าที่เป็นคณะกรรมการ CMC แต่ผู้ประเมิน TRIS มองว่ากลไกนี้ยังไม่ทำงานอย่างชัดเจนในเชิงการเป็นที่ปรึกษาสายอาชีพ ยิ่งไปกว่านั้น TRIS ระบุในเกณฑ์ว่าควรมี \"ศูนย์ประเมินสายอาชีพ (Career Assessment Center)\" หรือ \"กลุ่มที่ปรึกษาสายอาชีพ (Career Counselor)\" ซึ่ง กทท. ยังไม่มีกลไกเหล่านี้คอยให้คำปรึกษาพนักงานแบบรายบุคคล และยังขาดการประเมินว่าคณะกรรมการชุดนี้ทำหน้าที่ได้ดีแค่ไหน","การหมุนเวียนงาน (Job Rotation) ยังไม่ถูกนำมาใช้จริงเพื่อสร้างความก้าวหน้า : แม้ กทท. จะร่างหลักเกณฑ์ Job Rotation ไว้ แต่ในกระดาษคำตอบระบุเองว่า \"อยู่ระหว่างทบทวนแนวทางการหมุนเวียนงาน เนื่องจากมีผลกระทบกับโครงสร้างองค์กรใหม่\" ผู้ประเมินจึงมองว่าเรื่องนี้ยังเป็นแค่แผน (ยังไม่ลงมือทำจริง) และยังขาดการพิสูจน์ให้เห็นว่าเมื่อพนักงานถูกหมุนเวียนข้ามสายงานแล้ว จะส่งผลต่อการเลื่อนตำแหน่ง (Career Path) อย่างเป็นรูปธรรมได้อย่างไร","การแก้ไข Job Specification เป็นเพียงงานพื้นฐาน : การแก้ไขข้อกำหนดเช่น การปลดล็อกเรื่องเพศ หรือ ใบขับขี่ ถือเป็นงานปฏิบัติการพื้นฐาน (Operation) ซึ่งดีในแง่ความเท่าเทียม แต่ยังไม่ใช่ \"กลยุทธ์การจัดการสายอาชีพขั้นสูง\" ตามที่ TRIS คาดหวังในระดับ 4 หรือ 5"],suggest:["คู่เทียบอย่าง รฟม. ได้คะแนนข้อนี้ดีกว่า กทท. เล็กน้อย เพราะมีกลไกคณะกรรมการที่คอย \"ให้คำปรึกษาเส้นทางอาชีพ\" ได้อย่างมีประสิทธิภาพ ดังนั้น เพื่อดันคะแนนให้ทะลุระดับ 3 ในปี 2569 กทท. ควรทำดังนี้","สร้าง Career Counselor (พี่เลี้ยงสายอาชีพ): จัดตั้งกลุ่มที่ปรึกษาสายอาชีพจากพนักงาน HR หรือหัวหน้างานที่ผ่านการอบรม เพื่อทำหน้าที่ให้คำปรึกษาเรื่องการวางแผนเติบโตรายบุคคล (ไม่ต้องพึ่งแค่ กนบ.)","เร่งดำเนินการ Job Rotation ข้ามสายงาน (Quick Win): ไม่ต้องรอโครงสร้างใหม่เสร็จ 100% แต่ให้ \"นำร่อง (Pilot)\" การหมุนเวียนงานข้ามสายงานในกลุ่ม Job Family เดียวกัน พร้อมบันทึกผลว่าพนักงานได้ทักษะอะไรเพิ่มขึ้น เพื่อพิสูจน์ให้ผู้ประเมินเห็นว่าระบบเริ่ม \"ทำงานได้จริง\""],docs:["รายงานประเมินประสิทธิผลคณะกรรมการจัดการสายอาชีพ (CMC Evaluation Report): เอกสารการประเมินการทำงานของกลไกคณะกรรมการจัดการสายอาชีพ (CMC) ว่าทำงานได้ผลจริงหรือไม่","รายงานผลลัพธ์การหมุนเวียนงาน (Job Rotation Impact Report): หลักฐานการนำร่อง Job Rotation ข้ามสายงาน พร้อมตารางประเมินว่าการหมุนเวียนนี้เกิดผลเชิงประจักษ์ต่อการก้าวหน้าในสายอาชีพ (Career Path) อย่างไร"],bestprac:["กลไกการให้คำปรึกษาที่เข้มแข็ง: มีการจัดตั้งกลไก (Committee) หรือกลุ่มที่ปรึกษาที่ช่วยให้คำปรึกษาด้านเส้นทางอาชีพแก่บุคลากรได้อย่างมีประสิทธิภาพและเป็นรูปธรรม (ในขณะที่ของ กทท. คณะกรรมการ CMC ยังไม่เริ่มทำงานเป็นรูปธรรม)","การหมุนเวียนงานที่นำไปสู่การเติบโตจริง: มีการกำหนดหลักเกณฑ์การเคลื่อนย้ายและหมุนเวียนบุคลากร (Job Rotation) ที่ชัดเจน และสามารถพัฒนาบุคลากรให้สอดคล้องกับการเติบโตตามเส้นทางสายอาชีพ (Career Path) ได้อย่างแท้จริง"],minReqs:{"1":["แผนผังเส้นทางความก้าวหน้าในสายอาชีพ (Career Path) และคู่มือรูปแบบเส้นทางความก้าวหน้า","ประกาศ/ระเบียบหลักเกณฑ์การเคลื่อนย้าย หมุนเวียนบุคลากร (Job Rotation) และหลักเกณฑ์การเข้าสู่ตำแหน่ง"],"2":["คำสั่งแต่งตั้งและการกำหนดบทบาทกลไกสนับสนุน เช่น คณะกรรมการจัดการความก้าวหน้าในสายอาชีพ (CMC), ศูนย์ประเมินสายอาชีพ (CAC), หรือผู้ให้คำปรึกษาสายอาชีพ (Career Counselor)","เอกสารหลักปฏิบัติในการคัดเลือกพนักงานในแต่ละระดับ (เช่น คำสั่ง กทท. ที่ 160/2565)"],"3":["รายงานผลการดำเนินงานด้านการจัดการสายอาชีพประจำปี (เช่น สถิติพนักงานที่เติบโตตาม Career Path หรือจำนวนคนที่ได้ทำ Job Rotation ข้ามสายงาน)","รายงานการประชุมคณะกรรมการ CMC ที่แสดงให้เห็นการพิจารณาวาระ การติดตาม และแก้ปัญหาการจัดการสายอาชีพ"],"4":["ตารางแสดงความเชื่อมโยง (Mapping) ระหว่างแผนจัดการสายอาชีพ กับ แผนยุทธศาสตร์องค์กร, แผนอัตรากำลัง, แผนสืบทอดตำแหน่ง, ระบบประเมินผล และการสร้างประสบการณ์ที่ดีของบุคลากร (EX)"],"5":["ตารางสรุปการนำข้อมูลป้อนกลับ (Feedback Table) มาทบทวนและปรับปรุงกระบวนการสายอาชีพ","[สิ่งที่ต้องเพิ่มในปี 69] รายงานการประเมินประสิทธิผลการทำหน้าที่ของคณะกรรมการจัดการสายอาชีพ (CMC)","[สิ่งที่ต้องเพิ่มในปี 69] ตาราง Before & After แสดงผลลัพธ์ของ Job Rotation ที่ส่งผลต่อ Career Path อย่างเป็นรูปธรรม"]},subComps:{"1":["Job Rotation ต้องวัดผลกระทบ (Impact) ต่อความก้าวหน้า (Level 1): การหมุนเวียนงานไม่ได้จบแค่การสลับตำแหน่ง แต่ TRIS ระบุชัดเจนว่า ต้องมีการ \"ติดตามผลและประเมินประสิทธิผลของการหมุนเวียนงาน (Job Rotation) ให้เกิดผลต่อ Career Path จริง\" หมายความว่า ต้องมีข้อมูลยืนยันว่าพนักงานที่ถูกหมุนเวียนงาน มีการพัฒนาทักษะ (Multi-skill) ได้เติบโตขึ้น และมีความก้าวหน้าตามสายอาชีพ","เปลี่ยนวิธีการนำเสนอจาก \"งานธุรการ\" สู่ \"ผลกระทบเชิงระบบ (Systemic Impact)\" (Level 1): ในปี 68 กทท. นำเสนอเรื่องการแก้ไขคุณสมบัติของตำแหน่งงาน (Job Specification) โดยยกตัวอย่างการตัดคำว่า \"ว่ายน้ำเป็น\" ออก หรือการเพิ่มคุณวุฒิรายตำแหน่ง ซึ่งดูเป็นงาน Routine ระดับปฏิบัติการมากเกินไป ในปี 69 ควรเขียนสรุปในเชิงกลยุทธ์ เช่น \"การปลดล็อกข้อจำกัดทางเพศ (จากชายล้วนเป็นไม่จำกัดเพศ) ส่งผลให้พนักงานมีโอกาสเติบโตในเส้นทางอาชีพและส่งเสริมความเสมอภาค (DEI&B) ในภาพรวมองค์กร\" เป็นต้น"],"2":["ตั้งกรรมการ CMC แล้วต้อง \"ประเมินผลกรรมการ\" ด้วย (Level 2): กทท. มีคณะกรรมการ กนบ. ทำหน้าที่ดูแลเรื่อง CMC แล้ว แต่ผู้ตรวจให้ Feedback ว่า \"ควรมีการประเมินประสิทธิผลของการทำหน้าที่ของคณะกรรมการฯ ชุดดังกล่าว และทบทวนบทบาท\" เพื่อให้การบริหารจัดการสายอาชีพเกิดขึ้นอย่างเป็นระบบและเป็นรูปธรรม","กลุ่มที่ปรึกษาสายอาชีพ (Career Counselor) (Level 2): ผู้ตรวจให้ความสำคัญกับกลุ่มนี้มาก โดยระบุในคู่มือว่าองค์กรควรมีที่ปรึกษาสายอาชีพ (อาจเป็นบุคลากร HR ร่วมกับหัวหน้างาน) คอยให้คำแนะนำพนักงานเรื่องการวางแผนเติบโต ซึ่งกลุ่มที่ปรึกษาเหล่านี้ต้องได้รับการพัฒนาทักษะอย่างสม่ำเสมอด้วย"],"3":["Job Rotation ต้องวัดผลกระทบ (Impact) ต่อความก้าวหน้า (Level 3): การหมุนเวียนงานไม่ได้จบแค่การสลับตำแหน่ง แต่ TRIS ระบุชัดเจนว่า ต้องมีการ \"ติดตามผลและประเมินประสิทธิผลของการหมุนเวียนงาน (Job Rotation) ให้เกิดผลต่อ Career Path จริง\" หมายความว่า ต้องมีข้อมูลยืนยันว่าพนักงานที่ถูกหมุนเวียนงาน มีการพัฒนาทักษะ (Multi-skill) ได้เติบโตขึ้น และมีความก้าวหน้าตามสายอาชีพ"],"5":["ตั้งกรรมการ CMC แล้วต้อง \"ประเมินผลกรรมการ\" ด้วย (Level 5): กทท. มีคณะกรรมการ กนบ. ทำหน้าที่ดูแลเรื่อง CMC แล้ว แต่ผู้ตรวจให้ Feedback ว่า \"ควรมีการประเมินประสิทธิผลของการทำหน้าที่ของคณะกรรมการฯ ชุดดังกล่าว และทบทวนบทบาท\" เพื่อให้การบริหารจัดการสายอาชีพเกิดขึ้นอย่างเป็นระบบและเป็นรูปธรรม","เปลี่ยนวิธีการนำเสนอจาก \"งานธุรการ\" สู่ \"ผลกระทบเชิงระบบ (Systemic Impact)\" (Level 5): ในปี 68 กทท. นำเสนอเรื่องการแก้ไขคุณสมบัติของตำแหน่งงาน (Job Specification) โดยยกตัวอย่างการตัดคำว่า \"ว่ายน้ำเป็น\" ออก หรือการเพิ่มคุณวุฒิรายตำแหน่ง ซึ่งดูเป็นงาน Routine ระดับปฏิบัติการมากเกินไป ในปี 69 ควรเขียนสรุปในเชิงกลยุทธ์ เช่น \"การปลดล็อกข้อจำกัดทางเพศ (จากชายล้วนเป็นไม่จำกัดเพศ) ส่งผลให้พนักงานมีโอกาสเติบโตในเส้นทางอาชีพและส่งเสริมความเสมอภาค (DEI&B) ในภาพรวมองค์กร\" เป็นต้น"]}},
+  {id:"4.1",grp:"4",gname:"กลไกที่สนับสนุนการบริหารและพัฒนาทุนมนุษย์",gw:20.0,gs68:3.17,name:"การสร้างประสบการณ์ที่ดีฯ / ค่านิยม / การเปลี่ยนแปลง",w:5.0,s68:3.15,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมินการสร้างสภาพแวดล้อมที่สนับสนุนบุคลากรอย่างรอบด้าน ประกอบด้วย 5 มิติหลัก ได้แก่ 1) ความผูกพันองค์กร (Engagement) 2) การสร้างประสบการณ์พนักงาน (Employee Experience) ตั้งแต่เริ่มงานจนถึงเกษียณอายุ 3) ค่านิยมองค์กร (Core Value) ที่ส่งเสริมความหลากหลาย (DEI&B) 4) การจัดการการเปลี่ยนแปลง (Change Management) อย่างเป็นระบบ และ 5) การสื่อสารภายในองค์กร (Internal Communication) ที่ออกแบบสารให้เหมาะสมกับพฤติกรรมของบุคลากรแต่ละกลุ่ม",levelSumm:["มีแนวทางในการสร้างสภาพแวดล้อมที่สนับสนุนการบริหารและพัฒนาทุนมนุษย์ ได้แก่ ความผูกพันองค์กร ค่านิยมองค์กร และการจัดการการเปลี่ยนแปลง","สภาพแวดล้อมมีลักษณะครอบคลุม 5 ด้าน คือ 1. ทราบระดับ/ปัจจัยความผูกพัน 2. สร้าง EX ตลอด Employee Journey 3. เสริมสร้างค่านิยมที่สะท้อน DEI&B และมุ่งเน้นคุณภาพ 4. จัดการการเปลี่ยนแปลงอย่างเป็นระบบ 5. สื่อสารภายในอย่างเหมาะสมตามกลุ่มผู้รับสาร","การดำเนินงานตามแผนงานประจำปีครบถ้วน โดยมีกลไก/กระบวนการติดตามและประเมินผลที่มีประสิทธิภาพ และได้ผลลัพธ์ตามที่กำหนดไว้","แผนงานมีความเชื่อมโยงกับแผนยุทธศาสตร์องค์กร และแผนงาน/ระบบงานที่สำคัญ เช่น ระบบการเรียนรู้ แผนสร้างความผูกพัน ระบบธรรมาภิบาล (CG) เป็นต้น","การใช้ข้อมูลป้อนกลับจากการดำเนินงาน รวมถึงข้อมูลจากแหล่งอื่นๆ มาปรับปรุงให้สอดคล้องกับการเปลี่ยนแปลงอยู่เสมอ และมุ่งเน้นการพัฒนาอย่างต่อเนื่อง"],good:["กทท. ทำคะแนนยืนพื้นผ่านระดับ 3 ได้อย่างสวยงาม เพราะมีกระบวนการครบทุกมิติ (Engagement, EX, Core Value, Change Management) และมีตัวเลขผลสำรวจความผูกพันที่สูงมากเป็นตัวการันตีผลลัพธ์ (Outcome) ขั้นต้น นอกจากนี้การนำเครื่องมือสากลมาใช้บริหารการเปลี่ยนแปลงถือเป็นการวางระบบ (Process) ที่แข็งแกร่ง ผู้ประเมินจึงให้คะแนนจำลองไว้สูงถึง 3.1500","คะแนน 3.1500 ถือเป็นคะแนนที่สูงและเหมาะสมแล้วครับ กทท. มีความโดดเด่นมากในด้านทฤษฎีและการทำแผน (มี Framework ครบถ้วน)"],gaps:["ในระดับปฏิบัติการ (Implementation) ผู้ประเมินยังต้องการเห็น \"ความเฉพาะเจาะจง (Personalization)\" มากขึ้น ทั้งในการวิเคราะห์พนักงานเป็นรายกลุ่ม (Persona) และการระบุพฤติกรรมความหลากหลาย (DEI&B) ลงไปในคู่มือการทำงานจริงๆ"],results:["การสร้างความผูกพัน (Engagement) : ผลสำรวจความผูกพันของพนักงานสูงถึง 97.0% และความพึงพอใจ 94.1% และมีการนำผลมาทำแผนพัฒนาระดับความพึงพอใจครอบคลุม 19 ฝ่าย/สำนัก","การสร้างประสบการณ์ (EX) : มีการออกแบบเส้นทางการให้บริการตลอดช่วงชีวิตของพนักงาน (PAT Employee Journey) ครอบคลุม 5 Touch points ตั้งแต่รับสมัครงานจนถึงออกจากองค์กร (Retire)","ค่านิยมและวัฒนธรรม (Core Value) : เปิดตัวค่านิยมใหม่ \"SMART PAT\" มีการตั้ง Role Model จัดทำคู่มือพฤติกรรมพึงประสงค์ (Do/Don't) และมีการระบุถึงการส่งเสริมความหลากหลายและเสมอภาค (DEI&B) เช่น เรื่องสมรสเท่าเทียม","การจัดการการเปลี่ยนแปลง (Change Management) : มีการใช้โมเดลระดับโลกอย่าง Kotter’s 8 Steps และ McKinsey 7S Framework ในการจัดทำแผน People Transformation อย่างเป็นระบบ"],tris:["การออกแบบ Employee Experience (EX) ยังขาดการวิเคราะห์ Persona เชิงลึก : กทท. มีการแบ่ง 5 Touch points ตามช่วงชีวิตการทำงาน (Life Cycle) แล้ว แต่ผู้ประเมินมองว่า กทท. ต้องวิเคราะห์ลงลึกไปถึง \"บุคลิกลักษณะ (Persona)\" ของพนักงานแต่ละกลุ่มด้วย เพื่อให้สามารถออกแบบกิจกรรมประสบการณ์ที่แตกต่างกันตามความเหมาะสม (Personalization) ไม่ใช่จัดกิจกรรมเดียวแล้วให้ทุกคนเข้าร่วมเหมือนกันหมด","พฤติกรรมพึงประสงค์ยังไม่สะท้อน DEI&B อย่างแท้จริง : แม้ กทท. จะมีการอ้างถึงเรื่อง DEI&B (ความหลากหลาย ความเสมอภาค การมีส่วนร่วม) เช่น การให้สิทธิสมรสเท่าเทียม แต่ผู้ประเมินระบุว่า ในคู่มือ \"พฤติกรรมที่พึงประสงค์\" ของค่านิยมองค์กร ยังไม่ได้มีการเขียนระบุพฤติกรรมที่สะท้อนเรื่อง DEI&B ให้เห็นภาพชัดเจนว่าพนักงานต้องปฏิบัติตัวอย่างไร","การบริหารการเปลี่ยนแปลง (Change Management) ยังขาดความเชื่อมโยงกับระบบประเมินผล : จากเอกสารตาราง Roadmap การที่จะทำให้การเปลี่ยนแปลงหรือค่านิยมใหม่เกิดขึ้นได้จริง ต้องมีการผูกนโยบายการทำงาน (เช่น นโยบาย Hybrid Work หรือ พฤติกรรมใหม่ๆ) เข้ากับระบบประเมินผลการปฏิบัติงาน (PMS) อย่างเป็นรูปธรรม"],suggest:["ทำ Persona Analysis: แบ่งกลุ่มพนักงาน (เช่น พนักงาน Gen Z ที่เพิ่งจบใหม่ vs พนักงาน Gen X ที่เตรียมเกษียณ) และออกแบบ EX ที่ตอบโจทย์คน 2 กลุ่มนี้ให้เห็นความแตกต่างชัดเจน","ทบทวนคู่มือ Do/Don't: ปรับปรุงคู่มือพฤติกรรมค่านิยม SMART PAT โดยเพิ่มหัวข้อพฤติกรรมเชิง DEI&B ลงไปให้ชัดเจน เช่น \"พฤติกรรมที่พึงประสงค์: เคารพความคิดเห็นของเพื่อนร่วมงานทุกเพศทุกวัยอย่างเท่าเทียมกัน\"","นำพฤติกรรมไปผูกกับ KPI: ให้มีการประเมินพฤติกรรมเหล่านี้เป็นส่วนหนึ่งของการประเมินผลงาน (PMS) ประจำปี"],docs:["รายงานวิเคราะห์กลุ่มบุคคล (Persona Analysis Report): เอกสารการวิเคราะห์ลักษณะบุคคลเชิงลึกของพนักงานแต่ละกลุ่ม เพื่อออกแบบการดูแล (Employee Experience) ตั้งแต่ก่อนเข้าทำงานจนถึงหลังเกษียณให้ตอบโจทย์ Life Journey","คู่มือพฤติกรรมองค์กร (Do/Don't) ฉบับอัปเดต: เอกสารคู่มือที่เพิ่มการระบุพฤติกรรมที่สะท้อนถึงหลักการความหลากหลายและความเสมอภาค (DEI&B) อย่างชัดเจน","หลักฐานการเชื่อมโยงนโยบายลงใน PMS: เช่น การนำนโยบาย Hybrid Work หรือพฤติกรรมค่านิยมใหม่ ไประบุเป็นส่วนหนึ่งของระบบการประเมินผลงาน"],bestprac:["สร้างประสบการณ์พนักงานตลอดช่วงชีวิตการทำงาน (Full Employee Life Cycle): รฟม. และ กทพ. มีการนำปัจจัยความผูกพันมาวิเคราะห์เพื่อออกแบบและสร้างประสบการณ์ที่ดีให้แก่บุคลากร โดยทำให้ครอบคลุม \"ตลอดช่วงชีวิตการทำงานอย่างแท้จริง\" (Employee Journey) และเชื่อมโยงเป้าหมายเหล่านี้เข้ากับยุทธศาสตร์การบริหารทุนมนุษย์ระดับองค์กรอย่างเป็นระบบ","การจัดการการเปลี่ยนแปลงที่เชื่อมโยงกับแผนยุทธศาสตร์องค์กร: มีแนวทางการจัดการการเปลี่ยนแปลง (Change Management) ที่ชัดเจน และสื่อสารเรื่องสำคัญให้บุคลากรทราบ โดยบูรณาการเชื่อมโยงกับการเสริมสร้างความผูกพันและค่านิยมองค์กร เพื่อให้บุคลากรสามารถปรับตัวต่อการเปลี่ยนแปลงต่างๆ ที่จะเกิดขึ้น (Changing Capability)"],minReqs:{"1":["นโยบาย/คู่มือ/แผนงานด้านการสร้างความผูกพันองค์กร ค่านิยมองค์กร และการจัดการการเปลี่ยนแปลง"],"2":["รายงานการวิเคราะห์ปัจจัยความผูกพันองค์กร","แผนการสร้างประสบการณ์ที่ดีของบุคลากรตลอดช่วงชีวิตการทำงาน (Employee Journey) ที่ครอบคลุมทุกจุดสัมผัส (Touchpoints)","คู่มือค่านิยมองค์กร (Core Value) ที่ระบุพฤติกรรมพึงประสงค์ และ [สิ่งที่ต้องเพิ่มในปี 69] ต้องมีการระบุหรือสอดแทรกหลักการ DEI&B อย่างชัดเจน","แผนบริหารการเปลี่ยนแปลง (Change Management Plan) และแผนการสื่อสารภายในองค์กร"],"3":["รายงานผลการดำเนินงานตามแผนงานประจำปี และสถิติผลลัพธ์ (เช่น คะแนนความผูกพันองค์กรประจำปี)","รายงานการประชุมคณะทำงาน หรือ กนบ. ที่มีการติดตามประเมินผลการดำเนินงานในด้านนี้"],"4":["ตารางแสดงความเชื่อมโยง (Mapping) ระหว่างแผนงานการสร้างความผูกพัน/ค่านิยม/การเปลี่ยนแปลง กับแผนยุทธศาสตร์องค์กร และระบบงานอื่นๆ (เช่น แผนการเรียนรู้, ระบบธรรมาภิบาล)"],"5":["ตารางสรุปข้อมูลป้อนกลับ (Feedback Table) เพื่อนำมาปรับปรุงกระบวนการ","[สิ่งที่ต้องเพิ่มในปี 69] รายงานผลการวิเคราะห์ \"Persona ของพนักงานเชิงลึก\" เพื่อนำมาปรับปรุงแผนประสบการณ์พนักงาน (EX) แบบเจาะจงกลุ่มเป้าหมาย"]},subComps:{"2":["จุดตายเรื่อง Persona ในการทำ EX (Level 2): กทท. มีการทำเส้นทาง Employee Journey แล้ว แต่ TRIS วิจารณ์ใน Feedback Report ว่า \"ยังขาดการวิเคราะห์ Persona ของพนักงานอย่างลึกซึ้ง\" ดังนั้น กทท. ต้องวิเคราะห์พฤติกรรมพนักงาน (เช่น แบ่งตาม Gen Z, Gen Y) เพื่อหาว่าแต่ละกลุ่มชอบสวัสดิการหรือประสบการณ์แบบไหน แล้วนำไปออกแบบกิจกรรมให้ตรงใ","ค่านิยมองค์กร ต้องพ่วงเรื่อง DEI&B (Level 2): ผู้ตรวจระบุว่าพฤติกรรมพึงประสงค์ (SMART PAT) ของ กทท. ยังไม่สะท้อนภาพเรื่อง DEI&B (ความหลากหลาย ความเสมอภาค และการหลอมรวม) อย่างชัดเจน ทีม HR ต้องนำเรื่องนี้ไปแทรกไว้ในคู่มือหรือนโยบายค่านิยมองค์กร","Change Management ต้องมีรูปแบบชัดเจนและมุ่งเน้นที่คน (Level 2): ในยุคที่ กทท. ทำ People Transformation และ Smart Port การบริหารการเปลี่ยนแปลงต้องไม่จบแค่การ \"ประกาศแจ้งให้ทราบ\" แต่ต้องมีเครื่องมือที่เป็นระบบ และมุ่งเป้าไปที่การพัฒนา \"ความสามารถในการปรับตัว (Changing Capability)\" ของพนักงาน เพื่อลดแรงต้าน"],"5":["จุดตายเรื่อง Persona ในการทำ EX (Level 5): กทท. มีการทำเส้นทาง Employee Journey แล้ว แต่ TRIS วิจารณ์ใน Feedback Report ว่า \"ยังขาดการวิเคราะห์ Persona ของพนักงานอย่างลึกซึ้ง\" ดังนั้น กทท. ต้องวิเคราะห์พฤติกรรมพนักงาน (เช่น แบ่งตาม Gen Z, Gen Y) เพื่อหาว่าแต่ละกลุ่มชอบสวัสดิการหรือประสบการณ์แบบไหน แล้วนำไปออกแบบกิจกรรมให้ตรงใ"]}},
+  {id:"4.2",grp:"4",gname:"กลไกที่สนับสนุนการบริหารและพัฒนาทุนมนุษย์",gw:20.0,gs68:3.17,name:"เทคโนโลยีดิจิทัลด้าน HR",w:3.0,s68:3.15,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมิน \"การประยุกต์ใช้เทคโนโลยีดิจิทัลในการบริหารทรัพยากรบุคคล\" ครอบคลุมตั้งแต่การมีระบบฐานข้อมูล (Database) ที่สมบูรณ์แบบและเชื่อมโยงกัน การพัฒนาแอปพลิเคชัน/เครื่องมืออำนวยความสะดวกให้พนักงาน การนำข้อมูลเชิงลึกมาวิเคราะห์และพยากรณ์อนาคต (HR Analytics) เพื่อสนับสนุนการตัดสินใจของผู้บริหารทุกระดับ รวมถึงการบูรณาการระบบดิจิทัลด้าน HR เข้ากับยุทธศาสตร์ขององค์กรและคำนึงถึงความปลอดภัยของข้อมูลส่วนบุคคล (Data Privacy)",levelSumm:["มีระบบฐานข้อมูลด้าน HR ของบุคลากรและของสายงานที่ครบถ้วน และมีการพัฒนาเครื่องมือ/Platform/Application/ระบบเทคโนโลยีดิจิทัล เพื่อเพิ่มประสิทธิภาพในงานด้าน HR และอำนวยความสะดวก","การนำข้อมูลมาใช้ในการวิเคราะห์และคาดการณ์ (HR Analysis & Analytics) เพื่อการตัดสินใจในงานด้านต่าง ๆ ได้แก่ งานด้านธุรการ งานด้านกระบวนการภายใน และงานด้านวางแผนกลยุทธ์","การนำระบบเทคโนโลยีดิจิทัลด้าน HR มาใช้ได้อย่างครอบคลุมทั่วทั้งองค์กร โดยมีกลไกหรือกระบวนการติดตามและประเมินผลการดำเนินงานที่มีประสิทธิภาพ และได้ผลลัพธ์ตามที่กำหนดไว้","ระบบเทคโนโลยีดิจิทัลด้าน HR มีความเชื่อมโยงกับแผนยุทธศาสตร์องค์กร และแผนงาน/ระบบงานที่สำคัญ เช่น ระบบการเรียนรู้และการพัฒนา เป็นต้น","การใช้ข้อมูลป้อนกลับจากการดำเนินงาน รวมถึงข้อมูลจากแหล่งอื่น ๆ มาปรับปรุงให้สอดคล้องกับการเปลี่ยนแปลงอยู่เสมอ มุ่งเน้นการพัฒนาอย่างต่อเนื่อง เพื่อให้การทำงานเกิดประสิทธิภาพสูงสุด"],good:["กทท. ทำได้ดีเยี่ยมในการวาง \"โครงสร้างพื้นฐานด้าน IT สำหรับ HR\" ทั้งการมีระบบ HRIS การนำ Chatbot มาให้บริการพนักงาน และการใช้แพลตฟอร์ม e-learning ซึ่งอำนวยความสะดวกและลดงานธุรการ (Admin) ได้จริง ทำให้ผู้ประเมินให้คะแนนผ่านระดับ 3 มาอยู่ที่ 3.1500 ถือว่าสอบผ่านในแง่ของการมีเครื่องมือ (Tools)"],gaps:["แต่การนำไปใช้ประโยชน์เชิงกลยุทธ์ (Data-Driven Decision) และการรักษาความปลอดภัยข้อมูล (Data Privacy) ยังไม่ถึงระดับ Best Practice\" ดังนั้น การประเมินตนเองที่ระดับ 5 จึงยังไม่สะท้อนผลลัพธ์เชิงประจักษ์ในมุมมองผู้ประเมิน"],results:["มีการใช้ระบบสารสนเทศเพื่อการบริหารทรัพยากรมนุษย์ (HRIS) แบบ Single Platform ที่ครอบคลุมข้อมูลประวัติส่วนบุคคล การประเมินผล และอัตรากำลัง มีการพัฒนา HR Line Chatbot \"น้อง Patty\" เพื่อตอบคำถามพนักงาน และใช้แพลตฟอร์มการเรียนรู้ FutureSkill และ PAT KM Portal (ผ่าน NotebookLM)","มีการติดตามความพึงพอใจการใช้งานระบบ HRIS ซึ่งได้คะแนนเฉลี่ยสูงถึง 3.81 คะแนนและมีการติดตามแผนพัฒนาระบบ HR Analytics","นำระบบเทคโนโลยีไปเชื่อมโยงกับแผนวิสาหกิจ แผนปฏิบัติการดิจิทัล (DT) และระบบการเรียนรู้และการพัฒนา","อ้างว่ามีการนำข้อเสนอแนะจาก Feedback Report, HR Trends และการเทียบเคียงกับคู่เทียบ (รฟม., กทพ., ธอส.) มาใช้พัฒนาระบบ HR Dashboard และออกแบบ AI เพื่อการตัดสินใจ"],tris:["มี Dashboard แต่ผู้บริหารยังไม่ได้ใช้ตัดสินใจจริง (Lack of Actual Strategic Utilization) : ผู้ตรวจระบุใน Feedback Report ชัดเจนว่า \"ควรมีแนวทางกระตุ้นให้ผู้บริหารระดับต่างๆ ได้ใช้รายงานด้าน HR อย่างสม่ำเสมอ เพื่อตัดสินใจเชิงกลยุทธ์\" ความหมายคือ กทท. มีหน้าจอ Dashboard ที่สวยงาม (Output) แต่ยังขาด \"หลักฐาน (Evidence)\" ที่พิสูจน์ว่าผู้บริหารระดับสายงานนำข้อมูลจาก Dashboard นี้ไปพิจารณาปรับปรุงแผนงานจริงๆ (Outcome)","ความปลอดภัยและชั้นความลับของข้อมูล (Data Privacy & Trust) : เป็นจุดตายสำคัญที่ TRIS ติติงคือ \"ควรมีการกำหนดความมั่นคงและความปลอดภัยของข้อมูลส่วนบุคคลอย่างเหมาะสม\" ข้อมูลในระบบ HRIS ยังขาดการจำกัดสิทธิ์การเข้าถึงข้อมูลที่อ่อนไหวอย่างเข้มงวด ทำให้ระบบยังมีช่องโหว่ด้านธรรมาภิบาลข้อมูล","บทบาทของ HR ในยุค AI (AI Governance) : กทท. ระบุว่ามีการนำ AI (เช่น Chatbot, NotebookLM) มาใช้ แต่ผู้ตรวจมองไปไกลกว่านั้น โดยระบุว่า HR ขององค์กรชั้นนำต้องเปลี่ยนบทบาทจาก \"ผู้ใช้ AI\" ไปเป็น \"ผู้ออกแบบและกำกับระบบ AI (AI Governance)\" ที่คอยดูแลจริยธรรมและการคุ้มครองความก้าวหน้าของพนักงาน"],suggest:["สร้างหลักฐานการใช้งานจริง (MoM Evidence): ให้ผู้บริหารระดับสายงาน (Line Manager) นำข้อมูลจาก HR Analytics Dashboard (เช่น สถิติโอที ข้อมูลทักษะ หรือแนวโน้มการเกษียณ) ไปใช้เป็นวาระหนึ่งในที่ประชุมประจำเดือนของฝ่าย และ \"บันทึกในรายงานการประชุม (MoM)\" ว่าได้มีการตัดสินใจปรับแผนงานจากข้อมูล HR นี้ ส่งให้ TRIS ดูเป็นหลักฐาน","จัดทำ Data Privacy Matrix (Quick Win): ทบทวนและออกประกาศการจำกัดสิทธิ์ผู้เข้าถึงข้อมูลส่วนบุคคลในระบบ HRIS ให้ชัดเจน (เช่น ใครดูเงินเดือนได้ ใครดูประวัติการลงโทษได้) เพื่อปิด Gap เรื่องความปลอดภัยของข้อมูล"],docs:["รายงานการประชุมของ Line Manager (Line Manager MoM): บันทึกการประชุมของหน่วยงานต่างๆ ที่เป็นหลักฐานว่า \"หัวหน้างานได้ใช้ข้อมูลจาก HR Dashboard (เช่น ข้อมูล Productivity, การคาดการณ์การลาออก) ไปใช้ประกอบการตัดสินใจวางแผนกำลังคนจริงๆ\"","เอกสาร/ประกาศกำหนดสิทธิ์ระดับชั้นความลับใน HRIS (Data Privacy Policy): หลักฐานการจัดการรัดกุมในการจำกัดสิทธิ์เข้าถึงข้อมูลส่วนบุคคลที่อ่อนไหว","เอกสารบทบาท AI Governance ของ HR: หลักฐานแสดงการเปลี่ยนบทบาท HR จากผู้ใช้ สู่การเป็นผู้ออกแบบและกำกับดูแล (AI Governance)"],bestprac:["นำ HR Analytics มาใช้เพื่อการ \"ตัดสินใจ\" เชิงลึก: รฟม. และ กทพ. ไม่ได้มีแค่ระบบฐานข้อมูลที่ครอบคลุม แต่มีการนำข้อมูลมาใช้วิเคราะห์เชิงลึก (HR Analysis / Analytics) เพื่อ \"ใช้ประกอบการตัดสินใจในงานด้านต่างๆ\" ของผู้บริหารระดับสายงานอย่างเป็นรูปธรรม","เชื่อมโยงระบบดิจิทัล HR กับระบบอื่นทั้งองค์กร: ระบบเทคโนโลยีดิจิทัลด้านบริหารทุนมนุษย์ของคู่เทียบ มีความเชื่อมโยงกับแผนยุทธศาสตร์องค์กรและแผนงาน/ระบบงานที่สำคัญ (เช่น แผนปฏิบัติการดิจิทัล แผนแม่บทการจัดการความรู้ และแผนยุทธศาสตร์ด้านผู้มีส่วนได้ส่วนเสีย) ทำให้เกิดการใช้ประโยชน์จากข้อมูลข้ามสายงานได้อย่างบูรณาการ"],minReqs:{"1":["ระบบฐานข้อมูลด้าน HR ที่ครอบคลุมข้อมูลประวัติส่วนบุคคล ประวัติการทำงาน การฝึกอบรม สมรรถนะ การลงโทษทางวินัย และข้อมูลอัตรากำลัง","คู่มือหรือหลักฐานการพัฒนาเครื่องมือ/Platform ด้านดิจิทัลเพื่ออำนวยความสะดวก เช่น ระบบ HRIS, HR Line Chatbot (น้อง Patty), และระบบจัดการความรู้ (เช่น NotebookLM, KM Portal)"],"2":["รายงานผลการนำข้อมูลมาวิเคราะห์ (HR Analysis & Analytics) เพื่อใช้ประกอบการตัดสินใจใน 3 ด้าน ได้แก่ งานธุรการ, งานกระบวนการภายใน, และงานวางแผนกลยุทธ์","หน้าจอ (Screenshot) หรือรายงานจากระบบ HR Dashboard (Data Visualization/PowerBI) ที่ผู้บริหารสามารถนำไปใช้งานได้"],"3":["รายงานสถิติการเข้าใช้งานระบบเทคโนโลยีดิจิทัลด้าน HR ของพนักงาน (เช่น อัตราการเข้าใช้ระบบ HRIS)","รายงานสรุปผลสำรวจความพึงพอใจของพนักงานที่มีต่อการใช้งานระบบเทคโนโลยีดิจิทัลด้าน HR พร้อมการแก้ไขปัญหา"],"4":["ตารางแสดงความเชื่อมโยง (Mapping) ระหว่างระบบเทคโนโลยีดิจิทัลด้าน HR กับแผนยุทธศาสตร์องค์กร แผนปฏิบัติการด้านดิจิทัล (DT) และระบบงานที่สำคัญ เช่น ระบบการเรียนรู้ (L&D Ecosystem / FutureSkill)"],"5":["ตารางสรุปข้อมูลป้อนกลับ (Feedback Table) จากผู้ใช้งานเพื่อนำมาพัฒนาระบบ","[สิ่งที่ต้องเพิ่มในปี 69] หลักฐานเชิงประจักษ์ (เช่น คู่มือ/ประกาศ/รายงานการปรับปรุงระบบ) ในการจำกัดสิทธิ์การเข้าถึงข้อมูลส่วนบุคคลที่อ่อนไหว (Data Privacy & Trust)","[สิ่งที่ต้องเพิ่มในปี 69] รายงานการประชุมที่แสดงให้เห็นว่าผู้บริหารระดับสายงาน (Line Manager) นำ HR Dashboard ไปใช้ตัดสินใจในการบริหารงานจริง"]},subComps:{"1":["จุดตายเรื่อง Data Privacy & Trust (Level 1): กทท. ถูกตั้งข้อสังเกตว่า ระบบ HR ในปัจจุบันมี \"สิทธิ์การเข้าถึงข้อมูลอ่อนไหวมากเกินไป\" ดังนั้นสิ่งที่ต้องทำด่วนในปี 69 คือ การไปกำหนดระดับชั้นการเข้าถึงข้อมูลส่วนบุคคล (จำกัดสิทธิ์ผู้ใช้งาน) ให้มีความเข้มงวดมากขึ้น เพื่อป้องกันข้อมูลส่วนบุคคลรั่วไหล และสร้างความน่าเชื่อถือให้กับระบบ"],"2":["มี Dashboard แต่ Line Manager ไม่ใช้ = ไม่ได้คะแนน (Level 2): กทท. มีการพัฒนา HR Dashboard ด้วย PowerBI (AWTD) แล้ว แต่ TRIS ให้ข้อสังเกตอย่างตรงไปตรงมาว่า \"ผู้บริหารระดับสายงานยังไม่ค่อยนำรายงาน HR Analytics ไปใช้ประกอบการตัดสินใจเชิงกลยุทธ์\" ดังนั้นในปี 69 ต้องมีหลักฐาน (เช่น รายงานการประชุมของฝ่ายต่างๆ) ที่ระบุว่าหัวหน้างานได้เปิด Dashboard นี้ดูสถิติ (เช่น ดูอัตราการลาออก, ข้อมูลการอบรม, หรือ Productivity) เพื่อใช้ประกอบการตัดสินใจในห้องประชุมจริง"],"3":["มี Dashboard แต่ Line Manager ไม่ใช้ = ไม่ได้คะแนน (Level 3): กทท. มีการพัฒนา HR Dashboard ด้วย PowerBI (AWTD) แล้ว แต่ TRIS ให้ข้อสังเกตอย่างตรงไปตรงมาว่า \"ผู้บริหารระดับสายงานยังไม่ค่อยนำรายงาน HR Analytics ไปใช้ประกอบการตัดสินใจเชิงกลยุทธ์\" ดังนั้นในปี 69 ต้องมีหลักฐาน (เช่น รายงานการประชุมของฝ่ายต่างๆ) ที่ระบุว่าหัวหน้างานได้เปิด Dashboard นี้ดูสถิติ (เช่น ดูอัตราการลาออก, ข้อมูลการอบรม, หรือ Productivity) เพื่อใช้ประกอบการตัดสินใจในห้องประชุมจริง"],"5":["จุดตายเรื่อง Data Privacy & Trust (Level 5): กทท. ถูกตั้งข้อสังเกตว่า ระบบ HR ในปัจจุบันมี \"สิทธิ์การเข้าถึงข้อมูลอ่อนไหวมากเกินไป\" ดังนั้นสิ่งที่ต้องทำด่วนในปี 69 คือ การไปกำหนดระดับชั้นการเข้าถึงข้อมูลส่วนบุคคล (จำกัดสิทธิ์ผู้ใช้งาน) ให้มีความเข้มงวดมากขึ้น เพื่อป้องกันข้อมูลส่วนบุคคลรั่วไหล และสร้างความน่าเชื่อถือให้กับระบบ","เปลี่ยนบทบาท HR เป็นผู้ออกแบบ AI Governance (Level 5): กทท. มีการนำ AI และเทคโนโลยีใหม่ๆ มาใช้ (เช่น Chatbot, NotebookLM) แต่ผู้ตรวจคาดหวังให้ กทท. ยกมิติไปอีกขั้น คือเปลี่ยนบทบาทบุคลากร HR จากแค่ \"ผู้ใช้งาน AI\" ให้กลายเป็น \"ผู้ออกแบบและกำกับดูแล (AI Governance)\" และการคุ้มครองข้อมูลส่วนบุคคลในกระบวนการทำงาน HR","เปรียบเทียบกับองค์กรชั้นนำ (Level 5): ในการพัฒนาระบบ HR Analytics กทท. ควรนำข้อมูลจากการศึกษาเทียบเคียงกับองค์กรที่ทำเรื่องนี้ได้ดี เช่น ธอส. (ที่มีโครงการ HR Digital Transformation) และ กทพ. มาใช้เป็นข้อมูลป้อนกลับในการพัฒนาระบบของตนเองให้ทัดเทียม"]}},
+  {id:"4.3",grp:"4",gname:"กลไกที่สนับสนุนการบริหารและพัฒนาทุนมนุษย์",gw:20.0,gs68:3.17,name:"ความปลอดภัยและสภาพแวดล้อมในการทำงาน",w:2.0,s68:2.85,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมิน \"การบริหารจัดการด้านความปลอดภัย สวัสดิภาพ อาชีวอนามัย และสภาพแวดล้อมในการทำงาน (SSHE)\" อย่างเป็นระบบ โดยต้องมีแผนงาน มาตรฐาน และตัวชี้วัดที่เหมาะสมกับลักษณะงานที่แตกต่างกัน มุ่งเน้นการจัดกิจกรรมเพื่อสร้างความตระหนักและปรับเปลี่ยนพฤติกรรมให้เกิดเป็นวัฒนธรรมความปลอดภัย รวมถึงการบูรณาการด้านความปลอดภัยเข้ากับระบบบริหารความเสี่ยงและแผนความต่อเนื่องทางธุรกิจขององค์กร",levelSumm:["การจัดทำแผนงานด้านความปลอดภัย สวัสดิภาพ อาชีวอนามัย และสิ่งแวดล้อม (Safety Security Health and Environment) ทั้งระยะสั้นและระยะยาว โดยมีการกำหนดผู้รับผิดชอบที่ชัดเจน","แผนงานฯ มีองค์ประกอบ 3 ด้าน คือ 1) การทบทวนมาตรการ/กฎระเบียบ 2) การกำหนดมาตรฐานที่เหมาะสมกับบริบทการทำงาน และ 3) การสร้างความตระหนัก/จัดกิจกรรมปรับเปลี่ยนพฤติกรรม","การดำเนินงานตามแผนงานประจำปีที่ครบถ้วน โดยมีกลไก/กระบวนการติดตามและประเมินผลที่มีประสิทธิภาพ และได้ผลลัพธ์ตามที่กำหนดไว้","แผนงานด้านความปลอดภัยฯ มีความเชื่อมโยงกับแผนยุทธศาสตร์องค์กร และแผนงาน/ระบบงานที่สำคัญ เช่น แผนบริหารความเสี่ยง (RM) แผนการดำเนินธุรกิจอย่างต่อเนื่อง (BCP)","การใช้ข้อมูลป้อนกลับจากการดำเนินงาน และข้อมูลจากแหล่งอื่น ๆ มาปรับปรุงให้สอดคล้องกับการเปลี่ยนแปลงอยู่เสมอ มุ่งเน้นการพัฒนาอย่างต่อเนื่อง"],good:["กทท. มีการดำเนินการในระดับ \"กระบวนการ\" ที่ค่อนข้างแข็งแกร่ง มีการตั้งคณะกรรมการ คปอ. ครอบคลุมพื้นที่ และมีกิจกรรมเชิงรุกในการดูแลสุขภาพจิต (Mental Health) ซึ่งตอบโจทย์เกณฑ์ระดับ 5 ในแง่ของการดูแลความเครียดพนักงาน ทำให้ กทท. ได้คะแนนเป็นฐานที่ 2.8500","การที่ กทท. ได้คะแนนเพียง 2.8500 ถือว่าสะท้อนมุมมองของ TRIS อย่างตรงไปตรงมา แม้ กทท. จะมีกิจกรรมที่ทันสมัยถึงระดับ 5 อย่างการทำ Aromatherapy บำบัดความเครียด"],gaps:["โครงสร้างพื้นฐานอย่าง \"การตั้งตัวชี้วัดให้ตรงกับลักษณะงานและแยกมิติ Safety กับ Security\" ยังทำได้ไม่สมบูรณ์ TRIS ก็จะยังไม่ให้คะแนนผ่านระดับ 3 (เป็นหลักการที่ว่าต้องทำฐานรากให้แน่นก่อนถึงจะไปยอดปิระมิดได้)"],results:["มีการจัดทำแผนความปลอดภัยฯ ระยะ 5 ปี (2567-2571) มีการแต่งตั้งคณะกรรมการความปลอดภัยฯ (คปอ.) ถึง 4 คณะ แบ่งตามพื้นที่ และมีการนำมาตรฐาน PSHE-MS มาใช้ และจัดกิจกรรมสร้างความตระหนัก เช่น KYT, Morning Talk, กิจกรรมมีนาใส่ใจ ปลอดภัยด้วยกัน","ดำเนินการตามแผนครบถ้วน มีการตรวจความปลอดภัยพื้นที่ปฏิบัติงานโดย จป. วิชาชีพ และจัดอบรมอย่างต่อเนื่อง","บูรณาการแผนความปลอดภัยเข้ากับแผนยุทธศาสตร์ (ผ่านการทำ ISPS Code) และผูกกับแผนบริหารความต่อเนื่องทางธุรกิจ (BCP) เช่น การรองรับกรณีเกิดโรคระบาดใหญ่ หรือการเข้าพื้นที่ไม่ได้","ใช้ข้อมูลป้อนกลับจากการศึกษาดูงาน (เช่น งานความปลอดภัยแห่งชาติ, นิทรรศการ \"สืบสร้างสุข\" ของ สสส.) มาจัดทำโครงการ Stop Stress go Strong (Aromatherapy) เพื่อดูแลสุขภาพจิต (Mental Health) ของพนักงาน"],tris:["ดัชนีและเป้าหมายยังไม่แตกต่างตามบริบทการทำงาน (Lack of Context-Specific KPIs) : ผู้ประเมินระบุชัดเจนว่า ลักษณะการทำงานของสำนักงานใหญ่ กับ ท่าเรือในภูมิภาค มีความเสี่ยงที่แตกต่างกันอย่างสิ้นเชิง แต่ กทท. ยังตั้งเป้าหมายแบบเหมารวม ผู้ตรวจจึงเสนอแนะว่าควรแยกดัชนีให้ชัดเจนตามบริบทพื้นที่","ตัวชี้วัดไม่ครอบคลุมและไม่แยก 4 มิติออกจากกันอย่างเด็ดขาด : ผู้ตรวจระบุว่า กทท. ต้องแยกการวัดผล 4 ด้าน (SSHE) ออกจากกัน โดยเฉพาะ สวัสดิภาพ ความปลอดภัย อาชีวอนามัยและสภาพแวดล้อม"],suggest:["ปรับแก้สมุดแผนงาน SSHE ใหม่: ในแผนปฏิบัติการปี 2569 ให้แยกตัวชี้วัด (KPIs) ออกเป็น 4 หมวดอย่างชัดเจน (Security, Safety, Health, Environment)","ตั้ง KPI แยกตามพื้นที่: แทนที่จะตั้ง KPI ว่า \"อุบัติเหตุเป็นศูนย์ทั้งองค์กร\" ให้เปลี่ยนเป็นตารางย่อยแยก KPI สำหรับ \"พื้นที่ท่าเรือ (Operation)\" และ \"พื้นที่สำนักงาน (Back-office)\" เพื่อแสดงให้ TRIS เห็นว่า กทท. มีการบริหารจัดการที่ตอบโจทย์บริบทความเสี่ยงที่แตกต่างกัน"],docs:["สมุดแผนงานและตาราง KPI ความปลอดภัยที่อัปเดตใหม่: เอกสารที่ตีตาราง \"แยกตัวชี้วัด\" ออกเป็น 4 มิติอย่างเด็ดขาด คือ ความปลอดภัย (Safety - อุบัติเหตุ), สวัสดิภาพ (Security - อาชญากรรม/CCTV), อาชีวอนามัย (Health), และสภาพแวดล้อม (Environment)","ตาราง KPI แยกตามบริบทพื้นที่: เอกสารการตั้งเป้าหมายที่แยกตัวเลขระหว่าง \"สำนักงานใหญ่\" กับ \"พื้นที่ท่าเรือปฏิบัติการ\" ให้แตกต่างกันตามบริบทความเสี่ยง"],bestprac:["จัดทำมาตรฐานความปลอดภัยที่เหมาะสมกับ \"บริบทองค์กรและพื้นที่\": มีการจัดทำแผนงานครอบคลุม 4 มิติอย่างชัดเจน ได้แก่ ความปลอดภัย (Safety), สวัสดิภาพ (Security), อาชีวอนามัย (Health), และสภาพแวดล้อม (Environment) โดยมีการแยกตัวชี้วัดและเป้าหมายที่ตอบโจทย์ความเสี่ยงในพื้นที่ที่แตกต่างกันอย่างเด็ดขาด (ซึ่งเป็นจุดที่ กทท. ถูกหักคะแนนเพราะตั้งเป้าหมายแบบเหมารวม)","มีแผนระยะสั้นและระยะยาวที่เชื่อมโยงยุทธศาสตร์: กำหนดผู้รับผิดชอบอย่างชัดเจน และสร้างมาตรฐานการทำงานที่เชื่อมโยงกับแผนยุทธศาสตร์องค์กร"],minReqs:{"1":["เล่มแผนงานด้านความปลอดภัย สวัสดิภาพ อาชีวอนามัย และสิ่งแวดล้อม (SSHE) ทั้งระยะสั้น (ประจำปี) และระยะยาว (5 ปี)","คำสั่งแต่งตั้งคณะกรรมการ/ผู้รับผิดชอบ (เช่น คปอ., จป.วิชาชีพ, จป.บริหาร) ที่ระบุขอบเขตงานชัดเจน","การดูแล \"สุขภาพจิต (Mental Health)\" คือสิ่งที่ซ่อนอยู่ในเกณฑ์ (Level 1 & 2): ในคู่มือ SE-AM ระบุหมายเหตุไว้ชัดเจนว่า รัฐวิสาหกิจควรตระหนักถึง \"การดูแลสุขภาพจิตของบุคลากร\" (เช่น ลดความเครียด, มีผู้เชี่ยวชาญ/นักจิตวิทยาคอยให้คำปรึกษา) หาก กทท. จัดกิจกรรมด้านนี้ (เช่น กิจกรรม Stop Stress go Strong) ต้องดึงมาเป็นจุดเด่น (Highlight) ในการนำเสนอครับ"],"2":["รายงานการทบทวนกฎหมาย มาตรการ หรือข้อบังคับด้านความปลอดภัยให้เป็นปัจจุบัน","คู่มือ/มาตรฐานการทำงานด้าน SSHE ที่เหมาะสมกับ \"บริบทของแต่ละพื้นที่\" พร้อมตารางประเมินดัชนีเพื่อหาช่องว่าง","หลักฐานการจัดกิจกรรมสร้างความตระหนักรู้เพื่อปรับเปลี่ยนพฤติกรรม (เช่น ภาพถ่ายกิจกรรม KYT, Morning Talk, การซ้อมดับเพลิง)","การดูแล \"สุขภาพจิต (Mental Health)\" คือสิ่งที่ซ่อนอยู่ในเกณฑ์ (Level 1 & 2): ในคู่มือ SE-AM ระบุหมายเหตุไว้ชัดเจนว่า รัฐวิสาหกิจควรตระหนักถึง \"การดูแลสุขภาพจิตของบุคลากร\" (เช่น ลดความเครียด, มีผู้เชี่ยวชาญ/นักจิตวิทยาคอยให้คำปรึกษา) หาก กทท. จัดกิจกรรมด้านนี้ (เช่น กิจกรรม Stop Stress go Strong) ต้องดึงมาเป็นจุดเด่น (Highlight) ในการนำเสนอครับ"],"3":["รายงานสรุปผลการดำเนินงานตามแผน SSHE ประจำปีที่บรรลุเป้าหมาย","รายงานสถิติอุบัติเหตุ/ความปลอดภัย (เช่น IFR, ISR) และรายงานการประชุมคณะกรรมการ คปอ. ที่มีการติดตามผลอย่างเป็นรูปธรรม"],"4":["ตารางแสดงความเชื่อมโยง (Mapping) ระหว่างแผนงานด้านความปลอดภัยฯ กับแผนยุทธศาสตร์องค์กร","[สิ่งที่ต้องเพิ่มในปี 69] หลักฐานเชิงประจักษ์ในการทำงานร่วมกัน (Integration) กับ \"แผนบริหารความเสี่ยง (RM)\" และ \"แผนความต่อเนื่องทางธุรกิจ (BCP)\""],"5":["ตารางสรุปข้อมูลป้อนกลับ (Feedback Table) จากการดำเนินงาน และจากแหล่งภายนอก (เช่น กฎหมายใหม่, การศึกษาดูงาน)","[สิ่งที่ต้องเพิ่มในปี 69] รายงานการปรับปรุงสภาพแวดล้อมหรือมาตรการความปลอดภัยที่เกิดจากการนำข้อมูลป้อนกลับมาใช้จริง (T-1 vs T+1)"]},subComps:{"1":["กทท. ถูกหักคะแนนเพราะมักรวมเรื่องสวัสดิภาพและความปลอดภัยไว้ด้วยกัน TRIS สั่งให้ แยกตัวชี้วัดอย่างเด็ดขาด ได้แก่ สวัสดิภาพ (Security): เน้นความมั่นคงปลอดภัยต่อชีวิตทรัพย์สินจากการกระทำของมนุษย์ (เช่น สถิติอาชญากรรมในพื้นที่, จำนวนกล้อง CCTV)/ความปลอดภัย (Safety): เน้นความปลอดภัยจากอุบัติเหตุการทำงาน (เช่น อัตราการเกิดอุบัติเหตุ IFR, ISR)/อาชีวอนามัย (Occupational Health): เน้นสุขภาพ (เช่น สัดส่วนพนักงานกลุ่มเสี่ยงที่ป่วยด้วยโรคจากการทำงาน)/สภาพแวดล้อม (Environment): เน้นกายภาพ (เช่น มาตรฐานแสงสว่าง ฝุ่น เสียง)","การดูแล \"สุขภาพจิต (Mental Health)\" คือสิ่งที่ซ่อนอยู่ในเกณฑ์ (Level 1 & 2): ในคู่มือ SE-AM ระบุหมายเหตุไว้ชัดเจนว่า รัฐวิสาหกิจควรตระหนักถึง \"การดูแลสุขภาพจิตของบุคลากร\" (เช่น ลดความเครียด, มีผู้เชี่ยวชาญ/นักจิตวิทยาคอยให้คำปรึกษา) หาก กทท. จัดกิจกรรมด้านนี้ (เช่น กิจกรรม Stop Stress go Strong) ต้องดึงมาเป็นจุดเด่น (Highlight) ในการนำเสนอครับ"],"2":["ห้ามตั้งตัวชี้วัดเหมารวมทั้งองค์กร (Level 2): กทท. ต้องกำหนดดัชนีชี้วัดที่ \"แตกต่างกันตามบริบทการทำงาน\" เช่น พื้นที่สำนักงานใหญ่ (เน้น Office Syndrome) จะต้องมีตัวชี้วัดแยกต่างหากจาก พื้นที่ท่าเรือปฏิบัติการ (เน้นอุบัติเหตุเครื่องจักร/สารเคมี)","การดูแล \"สุขภาพจิต (Mental Health)\" คือสิ่งที่ซ่อนอยู่ในเกณฑ์ (Level 1 & 2): ในคู่มือ SE-AM ระบุหมายเหตุไว้ชัดเจนว่า รัฐวิสาหกิจควรตระหนักถึง \"การดูแลสุขภาพจิตของบุคลากร\" (เช่น ลดความเครียด, มีผู้เชี่ยวชาญ/นักจิตวิทยาคอยให้คำปรึกษา) หาก กทท. จัดกิจกรรมด้านนี้ (เช่น กิจกรรม Stop Stress go Strong) ต้องดึงมาเป็นจุดเด่น (Highlight) ในการนำเสนอครับ"],}},
+  {id:"4.4",grp:"4",gname:"กลไกที่สนับสนุนการบริหารและพัฒนาทุนมนุษย์",gw:20.0,gs68:3.17,name:"บทบาทของสายงาน HR",w:10.0,s68:3.25,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมิน \"ความเข้มแข็งของกลไกการบริหารทุนมนุษย์\" ผ่าน 2 แกนหลัก คือ 1) การที่ผู้บริหารระดับสูงทุกระดับให้การสนับสนุนทรัพยากรและเป็นผู้นำขับเคลื่อนงาน HR และ 2) การปรับเปลี่ยนบทบาทของทีมงาน HR เอง ให้เป็นคู่คิดเชิงกลยุทธ์ (HRBP) ได้รับการรับรองคุณวุฒิวิชาชีพ สร้างเครือข่ายภายนอก เข้าใจธุรกิจขององค์กร และมีระบบธรรมาภิบาล (HR Governance) ที่โปร่งใส รวมถึงมีกลไกตรวจสอบกระบวนการ (HR Audit) เชิงป้องกันก่อนเกิดความเสียหาย",levelSumm:["การสนับสนุนจากผู้บริหารทุกระดับ และการพัฒนา Line Manager/HR Coordinator ให้มีความรู้ทักษะด้าน HR","หน่วยงาน HR พัฒนาระบบ/ทีมงาน 5 ด้าน: 1) สร้างเครือข่ายภายนอก 2) บุคลากรได้รับคุณวุฒิวิชาชีพ 3) เข้าใจธุรกิจ (Business Acumen) 4) ปรับบทบาทเป็น HRBP/ที่ปรึกษาองค์กร และ 5) มีกระบวนการ HR Audit","การดำเนินงานตามแผนประจำปีครบถ้วน มีกลไกติดตามประเมินผลที่มีประสิทธิภาพ และบรรลุผลลัพธ์","การปรับบทบาท HR มีความเชื่อมโยงกับแผนยุทธศาสตร์องค์กร และแผนยุทธศาสตร์ด้าน HR","ใช้ข้อมูลป้อนกลับจากผลดำเนินงาน/แหล่งอื่น ปรับปรุงบทบาทของหน่วยงาน HR อย่างต่อเนื่อง"],good:["กทท. สอบผ่านกระบวนการทำงานพื้นฐานและการยกระดับบทบาท HR ได้อย่างยอดเยี่ยม โดยเฉพาะความพยายามในการสร้างทีม HRBP ที่ลงไปแก้ปัญหาหน้างานจริง และการสร้างเครือข่ายกับรัฐวิสาหกิจอื่น ทำให้ผู้ประเมินมองเห็นความตั้งใจในการปรับเปลี่ยนการทำงาน จึงให้คะแนนสูงถึง 3.2500 ซึ่งถือเป็นจุดแข็งของ กทท."],gaps:["ต้องยกระดับมาตรฐานเครื่องมือ (Audit) และคุณภาพคน (Certification) ให้เป็นสากลมากขึ้น\" การที่ กทท. ได้คะแนนดีในข้อนี้ ถือเป็นฐานที่แข็งแกร่งมากในการลุ้นคะแนนภาพรวมให้สูงขึ้นในปีหน้า"],results:["ผู้บริหารทุกระดับลงมาสนับสนุนงาน HR อย่างจริงจัง มีการสร้างเครือข่ายแลกเปลี่ยนความรู้ภายนอก (เช่น กลุ่ม กบร., กฟภ.) มีการปรับบทบาท HR ไปสู่การเป็นที่ปรึกษาเชิงรุก (HR Business Partner: HRBP) โดยจัดตั้งคณะทำงานและลงพื้นที่ให้คำปรึกษาหน่วยงานอื่น และมีการส่งพนักงาน HR 30 คน เข้าทดสอบคุณวุฒิวิชาชีพนักทรัพยากรบุคคล (TPQI)","ดำเนินงานตามแผนยกระดับ HRBP ได้ 100% มีการกำหนดแนวทางทำ HR Audit จำนวน 3 กระบวนการ (ประเมินผล, สืบทอดตำแหน่ง, ประสบการณ์พนักงาน) และสามารถผลักดันค่าผลผลิตประสิทธิภาพ (Productivity) ขององค์กรให้สูงขึ้นถึง 5.33 ล้านบาทต่อคน","มีการนำข้อมูลความพึงพอใจต่อการบริการของ HR (ได้ 3.76 คะแนน) และคำแนะนำจาก TRIS มาปรับเปลี่ยนการทำงานให้เป็นเชิงรุกมากขึ้น"],tris:["HR Audit ยังไม่เป็น \"เชิงป้องกัน (Preventive Approach) : กทท. มีการทำ HR Audit ก็จริง แต่ผู้ประเมินระบุชัดเจนว่าวิธีการสอบทานของ กทท. ยังมีลักษณะเหมือนการตรวจจับความผิดพลาดหลังเกิดเหตุ (เหมือน Internal Audit ทั่วไป) สิ่งที่เกณฑ์ SE-AM ต้องการคือ \"การสอบทานเชิงป้องกัน\" หมายถึงต้องเข้าไปตรวจสอบขั้นตอนที่เป็นจุดวิกฤต (Critical step) \"ก่อน\" ที่จะเกิดข้อผิดพลาดขึ้นในกระบวนการทำงานจริง","คุณวุฒิวิชาชีพของสายงาน HR ยังไม่ถึงระดับสากล (Lack of Global HR Certification) : กทท. ส่งพนักงานสอบคุณวุฒิวิชาชีพของ TPQI (สถาบันคุณวุฒิวิชาชีพของไทย) ซึ่งเป็นเรื่องที่ดี แต่ TRIS ชี้ว่า หาก กทท. มีวิสัยทัศน์ที่จะเป็น \"ท่าเรือชั้นนำระดับโลก\" บุคลากรสายงาน HR ก็ต้องถูกสนับสนุนให้ได้รับ \"คุณวุฒิวิชาชีพด้านทรัพยากรบุคคลที่เป็นระดับสากล\" (เช่น มาตรฐาน SHRM ของสหรัฐอเมริกา) เพื่อให้สอดรับกับวิสัยทัศน์ระดับโลกขององค์กร"],suggest:["เปลี่ยนรูปแบบ HR Audit (Quick Win - ระดับความยาก: ต่ำ): ในปี 2569 กทท. ไม่ต้องลงแรงอะไรเพิ่มมาก เพียงแค่ \"ปรับแก้เอกสารเกณฑ์และวิธีการทำ HR Audit\" ให้ระบุคำว่า \"สอบทานเชิงป้องกัน (Preventive Audit)\" ลงไปอย่างชัดเจน และเลือกตรวจสอบเฉพาะขั้นตอนก่อนการอนุมัติ (เช่น ตรวจสอบความถูกต้องของสเปกผู้สืบทอดตำแหน่งก่อนประกาศรายชื่อ) ก็จะปิด Gap นี้ได้ทันทีในเวลาเพียง 1-4 สัปดาห์","จัดทำ Roadmap คุณวุฒิสากล: แม้การสอบ SHRM จะยากและมีค่าใช้จ่าย แต่ กทท. สามารถเริ่มต้นได้ด้วยการ \"จัดทำแผนงบประมาณและ Roadmap ระยะ 3 ปี\" สำหรับการส่งผู้บริหาร HR ไปสอบคุณวุฒิสากล เพื่อแสดงเจตจำนงให้ TRIS เห็นว่าเรากำลังมุ่งสู่มาตรฐานโลกอย่างแท้จริงครับ"],docs:["คู่มือและเกณฑ์ HR Audit (ฉบับทบทวน): เอกสารที่ระบุกระบวนการตรวจสอบใหม่ โดยใช้คำว่า \"การสอบทานเชิงป้องกัน (Preventive Approach)\" ซึ่งมีขั้นตอนการตรวจจับข้อผิดพลาดก่อนที่จะอนุมัติหรือก่อนที่กระบวนการสำคัญจะเสร็จสิ้น (แทนที่การตรวจแบบ Internal Audit ตามปกติ)","แผนที่นำทาง (Roadmap) สู่ Global HR Certification: เอกสารแผนระยะสั้น-ยาว (รวมการตั้งงบประมาณ) เพื่อสนับสนุนให้พนักงาน HR ได้รับคุณวุฒิวิชาชีพที่เป็นระดับสากล เช่น SHRM เพื่อสะท้อนวิสัยทัศน์ท่าเรือระดับโลก"],bestprac:["บุคลากร HR มี \"คุณวุฒิวิชาชีพ\" ที่หลากหลายและตรงสายงาน: รฟม. มีการผลักดันให้บุคลากรของหน่วยงาน HR ได้รับคุณวุฒิวิชาชีพอย่างเป็นรูปธรรม โดยครอบคลุมความเชี่ยวชาญเฉพาะด้านต่างๆ เช่น ด้านพนักงานสัมพันธ์ ด้านสรรหาและคัดเลือก ด้านบริหารความก้าวหน้าในสายอาชีพ ด้านบริหารผลงาน และด้านบริหารค่าตอบแทน (ไม่ใช่วุฒิบัตรแบบกว้างๆ เพียงอย่างเดียว)","ปรับบทบาท HR เป็น \"ที่ปรึกษาเชิงรุก (Internal Consultant)\" เต็มรูปแบบ: มีการจัดทำแผนปรับบทบาทการดำเนินงานของ HR ในการเป็น \"หุ้นส่วนทางธุรกิจ (Strategic Partner)\" ของสายงานต่างๆ ภายในองค์กรอย่างชัดเจน โดยมีการพัฒนาความรู้และทักษะให้กับผู้บริหารระดับสายงาน (Line Manager) และผู้แทนสายงาน (HR Coordinator) ควบคู่ไปด้วย","มีการสอบทานกระบวนการ HR (HR Audit) อย่างเป็นระบบ: มีการกำหนดแนวทางและดำเนินการสอบทานกระบวนการที่สำคัญด้านทรัพยากรบุคคลที่เป็นไปตามมาตรฐานสากล"],minReqs:{"1":["หลักฐานภาพถ่าย/รายงานที่แสดงว่าผู้บริหารระดับสูงมีส่วนร่วม/สนับสนุนงานด้าน HR","รายงาน/หลักฐานการจัดอบรมพัฒนาความรู้ด้าน HR ให้กับผู้บริหารสายงาน (Line Manager) และผู้แทนสายงาน (HR Coordinator) เช่น การสอนจัดทำ KPI หรือ Skill Matching"],"2":["รายงานผลการเข้าร่วมและแลกเปลี่ยนข้อมูลกับเครือข่ายภายนอก (เช่น กบร., กฟภ., เครือข่ายรัฐวิสาหกิจ","[สิ่งที่ต้องเพิ่มในปี 69] แผนที่นำทาง (Roadmap) และหลักฐานการผลักดันบุคลากร HR ให้สอบ \"คุณวุฒิวิชาชีพด้าน HR ระดับสากล (Global HR Certification เช่น SHRM)\"","คำสั่งแต่งตั้งและรายงานผลการดำเนินงานเชิงรุกของทีม HRBP (HR Business Partner) แบบข้ามสายงาน","[สิ่งที่ต้องเพิ่มในปี 69] รายงานการสอบทานกระบวนการ HR (HR Audit) ที่พิสูจน์ได้ว่าเป็น \"การสอบทานเชิงป้องกัน (Preventive Approach)\""],"3":["รายงานผลการดำเนินงานตามแผนยุทธศาสตร์ HR ที่ครบถ้วน บรรลุตามเป้าหมาย (KPIs)","รายงานการติดตามและประเมินผลผ่านคณะกรรมการ กนบ. หรือ คณะกรรมการ HR เป็นรายไตรมาส"],"4":["ตารางแสดงความเชื่อมโยง (Mapping) ระหว่างการปรับบทบาทของ HR กับแผนยุทธศาสตร์องค์กร และเป้าหมายทางธุรกิจ"],"5":["ตารางสรุปข้อมูลป้อนกลับ (Feedback Table) จากการให้บริการของ HR (เช่น ผลสำรวจความพึงพอใจการให้บริการของฝ่าย HR) เพื่อนำมาพัฒนาการทำงาน"]},subComps:{"2":["จุดตายเรื่อง HR Audit ต้องเป็น \"เชิงป้องกัน\" (Level 2): นี่คือจุดที่ทำให้ กทท. ได้คะแนนไม่เต็มครับ! ในปีที่ผ่านมาการทำ HR Audit ของ กทท. ยังมีลักษณะเหมือน Internal Audit คือ \"การตรวจสอบจับผิดหลังเกิดเหตุ\" แต่ TRIS ระบุชัดเจนว่า HR Audit ต้องเป็น \"Preventive Approach\" คือการคัดเลือกจุดวิกฤต (Critical Step) ของกระบวนการ HR มาตรวจสอบและวางระบบดักจับ \"ก่อนที่ความผิดพลาดจะเกิดขึ้นจริง","คุณวุฒิวิชาชีพต้องยกระดับสู่ \"มาตรฐานสากล\" (Level 2): กทท. มีผลงานการส่งพนักงาน HR 30 คนไปประเมินคุณวุฒิวิชาชีพนักทรัพยากรบุคคล (TPQI - ของไทย) แล้ว แต่ผู้ตรวจได้ให้ข้อสังเกตว่า วิสัยทัศน์ของ กทท. คือ \"ท่าเรือชั้นนำระดับโลก\" ดังนั้นสายงาน HR จึงควรมีการจัดทำแผน Roadmap ผลักดันให้บุคลากรได้ ใบรับรองคุณวุฒิวิชาชีพระดับสากล (เช่น SHRM) ด้วย จึงจะสมน้ำสมเนื้อกับวิสัยทัศน์องค์กร","ความเป็นที่ปรึกษา (Internal Consultant) ต้องจับต้องได้ (Level 2): การมีคำสั่งตั้งทีม HRBP ยังไม่พอ ผู้ตรวจต้องการเห็นผลลัพธ์ที่ทีม HRBP ลงไปให้คำปรึกษา แนะนำการตั้ง KPI หรือแก้ปัญหาให้กับหน้างานอย่างเป็นรูปธรรม โดยมี \"ผลสำรวจความพึงพอใจการให้คำปรึกษาของ HRBP จากหน่วยงานต่างๆ\" มาเป็นตัวชี้วัดความสำเร็จ","ประเด็นซ่อนเร้นเรื่อง \"HR Governance\" (Level 2 ): ในเล่มคู่มือ SE-AM ได้ซ่อนหลักเกณฑ์นี้ไว้ในหมายเหตุ โดยการบริหารงาน HR ที่ดีต้องมี \"ธรรมาภิบาล\" ซึ่งประกอบด้วย 1) ช่องทางรับฟังข้อร้องเรียนที่ปลอดภัย 2) โครงสร้างคณะกรรมการคัดเลือก/ลงโทษ/ให้รางวัลที่มีความโปร่งใส และ 3) การทบทวนกฎระเบียบข้อบังคับที่ล้าสมัยเพื่อความคล่องตัว (Agility)"],"4":["จุดตายเรื่อง HR Audit ต้องเป็น \"เชิงป้องกัน\" (Level 4): นี่คือจุดที่ทำให้ กทท. ได้คะแนนไม่เต็มครับ! ในปีที่ผ่านมาการทำ HR Audit ของ กทท. ยังมีลักษณะเหมือน Internal Audit คือ \"การตรวจสอบจับผิดหลังเกิดเหตุ\" แต่ TRIS ระบุชัดเจนว่า HR Audit ต้องเป็น \"Preventive Approach\" คือการคัดเลือกจุดวิกฤต (Critical Step) ของกระบวนการ HR มาตรวจสอบและวางระบบดักจับ \"ก่อนที่ความผิดพลาดจะเกิดขึ้นจริง","ประเด็นซ่อนเร้นเรื่อง \"HR Governance\" (Level 4): ในเล่มคู่มือ SE-AM ได้ซ่อนหลักเกณฑ์นี้ไว้ในหมายเหตุ โดยการบริหารงาน HR ที่ดีต้องมี \"ธรรมาภิบาล\" ซึ่งประกอบด้วย 1) ช่องทางรับฟังข้อร้องเรียนที่ปลอดภัย 2) โครงสร้างคณะกรรมการคัดเลือก/ลงโทษ/ให้รางวัลที่มีความโปร่งใส และ 3) การทบทวนกฎระเบียบข้อบังคับที่ล้าสมัยเพื่อความคล่องตัว (Agility)"]}}
+  ]
+}};
+const CROSS_LINKS={
+"1.1":{"4":["SP","RM","SCM","DT","KM&IM"]},
+"1.2":{"4":["SP","CG","SCM"]},
+"2.1":{"4":["SP","DT","RM&IC"]},
+"2.2":{"4":["SP","CG","RM&IC","KM&IM"]},
+"2.3":{"4":["SCM","SP","CG","RM&IC"]},
+"3.1":{"4":["KM&IM","SCM","DT","CG"]},
+"3.2":{"4":["KM&IM","SP","CG","การบูรณาการภายในระบบ HR (กับข้อ 2.3, 3.1 และ 3.3)"]},
+"3.3":{"4":["SP","การบริหารอัตรากำลัง (HCM 2.1)","ระบบการเรียนรู้และการพัฒนา L&D (HCM 3.1)","การสืบทอดตำแหน่งและบริหารคนเก่ง (HCM 3.2)","SCM","การสร้างประสบการณ์พนักงาน - HCM 4.1"]},
+"4.1":{"4":["SCM","CG","RM&IC","DT"]},
+"4.2":{"4":["DT","SP","ระบบการเรียนรู้ (L&D) (HCM 3.1 & 3.2)"]},
+"4.3":{"4":["RM&IC","SP","SCM","CG"]},
+"4.4":{"4":["IA","SP","RM&IC","CG"]}
+};
+const DIM_COL={"SP":"#1e3a5c","HCM":"#0d7377","SCM":"#b8862f","DT":"#4c51bf","KM":"#276749","CG":"#7b2d3e","RM&IC":"#64748b","IA":"#6b46c1","IM":"#c2610f","CM":"#0a8a7a"};
+
+// ── STATE ────────────────────────────────────────────────────────────
+let hcmMrChk={};   // hcmMrChk[sid][L][ri] = bool — minReqs gating
+let hcmScChk={};   // hcmScChk[sid][L][si] = bool — subComps partial credit
+let hcmDimMlt={};  // hcmDimMlt[sid][L] = 0|0.5|1.0 — fallback when no subComps
+let docCk={};let feInput={};let clChecked={};
+let targets={hcm:{}};let focusId=null;
+
+DATA.hcm.subs.forEach(s=>{
+  hcmMrChk[s.id]={};hcmScChk[s.id]={};hcmDimMlt[s.id]={};
+  targets.hcm[s.id]=s.s68;
+  for(let L=1;L<=5;L++){
+    hcmMrChk[s.id][L]={};
+    hcmScChk[s.id][L]=(s.subComps&&s.subComps[L])?s.subComps[L].map(()=>false):[];
+    hcmDimMlt[s.id][L]=0;
+  }
+});
+
+// ── LOAD ─────────────────────────────────────────────────────────────
+async function loadState(){
+  try{
+    const d=JSON.parse(localStorage.getItem(LS_KEY)||'{}');
+    if(d.mr)Object.assign(hcmMrChk,d.mr);
+    if(d.sc)Object.assign(hcmScChk,d.sc);
+    if(d.dm)Object.assign(hcmDimMlt,d.dm);
+    if(d.cl)Object.assign(clChecked,d.cl);
+    if(d.dc)Object.assign(docCk,d.dc);
+    if(d.fe)Object.assign(feInput,d.fe);
+  }catch(e){}
+  const remote=await ebFetchDim(DIM_KEY,4000);
+  if(remote&&remote.data&&Object.keys(remote.data).length){
+    try{
+      const d=remote.data;
+      if(d.mr)Object.assign(hcmMrChk,d.mr);
+      if(d.sc)Object.assign(hcmScChk,d.sc);
+      if(d.dm)Object.assign(hcmDimMlt,d.dm);
+      if(d.cl)Object.assign(clChecked,d.cl);
+      if(d.dc)Object.assign(docCk,d.dc);
+      if(d.fe)Object.assign(feInput,d.fe);
+      localStorage.setItem(LS_KEY,JSON.stringify(d));
+    }catch(e){}
+  }
+  DATA.hcm.subs.forEach(s=>{targets.hcm[s.id]=hcmCalcRaw(s.id)||s.s68;});
+}
+
+// ── SAVE / EXPORT / IMPORT ───────────────────────────────────────────
+function save(){
+  try{localStorage.setItem(LS_KEY,JSON.stringify({mr:hcmMrChk,sc:hcmScChk,dm:hcmDimMlt,cl:clChecked,dc:docCk,fe:feInput}));}catch(e){}
+  syncHomeStatus();
+  ebScheduleSaveDim(DIM_KEY,
+    ()=>JSON.parse(localStorage.getItem(LS_KEY)||'{}'),
+    ()=>{const h=JSON.parse(localStorage.getItem('seam_status_69')||'{}');return h[DIM_KEY]||{};},
+    800);
+}
+function exportProgress(){
+  const payload=JSON.parse(localStorage.getItem(LS_KEY)||'{}');
+  payload._exported=new Date().toISOString();payload._dim='HCM';
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='HCM_progress_'+new Date().toLocaleDateString('th-TH').replace(/\//g,'')+'.json';
+  a.click();
+}
+function importProgress(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const d=JSON.parse(e.target.result);
+      const exp=d._exported?new Date(d._exported).toLocaleString('th-TH'):'ไม่ระบุ';
+      if(!confirm('นำเข้าข้อมูล HCM (ส่งออกเมื่อ '+exp+')\nจะทับข้อมูลปัจจุบัน — ยืนยัน?'))return;
+      delete d._exported;delete d._dim;
+      localStorage.setItem(LS_KEY,JSON.stringify(d));
+      loadState();renderAll();
+    }catch(err){alert('ไฟล์ไม่ถูกต้อง');}
+  };
+  reader.readAsText(file);input.value='';
+}
+function syncHomeStatus(){
+  try{
+    const home=JSON.parse(localStorage.getItem('seam_status_69')||'{}');
+    if(!home[DIM_KEY])home[DIM_KEY]={};
+    DATA.hcm.subs.forEach(s=>{
+      const score=hcmCalcRaw(s.id);
+      const gc=(s.gaps||[]).length;
+      home[DIM_KEY][s.id]={level:score,hasOpenGap:gc>0,gapCount:gc};
+    });
+    localStorage.setItem('seam_status_69',JSON.stringify(home));
+  }catch(e){}
+}
+
+// ── SCORING ──────────────────────────────────────────────────────────
+function hcmCalcLevel(sid,L){
+  const s=DATA.hcm.subs.find(x=>x.id===sid);if(!s)return 0;
+  const mrs=(s.minReqs&&s.minReqs[L])||[];
+  const passedMR=mrs.length===0||mrs.every((_,i)=>!!(hcmMrChk[sid]&&hcmMrChk[sid][L]&&hcmMrChk[sid][L][i]));
+  if(!passedMR)return 0;
+  const scs=(s.subComps&&s.subComps[L])||[];
+  if(scs.length>0){
+    const checked=((hcmScChk[sid]&&hcmScChk[sid][L])||[]).filter(Boolean).length;
+    return checked/scs.length;
+  }
+  return(hcmDimMlt[sid]&&hcmDimMlt[sid][L])||0;
+}
+function hcmCalcRaw(sid){
+  let total=0;
+  for(let L=1;L<=5;L++){
+    const lScore=hcmCalcLevel(sid,L);
+    total+=lScore;
+    if(lScore===0)break;
+  }
+  return Math.min(5,total);
+}
+
+// ── SETTERS ──────────────────────────────────────────────────────────
+function hcmToggleMR(sid,L,ri,val){
+  if(!hcmMrChk[sid])hcmMrChk[sid]={};
+  if(!hcmMrChk[sid][L])hcmMrChk[sid][L]={};
+  hcmMrChk[sid][L][ri]=val;
+  targets.hcm[sid]=hcmCalcRaw(sid);save();renderAll();
+}
+function hcmToggleSC(sid,L,si,val){
+  if(!hcmScChk[sid])hcmScChk[sid]={};
+  if(!hcmScChk[sid][L])hcmScChk[sid][L]=[];
+  hcmScChk[sid][L][si]=val;
+  targets.hcm[sid]=hcmCalcRaw(sid);save();renderAll();
+}
+function hcmSetDim(sid,L,val){
+  if(!hcmDimMlt[sid])hcmDimMlt[sid]={};
+  hcmDimMlt[sid][L]=parseFloat(val);
+  targets.hcm[sid]=hcmCalcRaw(sid);save();renderAll();
+}
+function hcmClearAll(){
+  DATA.hcm.subs.forEach(s=>{
+    hcmMrChk[s.id]={};hcmScChk[s.id]={};hcmDimMlt[s.id]={};
+    [1,2,3,4,5].forEach(L=>{hcmMrChk[s.id][L]={};hcmScChk[s.id][L]=[];hcmDimMlt[s.id][L]=0;});
+    delete docCk[s.id];delete feInput[s.id];delete clChecked[s.id];
+  });
+  try{localStorage.removeItem(LS_KEY);}catch(e){}
+  DATA.hcm.subs.forEach(s=>{targets.hcm[s.id]=s.s68;});
+  renderAll();
+}
+function hcmClearOne(sid){
+  const s=DATA.hcm.subs.find(x=>x.id===sid);if(!s)return;
+  hcmMrChk[sid]={};hcmScChk[sid]={};hcmDimMlt[sid]={};
+  [1,2,3,4,5].forEach(L=>{hcmMrChk[sid][L]={};hcmScChk[sid][L]=[];hcmDimMlt[sid][L]=0;});
+  delete docCk[sid];delete feInput[sid];delete clChecked[sid];
+  targets.hcm[sid]=s.s68;
+  save();renderAll();
+}
+
+// ── UTILITIES ────────────────────────────────────────────────────────
+function docGetChk(sid,L,i){return !!(docCk[sid]&&docCk[sid][L]&&docCk[sid][L][i]);}
+function feGet(sid,field,key){return(feInput[sid]&&feInput[sid][field]&&feInput[sid][field][key])||'';}
+function feSet(sid,field,key,val){if(!feInput[sid])feInput[sid]={};if(!feInput[sid][field])feInput[sid][field]={};feInput[sid][field][key]=val;save();}
+function feGapClosed(sid,i){const fi=feInput[sid];if(!fi||!fi.gapClosed)return null;return fi.gapClosed.hasOwnProperty(i)?fi.gapClosed[i]:null;}
+function feCopyOut(outId,btn){
+  const el=document.getElementById(outId);if(!el)return;
+  const orig=btn.textContent;
+  if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(el.value).then(()=>{btn.textContent='✓ คัดลอกแล้ว';setTimeout(()=>btn.textContent=orig,1500);}).catch(()=>{el.select();document.execCommand('copy');});}
+  else{el.select();document.execCommand('copy');btn.textContent='✓ คัดลอกแล้ว';setTimeout(()=>btn.textContent=orig,1500);}
+}
+function docToggle(sid,L,i,v){
+  if(!docCk[sid])docCk[sid]={};if(!docCk[sid][L])docCk[sid][L]={};
+  docCk[sid][L][i]=v;save();
+  const inp=document.getElementById(`dck-${sid}-${L}-${i}`);
+  if(inp){const lbl=inp.closest('label');if(lbl){if(v)lbl.classList.add('fb-item-done');else lbl.classList.remove('fb-item-done');}}
+  updateDocProgress(sid);
+}
+function updateDocProgress(sid){
+  const s=DATA.hcm.subs.find(x=>x.id===sid);if(!s)return;
+  const mr=s.minReqs||{};let total=0,done=0;
+  [1,2,3,4,5].forEach(L=>{
+    const items=mr[L]||[];total+=items.length;
+    const lvlDone=items.filter((_,i)=>docGetChk(sid,L,i)).length;done+=lvlDone;
+    const cntEl=document.getElementById(`fb-cnt-${sid}-${L}`);
+    if(cntEl){
+      const c=lvlDone===items.length&&items.length>0?'#0f766e':lvlDone>0?'#92400e':'#0369a1';
+      cntEl.textContent=`${lvlDone}/${items.length}`;cntEl.style.color=c;
+      const hdEl=cntEl.closest('.doc-lvl-hd');
+      if(hdEl)hdEl.style.background=lvlDone===items.length&&items.length>0?'#e4f5e4':lvlDone>0?'#fef8e0':'rgba(2,132,199,.06)';
+    }
+  });
+  const totalEl=document.getElementById(`fb-total-${sid}`);const fillEl=document.getElementById(`fb-prog-fill-${sid}`);
+  if(totalEl){const c=done===total&&total>0?'#0f766e':done>0?'#92400e':'#666';totalEl.textContent=`${done}/${total} เอกสารพร้อมแล้ว`;totalEl.style.color=c;if(fillEl){fillEl.style.width=`${total>0?Math.round(done/total*100):0}%`;fillEl.style.background=c;}}
+}
+let _eu=0;
+function exp(txt,lim=110){
+  if(!txt||txt.length<=lim) return txt||'';
+  const id='ex'+(_eu++);
+  const b='border:none;background:#e8e0f8;cursor:pointer;color:#5a20a0;font-size:10px;padding:0 5px;border-radius:8px;line-height:1.6;white-space:nowrap;';
+  return `<span id="${id}s">${txt.slice(0,lim)}<span style="color:#bbb;">…</span>&nbsp;<button onclick="document.getElementById('${id}s').style.display='none';document.getElementById('${id}f').style.display='inline';" style="${b}">▼ ดูเพิ่ม</button></span><span id="${id}f" style="display:none;">${txt}&nbsp;<button onclick="document.getElementById('${id}f').style.display='none';document.getElementById('${id}s').style.display='inline';" style="${b}">▲ ย่อ</button></span>`;
+}
+function clExpand(id,i){const el=document.getElementById('cls-'+id+'-'+i);const btn=document.getElementById('clb-'+id+'-'+i);if(!el||!btn)return;const collapsed=el.style.webkitLineClamp!=='unset'&&el.style.webkitLineClamp!=='';el.style.webkitLineClamp=collapsed?'unset':'2';btn.textContent=collapsed?'ย่อ ▲':'อ่านเพิ่ม ▼';}
+function fmt(n){return n.toFixed(4);}
+function sClass(st){return st==='เสร็จแล้ว'?'s2':st==='กำลังดำเนินการ'?'s1':'s0';}
+function sIcon(st){return st==='เสร็จแล้ว'?'✓':st==='กำลังดำเนินการ'?'●':'○';}
+function dotColor(s){
+  const t=hcmCalcRaw(s.id);const diff=t-s.s68;
+  if(diff>0.5)return 'dg';if(diff>0.01)return 'da';return 'dr';
+}
+function dimBadge(d){
+  const key=d.replace(/^(SP|HCM|SCM|DT|KM|CG|RM&IC|IA|IM|CM).*/,'$1');
+  const col=DIM_COL[key]||'#5a3e8c';
+  return `<a href="${LINK_URL}" target="_blank" class="dim-badge" style="background:${col};text-decoration:none;" title="ดูเอกสารเชื่อมโยง ${d}">${d}</a>`;
+}
+const HCM_DEP_TOTAL=(function(){
+  const c={};
+  Object.values(CROSS_LINKS).forEach(lvls=>Object.values(lvls).forEach(dims=>dims.forEach(d=>{
+    const k=d;c[k]=(c[k]||0)+1;
+  })));
+  return c;
+})();
+function renderDepTotal(){
+  const order=['CG','SP','HCM','KM','IM','DT','SCM','CM','RM&IC'];
+  const vals=order.filter(k=>HCM_DEP_TOTAL[k]);
+  if(!vals.length)return '';
+  const maxV=Math.max(...vals.map(k=>HCM_DEP_TOTAL[k]));
+  return '<div class="dep-count-bar"><span style="font-size:9px;color:#2a6a4a;font-weight:600;flex-shrink:0;margin-right:2px;">📊 HCM พึ่งพา:</span>'+
+    vals.map(k=>{
+      const v=HCM_DEP_TOTAL[k];const col=DIM_COL[k]||'#5a3e8c';const barW=Math.round(v/maxV*36);
+      return `<span class="dep-pill" style="background:${col};">${k}<span>×${v}</span><span style="display:inline-block;width:${barW}px;height:4px;background:rgba(255,255,255,.45);border-radius:2px;margin-left:3px;"></span></span>`;
+    }).join('')+'</div>';
+}
+
+// ── genScript ─────────────────────────────────────────────────────────
+function genScript(sid){
+  const s=DATA.hcm.subs.find(x=>x.id===sid);if(!s)return'';
+  const fi=feInput[sid]||{};const lvlNotes=fi.lvlNotes||{};const gapClosed=fi.gapClosed||{};const gapNotes=fi.gapNotes||{};
+  const mr=s.minReqs||{};
+  const simMax=[5,4,3,2,1].find(L=>hcmCalcLevel(sid,L)>=1)||0;
+  const lines=[];
+  lines.push(`รายงานประเมินตนเอง — เกณฑ์ ${sid} ${s.name}`);
+  lines.push(`ระดับที่ผ่านครบ (คาดการณ์): L${simMax||'—'}`);
+  lines.push(`คะแนนดิบสะสม: ${hcmCalcRaw(sid).toFixed(4)}/5.0`);
+  lines.push('─'.repeat(60));lines.push('');
+  lines.push(`กทท. ได้ดำเนินการตามหลักเกณฑ์ "${s.name}" โดยมีผลการดำเนินงาน ดังนี้`);lines.push('');
+  [1,2,3,4,5].forEach(L=>{
+    const items=mr[L]||[];if(!items.length)return;
+    const lScore=hcmCalcLevel(sid,L);const isPass=lScore>=1;const isPartial=lScore>0&&lScore<1;
+    const lvlTitle=(s.levelSumm&&s.levelSumm[L-1])||`ระดับ ${L}`;
+    const tickedDocs=items.filter((_,i)=>docGetChk(sid,L,i)).map(d=>d.replace('[แก้ไข Gap สำคัญ]','').trim());
+    const note=lvlNotes[L]||'';
+    const scs=(s.subComps&&s.subComps[L])||[];
+    const scChecked=scs.length>0?((hcmScChk[sid]&&hcmScChk[sid][L])||[]).filter(Boolean).length:null;
+    lines.push(`${isPass?'✓':isPartial?'◐':'○'} ระดับ ${L} — ${lvlTitle}`);
+    if(scChecked!==null)lines.push(`   ประเด็นที่เปิดเผย: ${scChecked}/${scs.length} (${(lScore*100).toFixed(0)}%)`);
+    if(note)lines.push(`   ${note}`);
+    if(tickedDocs.length){lines.push(`   หลักฐานที่เตรียมแล้ว (${tickedDocs.length} รายการ):`);tickedDocs.forEach((d,i)=>lines.push(`   (${i+1}) ${d}`));}
+    lines.push('');
+  });
+  const goods=s.good||[];const results=s.results||[];
+  if(goods.length){lines.push('จุดแข็งขององค์กร:');goods.forEach(g=>lines.push(`• ${g}`));lines.push('');}
+  if(results.length){lines.push('ผลการดำเนินงานที่นำเสนอ:');results.forEach((r,i)=>lines.push(`(${i+1}) ${r}`));lines.push('');}
+  const gaps=s.gaps||[];
+  if(gaps.length){
+    lines.push('ช่องว่างที่ได้รับการเสนอแนะ และสถานะการปิด:');
+    gaps.forEach((gap,i)=>{
+      const cl=gapClosed[i];const gNote=gapNotes[i]||'';
+      const st=cl===true?'✓ ปิดได้แล้ว':cl===false?'○ อยู่ระหว่างดำเนินการ':'— ยังไม่ได้ระบุ';
+      lines.push(`• ${gap}`);lines.push(`  → ${st}${gNote?': '+gNote:''}`);
+    });
+  }
+  return lines.join('\n');
+}
+
+// ── renderSim (SM Sequential Gating) ────────────────────────────────
+function renderSim(s){
+  const sid=s.id;
+  const lvlSc=[];let gated=false;
+  for(let L=1;L<=5;L++){
+    if(gated){lvlSc.push({rv:0,bl:true,passedMR:false,hasSC:false});continue;}
+    const mrs=(s.minReqs&&s.minReqs[L])||[];
+    const passedMR=mrs.length===0||mrs.every((_,i)=>!!(hcmMrChk[sid]&&hcmMrChk[sid][L]&&hcmMrChk[sid][L][i]));
+    const scs=(s.subComps&&s.subComps[L])||[];
+    let rv=0;
+    if(passedMR){
+      if(scs.length>0){
+        const checked=((hcmScChk[sid]&&hcmScChk[sid][L])||[]).filter(Boolean).length;
+        rv=checked/scs.length;
+      }else{
+        rv=(hcmDimMlt[sid]&&hcmDimMlt[sid][L])||0;
+      }
+    }
+    lvlSc.push({rv,bl:false,passedMR,hasSC:scs.length>0});
+    if(rv===0)gated=true;
+  }
+  const raw=lvlSc.reduce((a,x)=>a+x.rv,0);
+  const wt=raw*(s.w/100);
+  targets.hcm[sid]=raw;
+  requestAnimationFrame(()=>{
+    const inp=document.getElementById('ti-'+sid);
+    if(inp){inp.value=fmt(targets.hcm[sid]);inp.style.borderColor=raw>=4?'#2a8a4a':raw>=3?'#5a8a00':raw>=2?'#c07000':'#c03020';}
+  });
+
+  function countMR(L){const mrs=(s.minReqs&&s.minReqs[L])||[];let t=0,c=0;mrs.forEach((_,ri)=>{t++;if(hcmMrChk[sid]&&hcmMrChk[sid][L]&&hcmMrChk[sid][L][ri])c++;});return{tot:t,chk:c};}
+
+  const allDimsSet=[];
+  for(let _l=1;_l<=5;_l++){((CROSS_LINKS[sid]&&CROSS_LINKS[sid][_l])||[]).forEach(d=>{if(!allDimsSet.includes(d))allDimsSet.push(d);});}
+  const crossSumm=allDimsSet.length?`<div class="crosslink-summ">🔗&nbsp;<strong style="margin-right:4px;">ต้องร่วมมือ:</strong>${allDimsSet.map(dimBadge).join(' ')}</div>`:'';
+  const gapL=s.s68>0?(s.s68===Math.floor(s.s68)?s.s68+1:Math.ceil(s.s68)):1;
+
+  let lvlHTML='';
+  lvlSc.forEach((ls,i)=>{
+    const L=i+1;
+    const summ=(s.levelSumm&&s.levelSumm[L-1])||'';
+    const detail=(s.dimLevels&&s.dimLevels[L-1])||'';
+    const mrs=(s.minReqs&&s.minReqs[L])||[];
+    const scs=(s.subComps&&s.subComps[L])||[];
+    const ints=(CROSS_LINKS[sid]&&CROSS_LINKS[sid][L])||[];
+    const{tot,chk}=countMR(L);
+    const rv=ls.rv;
+    const hdBg=ls.bl?'#eee8f8':rv>=1?'#e4f5e4':rv>0?'#fef8e8':'#f0fffa';
+    const nBg=ls.bl?'#aaa':rv>=1?'#0f766e':rv>0?'#2a8a50':'#1a5a3a';
+    const sCol=ls.bl?'#bbb':rv>=1?'#0f766e':rv>0?'#2a8a50':'#6aaa88';
+    const barPct=tot>0?Math.round(chk/tot*100):0;
+    const xId=`cgx-${sid}-${L}`;
+    const xBtn=detail?`<button class="cg-toggle" onclick="event.stopPropagation();var e=document.getElementById('${xId}'),b=this;e.classList.toggle('open');b.textContent=e.classList.contains('open')?'▲':'▼';">▼</button>`:'';
+    const xPan=detail?`<div id="${xId}" class="cg-lvl-detail">${detail}</div>`:'';
+    let mrH='';
+    if(mrs.length){
+      mrH=`<div class="cg-sect-lbl">🔒 หลักฐานขั้นต่ำ (L${L}) <span style="color:#0f766e;">${chk}/${tot} (${barPct}%)</span></div>
+      <div class="cg-prog-bar"><div class="cg-prog-fill" style="width:${barPct}%;background:${chk===tot?'#0f766e':'#2a8a50'};"></div></div>`;
+      mrs.forEach((txt,ri)=>{
+        const kid=`cgmr-${sid}-${L}-${ri}`;const ck=hcmMrChk[sid]&&hcmMrChk[sid][L]&&hcmMrChk[sid][L][ri]?'checked':'';const dis=ls.bl?'disabled':'';
+        mrH+=`<div class="cg-req-item"><input type="checkbox" id="${kid}" ${ck} ${dis} onchange="hcmToggleMR('${sid}',${L},${ri},this.checked);" style="accent-color:#0f766e;"><label for="${kid}">${txt}</label></div>`;
+      });
+    }
+    let dimH='';
+    if(scs.length>0){
+      const scChecked=((hcmScChk[sid]&&hcmScChk[sid][L])||[]).filter(Boolean).length;
+      const scPct=Math.round(scChecked/scs.length*100);
+      dimH=`<div class="cg-sect-lbl" style="margin-top:8px;">📊 ประเด็นที่เปิดเผย (L${L}) — <span style="color:#0f766e;">${scChecked}/${scs.length} = ${rv.toFixed(4)}</span></div>
+      <div class="cg-prog-bar"><div class="cg-prog-fill" style="width:${scPct}%;background:${scChecked===scs.length?'#0f766e':'#2a8a50'};"></div></div>`;
+      scs.forEach((txt,si)=>{
+        const kid=`cgsc-${sid}-${L}-${si}`;const ck=hcmScChk[sid]&&hcmScChk[sid][L]&&hcmScChk[sid][L][si]?'checked':'';const dis=ls.bl||!ls.passedMR?'disabled':'';
+        dimH+=`<div class="cg-req-item"><input type="checkbox" id="${kid}" ${ck} ${dis} onchange="hcmToggleSC('${sid}',${L},${si},this.checked);" style="accent-color:#0f766e;"><label for="${kid}">${txt}</label></div>`;
+      });
+    }else{
+      const dis=ls.bl?'disabled':'';
+      dimH=`<div class="cg-sect-lbl" style="margin-top:8px;">📐 มิติที่ประเมิน (L${L})</div><div class="cg-radio-grp">`;
+      [[0,'0 — ไม่ครบตามเกณฑ์'],[0.5,'0.5 — ทำได้บางส่วน'],[1,'1.0 — ครบตามมิติที่ประเมิน']].forEach(([v,lbl])=>{
+        const ck=(rv===v)?'checked':'';const col=v===1?'#0f766e':v===0.5?'#c07000':'#c03020';
+        dimH+=`<label style="padding:3px 6px;border-radius:5px;background:${ck?(v===1?'#e0f5e8':v===0.5?'#fef8e0':'#fee8e8'):'transparent'};border:1px solid ${ck?col:'transparent'};color:${ck?col:'#444'};font-weight:${ck?'700':'400'};cursor:${ls.bl?'not-allowed':'pointer'};"><input type="radio" name="cgdim-${sid}-${L}" value="${v}" ${ck} ${dis} onchange="hcmSetDim('${sid}',${L},${v});" style="accent-color:${col};flex-shrink:0;"> ${lbl}</label>`;
+      });
+      dimH+='</div>';
+    }
+    const dimStrip=ints.length?`<div class="lvl-dim-strip">${ints.map(dimBadge).join(' ')}</div>`:'';
+    lvlHTML+=`<div class="cg-lvl-row${ls.bl?' blocked':L===gapL?' is-gap':''}">
+      <div class="cg-lvl-hd" style="background:${hdBg};">
+        <span class="cg-lvl-num" style="background:${nBg};">L${L}</span>
+        <span class="cg-lvl-summ"><span class="kt">${summ}</span>${(!ls.bl&&L===gapL)?'&nbsp;<span class="dim-gap-tag">⚠️ ช่องว่าง</span>':''}</span>
+        <span style="display:flex;gap:3px;align-items:center;flex-shrink:0;">${xBtn}<span style="font-size:10px;font-weight:700;color:${sCol};min-width:28px;text-align:right;">${ls.bl?'—':rv.toFixed(2)}</span></span>
+      </div>
+      ${dimStrip}${xPan}
+      <div class="cg-lvl-body">
+        ${mrH}<div${!ls.passedMR&&mrs.length?' style="pointer-events:none;opacity:.5;"':''}>${dimH}</div>
+      </div>
+    </div>`;
+  });
+
+  return `<div class="cg-sim">
+    <div class="cg-sim-hd">
+      <span style="font-size:11px;padding:2px 8px;border-radius:6px;background:var(--navy);color:#fff;">HCM</span>
+      &nbsp;Sequential Gating Simulator — minReqs + SubComps
+      <span style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+        <button onclick="if(confirm('ล้างข้อมูลทั้งหมด?'))hcmClearAll()" style="font-size:11px;padding:3px 10px;border:1px solid #e0a0a0;border-radius:5px;background:#fee8e8;cursor:pointer;color:#b03020;font-weight:600;">🗑 ล้างข้อมูล</button>
+        <span style="font-size:11px;font-weight:700;color:#0a4a2a;">${raw.toFixed(4)}/5.0</span>
+      </span>
+    </div>
+    <div class="cg-scope-box">${s.scopeNote||''}</div>
+    ${crossSumm}
+    ${lvlHTML}
+    <div class="cg-total-bar">
+      <span class="cg-total-lbl">คะแนนดิบสะสม (0–5)</span>
+      <span class="cg-raw">${raw.toFixed(4)}</span>
+      <span class="cg-wt">× ${s.w}% = <strong>${wt.toFixed(4)} pts</strong></span>
+    </div>
+  </div>`;
+}
+
+// ── renderFrameB ────────────────────────────────────────────────────
+function renderFrameB(s){
+  const mr=s.minReqs||{};const sid=s.id;
+  let total=0,done=0;
+  [1,2,3,4,5].forEach(L=>{const items=mr[L]||[];total+=items.length;items.forEach((_,i)=>{if(docGetChk(sid,L,i))done++;});  });
+  const progPct=total>0?Math.round(done/total*100):0;
+  const progColor=done===total&&total>0?'#0f766e':done>0?'#92400e':'#666';
+  let html=`<div class="fb-prog-bar"><span style="font-size:11px;font-weight:600;color:${progColor};" id="fb-total-${sid}">${done}/${total} เอกสารพร้อมแล้ว</span><div class="fb-prog-track"><div id="fb-prog-fill-${sid}" style="height:100%;width:${progPct}%;background:${progColor};transition:width .3s;"></div></div></div>`;
+  [1,2,3,4,5].forEach(L=>{
+    const items=mr[L]||[];if(!items.length)return;
+    const lvlDone=items.filter((_,i)=>docGetChk(sid,L,i)).length;
+    const bdId=`fb-bd-${sid}-${L}`;
+    const lvlTitle=(s.levelSumm&&s.levelSumm[L-1])||`ระดับ ${L}`;
+    const shortTitle=lvlTitle.length>48?lvlTitle.slice(0,48)+'…':lvlTitle;
+    const lvlColor=lvlDone===items.length?'#0f766e':lvlDone>0?'#92400e':'#0369a1';
+    const lvlBg=lvlDone===items.length?'#e4f5e4':lvlDone>0?'#fef8e0':'rgba(2,132,199,.06)';
+    const itemsHtml=items.map((item,i)=>{
+      const isGap=item.startsWith('[แก้ไข Gap');const cleanItem=item.replace('[แก้ไข Gap สำคัญ]','').trim();
+      const ckd=docGetChk(sid,L,i);const ckId=`dck-${sid}-${L}-${i}`;
+      return `<label class="fb-item${isGap?' fb-item-gap':''}${ckd?' fb-item-done':''}"><input type="checkbox" id="${ckId}"${ckd?' checked':''} onchange="docToggle('${sid}',${L},${i},this.checked)">${isGap?'<span class="fb-gap-tag">⚠️ Gap</span>':''}<span class="fb-item-text">${cleanItem}</span></label>`;
+    }).join('');
+    html+=`<div class="doc-lvl-block"><div class="doc-lvl-hd" style="background:${lvlBg};" onclick="var e=document.getElementById('${bdId}');e.classList.toggle('open');"><span class="doc-lvl-badge">L${L}</span><span class="doc-lvl-title" style="color:${lvlColor};">${shortTitle}</span><span class="doc-lvl-count" id="fb-cnt-${sid}-${L}" style="color:${lvlColor};font-weight:600;">${lvlDone}/${items.length}</span><span style="font-size:10px;color:#7080b0;">▼</span></div><div class="doc-lvl-body" id="${bdId}">${itemsHtml}</div></div>`;
+  });
+  return html;
+}
+
+// ── renderFrameE ────────────────────────────────────────────────────
+function renderFrameE(s){
+  const sid=s.id;const mr=s.minReqs||{};const gaps=s.gaps||[];const outId=`fe-out-${sid}`;
+  const simMax=[5,4,3,2,1].find(L=>hcmCalcLevel(sid,L)>=1)||0;
+  const rawScore=hcmCalcRaw(sid);
+  const pills=[1,2,3,4,5].map(L=>{
+    const lv=hcmCalcLevel(sid,L);
+    const pass=lv>=1;const partial=lv>0&&lv<1;
+    return `<span style="font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;background:${pass?'#0f766e':partial?'#e3a82e':'#e0ddd8'};color:${pass||partial?'#fff':'#888'};">L${L}${partial?' ('+Math.round(lv*100)+'%)':''}</span>`;
+  }).join('');
+  let html=`<div class="fe-sim-row"><span style="font-size:11px;color:var(--text3);">คะแนนดิบ (Simulator):</span><div style="display:flex;gap:4px;flex-wrap:wrap;">${pills}</div><span style="font-size:11px;font-weight:700;color:#0f766e;margin-left:auto;">${rawScore.toFixed(4)}/5.0</span></div>`;
+  html+=`<div class="fe-sect-lbl">สิ่งที่ดำเนินการ — กรอกต่อระดับที่ทำได้</div>`;
+  [1,2,3,4,5].forEach(L=>{
+    const items=mr[L]||[];if(!items.length)return;
+    const tickedCnt=items.filter((_,i)=>docGetChk(sid,L,i)).length;
+    const lScore=hcmCalcLevel(sid,L);const isPass=lScore>=1;const isPartial=lScore>0;
+    const lvlTitle=(s.levelSumm&&s.levelSumm[L-1])||`ระดับ ${L}`;
+    const short=lvlTitle.length>46?lvlTitle.slice(0,46)+'…':lvlTitle;
+    const note=feGet(sid,'lvlNotes',L);const bdId=`fe-bd-${sid}-${L}`;
+    const badgeBg=isPass?'#0f766e':isPartial?'#e3a82e':'#94a3b8';
+    html+=`<div class="fe-lvl-block${isPass?' fe-lvl-active':''}"><div class="fe-lvl-hd" onclick="var e=document.getElementById('${bdId}');e.classList.toggle('open');"><span class="fe-lvl-badge" style="background:${badgeBg};">L${L}</span><span class="fe-lvl-title">${short}</span><span class="fe-doc-ref">📄 ${tickedCnt}/${items.length}</span><span style="font-size:10px;color:#7080b0;">▼</span></div><div class="fe-lvl-body${isPass?' open':''}" id="${bdId}"><textarea class="fe-textarea" rows="3" placeholder="อธิบายสิ่งที่ กทท. ดำเนินการในระดับนี้..." onchange="feSet('${sid}','lvlNotes',${L},this.value)" onblur="feSet('${sid}','lvlNotes',${L},this.value)">${note}</textarea></div></div>`;
+  });
+  if(gaps.length){
+    html+=`<div class="fe-sect-lbl" style="margin-top:12px;">ช่องว่างจาก TRIS — ปิดได้หรือยัง?</div>`;
+    gaps.forEach((gap,i)=>{
+      const cl=feGapClosed(sid,i);const gNote=feGet(sid,'gapNotes',i);
+      html+=`<div class="fe-gap-item"><div class="fe-gap-text">⚠️ ${gap}</div><div class="fe-gap-status"><label class="fe-radio-lbl"><input type="radio" name="gc-${sid}-${i}" value="1"${cl===true?' checked':''} onchange="feSet('${sid}','gapClosed',${i},true)">✓ ปิดได้แล้ว</label><label class="fe-radio-lbl"><input type="radio" name="gc-${sid}-${i}" value="0"${cl===false?' checked':''} onchange="feSet('${sid}','gapClosed',${i},false)">○ อยู่ระหว่างดำเนินการ</label></div><textarea class="fe-textarea" rows="2" placeholder="อธิบายสิ่งที่ทำเพื่อปิด Gap นี้..." onchange="feSet('${sid}','gapNotes',${i},this.value)" onblur="feSet('${sid}','gapNotes',${i},this.value)">${gNote}</textarea></div>`;
+    });
+  }
+  html+=`<div style="margin-top:14px;"><button class="fe-gen-btn" onclick="document.getElementById('${outId}').value=genScript('${sid}');">🔄 Gen Script</button><span style="font-size:11px;color:var(--text3);margin-left:8px;">รวม Simulator + เอกสาร Frame B + Notes ทั้งหมด</span></div><div style="margin-top:8px;"><textarea class="fe-output" id="${outId}" rows="14" placeholder="กด Gen Script เพื่อสร้างคำตอบ — แก้ไขได้ก่อน Copy"></textarea><button class="fe-copy-btn" onclick="feCopyOut('${outId}',this)">📋 Copy ทั้งหมด</button></div>`;
+  return html;
+}
+
+// ── renderRight ──────────────────────────────────────────────────────
+function renderRight(){
+  const body=document.getElementById('rightBody');
+  if(!focusId){body.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#aaa;font-size:13px;">คลิก sub-item ด้านซ้ายเพื่อดูรายละเอียด</div>';return;}
+  const s=DATA.hcm.subs.find(x=>x.id===focusId);if(!s){body.innerHTML='';return;}
+  const simHTML=renderSim(s);const tval=targets.hcm[s.id];
+  const gA=(s.gaps||[]).map(g=>`<div class="box box-red" style="margin-bottom:4px;">• ${exp(g,90)}</div>`).join('');
+  const rC=(s.results||[]).map(r=>`<div class="match-row m-ok"><span>✓</span><span>${exp(r,80)}</span></div>`).join('');
+  const lC=(s.gaps||[]).slice(0,3).map(g=>`<div class="match-row m-no"><span>✗</span><span style="font-size:10.5px;">${g.split(' —')[0].slice(0,70)}</span></div>`).join('');
+  const dD=(s.actions||[]).map(a=>`<div style="display:flex;align-items:flex-start;gap:5px;font-size:11px;color:#333;padding:3px 0;"><span style="color:#0f766e;flex-shrink:0;">→</span><span>${exp(a,100)}</span></div>`).join('');
+  body.innerHTML=`
+    <div style="padding:5px 12px;font-size:11px;background:#e8f5ee;border-bottom:1px solid #c0dac8;display:flex;align-items:center;gap:8px;flex-shrink:0;position:sticky;top:0;z-index:2;">
+      <span style="font-weight:700;color:#0a4a2a;">ข้อ ${s.id}</span>
+      <span style="color:#555;font-size:10.5px;">${s.name}</span>
+      <span style="margin-left:auto;font-size:10px;background:#e0ddd4;color:#444;padding:1px 7px;border-radius:8px;">ปัจจุบัน ${fmt(s.s68)}</span>
+      <span style="font-size:10px;">→</span>
+      <span style="font-size:10px;background:#c5e8d5;color:#0a4a2a;padding:1px 7px;border-radius:8px;font-weight:700;">คำนวณ ${fmt(tval)}</span>
+      <button onclick="if(confirm('ล้างข้อมูลข้อ ${s.id} ทั้งหมด?'))hcmClearOne('${s.id}')" style="font-size:10.5px;padding:3px 12px;border:none;border-radius:20px;background:#e2554f;color:#fff;cursor:pointer;font-weight:800;box-shadow:0 1px 5px rgba(226,85,79,.5);white-space:nowrap;">🗑 ล้างข้อนี้</button>
+    </div>
+    ${simHTML}
+    <div class="frame"><div class="frame-hd fa-hd"><span class="ftag fa-tag">A</span><span style="color:#7a1010;">ช่องว่างที่ต้องปิด (TRIS)</span></div><div class="frame-bd">${gA||'<div style="color:#999;">—</div>'}</div></div>
+    <div class="frame"><div class="frame-hd fb-hd"><span class="ftag fb-tag">B</span><span style="color:#102070;">เอกสารลงระบบ — แยกตามระดับ</span><a href="${DOC_DETAIL_URL}" target="_blank" style="margin-left:auto;font-size:9.5px;padding:2px 9px;border-radius:5px;background:#2a4a9a;color:#fff;text-decoration:none;font-weight:600;">📋 ดูทั้งหมด</a></div><div class="frame-bd" style="padding:6px 8px;">${renderFrameB(s)}</div></div>
+    <div class="frame"><div class="frame-hd fc-hd"><span class="ftag fc-tag">C</span><span style="color:#4a4a00;">กทท. ตอบอะไรไป / จุดแข็ง</span></div><div class="frame-bd"><div class="box box-gray" style="margin-bottom:6px;font-size:11px;">${exp((s.good||[''])[0]||'—',100)}</div><div style="font-size:9.5px;color:#888;margin:4px 0 2px;font-weight:600;">ผลที่นำเสนอ:</div>${rC}<div style="font-size:9.5px;color:#888;margin:6px 0 2px;font-weight:600;">ช่องว่างที่ยังขาด:</div>${lC}</div></div>
+    <div class="frame"><div class="frame-hd fd-hd"><span class="ftag fd-tag">D</span><span style="color:#102848;">สิ่งที่ต้องดำเนินการปี 69</span></div><div class="frame-bd">${dD||'<div style="color:#999;">—</div>'}</div></div>
+    <div class="frame" style="border-bottom:none;"><div class="frame-hd fe-hd"><span class="ftag fe-tag">E</span><span style="color:#0a4030;">Self-Assessment Script — ร่างคำตอบระบบ สคร.</span></div><div class="frame-bd" style="padding:6px 8px;">${renderFrameE(s)}</div></div>`;
+}
+
+// ── renderLeft ───────────────────────────────────────────────────────
+function renderLeft(){
+  const body=document.getElementById('leftBody');body.innerHTML='';
+  document.getElementById('dimTitle').textContent=DATA.hcm.dimName;
+  document.getElementById('dimOrig').textContent='ปัจจุบัน '+fmt(DATA.hcm.orig);
+  document.getElementById('totalLbl').textContent='คะแนนรวม '+DATA.hcm.dimId;
+  document.getElementById('totalOrig').textContent=fmt(DATA.hcm.orig);
+  const grps=[...new Set(DATA.hcm.subs.map(s=>s.grp))];
+  grps.forEach(gid=>{
+    const ss=DATA.hcm.subs.filter(s=>s.grp===gid);const first=ss[0];
+    const gs=ss.reduce((a,s)=>a+s.w*targets.hcm[s.id],0)/first.gw;
+    const diff=gs-first.gs68;
+    const assessed=ss.filter(s=>hcmCalcRaw(s.id)>0).length;
+    const tot=ss.length;const fillPct=Math.round(gs/5*100);
+    const fillCol=gs>=3.5?'#1f9d6f':gs>=2.5?'#e3a82e':'#e2554f';
+    const chkCls=assessed===tot?'chk-all':assessed>0?'chk-part':'chk-none';
+    const chkLbl=assessed===tot?`✓ ครบ ${tot}/${tot}`:`${assessed}/${tot} ข้อย่อย`;
+    const gDiv=document.createElement('div');gDiv.className='grp';
+    gDiv.innerHTML=`<div class="grp-row1"><span class="grp-id">${gid}</span><span class="grp-name">${first.gname}</span><span class="grp-wt">(${first.gw}%)</span><div class="grp-scores"><span class="chip cn" style="font-size:10px;">${fmt(first.gs68)}</span><span style="color:#999;font-size:10px;">→</span><span class="chip ${diff<-0.001?'cr':diff>0.001?'ct':'cn'}" style="font-size:10px;" id="gs-cg-${gid}">${fmt(gs)}</span></div></div><div class="grp-row2"><span class="grp-chk ${chkCls}" id="rollup-chk-${gid}">${chkLbl}</span><span class="grp-score2"><strong id="rollup-gs-${gid}" style="color:${diff>0.001?'#0f766e':diff<-0.001?'#c03020':'#555'};">${gs.toFixed(4)}</strong><span id="rollup-delta-${gid}" style="font-size:9px;color:${diff>0.001?'#0f766e':diff<-0.001?'#c03020':'#aaa'};">(${diff>=0?'+':''}${diff.toFixed(4)})</span></span><div class="grp-prog"><div class="grp-prog-fill" id="rollup-bar-${gid}" style="width:${fillPct}%;background:${fillCol};"></div></div></div>`;
+    body.appendChild(gDiv);
+    ss.forEach(s=>{
+      const row=document.createElement('div');row.className='sub'+(focusId===s.id?' focus-cg':'');row.id='subrow-'+s.id;
+      row.innerHTML=`<div class="sub-left"><div class="sub-meta"><span class="sub-num">${s.id}</span><span class="sub-name">${s.name}</span><span class="sub-wt">(${s.w}%)</span><span class="sub-now">ปี 68: ${fmt(s.s68)}</span></div></div><div class="sub-target" id="st-${s.id}"><span class="target-lbl">คำนวณ</span><input class="target-inp" id="ti-${s.id}" type="text" value="${fmt(targets.hcm[s.id])}" readonly style="border-color:#ccc;"><span class="dot ${dotColor(s)}" id="dot-${s.id}"></span></div>`;
+      row.addEventListener('click',()=>{focusId=s.id;renderAll();});body.appendChild(row);
+      const strip=document.createElement('div');strip.className='sstrip';
+      strip.innerHTML=`<span class="sbadge ${sClass(s.status)}">${sIcon(s.status)} ${s.status}</span><span style="font-size:10px;color:#999;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-left:6px;">${s.statusNote||'ยังไม่มีข้อมูล'}</span>`;
+      strip.addEventListener('click',()=>{focusId=s.id;renderAll();});body.appendChild(strip);
+    });
+  });
+}
+
+// ── renderChecklist ──────────────────────────────────────────────────
+function renderChecklist(){
+  if(!focusId){document.getElementById('clTitle').textContent='เลือก sub-item เพื่อดู Action Checklist';document.getElementById('clItems').innerHTML='';return;}
+  const s=DATA.hcm.subs.find(x=>x.id===focusId);if(!s)return;
+  document.getElementById('clTitle').textContent=`Action Checklist — ข้อ ${s.id} · ปัจจุบัน ${fmt(targets.hcm[s.id])}`;
+  if(!clChecked[s.id])clChecked[s.id]=(s.actions||[]).map(()=>false);
+  document.getElementById('clItems').innerHTML=(s.actions||[]).map((a,i)=>{
+    const chk=clChecked[s.id][i];
+    const sty=chk?'display:flex;align-items:flex-start;gap:6px;background:#E6F8F1;border-left:3px solid #51BF8E;border-radius:5px;padding:4px 8px;margin-bottom:4px;':'display:flex;align-items:flex-start;gap:6px;background:#FFF0EE;border-left:3px solid #FF6766;border-radius:5px;padding:4px 8px;margin-bottom:4px;';
+    return `<div class="cl-item" id="clrow-${s.id}-${i}" style="${sty}"><input type="checkbox" id="cl-${s.id}-${i}" ${chk?'checked':''} onchange="toggleCL('${s.id}',${i},this.checked)"><label for="cl-${s.id}-${i}" style="flex:1;"><span id="cls-${s.id}-${i}" class="cl-short" style="-webkit-line-clamp:2;">${a}</span><span id="clb-${s.id}-${i}" class="cl-exp-btn" onclick="event.preventDefault();clExpand('${s.id}',${i})">อ่านเพิ่ม ▼</span></label></div>`;
+  }).join('');
+}
+function toggleCL(id,i,val){
+  if(!clChecked[id])clChecked[id]=[];clChecked[id][i]=val;save();
+  const r=document.getElementById('clrow-'+id+'-'+i);if(!r)return;
+  r.style.cssText=val?'display:flex;align-items:flex-start;gap:6px;background:#E6F8F1;border-left:3px solid #51BF8E;border-radius:5px;padding:4px 8px;margin-bottom:4px;':'display:flex;align-items:flex-start;gap:6px;background:#FFF0EE;border-left:3px solid #FF6766;border-radius:5px;padding:4px 8px;margin-bottom:4px;';
+}
+
+// ── updateScores ─────────────────────────────────────────────────────
+function updateScores(){
+  const subs=DATA.hcm.subs;const tw=subs.reduce((a,s)=>a+s.w,0);
+  const total=subs.reduce((a,s)=>a+s.w/tw*hcmCalcRaw(s.id),0);
+  const delta=total-DATA.hcm.orig;
+  document.getElementById('totalChip').textContent='คาดการณ์ '+fmt(total);
+  document.getElementById('totalChip').className='chip '+(delta>0?'ct':delta<0?'cr':'cn');
+  document.getElementById('totalFooter').textContent=fmt(total);
+  document.getElementById('totalFooter').className='chip '+(delta>0?'ct':delta<0?'cr':'cn');
+  document.getElementById('deltaChip').textContent=(delta>=0?'+':'')+fmt(delta)+' pts';
+  document.getElementById('deltaChip').style.color=delta>0?'#1a9a50':delta<0?'#c03020':'#888';
+  document.getElementById('deltaFooter').textContent=(delta>=0?'+':'')+fmt(delta);
+  document.getElementById('deltaFooter').style.color=delta>0?'#5fcf8a':delta<0?'#f0806a':'#888';
+  const grps=[...new Set(subs.map(s=>s.grp))];
+  grps.forEach(gid=>{
+    const ss=subs.filter(s=>s.grp===gid);const first=ss[0];
+    const gs=ss.reduce((a,s)=>a+s.w*targets.hcm[s.id],0)/first.gw;
+    const diff=gs-first.gs68;
+    const el=document.getElementById('gs-cg-'+gid);
+    if(el){el.textContent=fmt(gs);el.className='chip '+(diff<-0.001?'cr':diff>0.001?'ct':'cn');}
+    const gsEl=document.getElementById('rollup-gs-'+gid);
+    if(gsEl){gsEl.textContent=gs.toFixed(4);gsEl.style.color=diff>0.001?'#0f766e':diff<-0.001?'#c03020':'#555';const dEl=document.getElementById('rollup-delta-'+gid);if(dEl){dEl.textContent='('+(diff>=0?'+':'')+diff.toFixed(4)+')';dEl.style.color=diff>0.001?'#0f766e':diff<-0.001?'#c03020':'#aaa';}}
+    const barEl=document.getElementById('rollup-bar-'+gid);if(barEl){barEl.style.width=Math.round(gs/5*100)+'%';barEl.style.background=gs>=3.5?'#1f9d6f':gs>=2.5?'#e3a82e':'#e2554f';}
+    const chkEl=document.getElementById('rollup-chk-'+gid);
+    if(chkEl){const assessed=ss.filter(s=>hcmCalcRaw(s.id)>0).length;const tot=ss.length;chkEl.textContent=assessed===tot?`✓ ครบ ${tot}/${tot}`:`${assessed}/${tot} ข้อย่อย`;chkEl.className='grp-rollup-chk '+(assessed===tot?'chk-all':assessed>0?'chk-part':'chk-none');}
+  });
+  subs.forEach(s=>{const d=document.getElementById('dot-'+s.id);if(d)d.className='dot '+dotColor(s);});
+}
+
+function renderAll(){renderLeft();renderRight();renderChecklist();updateScores();}
+(async function init(){
+  await loadState();
+  renderAll();
+  syncHomeStatus();
+})();
+(function(){const el=document.getElementById('depTotalBar');if(el)el.innerHTML=renderDepTotal();})();
+</script>
+</body>
+</html>
