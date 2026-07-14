@@ -604,6 +604,14 @@ function smClearAll(){
   DATA.sm.subs.forEach(s=>{targets.sm[s.id]=s.s68;});
   renderAll();
 }
+function smClearOne(sid){
+  const s=DATA.sm.subs.find(x=>x.id===sid);if(!s)return;
+  smMrChk[sid]={};smScChk[sid]={};smDimMlt[sid]={};
+  [1,2,3,4,5].forEach(L=>{smMrChk[sid][L]={};smScChk[sid][L]=[];smDimMlt[sid][L]=0;});
+  delete docCk[sid];delete feInput[sid];delete clChecked[sid];
+  targets.sm[sid]=s.s68;
+  save();renderAll();
+}
 
 // ── UTILITIES ────────────────────────────────────────────────────────
 function docGetChk(sid,L,i){return !!(docCk[sid]&&docCk[sid][L]&&docCk[sid][L][i]);}
@@ -911,6 +919,7 @@ function renderRight(){
       <span style="margin-left:auto;font-size:10px;background:#e0ddd4;color:#444;padding:1px 7px;border-radius:8px;">ปัจจุบัน ${fmt(s.s68)}</span>
       <span style="font-size:10px;">→</span>
       <span style="font-size:10px;background:#c5e8d5;color:#0a4a2a;padding:1px 7px;border-radius:8px;font-weight:700;">คำนวณ ${fmt(tval)}</span>
+      <button onclick="if(confirm('ล้างข้อมูลข้อ ${s.id} ทั้งหมด?'))smClearOne('${s.id}')" style="font-size:10.5px;padding:3px 12px;border:none;border-radius:20px;background:#e2554f;color:#fff;cursor:pointer;font-weight:800;box-shadow:0 1px 5px rgba(226,85,79,.5);white-space:nowrap;">🗑 ล้างข้อนี้</button>
     </div>
     ${simHTML}
     <div class="frame"><div class="frame-hd fa-hd"><span class="ftag fa-tag">A</span><span style="color:#7a1010;">ช่องว่างที่ต้องปิด (TRIS)</span></div><div class="frame-bd">${gA||'<div style="color:#999;">—</div>'}</div></div>
