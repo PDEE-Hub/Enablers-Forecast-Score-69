@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CBE Enablers — IM การจัดการนวัตกรรม ปี 2569</title>
+<style>
+@font-face{font-family:'Anakotmai';font-weight:300;font-style:normal;src:url('https://pdee-hub.github.io/Enablers-Link-Document-69/Anakotmai/webfont/anakotmai-light.woff2') format('woff2');}
+@font-face{font-family:'Anakotmai';font-weight:500;font-style:normal;src:url('https://pdee-hub.github.io/Enablers-Link-Document-69/Anakotmai/webfont/anakotmai-medium.woff2') format('woff2');}
+@font-face{font-family:'Anakotmai';font-weight:700;font-style:normal;src:url('https://pdee-hub.github.io/Enablers-Link-Document-69/Anakotmai/webfont/anakotmai-bold.woff2') format('woff2');}
+</style>
+<style>
+/* ── PAT Editorial Light ── */
+:root{
+  --bg:#f8f7f4;--bg2:#f1efe9;--card:#ffffff;
+  --border:#e6e3dc;--border-s:#ece9e1;
+  --text:#1c1f24;--text2:#5a5f68;--text3:#9a9da3;
+  --navy:#1e3a5c;--gold:#b8862f;
+  --lv1:#e2554f;--lv2:#ef9483;--lv3:#e3a82e;--lv4:#5bc69a;--lv5:#1f9d6f;
+  --shadow:0 1px 3px rgba(28,31,36,.06);
+  --shadow-h:0 4px 12px rgba(28,31,36,.10);
+  --radius:6px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Anakotmai',sans-serif;font-size:14px;background:var(--bg);color:var(--text);line-height:1.6;}
+.sub-num,.sub-wt,.sub-now,.target-inp,.cg-raw,.cg-wt,.doc-file-code,.grp-id,.grp-wt,.cg-sect-lbl,.doc-grp-lbl,.doc-lvl-count{font-family:'Anakotmai',sans-serif;}
+
+/* TOP NAV */
+.top-nav{background:var(--navy);color:#fff;padding:0 24px;height:48px;display:flex;align-items:center;gap:8px;border-bottom:3px solid var(--gold);}
+.top-nav a{color:rgba(255,255,255,.55);text-decoration:none;font-size:13px;transition:color .15s;}
+.top-nav a:hover{color:#fff;}
+.top-nav h1{font-size:13px;font-weight:600;color:rgba(255,255,255,.9);margin-left:2px;}
+.top-nav .sep{color:rgba(255,255,255,.2);font-size:13px;}
+
+/* DIM HEADER */
+.dim-hd{background:var(--card);border-bottom:1px solid var(--border);padding:10px 24px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;box-shadow:var(--shadow);}
+
+/* CHIPS */
+.chip{font-size:12px;padding:3px 10px;border-radius:20px;font-weight:600;white-space:nowrap;}
+.cn{background:var(--bg2);color:var(--text2);}
+.ct{background:rgba(31,157,111,.12);color:#0f7a55;}
+.cr{background:rgba(226,85,79,.10);color:#b91c1c;}
+
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:46% 54%;height:calc(100vh - 97px);overflow:hidden;}
+
+/* LEFT */
+.left{display:flex;flex-direction:column;overflow:hidden;border-right:1px solid var(--border);background:var(--bg);}
+.left-hd{padding:10px 16px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;flex-shrink:0;background:var(--navy);color:rgba(255,255,255,.9);letter-spacing:.2px;}
+.left-body{flex:1;overflow-y:auto;}
+
+/* GROUP HEADER — 2 rows */
+.grp{display:flex;flex-direction:column;gap:3px;padding:7px 16px;background:var(--bg2);border-bottom:1px solid var(--border);border-top:1px solid var(--border);position:sticky;top:0;z-index:2;}
+.grp-row1{display:flex;align-items:center;gap:6px;}
+.grp-row2{display:flex;align-items:center;gap:6px;padding-left:20px;}
+.grp-id{font-size:12px;font-weight:700;color:var(--navy);min-width:16px;}
+.grp-name{font-size:12px;font-weight:600;flex:1;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.grp-wt{font-size:11px;color:var(--text3);white-space:nowrap;}
+.grp-scores{display:flex;align-items:center;gap:4px;flex-shrink:0;}
+.grp-chk{font-size:9px;font-weight:500;padding:1px 6px;border-radius:10px;white-space:nowrap;flex-shrink:0;}
+.chk-all{background:#e4f5e4;color:#1a7a4a;}
+.chk-part{background:#fef8e0;color:#92400e;}
+.chk-none{background:#ebe8e0;color:var(--text3);}
+.grp-score2{font-size:10px;color:var(--text2);display:flex;align-items:center;gap:4px;flex:1;white-space:nowrap;}
+.grp-prog{width:48px;height:4px;background:#d8d4cc;border-radius:2px;overflow:hidden;flex-shrink:0;}
+.grp-prog-fill{height:100%;border-radius:2px;transition:width .3s;}
+
+/* SUB ROWS */
+.sub{display:flex;align-items:stretch;cursor:pointer;border-bottom:1px solid var(--border-s);transition:background .12s;}
+.sub:hover{background:rgba(30,58,92,.04);}
+.sub.focus-cg{background:rgba(30,58,92,.07);border-left:3px solid var(--navy);}
+.sub.focus-cg .sub-target{border-left-color:var(--navy);}
+.sub-left{display:flex;align-items:center;padding:10px 10px 10px 20px;flex:1;min-width:0;}
+.sub-meta{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;min-width:0;}
+.sub-num{font-size:11px;color:var(--text3);flex-shrink:0;}
+.sub-wt{font-size:11px;color:var(--text3);flex-shrink:0;}
+.sub-now{font-size:11px;color:var(--text2);flex-shrink:0;}
+.sub-name{font-size:13px;color:var(--text);flex:1;min-width:0;line-height:1.4;}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.dg{background:var(--lv5);}.da{background:var(--lv3);}.dr{background:var(--lv1);}
+
+/* TARGET INPUT */
+.sub-target{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px 12px;flex-shrink:0;border-left:2px solid var(--border);width:96px;min-width:96px;background:var(--card);}
+.target-lbl{font-size:10px;color:var(--text3);font-weight:500;letter-spacing:.3px;}
+.target-inp{width:78px;font-size:12px;font-weight:700;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg2);color:var(--navy);text-align:center;transition:border-color .15s,box-shadow .15s;}
+.target-inp:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 2px rgba(30,58,92,.12);background:#fff;}
+
+/* SSTRIP */
+.sstrip{padding:6px 12px 6px 24px;border-bottom:1px solid var(--border-s);display:flex;align-items:center;gap:8px;background:var(--card);cursor:pointer;transition:background .12s;}
+.sstrip:hover{background:var(--bg2);}
+.sbadge{font-size:11px;padding:2px 9px;border-radius:20px;font-weight:600;white-space:nowrap;}
+.s0{background:var(--bg2);color:var(--text3);}
+.s1{background:rgba(227,168,46,.15);color:#92400e;}
+.s2{background:rgba(31,157,111,.12);color:#0f7a55;}
+
+/* CHECKLIST */
+.cl-wrap{padding:12px 16px;border-top:2px solid var(--navy);background:var(--card);flex-shrink:0;box-shadow:0 -2px 8px rgba(28,31,36,.04);}
+.cl-title{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:8px;}
+.cl-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text);margin-bottom:7px;line-height:1.55;}
+.cl-item input{flex-shrink:0;margin-top:3px;accent-color:var(--navy);width:14px;height:14px;}
+.cl-note{font-size:11px;color:var(--text3);padding-top:6px;border-top:1px solid var(--border-s);margin-top:6px;}
+
+/* TOTAL BAR */
+.total{display:flex;align-items:center;gap:8px;padding:10px 16px;background:var(--navy);color:#fff;flex-shrink:0;}
+.total-lbl{font-size:13px;font-weight:600;flex:1;}
+.total-note{font-size:11px;color:rgba(255,255,255,.45);}
+
+/* RIGHT */
+.right{display:flex;flex-direction:column;overflow:hidden;background:var(--card);}
+.right-body{flex:1;overflow-y:auto;display:flex;flex-direction:column;}
+.frame{border-bottom:1px solid var(--border);}
+.frame-hd{padding:8px 16px;font-size:12px;font-weight:700;border-bottom:1px solid rgba(0,0,0,.06);display:flex;align-items:center;gap:8px;}
+.frame-bd{padding:12px 16px;font-size:13px;line-height:1.65;}
+.ftag{font-size:11px;padding:2px 8px;border-radius:20px;font-weight:700;}
+.fa-hd{background:rgba(30,58,92,.06);}.fa-tag{background:rgba(30,58,92,.14);color:var(--navy);}
+.fb-hd{background:rgba(2,132,199,.06);}.fb-tag{background:rgba(2,132,199,.14);color:#0369a1;}
+.fc-hd{background:rgba(184,134,47,.08);}.fc-tag{background:rgba(184,134,47,.18);color:#92400e;}
+.fd-hd{background:rgba(71,85,105,.06);}.fd-tag{background:rgba(71,85,105,.14);color:#475569;}
+.fe-hd{background:rgba(31,157,111,.07);}.fe-tag{background:rgba(31,157,111,.14);color:#0f7a55;}
+
+.box{border-radius:5px;padding:8px 12px;margin-bottom:6px;font-size:13px;line-height:1.55;}
+.box-red{background:rgba(226,85,79,.08);color:#7a1010;border-left:3px solid var(--lv1);}
+.box-gray{background:var(--bg2);color:var(--text2);}
+.match-row{display:flex;align-items:flex-start;gap:6px;font-size:13px;padding:3px 0;}
+.m-ok{color:var(--lv5);}.m-no{color:var(--lv1);}
+.exp-btn{border:1px solid var(--border);background:var(--bg2);cursor:pointer;color:var(--navy);font-size:11px;padding:1px 8px;border-radius:20px;line-height:1.8;white-space:nowrap;transition:background .12s;}
+.exp-btn:hover{background:var(--border);}
+
+/* SIMULATOR */
+.cg-sim{padding:12px 16px;background:var(--bg);border-bottom:1px solid var(--border);}
+.cg-sim-hd{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.cg-scope-box{background:rgba(30,58,92,.05);border-left:3px solid var(--navy);border-radius:0 5px 5px 0;padding:8px 12px;font-size:13px;line-height:1.6;color:var(--text);margin-bottom:10px;}
+.cg-lvl-row{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:8px;overflow:hidden;transition:opacity .2s,box-shadow .15s;background:var(--card);}
+.cg-lvl-row:not(.blocked):hover{box-shadow:var(--shadow-h);}
+.cg-lvl-row.blocked{opacity:.3;pointer-events:none;}
+.cg-lvl-hd{display:flex;align-items:center;gap:8px;padding:8px 12px;cursor:pointer;transition:background .12s;}
+.cg-lvl-hd:hover{background:var(--bg2);}
+.cg-lvl-num{font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;background:var(--navy);color:#fff;flex-shrink:0;}
+.cg-lvl-summ{font-size:13px;color:var(--text);flex:1;line-height:1.4;display:flex;align-items:center;gap:5px;overflow:hidden;min-width:0;}
+.cg-lvl-summ .kt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;max-width:100%;}
+.cg-toggle{background:none;border:1px solid #c0b0e0;border-radius:4px;cursor:pointer;font-size:11px;color:#5a20a0;padding:1px 6px;flex-shrink:0;transition:background .1s;}
+.cg-toggle:hover{background:#ece6ff;}
+.cl-short{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.5;}
+.cl-exp-btn{font-size:9.5px;color:#5a20a0;cursor:pointer;user-select:none;margin-top:2px;display:inline-block;}
+.dep-count-bar{display:flex;flex-wrap:wrap;gap:5px;align-items:center;padding:6px 12px 5px;background:#f8f5ff;border-bottom:1px solid #d8ccee;}
+.dep-pill{display:inline-flex;align-items:center;gap:3px;font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;color:#fff;white-space:nowrap;}
+.dep-pill span{font-weight:400;opacity:.85;}
+.cg-lvl-summ .kt{font-weight:700;color:var(--navy);}
+.cg-lvl-detail{padding:8px 14px 10px;background:rgba(30,58,92,.04);border-top:1px dashed var(--border);font-size:13px;color:var(--text2);line-height:1.7;display:none;}
+.cg-lvl-detail.open{display:block;}
+.cg-lvl-body{padding:8px 12px 12px;background:var(--card);border-top:1px solid var(--border-s);}
+.cg-sect-lbl{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin:10px 0 6px;}
+.cg-req-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text);margin-bottom:6px;line-height:1.55;padding:6px 10px;border-radius:5px;transition:background .1s;}
+.cg-req-item:hover{background:var(--bg2);}
+.cg-req-item input[type=checkbox]{flex-shrink:0;margin-top:2px;accent-color:var(--navy);width:15px;height:15px;cursor:pointer;}
+.cg-int-link{display:inline-flex;align-items:center;gap:3px;font-size:10px;padding:2px 8px;border-radius:20px;background:var(--navy);color:#fff;font-weight:600;text-decoration:none;white-space:nowrap;flex-shrink:0;transition:opacity .15s;}
+.cg-int-link:hover{opacity:.8;}
+.cg-radio-grp{display:flex;flex-direction:column;gap:4px;}
+.cg-radio-grp label{display:flex;align-items:center;gap:8px;font-size:13px;padding:6px 10px;border-radius:5px;cursor:pointer;transition:background .12s;line-height:1.4;}
+.cg-radio-grp label:hover{background:var(--bg2);}
+.cg-radio-grp input[type=radio]{accent-color:var(--navy);flex-shrink:0;width:15px;height:15px;}
+.cg-trap{font-size:13px;color:#7a2800;margin-bottom:6px;padding:5px 10px 5px 12px;border-left:3px solid var(--lv1);border-radius:0 4px 4px 0;background:rgba(226,85,79,.05);line-height:1.55;}
+.cg-prog-bar{height:4px;background:var(--border);border-radius:2px;margin-bottom:8px;}
+.cg-prog-fill{height:4px;border-radius:2px;transition:width .3s ease;}
+.cg-total-bar{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--bg2);border-radius:5px;border:1px solid var(--border);margin-top:8px;}
+.cg-total-lbl{font-size:12px;color:var(--text2);flex:1;}
+.cg-raw{font-size:16px;font-weight:700;color:var(--navy);}
+.cg-wt{font-size:12px;color:var(--text3);}
+
+/* FRAME B — Documents */
+.doc-lvl-block{margin-bottom:10px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+.doc-lvl-hd{display:flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(2,132,199,.06);cursor:pointer;transition:background .12s;}
+.doc-lvl-hd:hover{background:rgba(2,132,199,.10);}
+.doc-lvl-badge{font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;background:#0369a1;color:#fff;flex-shrink:0;}
+.doc-lvl-title{font-size:13px;font-weight:600;color:#0369a1;flex:1;}
+.doc-lvl-count{font-size:11px;color:var(--text3);}
+.doc-lvl-body{padding:8px 12px 12px;display:none;background:var(--bg);border-top:1px solid var(--border);}
+.doc-lvl-body.open{display:block;}
+.doc-grp{margin-bottom:8px;}
+.doc-grp-lbl{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin:6px 0 4px;display:flex;align-items:center;gap:6px;}
+.doc-file{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--text);padding:3px 0 3px 8px;line-height:1.5;}
+.doc-file-code{color:#0369a1;font-weight:700;flex-shrink:0;font-family:'IBM Plex Mono',monospace;font-size:11px;}
+.doc-file-name{color:var(--text2);flex:1;}
+.doc-missing{background:rgba(184,134,47,.08);border:1px dashed rgba(184,134,47,.4);border-radius:5px;padding:8px 12px;font-size:13px;color:#92400e;}
+.doc-missing-req{background:rgba(30,58,92,.05);border:1px solid rgba(30,58,92,.15);border-radius:5px;padding:8px 12px;font-size:13px;color:var(--navy);margin-top:8px;}
+.doc-all-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 12px;border-radius:20px;background:#0369a1;color:#fff;text-decoration:none;font-weight:600;margin-top:8px;cursor:pointer;border:none;transition:opacity .15s;}
+.doc-all-btn:hover{opacity:.85;}
+.fb-prog-bar{display:flex;align-items:center;gap:8px;padding:8px 12px;margin-bottom:8px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);}
+.fb-prog-track{flex:1;height:4px;background:#e0ddd8;border-radius:2px;overflow:hidden;}
+.fb-item{display:flex;align-items:flex-start;gap:8px;padding:5px 8px;border-radius:5px;cursor:pointer;font-size:12.5px;line-height:1.55;margin:2px 0;border:1px solid transparent;transition:background .12s;}
+.fb-item:hover{background:rgba(2,132,199,.05);}
+.fb-item-done{background:#f0faf0 !important;border-color:#c3e6cb !important;}
+.fb-item-done .fb-item-text{color:#1a7a4a;text-decoration:line-through;opacity:.7;}
+.fb-item-gap{border-left:3px solid #d97706;}
+.fb-gap-tag{font-size:10px;font-weight:700;color:#92400e;background:#fef3c7;padding:1px 5px;border-radius:10px;flex-shrink:0;white-space:nowrap;margin-top:1px;}
+.fb-item input[type=checkbox]{margin-top:2px;flex-shrink:0;accent-color:#0369a1;width:14px;height:14px;cursor:pointer;}
+.fb-item-text{color:var(--text2);flex:1;}
+
+/* FRAME E — Self-Assessment Input + Gen */
+.fe-sim-row{display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;flex-wrap:wrap;}
+.fe-sect-lbl{font-size:10.5px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin:10px 0 5px;}
+.fe-lvl-block{margin-bottom:5px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+.fe-lvl-active{border-color:#86efac;}
+.fe-lvl-hd{display:flex;align-items:center;gap:7px;padding:7px 11px;cursor:pointer;transition:background .12s;background:var(--bg2);}
+.fe-lvl-hd:hover{background:rgba(0,0,0,.03);}
+.fe-lvl-badge{font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;color:#fff;flex-shrink:0;}
+.fe-lvl-title{font-size:12px;font-weight:600;color:var(--text);flex:1;}
+.fe-doc-ref{font-size:11px;color:#0369a1;font-weight:600;flex-shrink:0;}
+.fe-lvl-body{padding:8px 11px 10px;display:none;border-top:1px solid var(--border);background:var(--bg);}
+.fe-lvl-body.open{display:block;}
+.fe-textarea{width:100%;box-sizing:border-box;padding:7px 10px;font-size:12.5px;line-height:1.65;border:1px solid var(--border);border-radius:5px;background:var(--card);color:var(--text);font-family:'Anakotmai',sans-serif;resize:vertical;transition:border-color .15s;}
+.fe-textarea:focus{outline:none;border-color:#0369a1;box-shadow:0 0 0 2px rgba(3,105,161,.1);}
+.fe-gap-item{padding:8px 11px 10px;margin-bottom:5px;background:rgba(217,119,6,.05);border:1px solid rgba(217,119,6,.22);border-radius:var(--radius);}
+.fe-gap-text{font-size:12.5px;color:#92400e;margin-bottom:6px;line-height:1.55;}
+.fe-gap-status{display:flex;gap:14px;margin-bottom:7px;}
+.fe-radio-lbl{font-size:12px;cursor:pointer;display:flex;align-items:center;gap:4px;color:var(--text2);}
+.fe-radio-lbl input{accent-color:#1a7a4a;cursor:pointer;}
+.fe-gen-btn{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;padding:8px 20px;border-radius:20px;background:#1e3a5c;color:#fff;font-weight:600;cursor:pointer;border:none;transition:opacity .15s;}
+.fe-gen-btn:hover{opacity:.85;}
+.fe-output{width:100%;box-sizing:border-box;padding:10px 12px;font-size:12px;line-height:1.75;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-family:'Anakotmai',sans-serif;resize:vertical;}
+.fe-copy-btn{display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:5px 14px;border-radius:20px;background:#0369a1;color:#fff;font-weight:600;cursor:pointer;border:none;transition:opacity .15s;margin-top:6px;}
+.fe-copy-btn:hover{opacity:.85;}
+
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--bg2);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:#c9c5bc;}
+
+/* ── Cross-Dimension Linkage Badges ── */
+.dim-badge{display:inline-flex;align-items:center;font-size:8.5px;font-weight:700;padding:1px 6px;border-radius:4px;color:#fff;letter-spacing:.4px;white-space:nowrap;flex-shrink:0;cursor:pointer;transition:opacity .15s;}
+.dim-badge:hover{opacity:.75;}
+.dim-gap-tag{font-size:9px;font-weight:700;color:#b05000;padding:1px 5px;border-radius:3px;background:#fff3e0;border:1px solid #e07000;white-space:nowrap;}
+.crosslink-summ{display:flex;align-items:center;gap:5px;flex-wrap:wrap;padding:5px 12px;background:#f5f0ff;border-bottom:1px solid #d8ccee;font-size:9.5px;color:#4a3a6a;}
+.lvl-dim-strip{display:flex;gap:3px;flex-wrap:wrap;padding:3px 12px 4px;background:rgba(240,235,255,.6);border-bottom:1px solid #e8e0f8;}
+.cg-lvl-row.is-gap>.cg-lvl-hd{border-left:3px solid #e07000;}
+</style>
+
+<style>
+/* ── IM dimension accent: amber-orange (structural stays navy) ── */
+:root{--dim:#c2610f;--dim-lt:rgba(194,97,15,.12);}
+/* structural: ใช้ navy เหมือน CG — สม่ำเสมอ ไม่ฉูดฉาด */
+/* accent เฉพาะ small elements เท่านั้น */
+.sub.focus-cg{border-left-color:var(--dim)!important;}
+.cg-scope-box{border-left-color:var(--dim)!important;}
+.cg-prog-fill{background:var(--dim)!important;}
+.cg-req-item input[type=checkbox]{accent-color:var(--dim)!important;}
+.cg-radio-grp input[type=radio]{accent-color:var(--dim)!important;}
+.cl-item input{accent-color:var(--dim)!important;}
+/* IM dimension badge in header */
+.left-hd .im-badge{background:var(--dim);color:#fff;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700;}
+</style>
+</head>
+
+<body>
+<div class="top-nav">
+  <a href="index.html">← หน้าหลัก</a>
+  <span class="sep">|</span>
+  <h1>IM — การจัดการนวัตกรรม ปี 2569</h1>
+  <span style="margin-left:auto;display:flex;align-items:center;gap:6px;">
+    <button onclick="exportProgress()" style="font-size:11px;padding:3px 11px;border:1px solid #86efac;border-radius:5px;background:#f0faf4;cursor:pointer;color:#166534;font-weight:600;">📤 Export</button>
+    <label style="font-size:11px;padding:3px 11px;border:1px solid #bfdbfe;border-radius:5px;background:#eff6ff;cursor:pointer;color:#1e40af;font-weight:600;">
+      📥 Import<input type="file" accept=".json" style="display:none;" onchange="importProgress(this)">
+    </label>
+  </span>
+</div>
+<div class="dim-hd">
+  <span id="dimTitle" style="font-size:13px;font-weight:600;"></span>
+  <span class="chip cn" id="dimOrig"></span>
+  <span style="color:var(--text3);font-size:13px;">→</span>
+  <span class="chip ct" id="totalChip">คาดการณ์ —</span>
+  <span style="font-size:11px;font-weight:600;margin-left:auto;" id="deltaChip"></span>
+</div>
+<div id="depTotalBar" style="padding:0 14px 2px;background:#f8f7f4;"></div>
+<div class="layout">
+  <div class="left">
+    <div class="left-hd">
+      <span style="font-size:11px;padding:2px 9px;border-radius:20px;font-weight:700;background:var(--navy);color:#fff;">IM</span>
+      &nbsp;Target Score Simulator &amp; Action Checklist
+    </div>
+    <div class="left-body" id="leftBody"></div>
+    <div class="cl-wrap">
+      <div class="cl-title" id="clTitle">เลือก sub-item เพื่อดู Action Checklist</div>
+      <div id="clItems"></div>
+      <div class="cl-note">คลิก sub-item → checklist และ panel ขวาอัปเดตตาม</div>
+    </div>
+    <div class="total">
+      <span class="total-lbl" id="totalLbl">คะแนนรวม IM</span>
+      <span class="total-note">sub → ข้อ → ด้าน</span>
+      <span class="chip cn" style="font-size:11px;" id="totalOrig"></span>
+      <span style="font-size:14px;color:rgba(255,255,255,.5);">→</span>
+      <span class="chip ct" style="font-size:13px;font-weight:700;" id="totalFooter">—</span>
+      <span style="font-size:12px;color:#5bc69a;font-weight:700;" id="deltaFooter"></span>
+    </div>
+  </div>
+  <div class="right">
+    <div class="right-body" id="rightBody">
+      <div style="display:flex;align-items:center;justify-content:center;height:100%;color:#aaa;font-size:13px;">คลิก sub-item ด้านซ้ายเพื่อดูรายละเอียด</div>
+    </div>
+  </div>
+</div>
+
+<script src="enablers-backend.js"></script>
+<script>
+const LINK_URL='https://pdee-hub.github.io/Enablers-Link-Document-69/';
+const DOC_DETAIL_URL='IM_Documents.html'; // หน้าเอกสารแนบ (placeholder)
+
+// ══ DATA ══════════════════════════════════════════════════════
+const DATA={"im":{"dimId":"IM","dimName":"IM — การจัดการนวัตกรรม","orig":1.9893,"subs":[{"id":"1.1","grp":"1","gname":"การนำองค์กรสู่การจัดการนวัตกรรมที่ยั่งยืน","gw":8.0,"gs68":2.6406,"name":"บทบาทผู้บริหารระดับสูง","w":5.0,"s68":2.5,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"มุ่งเน้นประเมินความมุ่งมั่นของผู้บริหารระดับสูงในการ \"นำทิศทาง (Direct)\", \"เป็นแบบอย่าง (Role Model)\", \"กำหนดและกระจายเป้าหมาย (Cascade KPI)\", \"บูรณาการยุทธศาสตร์ (Align)\", และ \"ติดตามปรับปรุง (Monitor & Improve)\" ด้านการจัดการนวัตกรรมขององค์กรอย่างเป็นระบบ","levelSumm":["L1 — กำหนดและสื่อสารวิสัยทัศน์ ทิศทาง นโยบาย และเป้าหมายนวัตกรรม ให้บุคลากรภายใน","L2 — ผู้บริหารระดับสูงปฏิบัติตนเป็นต้นแบบ (Role Model) และมีส่วนร่วมในการส่งเสริ","L3 — กำหนดตัวชี้วัด (KPI) และเป้าหมาย \"ด้านการเงิน\" และ \"ไม่ใช่การเงิน\" และถ่ายท","L4 — เชื่อมโยงการจัดการนวัตกรรมกับยุทธศาสตร์ขององค์กร และแผนงานที่สำคัญอื่นๆ (เช","L5 — ผู้บริหารติดตาม ดูแล และสนับสนุนอย่างสม่ำเสมอ และ \"ใช้ข้อมูลป้อนกลับ (Feedb"],"dimLevels":["L1 — กำหนดและสื่อสารวิสัยทัศน์ ทิศทาง นโยบาย และเป้าหมายนวัตกรรม ให้บุคลากรภายในและผู้มีส่วนได้ส่วนเสียภายนอกรับรู้","L2 — ผู้บริหารระดับสูงปฏิบัติตนเป็นต้นแบบ (Role Model) และมีส่วนร่วมในการส่งเสริม สร้างแรงจูงใจ ให้เกิดการใช้นวัตกรรมอย่างชัดเจนเป็นรูปธรรม","L3 — กำหนดตัวชี้วัด (KPI) และเป้าหมาย \"ด้านการเงิน\" และ \"ไม่ใช่การเงิน\" และถ่ายทอดลงสู่ระดับองค์กร -> สายงาน -> บุคคล","L4 — เชื่อมโยงการจัดการนวัตกรรมกับยุทธศาสตร์ขององค์กร และแผนงานที่สำคัญอื่นๆ (เช่น แผนลูกค้า SCM, แผน KM, แผนเทคโนโลยีดิจิทัล DT, แผน HCM)","L5 — ผู้บริหารติดตาม ดูแล และสนับสนุนอย่างสม่ำเสมอ และ \"ใช้ข้อมูลป้อนกลับ (Feedback)\" หรือข้อมูลจากแหล่งอื่น เพื่อนำมาปรับปรุงทิศทาง นโยบาย หรือเป้าหมายด้านนวัตกรรม"],"minReqs":{"1":["ประกาศนโยบาย/วิสัยทัศน์ด้านการส่งเสริมความคิดสร้างสรรค์และนวัตกรรม (ลงนามโดยผู้บริหารสูงสุด)","แผนการสื่อสารและหลักฐานการสื่อสาร \"ภายในองค์กร\" (เช่น บันทึกภาพสัมมนา, ข่าวสารเวียน Intranet)","แผนการสื่อสารและหลักฐานการสื่อสาร \"ภายนอกองค์กร\" (เช่น ภาพข่าวบนหน้าเว็บไซต์ กทท., โซเชียลมีเดีย, การแจ้งลูกค้าในการประชุม)"],"2":["คู่มือค่านิยมหรือประกาศที่ระบุ \"พฤติกรรมพึงประสงค์ (Do & Don't)\" ด้านนวัตกรรมของผู้บริหาร","หลักฐานภาพถ่าย/รายงานการประชุมที่ผู้บริหารลงมามีส่วนร่วมจริง (เช่น เป็น Mentor โครงการ PAT DNA, เป็นประธานมอบรางวัลนวัตกรรม)","ผลการสำรวจ/ประเมินบทบาทการเป็น Role Model ด้านนวัตกรรม"],"3":["เอกสารสรุปตัวชี้วัดและเป้าหมายนวัตกรรม ที่แยกมิติ \"การเงิน (เช่น รายได้ 10 ลบ.)\" และ \"ไม่ใช่การเงิน\" ชัดเจน","ตาราง Cascade KPI: เอกสารหรือแผนภาพแสดงการถ่ายทอดเป้าหมายจากองค์กร ลงสู่สายงาน/ฝ่ายงาน และลงลึกถึง \"ผู้รับผิดชอบรายบุคคล\"","เอกสาร/แบบประเมินผลการปฏิบัติงานรายบุคคล (PMS) ที่มีหัวข้อด้านความคิดสร้างสรรค์/นวัตกรรม"],"4":["แผนภาพแสดงความเชื่อมโยงยุทธศาสตร์ (Strategy Map / Alignment Table) ระหว่างแผนแม่บท IM กับแผนวิสาหกิจและแผนแม่บทของ Enablers อื่นๆ","รายงานการประชุมคณะทำงาน/ผู้บริหาร ที่แสดงการพิจารณางานด้านนวัตกรรมร่วมกับฝ่ายอื่นๆ (เช่น ฝ่าย IM ประชุมร่วมกับฝ่าย SCM หรือ DT เพื่อนำ VOC มาตั้งเป็นโจทย์นวัตกรรม)"],"5":["รายงานการประชุมผู้บริหารระดับสูงที่มีวาระ \"ติดตามผลการดำเนินงานนวัตกรรม\" (รายไตรมาส/รายปี)","เอกสารบันทึกการทบทวนและปรับปรุง (Review & Improvement Record): เอกสารอธิบายการนำ Feedback (เช่น เสียงสะท้อนจากพนักงาน หรือผลงานที่ไม่บรรลุเป้า) มาใช้พิจารณา \"ปรับเปลี่ยน\" นโยบาย แผนงาน หรือ KPI ด้านนวัตกรรมในปีถัดไป"]},"docsNeeded":[{"level":"L3+","req":"แบบประเมิน Role Model ด้านนวัตกรรม: ต้องเป็นแบบประเมินผู้บริหารที่ \"ประเมินแยกเป็นรายบุคคล\" อย่างเป็นรูปธรรม ไม่ใช่การประเมินในภาพรวม"},{"level":"L3+","req":"เอกสารการกระจายเป้าหมาย (Cascade KPI): ต้องมีตารางหรือเอกสารที่แสดงการถ่ายทอดเป้าหมายทางการเงิน (เช่น รายได้จากนวัตกรรม 10 ล้านบาท) ลงสู่ \"ระดับรายโครงการ\" หรือ \"ผู้รับผิดชอบ\" อย่างชัดเจน เพื่อแสดงความรับผิดชอบ (Accountability)"}],"actions":["การสอบทานความเชื่อมโยงของยุทธศาสตร์อย่างเป็นระบบ กทท. ควร ทบทวนแนวทางการสอบทานความเชื่อมโยงของแผนการจัดการนวัตกรรมกับยุทธศาสตร์หลักขององค์กร และแผนงาน/แผนแม่บทที่สำคัญในด้านอื่นๆ เช่น แผนการมุ่งเน้นลูกค้าและผู้มีส่วนได้ส่วนเสีย (SCM), แผนการจัดการความรู้ (KM), แผนการพัฒนาเทคโนโลยีดิจิทัล (DT) และแผนบริหารทรัพยากรบุคคล (HCM) เพื่อให้การขับเคลื่อนนวัตกรรมเป็นไปในทิศทางเดียวกันและสนับสนุนเป้าหมายเชิงยุทธศาสตร์ขององค์กรได้อย่างมีประสิทธิภาพ","กทท. สอบผ่านระดับ 1 และ 2 มาได้เพราะผู้บริหารลงมาขับเคลื่อนเองและมีเวทีอย่าง PAT DNA แต่คะแนนมาหยุดอยู่ที่ระดับ 2 กลางๆ และไม่เต็ม 3 เพราะ ปัญหาเชิงโครงสร้างของ KPI ที่เป้าหมายด้านการเงินยังกระจุกตัวอยู่ระดับบน ไม่ถูกส่งต่อไปผูกกับผลงานรายบุคคลอย่างเข้มข้นพอ และการนำแผนไปเชื่อมโยงกับฝ่ายอื่น (ระดับ 4) ยังเป็นเพียงการจัดประชุม แต่ขาดระบบการ \"สอบทาน\" ที่เป็นมาตรฐาน หากในปีต่อไป กทท. ทำแบบประเมิน Role Model รายบุคคล และแตก KPI รายได้ลงสู่คนทำโครงการนวัตกรรมได้จริง คะแนนในข้อนี้จะสามารถทะลุระดับ 3.0 ได้อย่างแน่นอน"],"crossLinks":[{"level":1,"dim":"SP"},{"level":1,"dim":"SCM"},{"level":2,"dim":"HCM"},{"level":3,"dim":"SP"},{"level":3,"dim":"HCM"},{"level":4,"dim":"SP"},{"level":4,"dim":"SCM"},{"level":4,"dim":"DT"},{"level":4,"dim":"KM"},{"level":4,"dim":"HCM"},{"level":5,"dim":"CG"},{"level":5,"dim":"SP"}],"good":["กทท. ผ่านระดับ 1–2 ทั้งการสื่อสารวิสัยทัศน์และผู้บริหารเป็นต้นแบบอย่างเป็นรูปธรรม"],"results":["ผู้บริหารระดับสูงกำหนดและสื่อสารวิสัยทัศน์ \"ขับเคลื่อนนวัตกรรมขององค์กรเพื่อการเติบโตอย่างยั่งยืน\" ผ่านช่องทางต่างๆ เช่น สัมมนา, Line OA, เว็บไซต์","ผู้บริหารปฏิบัติตนเป็น Role Model ตามค่านิยม SMART PAT (เน้น Agility) และมีส่วนร่วมในการเป็น Mentor หรือกรรมการในเวทีประกวด PAT DNA","มีการกำหนด KPI ด้านนวัตกรรม เช่น เป้าหมายรายได้ 10 ล้านบาท และจัดทำตัวอย่างการถ่ายทอด KPI (Cascade KPI) ลงสู่ระดับสายงาน ฝ่าย และบุคคล","จัดการประชุมทบทวนแผนแม่บทนวัตกรรมร่วมกับคณะกรรมการ HR และคณะกรรมการกลั่นกรองฯ เพื่อบูรณาการแผนนวัตกรรมให้สอดคล้องกับแผนยุทธศาสตร์อื่นๆ"],"gaps":["การกำหนดและถ่ายทอด KPI : แม้ กทท. จะมีการทำเอกสาร Cascade KPI แต่ผู้ตรวจมองว่า \"เป้าหมายนวัตกรรมยังขาดความท้าทาย\" และ \"เป้าหมายทางการเงิน (10 ล้านบาท) ยังเป็นภาพรวมขององค์กรเกินไป\" กทท. จำเป็นต้องกระจายเป้าหมายนี้ลงลึกเป็น \"รายโครงการ\" หรือ \"ผู้รับผิดชอบ\" ให้ชัดเจน เพื่อให้เกิดความรับผิดชอบอย่างแท้จริง (Accountability)","การเชื่อมโยงกับยุทธศาสตร์อื่น : ผู้ตรวจระบุว่า กทท. \"ควรทบทวนแนวทางในการสอบทานความเชื่อมโยงของแผนการจัดการนวัตกรรมกับยุทธศาสตร์ขององค์กร และแผนงานที่สำคัญอื่นๆ เช่น แผนลูกค้า (SCM), แผน KM, หรือแผนด้านดิจิทัล\" ซึ่งแปลว่าการเชื่อมโยงที่มีอยู่ยังขาดกลไกการ \"สอบทาน (Review)\" เพื่อยืนยันความสอดคล้องในทางปฏิบัติ"]},{"id":"1.2","grp":"1","gname":"การนำองค์กรสู่การจัดการนวัตกรรมที่ยั่งยืน","gw":8.0,"gs68":2.6406,"name":"บทบาทคณะกรรมการและคณะทำงานด้านนวัตกรรม","w":3.0,"s68":2.875,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"มุ่งเน้นประเมิน \"การจัดทัพองค์กร\" ตั้งแต่การตั้งคณะกรรมการระดับนโยบาย ไปจนถึงคณะทำงานระดับปฏิบัติการข้ามสายงาน โดยต้องมีกฎบัตรชัดเจน ทุกคนทำงานตามหน้าที่จริง โครงสร้างสอดคล้องกับระบบ CIS และกล้าที่จะ \"ปรับโครงสร้าง\" เมื่อพบปัญหาอุปสรรค","levelSumm":["L1 — กำหนดคณะกรรมการนวัตกรรมระดับองค์กร มีกฎบัตรระบุอำนาจหน้าที่ชัดเจน และเผยแพร","L2 — กำหนดผู้บริหารระดับสูงและผู้รับผิดชอบหลัก ตั้งคณะทำงาน \"ข้ามสายงาน\" พร้อมกำ","L3 — ทุกคณะกรรมการ ผู้บริหาร และคณะทำงาน ต้อง \"ดำเนินการตามบทบาทหน้าที่ที่กำหนดอ","L4 — โครงสร้างผู้รับผิดชอบทั้งหมด ต้อง \"สอดคล้องกับระบบนวัตกรรมองค์กร (CIS)\" และ","L5 — นำข้อมูลป้อนกลับ (Feedback) มาใช้ \"ปรับปรุงรูปแบบของโครงสร้างผู้รับผิดชอบ/ค"],"dimLevels":["L1 — กำหนดคณะกรรมการนวัตกรรมระดับองค์กร มีกฎบัตรระบุอำนาจหน้าที่ชัดเจน และเผยแพร่ให้พนักงานรับรู้","L2 — กำหนดผู้บริหารระดับสูงและผู้รับผิดชอบหลัก ตั้งคณะทำงาน \"ข้ามสายงาน\" พร้อมกำหนดความรับผิดชอบชัดเจน","L3 — ทุกคณะกรรมการ ผู้บริหาร และคณะทำงาน ต้อง \"ดำเนินการตามบทบาทหน้าที่ที่กำหนดอย่างครบถ้วน\"","L4 — โครงสร้างผู้รับผิดชอบทั้งหมด ต้อง \"สอดคล้องกับระบบนวัตกรรมองค์กร (CIS)\" และเชื่อมโยงกับกระบวนการนวัตกรรม","L5 — นำข้อมูลป้อนกลับ (Feedback) มาใช้ \"ปรับปรุงรูปแบบของโครงสร้างผู้รับผิดชอบ/คณะทำงาน\" เพื่อเพิ่มประสิทธิภาพให้สอดคล้องกับทิศทางนวัตกรรม"],"minReqs":{"1":["คำสั่งแต่งตั้งคณะกรรมการระดับองค์กร (เช่น คณะกรรมการ KMDTIM)","กฎบัตร (Charter) ของคณะกรรมการนวัตกรรมที่เป็นลายลักษณ์อักษร","หลักฐานการเผยแพร่กฎบัตรให้พนักงานรับรู้ (เช่น บันทึกเวียน, หน้า Website/Intranet)"],"2":["คำสั่งแต่งตั้งคณะทำงานขับเคลื่อนนวัตกรรม (เช่น Innovation Champion, คณะทำงานต่อยอดนวัตกรรม, Core IM Team, PAT DNA)","โครงสร้างองค์กรและ Job Description (JD) ที่ระบุหน้าที่ความรับผิดชอบด้านนวัตกรรมของผู้รับผิดชอบหลัก (เช่น กองวิจัยและพัฒนาองค์กร)"],"3":["รายงานการประชุม (Minutes of Meeting) ของทุกคณะทำงานที่ตั้งไว้ในระดับ 1 และ 2","[แก้ไข Gap สำคัญ] ตารางสรุปการดำเนินงาน (Checklist) ที่นำ \"ข้อบังคับในกฎบัตร\" มาเทียบกับ \"ผลงานที่ทำจริง\" เพื่อพิสูจน์ว่าทำครบถ้วนทุกข้อ"],"4":["แผนภาพแสดงระบบนวัตกรรมองค์กร (PAT-CIS) ฉบับอัปเดต","[แก้ไข Gap สำคัญ] แผนภาพโครงสร้างองค์กร (Organization Chart) ที่เอาชื่อคณะทำงานต่างๆ ไปวางแปะ (Mapping) ให้เห็นชัดเจนว่าคณะทำงานชุดไหน รับผิดชอบกลไกไหนในระบบ PAT-CIS"],"5":["รายงานผลการประเมินประสิทธิภาพโครงสร้างการทำงาน / รายงานปัญหาอุปสรรค (AAR) ของกระบวนการนวัตกรรม","บันทึก/คำสั่งปรับปรุงโครงสร้าง: เอกสารแสดงการเปลี่ยนแปลงโครงสร้างหรือกลไกการทำงาน"]},"docsNeeded":[{"level":"L3+","req":"รายงานการประชุมคณะกรรมการและคณะทำงาน IM: ต้องไฮไลต์ให้เห็นชัดเจนว่ามีการให้ \"ข้อเสนอแนะเชิงกลยุทธ์\" และ \"การติดตามผลการดำเนินงาน\" ตามบทบาทหน้าที่อย่างต่อเนื่องและเป็นรูปธรรม"}],"actions":["กทท. ต้องมีระบบติดตามผลการปฏิบัติงานของคณะทำงานตามบทบาทหน้าที่ในกฎบัตรอย่างเคร่งครัดและต้องมีการประเมินว่าคณะทำงานชุดต่างๆ (เช่น ทีมต่อยอดนวัตกรรม หรือ Innovation Champion) ทำงานได้มีประสิทธิภาพหรือไม่ หากพบปัญหาต้องมีหลักฐานว่าได้นำปัญหานั้นมาทบทวนหรือปรับปรุงโครงสร้างต่อไป"],"crossLinks":[{"level":1,"dim":"HCM"},{"level":2,"dim":"HCM"},{"level":2,"dim":"CG"},{"level":3,"dim":"ระดับนี้เป็นการพิสูจน์ว่าคณะทำงานลงมือทำงานจริง ดังนั้นหลักฐานคือ \"รายงานการประชุมคณะทำงาน\" ที่ไปขับเคลื่อนหมวดอื่นๆ (IM6.2, IM6.3)"},{"level":4,"dim":"ระบบนวัตกรรมองค์กร (CIS) (IM 6.1)"},{"level":5,"dim":"CG/ผู้บริหาร/HCM"}],"good":["กทท. ผ่านระดับ 1–2 มีโครงสร้าง Core IM Team และคณะทำงานข้ามสายงานชัดเจน","กทท. วางโครงสร้างและกฎบัตรคณะทำงานนวัตกรรมไว้ดีมาก (ผ่านระดับ 1–2 เต็ม)"],"results":["มีคำสั่งแต่งตั้งคณะกรรมการจัดการความรู้ เทคโนโลยีและนวัตกรรม (KMDTIM) และมีการจัดทำกฎบัตรที่ระบุอำนาจหน้าที่ชัดเจน พร้อมเวียนเผยแพร่ให้พนักงานรับรู้ทั่วองค์กร","มีการทบทวนโครงสร้างผู้รับผิดชอบใหม่ โดยแต่งตั้งกองวิจัยและพัฒนาองค์กร (Core IM Team) ทำหน้าที่รับผิดชอบหลัก และตั้งคณะทำงานบริหารจัดการความคิดสร้างสรรค์ฯ (Innovation Champion) รวมทั้งเพิ่ม \"คณะทำงานพัฒนาต่อยอดนวัตกรรม\"","คณะกรรมการและคณะทำงานชุดต่างๆ มีการประชุมและดำเนินงานตามบทบาทหน้าที่ และมีรายงานสรุปผลการดำเนินงาน","กำหนดรูปแบบโครงสร้างขับเคลื่อนนวัตกรรม (ผู้รับผิดชอบหลักและคณะทำงาน) ให้สอดคล้องกับระบบนวัตกรรมองค์กร (PAT-CIS)"],"gaps":["การปฏิบัติตามบทบาทหน้าที่อย่างครบถ้วน : แม้ กทท. จะมีการจัดประชุมและส่งรายงาน แต่ผู้ตรวจประเมินระบุ Gap ชัดเจนว่า \"กระบวนการติดตามผลการปฏิบัติหน้าที่ของคณะทำงานตามที่ได้รับมอบหมาย\" ยังไม่เป็นรูปธรรมเพียงพอผู้ตรวจต้องการเห็นการติดตามผลการปฏิบัติงานตามบทบาทหน้าที่ในกฎบัตรอย่างเคร่งครัดไม่ใช่แค่การจัดประชุมตามวาระ","การประเมินประสิทธิภาพโครงสร้าง : ผู้ตรวจประเมินให้ข้อเสนอแนะว่า กทท. ยังขาดกระบวนการนำผลการประเมิน \"ประสิทธิภาพและประสิทธิผล\" ของการทำหน้าที่ของคณะกรรมการ คณะทำงาน และหน่วยงานผู้รับผิดชอบหลัก มาวิเคราะห์เพื่อปรับปรุงและพัฒนากระบวนการจัดการนวัตกรรมให้มีผลลัพธ์ที่ดีขึ้น"]},{"id":"2.1","grp":"2","gname":"ยุทธศาสตร์ด้านนวัตกรรม","gw":10.0,"gs68":2.325,"name":"การวางแผนยุทธศาสตร์ด้านนวัตกรรมและนำไปสู่การปฏิบัติ","w":7.0,"s68":2.25,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"มุ่งเน้นประเมิน \"กระบวนการจัดทำแผนแม่บทนวัตกรรม\" ตั้งแต่การดึงผู้บริหารและทุกสายงานมามีส่วนร่วม, การวิเคราะห์สภาพแวดล้อม (SWOT/ปัจจัยนำเข้า 8 ประการ), การตั้งเป้าหมายระยะสั้น-ยาวที่ท้าทาย, การสื่อสารแผนให้ทั่วถึง และที่สำคัญที่สุดคือ \"ระบบติดตามงานที่รวดเร็ว (Agile)\" เพื่อให้พร้อมปรับเปลี่ยนหรือยกเลิกโครงการได้ทันท่วงทีเมื่อสถานการณ์เปลี่ยน","levelSumm":["L1 — ผู้บริหารและหน่วยงานที่เกี่ยวข้องมีส่วนร่วมในการจัดทำแผนยุทธศาสตร์และแผนปฏิ","L2 — วิเคราะห์สภาพแวดล้อมทั้งภายในและภายนอก และข้อมูลที่เกี่ยวข้อง เพื่อให้แผนตอ","L3 — การสื่อสาร ถ่ายทอดแผนยุทธศาสตร์และแผนปฏิบัติการไปยังผู้ที่เกี่ยวข้องให้นำไป","L4 — มีระบบติดตาม/ประเมินผลการดำเนินงาน เพื่อให้การทบทวนแผนงานการจัดการนวัตกรรม ","L5 — นำผล/ข้อมูลสารสนเทศที่ได้จากการทบทวนไปใช้ในการตัดสินใจปรับปรุงการดำเนินงาน "],"dimLevels":["L1 — ผู้บริหารและหน่วยงานที่เกี่ยวข้องมีส่วนร่วมในการจัดทำแผนยุทธศาสตร์และแผนปฏิบัติการด้านการจัดการนวัตกรรมระยะสั้นและระยะยาว","L2 — วิเคราะห์สภาพแวดล้อมทั้งภายในและภายนอก และข้อมูลที่เกี่ยวข้อง เพื่อให้แผนตอบสนองต่อวิสัยทัศน์ พร้อมกำหนดเป้าหมายทั้งระยะสั้นและระยะยาวอย่างชัดเจน รวมถึงตัวชี้วัด (KPI)","L3 — การสื่อสาร ถ่ายทอดแผนยุทธศาสตร์และแผนปฏิบัติการไปยังผู้ที่เกี่ยวข้องให้นำไปปฏิบัติและรับรู้อย่างทั่วถึง","L4 — มีระบบติดตาม/ประเมินผลการดำเนินงาน เพื่อให้การทบทวนแผนงานการจัดการนวัตกรรม รวดเร็ว ทันการณ์และตอบสนองต่อการเปลี่ยนแปลง","L5 — นำผล/ข้อมูลสารสนเทศที่ได้จากการทบทวนไปใช้ในการตัดสินใจปรับปรุงการดำเนินงาน หรือปรับการจัดสรรทรัพยากร เพื่อเพิ่มประสิทธิภาพให้มีผลสำเร็จที่ดีกว่าเป้าหมาย และดีกว่าปีที่ผ่านมา"],"minReqs":{"1":["แผนแม่บทการจัดการนวัตกรรมระยะยาว (เช่น ปี 2568-2572) และแผนปฏิบัติการประจำปี","รายงานการประชุม/ภาพถ่าย การจัดสัมมนาวิพากษ์แผน (Workshop) ที่มีผู้บริหารระดับสูงและผู้แทนจากสายงานต่างๆ เข้าร่วมพิจารณาแผน"],"2":["บทวิเคราะห์สภาพแวดล้อม (SWOT / PESTEL) ที่ระบุในเล่มแผนแม่บทฯ","เอกสารแสดงการวิเคราะห์ปัจจัยนำเข้า 8 ประการ (เช่น นโยบายรัฐ, สัญญาณบ่งชี้/ทิศทางการเปลี่ยนแปลงที่สำคัญ, กรอบการบริหารจัดการความรู้ และกรอบการพัฒนานวัตกรรม, แผนวิสาหกิจ, ผลการพัฒนา, ความเสี่ยง, ปัจจัยขับเคลื่อน , แผนแม่บทอื่นที่เกี่ยวข้อง (แผนปฏิบัติการดิจิทัล แผน HR Master Plan เป็นต้น))","ตารางสรุปเป้าหมายนวัตกรรมระยะสั้น (1 ปี) และระยะยาว (3-5 ปี) พร้อม KPI ที่วัดผลได้"],"3":["แผนการสื่อสารและช่องทางการถ่ายทอดแผนแม่บทนวัตกรรม","หลักฐานการเผยแพร่แผนไปยังกลุ่มเป้าหมาย (เช่น งาน Townhall, Website, Intranet, หนังสือเวียน)","[แก้ไข Gap สำคัญ] ผลประเมินการรับรู้และความเข้าใจในแผนแม่บทนวัตกรรม"],"4":["ระบบติดตามประเมินผลโครงการนวัตกรรม (เช่น ผ่านระบบ PAT-CIS หรือ Dashboard)","รายงานการประชุมของคณะทำงานนวัตกรรมที่มีวาระ \"ติดตามความคืบหน้าของโครงการ\" (รายเดือน/รายไตรมาส)"],"5":["เอกสารบันทึกการปรับเปลี่ยนแผนงาน/ทรัพยากร (Revision Record): ที่แสดงให้เห็นว่า กทท. มีการ \"โยกงบประมาณ\" หรือ \"ปรับเพิ่มกำลังคน\" ให้กับโครงการนวัตกรรมที่มีแนวโน้มสำเร็จสูง (จากการติดตามใน Level 4)","ข้อมูลเปรียบเทียบ (Before & After) ที่พิสูจน์ว่าหลังจากการปรับแผนแล้ว ผลสำเร็จของโครงการออกมา \"ดีกว่าเป้าหมายที่ตั้งไว้ และดีกว่าผลงานในปีที่ผ่านมา\" อย่างเป็นรูปธรรม"]},"docsNeeded":[{"level":"L3+","req":"กทพ. ไม่ได้แค่เวียนเอกสารแจ้งแผนแม่บท แต่มีการจัดกิจกรรมที่เป็นรูปธรรม เช่น โครงการสัมมนา “EXAT Innovation Journey” และนำแผนแม่บทไปเผยแพร่ในคลังความรู้ (Web KM&IM) ที่สำคัญที่สุดคือ \"มีการประเมินผลการรับรู้และความเข้าใจในแผนแม่บทและแผนปฏิบัติการด้านการจัดการนวัตกรรม\" เพื่อตรวจสอบว่าพนักงานเข้าใจแผนจริงๆ หรือไม่"},{"level":"L3+","req":"รฟม. ทำ: รฟม. มีการกำหนดเป้าหมายนวัตกรรมระยะสั้นและระยะยาวอย่างชัดเจนและเปิดโอกาสให้ผู้บริหารรวมถึง \"หน่วยงานที่เกี่ยวข้อง\" ได้เข้ามามีส่วนร่วมในการพิจารณาและจัดทำยุทธศาสตร์ตั้งแต่กระบวนการเริ่มต้น"}],"actions":["เพิ่มกลไก Agile ในการติดตามงาน: ต้องแสดงหลักฐานให้ผู้ตรวจเห็นว่า เมื่อมีการติดตามโครงการนวัตกรรมรายไตรมาส หากพบว่าโครงการไหนไปต่อไม่ได้ กทท. มีกลไกในการระงับ (Kill) โครงการนั้น หรือสับเปลี่ยนทรัพยากรไปให้โครงการอื่นที่มีศักยภาพกว่าได้ทันที นี่คือหัวใจของคำว่า \"รวดเร็ว ทันกาล และตอบสนองต่อการเปลี่ยนแปลง\" ในเกณฑ์ระดับ 4","ตั้งเป้าหมายและกระจายเป้าหมาย (Cascade KPI): ต้องนำเป้าหมายของแผนแม่บทนวัตกรรมมากระจายลงเป็น \"รายโครงการ\" ให้ชัดเจน (เช่น โครงการ A รับเป้า 3 ล้านบาท โครงการ B รับเป้า 7 ล้านบาท)"],"crossLinks":[{"level":1,"dim":"SP"},{"level":2,"dim":"SP"},{"level":2,"dim":"SCM"},{"level":2,"dim":"DT"},{"level":2,"dim":"RM&IC"},{"level":3,"dim":"SCM"},{"level":4,"dim":"SP"},{"level":5,"dim":"IM7.1"},{"level":5,"dim":"IM2.2"},{"level":5,"dim":"SP"}],"good":["กทท. ผ่านระดับ 1–2 มีแผนแม่บทฯ วิเคราะห์สภาพแวดล้อม และเชื่อมกับแผนวิสาหกิจ","กทท. วางโครงสร้างแผนครบ วิเคราะห์สภาพแวดล้อม และถ่ายทอดแผนได้ (ผ่านระดับ 1–2)"],"results":["การจัดทำแผนและการวิเคราะห์ : มีการให้ผู้บริหารและหน่วยงานที่เกี่ยวข้องมีส่วนร่วมวิพากษ์แผน (Workshop ทบทวนแผนแม่บทฯ) มีการวิเคราะห์สภาพแวดล้อมทั้งภายในและภายนอกองค์กร เพื่อจัดทำแผนแม่บทการจัดการนวัตกรรม กทท. ปี 2568-2572 และแผนปฏิบัติการประจำปี 2568 พร้อมกำหนดตัวชี้วัด (KPI) ครอบคลุม 4 มิติ (BSC)","การสื่อสารและถ่ายทอด : มีการสื่อสาร ถ่ายทอดแผนยุทธศาสตร์และเป้าหมายนวัตกรรมไปยังผู้ที่เกี่ยวข้องทั้งภายในและภายนอกองค์กร เพื่อให้นำไปปฏิบัติ","การติดตามผล : กทท. ระบุว่ามีกลไกกำกับและติดตามผลด้านการจัดการนวัตกรรมผ่านระบบนวัตกรรมองค์กร (PAT-CIS)"],"gaps":["ปัญหาด้านความท้าทายของเป้าหมาย (Gap ของระดับ 2-3) : ผู้ตรวจระบุว่าเป้าหมายด้านนวัตกรรมระยะสั้นและระยะยาวยัง \"ขาดความท้าทายและการเติบโตอย่างต่อเนื่อง\" รวมถึงเป้าหมายทางการเงิน (เช่น รายได้ 10 ล้านบาท) ยังเป็นเพียงภาพรวมขององค์กร ไม่ได้ถูกกระจาย (Cascade) ลงสู่ระดับ \"รายโครงการ\" หรือ \"ผู้รับผิดชอบ\" ให้ชัดเจน","ปัญหาด้านความรวดเร็วของระบบติดตาม (Gap ของระดับ 4) : แม้จะมีระบบ PAT-CIS ในการติดตามงาน แต่ผู้ตรวจมองว่าระบบการติดตามและประเมินผลแผนงานยัง \"ไม่รวดเร็ว (Agile) เพียงพอ\" ผู้ตรวจต้องการเห็นระบบที่มีจุด Trigger Point ที่สามารถทำให้ผู้บริหารตัดสินใจ \"ล้มเลิก\" หรือ \"ปรับเปลี่ยนกลยุทธ์\" ได้ทันท่วงทีเมื่อสถานการณ์เปลี่ยน หรือเมื่อโครงการมีแนวโน้มไม่บรรลุเป้าหมาย"]},{"id":"2.2","grp":"2","gname":"ยุทธศาสตร์ด้านนวัตกรรม","gw":10.0,"gs68":2.325,"name":"การจัดสรรทรัพยากรด้านนวัตกรรม","w":3.0,"s68":2.5,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"มุ่งเน้นประเมินความสามารถในการ \"จัดสรร (Allocate) และ จัดลำดับ (Prioritize)\" ทรัพยากรที่มีอยู่อย่างจำกัด (ทั้งเงิน คน และเทคโนโลยี) ให้กับโครงการนวัตกรรมอย่างคุ้มค่า มีการสร้างเกณฑ์วัดผลที่เข้มข้น สอดคล้องกับยุทธศาสตร์หลักขององค์กร และต้องมีความยืดหยุ่น (Agile) ที่จะประเมินและโยกย้ายทรัพยากรได้ทันที \"ระหว่างการดำเนินงาน\"","levelSumm":["L1 — กำหนดหลักเกณฑ์การจัดสรรทรัพยากรด้านนวัตกรรม เพื่อนำไปสู่การจัดสรรทรัพยากรทา","L2 — นำหลักเกณฑ์มาใช้จัดลำดับความสำคัญ (Prioritization) ของแผนงาน/โครงการ เพื่อจ","L3 — รัฐวิสาหกิจจัดสรรทรัพยากรทางการเงินและไม่ใช่การเงิน ครอบคลุมแผนการดำเนินงาน","L4 — การจัดสรรทรัพยากรสอดคล้องกับแผนงานด้านการจัดการนวัตกรรม และ \"สอดคล้องกับแนว","L5 — การประเมิน \"ความเพียงพอของทรัพยากรระหว่างการดำเนินงาน\" เพื่อปรับปรุงการจัดส"],"dimLevels":["L1 — กำหนดหลักเกณฑ์การจัดสรรทรัพยากรด้านนวัตกรรม เพื่อนำไปสู่การจัดสรรทรัพยากรทางการเงินและไม่ใช่การเงินได้อย่างมีประสิทธิภาพ","L2 — นำหลักเกณฑ์มาใช้จัดลำดับความสำคัญ (Prioritization) ของแผนงาน/โครงการ เพื่อจัดสรรทรัพยากรให้แต่ละโครงการอย่างเป็นระบบ","L3 — รัฐวิสาหกิจจัดสรรทรัพยากรทางการเงินและไม่ใช่การเงิน ครอบคลุมแผนการดำเนินงานด้านการจัดการนวัตกรรมที่สำคัญ","L4 — การจัดสรรทรัพยากรสอดคล้องกับแผนงานด้านการจัดการนวัตกรรม และ \"สอดคล้องกับแนวทางการจัดสรรทรัพยากรขององค์กร (แผนวิสาหกิจ)\"","L5 — การประเมิน \"ความเพียงพอของทรัพยากรระหว่างการดำเนินงาน\" เพื่อปรับปรุงการจัดสรรทรัพยากร และทบทวนเพื่อให้มั่นใจว่ามีงบ/คนพร้อมต่อการทำงานอย่างต่อเนื่องจนบรรลุเป้าหมาย"],"minReqs":{"1":["คู่มือการบริหารจัดการนวัตกรรม หรือประกาศ ที่ระบุ \"เกณฑ์การจัดสรรทรัพยากร\" ชัดเจนเป็นลายลักษณ์อักษร","ผังกระบวนการ (SIPOC) การจัดสรรทรัพยากรด้านนวัตกรรม"],"2":["เอกสาร/ตารางสรุป \"ผลการให้คะแนนและจัดลำดับความสำคัญของโครงการ (Project Ranking/Scoring)\" ประจำปี"],"3":["รายงานผลการจัดสรรงบประมาณจริง (เช่น เอกสารอนุมัติงบ 12.789 ล้านบาทให้กับโครงการนวัตกรรมที่ผ่านการคัดเลือก)","คำสั่งมอบหมายงาน/แต่งตั้งบุคลากร (เช่น คำสั่งให้กองวิจัยและพัฒนาองค์กรเป็นผู้รับผิดชอบหลัก) ซึ่งถือเป็นการจัดสรรทรัพยากรด้านบุคคล"],"4":["ตารางแสดงความเชื่อมโยง (Alignment Mapping) ระหว่าง \"แผนงบประมาณโครงการนวัตกรรม\" กับ \"แผนวิสาหกิจ/แผนยุทธศาสตร์องค์กร\""],"5":["รายงานความคืบหน้าการดำเนินงานนวัตกรรมรายไตรมาส (Q1-Q4) ที่มี \"วาระการประเมินความเพียงพอของทรัพยากร\"","บันทึกมติที่ประชุม/คำสั่งอนุมัติ \"การโยกย้าย, เพิ่มเติม, หรือชะลอทรัพยากร (Resource Re-allocation)\" ระหว่างปี"]},"docsNeeded":[{"level":"L3+","req":"เกณฑ์การจัดลำดับความสำคัญของโครงการ: ฉบับที่ปรับปรุงให้เข้มข้นขึ้น โดยสะท้อนถึงการรองรับสถานการณ์ที่มีข้อจำกัดด้านทรัพยากร และความคุ้มค่าทางการเงิน"},{"level":"L3+","req":"บันทึกการจัดสรรงบประมาณ/ทรัพยากรที่ยืดหยุ่น: เอกสารแสดงความสามารถในการปรับทรัพยากรให้โครงการสำคัญได้อย่างเหมาะสม"}],"actions":["เรียนรู้จาก Best Practice โดยมีกิจกรรมในหัวข้อนี้ คือ \"มีหลักเกณฑ์จัดลำดับความสำคัญโครงการนวัตกรรมเพื่อจัดสรรทรัพยากรอย่างเป็นระบบ\" กทท. สามารถศึกษาแนวทางการให้คะแนนโครงการของ รฟม. / กทพ. มาปรับใช้เป็นทางลัดได้เลย","ปรับปรุงปัจจัยการจัดลำดับความสำคัญ (Criteria): ต้องนำเกณฑ์ 5 ข้อเดิมมาทำให้เข้มข้นขึ้น โดยอาจเพิ่มน้ำหนักคะแนน (Weight) ในมิติของ \"ความคุ้มค่าทางการเงิน (Cost-Benefit)\" หรือ \"ผลกระทบต่อองค์กร (Business Impact)\" ให้ชัดเจนขึ้น เพื่อรองรับสถานการณ์ที่องค์กรมีข้อจำกัดด้านงบประมาณ"],"crossLinks":[],"good":["กทท. ผ่านระดับ 1–2 มีหลักเกณฑ์จัดสรรทรัพยากรและใช้จัดลำดับโครงการจริง","กทท. ได้คะแนนส่วน 'การมีเกณฑ์ (Output)' ไปแล้ว"],"results":["กำหนดหลักเกณฑ์ : กทท. มีการกำหนดหลักเกณฑ์การจัดสรรทรัพยากรระบุอยู่ในคู่มือการส่งเสริมความคิดสร้างสรรค์ฯ โดยแบ่งเป็น 5 ประเด็นหลัก ได้แก่ 1. ความสอดคล้องกับแผนวิสาหกิจ 2. ความต้องการ/เพียงพอของทรัพยากร 3. ความเสี่ยง 4. ผลประโยชน์ 5. ความพร้อม/ความเป็นไปได้ในการดำเนินโครงการ","การจัดลำดับความสำคัญ : กทท. นำเกณฑ์ทั้ง 5 ประเด็นมาใช้ในการ \"จัดลำดับความสำคัญ (Ranking)\" ของแผนงาน/โครงการด้านนวัตกรรมอย่างเป็นระบบ","การจัดสรรทรัพยากรจริง : กทท. มีการจัดสรรงบประมาณจริงในปี 2568 จำนวน 12.789 ล้านบาท และมีการตั้งหน่วยงาน (กองวิจัยและพัฒนาองค์กร) เพื่อจัดสรรทรัพยากรบุคคลมารับผิดชอบงานนวัตกรรม"],"gaps":["ความเข้มข้นของเกณฑ์ (Gap เชิงคุณภาพ) : ผู้ตรวจระบุชัดเจนใน Feedback Report ว่า \"เกณฑ์การจัดลำดับความสำคัญของโครงการยังไม่เข้มข้นพอ\" และ \"การกำหนดเกณฑ์ให้คะแนนความสำคัญในการจัดสรรทรัพยากรยังไม่เข้มข้นหรือหลากหลายพอ หมายความว่า แม้ กทท. จะมีเกณฑ์ 5 ข้อ แต่ในทางปฏิบัติ เกณฑ์เหล่านี้อาจยังกว้างเกินไป และยังไม่สามารถใช้คัดกรองหรือจัดลำดับโครงการใน \"สถานการณ์ที่มีข้อจำกัดด้านทรัพยากร\" ได้อย่างมีประสิทธิภาพและแหลมคมพอ"]},{"id":"3.1","grp":"3","gname":"นวัตกรรมเพื่อมุ่งเน้นลูกค้าและตลาด","gw":5.0,"gs68":1.75,"name":"ข้อมูลและสารสนเทศเพื่อการพัฒนานวัตกรรมมุ่งเน้นลูกค้าและตลาด","w":5.0,"s68":1.75,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"มุ่งเน้นประเมินความสามารถขององค์กรในการบูรณาการ \"Big Data\" และการรับฟัง \"เสียงลูกค้า (VOC)\" ทั้งกลุ่มปัจจุบันและกลุ่มอนาคต นำมาวิเคราะห์เชิงลึก (Data Analytics) ร่างเป็น Customer Journey เพื่อค้นหา \"ความต้องการที่ยังไม่ถูกเติมเต็ม (Unmet Need)\" แล้วนำความต้องการนั้นมาตั้งเป็นโจทย์ในการพัฒนานวัตกรรมผลิตภัณฑ์/บริการต่อไป","levelSumm":["L1 — การรวบรวมข้อมูลที่เป็น Big data ที่เกี่ยวข้องกับกลุ่มลูกค้าทั้งในปัจจุบันแล","L2 — การรวบรวมข้อมูลที่เกิดจากการศึกษาพฤติกรรม การสัมภาษณ์กลุ่มลูกค้าทั้งในปัจจุ","L3 — การวิเคราะห์ข้อมูล (Data Analytic) เพื่อคาดการณ์ความต้องการของกลุ่มลูกค้าทั","L4 — การจัดทำ Customers/Consumers Persona, Customer/Consumers Journey ของกลุ่มลู","L5 — รัฐวิสาหกิจประเมินและปรับปรุงกระบวนการรวบรวมข้อมูลและสารสนเทศเพื่อการพัฒนาน"],"dimLevels":["L1 — การรวบรวมข้อมูลที่เป็น Big data ที่เกี่ยวข้องกับกลุ่มลูกค้าทั้งในปัจจุบันและอนาคต (Existing and Potential customers/consumers)","L2 — การรวบรวมข้อมูลที่เกิดจากการศึกษาพฤติกรรม การสัมภาษณ์กลุ่มลูกค้าทั้งในปัจจุบันและอนาคต","L3 — การวิเคราะห์ข้อมูล (Data Analytic) เพื่อคาดการณ์ความต้องการของกลุ่มลูกค้าทั้งในปัจจุบันและอนาคต","L4 — การจัดทำ Customers/Consumers Persona, Customer/Consumers Journey ของกลุ่มลูกค้า ทั้งในปัจจุบันและอนาคต เพื่อหาความต้องการของลูกค้าที่ยังไม่ถูกเติมเต็ม (Unmet Need)","L5 — รัฐวิสาหกิจประเมินและปรับปรุงกระบวนการรวบรวมข้อมูลและสารสนเทศเพื่อการพัฒนานวัตกรรมมุ่งเน้นลูกค้าและตลาด เพื่อเพิ่มประสิทธิภาพของการดำเนินการให้มีผลสำเร็จที่ดีกว่าเป้าหมายและดีขึ้นกว่าปีที่ผ่านมา"],"minReqs":{"1":["ผังกระบวนการ (SIPOC) แนวทางการรวบรวมข้อมูลลูกค้า","ภาพหน้าจอ (Screen Capture) ของระบบสารสนเทศที่เป็น Big Data (เช่น ระบบ PCS, PAT FIT, SAP, E-Gate, Marine Traffic)"],"2":["ประเด็นคำถาม/แบบฟอร์มการสัมภาษณ์เชิงลึก (In-depth Interview) หรือ Focus Group สำหรับลูกค้ากลุ่มอดีต ปัจจุบัน และอนาคต","รายงานสรุปผล/บันทึกข้อมูลการสัมภาษณ์กลุ่มลูกค้า (โดยเฉพาะการแยกรายงานผลสัมภาษณ์ของกลุ่ม \"ลูกค้าในอนาคต\" ออกมาให้เห็นชัดเจน)"],"3":["รายงานผลการวิเคราะห์ข้อมูล (Data Analytics Report) ที่สะท้อนความต้องการของลูกค้า","[แก้ไข Gap สำคัญ] ภาพหน้าจอกระบวนการนำเทคโนโลยี AI มาประมวลผลข้อมูล (เช่น การแสดงผล Dashboard ของระบบ PAT EDW ที่ใช้ Large Language Model (LLM))"],"4":["เอกสารแผนภาพเส้นทางการเดินทางของลูกค้า (Customer Journey) และจุดสัมผัสบริการ (Touch Point)","ตารางสรุปความต้องการที่ยังไม่ถูกเติมเต็ม (Unmet Need) และการระบุแนวทางการพัฒนาผลิตภัณฑ์/บริการใหม่เพื่อตอบสนองความต้องการนั้น"],"5":["รายงานผลการประเมินประสิทธิภาพของระบบการเก็บและวิเคราะห์ข้อมูล (AAR ของกระบวนการทำ Data Analytics)","หลักฐานเชิงประจักษ์ในการปรับปรุงกระบวนการ (Before & After)"]},"docsNeeded":[{"level":"L3+","req":"รายงานการพยากรณ์ความต้องการ (Predictive Data Analytics Report): รายงาน หรือ Dashboard ที่นำ Big Data และเสียงลูกค้ามาวิเคราะห์เชิงลึก เพื่อ \"พยากรณ์ (Predict)\" ความต้องการในอนาคตที่ยังไม่ถูกเติมเต็ม (Unmet Need) (ไม่ใช่แค่เอกสารสรุปการสัมภาษณ์)"},{"level":"L3+","req":"เอกสาร Customer Journey/Persona กลุ่มลูกค้าอนาคต: แผนภาพจุดสัมผัสบริการของลูกค้าอนาคตเพื่อหาความต้องการแฝง"}],"actions":["บูรณาการข้อมูลร่วมกับด้าน SCM และ DT: ต้องนำข้อมูลเสียงลูกค้า (VOC) และข้อร้องเรียนจากระบบของฝ่าย SCM รวมถึงใช้ฐานข้อมูล Big Data ขององค์กรจากฝ่ายเทคโนโลยีดิจิทัล (DT) มาตั้งเป็นโจทย์ในการวิเคราะห์และพัฒนานวัตกรรม","เรียนรู้ Best Practice จาก รฟม. (การรถไฟฟ้าขนส่งมวลชนแห่งประเทศไทย): รฟม. ได้คะแนนในข้อนี้ 2.0000 โดยมีจุดเด่นคือ \"รวบรวม Big Data ทั้งลูกค้าปัจจุบันและอนาคต นำมาทำ Data Analytic พยากรณ์ความต้องการ\" กทท. ควรจัดทำกระบวนการให้เห็นภาพชัดเจนเหมือน รฟม. ว่า \"เรานำเข้า Big Data -> เข้าสู่ระบบวิเคราะห์ (AI/Analytics) -> ได้ผลผลิตเป็น Product/Service ใหม่\"","โชว์ผลลัพธ์ของ Predictive Data Analytics ให้เป็นรูปธรรม: ในปีหน้า ต้องมีรายงาน (Report) หรือ Dashboard หน้าตาของการวิเคราะห์ที่แสดงให้เห็นชัดเจนว่า การเอา Data มาวิเคราะห์เชิงพยากรณ์นั้น ทำอย่างไร และชี้เป้า Unmet Need ได้หน้าตาเป็นแบบไหน ไม่ใช่เพียงแค่สรุปผลการสัมภาษณ์"],"crossLinks":[],"good":["กทท. ผ่านระดับ 1 รวบรวมข้อมูลผ่าน E-complaint, PCS และสัมภาษณ์ลูกค้าเชิงลึกแล้ว","กทท. ทำได้ดีในการ 'รับฟัง' แต่ต้องพัฒนาเพิ่มด้าน 'การพยากรณ์ล่วงหน้า'"],"results":["มีการรวบรวมข้อมูล Big Data จากระบบต่างๆ เช่น SAP, VCMS, CTMS, Marine Traffic, ระบบ E-Gate และมีการดำเนินโครงการ Port Community System (PCS)","รวบรวมข้อมูลจากการศึกษาพฤติกรรม สัมภาษณ์เชิงลึก (In-depth Interview) และ Focus Group กลุ่มลูกค้าปัจจุบันและลูกค้าอนาคต","วิเคราะห์ข้อมูล (Data Analytic) ด้วยเทคโนโลยี AI (Large Language Model) ภายใต้ระบบ PAT EDW และคาดการณ์ว่าลูกค้าในอนาคตจะสนใจบริการ Free Zone และ Dry Port","จัดทำ Customer Journey และ Customer Persona เพื่อหาความต้องการแฝง (Unmet Need)"],"gaps":["ปัญหาเรื่องการทำ Data Analytics สู่การพยากรณ์ : แม้ กทท. จะบอกว่ามีการสัมภาษณ์และเก็บข้อมูลต่างๆ แล้ว แต่คะแนนมาหยุดที่ 1.7500 (ไม่ผ่านระดับ 2 เต็ม) เพราะผู้ตรวจชี้ให้เห็นช่องว่าง (Gap) สำคัญว่า \"การทำ Data Analytics เพื่อพยากรณ์ (Predictive) ความต้องการของกลุ่มลูกค้าในอนาคตยังไม่ชัดเจน\"","ความต่างระหว่าง Descriptive vs. Predictive : ผู้ตรวจมองว่าข้อมูลที่ กทท. มี ยังเป็นแค่การรับฟังเสียงลูกค้า แต่ยังขาดการนำข้อมูลเหล่านั้นมาทำ \"Predictive Data Analytics\" (การวิเคราะห์ข้อมูลเชิงพยากรณ์) เชิงลึกในรูปแบบ Big Data เพื่อคาดการณ์ความต้องการในอนาคตที่ยังไม่ถูกเติมเต็ม (Unmet Need) อย่างแท้จริง"]},{"id":"4.1","grp":"4","gname":"ความรู้สู่การสร้างนวัตกรรม","gw":5.0,"gs68":1.45,"name":"การจัดการความรู้สู่การสร้างนวัตกรรม","w":5.0,"s68":1.45,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"มุ่งเน้นประเมินการเปลี่ยนบทบาทของ KM จาก \"ห้องสมุดเก็บเอกสาร\" ให้กลายเป็น \"เครื่องมือสร้างนวัตกรรม\" (Knowledge-based Innovation) โดยต้องมีการตั้งตัวชี้วัด (KPI) เทียบกับคู่แข่งระดับโลก และนำบทเรียน (AAR) หรือความรู้จากชุมชนนักปฏิบัติ (CoP) ไปต่อยอดสร้างผลิตภัณฑ์ บริการ หรือกระบวนการใหม่ที่ \"สร้างมูลค่าเพิ่ม (Value Added)\" ให้กับองค์กรได้จริง","levelSumm":["L1 — การกำหนดตัวชี้วัดที่สำคัญ (และค่าเป้าหมาย) ขององค์กรในเชิงบูรณาการ จากทุกแห","L2 — การวัดและวิเคราะห์ผลสำเร็จเชิงเปรียบเทียบในกลุ่มตัวชี้วัดที่สำคัญขององค์กร ","L3 — การกำหนดแนวทางการเรียนรู้ การจัดการความรู้ เพื่อนำไปสู่การปรับปรุงและนวัตกร","L4 — รัฐวิสาหกิจทบทวนและวิเคราะห์ระบบงานและ/หรือกระบวนการย่อย จัดเก็บในระบบฐานข้","L5 — รัฐวิสาหกิจปรับปรุงและพัฒนาระบบงานและ/หรือกระบวนการย่อย เพื่อเพิ่มประสิทธิภ"],"dimLevels":["L1 — การกำหนดตัวชี้วัดที่สำคัญ (และค่าเป้าหมาย) ขององค์กรในเชิงบูรณาการ จากทุกแหล่งทั้งภายในและภายนอกองค์กร","L2 — การวัดและวิเคราะห์ผลสำเร็จเชิงเปรียบเทียบในกลุ่มตัวชี้วัดที่สำคัญขององค์กร เพื่อทำให้ตัวชี้วัดบรรลุได้ตามเป้าหมาย ดีกว่าคู่แข่ง/คู่เทียบ และมีแนวโน้มของผลการดำเนินงานที่ดีขึ้นอย่างต่อเนื่อง","L3 — การกำหนดแนวทางการเรียนรู้ การจัดการความรู้ เพื่อนำไปสู่การปรับปรุงและนวัตกรรมผลิตภัณฑ์และบริการ การปรับปรุงกระบวนการทำงานที่สำคัญ การตลาด และรูปแบบธุรกิจใหม่ เพื่อสร้างมูลค่าเพิ่มให้กับองค์กรอย่างต่อเนื่อง","L4 — รัฐวิสาหกิจทบทวนและวิเคราะห์ระบบงานและ/หรือกระบวนการย่อย จัดเก็บในระบบฐานข้อมูลเทคโนโลยีดิจิทัลขององค์กร","L5 — รัฐวิสาหกิจปรับปรุงและพัฒนาระบบงานและ/หรือกระบวนการย่อย เพื่อเพิ่มประสิทธิภาพการปฏิบัติงานให้มีผลสำเร็จที่ดีกว่าเป้าหมาย และดีกว่าปีที่ผ่านมา"],"minReqs":{"1":["เอกสารหลักเกณฑ์และกระบวนการคัดเลือกตัวชี้วัดที่สำคัญขององค์กร","ตารางสรุปตัวชี้วัดสำคัญด้านนวัตกรรม ที่ระบุแหล่งที่มาของข้อมูลอย่างชัดเจน"],"2":["รายงานการวิเคราะห์เปรียบเทียบคู่เทียบ (Benchmarking Report): ที่นำผลงานของ กทท. ไปเทียบกับคู่แข่งหรือคู่เทียบ"],"3":["รายงานสรุปบทเรียน (AAR) หรือ รายงานผลการจัดกิจกรรมชุมชนนักปฏิบัติ (CoP) ที่เกี่ยวข้องกับโครงการนวัตกรรม","[แก้ไข Gap สำคัญ] เอกสารแสดงผลลัพธ์การสร้างมูลค่าเพิ่ม (Value Added Report): ที่ระบุว่าได้นำความรู้จาก AAR หรือ CoP นั้น ไปต่อยอดเป็นผลิตภัณฑ์/บริการ/กระบวนการใหม่ที่สำเร็จเป็นรูปธรรม"],"4":["เอกสารรายงานการทบทวนระบบงาน (Work System / Sub-process)","ภาพหน้าจอ (Screen Capture) ของระบบ PAT KM Portal หรือ ฐานข้อมูลดิจิทัลที่แสดงให้เห็นการจัดเก็บกระบวนการย่อยหรือองค์ความรู้ด้านนวัตกรรม"],"5":["ตารางแสดงผลการเปรียบเทียบ (Before & After) ของกระบวนการทำงาน/ระบบงานที่ได้รับการปรับปรุงจากฐานความรู้"]},"docsNeeded":[{"level":"L3+","req":"บันทึกการถอดบทเรียน (AAR / Lesson Learned): เอกสารสรุปบทเรียนจากโครงการนวัตกรรม (เช่น ระบบ E-Gate, LCP Traffic, Free Zone) ทั้งมุมที่สำเร็จและล้มเหลว"},{"level":"L3+","req":"หลักฐานการเชื่อมโยงระบบ KM: ภาพถ่ายหน้าจอ (Screenshot) หรือบันทึกที่พิสูจน์ว่าได้นำบทเรียน AAR และ Best Practice ไปจัดเก็บลงในระบบ PAT KM Portal เพื่อแบ่งปันข้ามสายงาน"}],"actions":["ทำ AAR ทุกโครงการนวัตกรรม: กำหนดเป็นภาคบังคับเลยว่า นวัตกรรมทุกชิ้นที่ผ่าน Stage-Gate ขั้นสุดท้าย จะต้องมีการทำ AAR (ถอดบทเรียน) และทำเอกสาร Best Practice ส่งเข้าฐานความรู้องค์กรเสมอ","ใช้ Benchmarking เป็นจุดตั้งต้น (เรียนรู้จาก รฟม. และ กทพ.): นำตัวชี้วัดที่เรายังแพ้คู่เทียบ (เช่น ท่าเรือสิงคโปร์) มาตั้งเป็นโจทย์ให้ทีมงานทำ CoP (ระดมสมองแบบ KM) เพื่อคิดหานวัตกรรม (IM) ไปสู้กับคู่เทียบ","เปลี่ยนการเขียนรายงานใหม่ (Storytelling) อย่าเขียนแบบ KM (แค่จัดเก็บ): \"กทท. ทำ AAR โครงการแก้ปัญหารถติด ได้บทเรียนจึงจัดเก็บลงระบบ KM Portal ให้พนักงานเรียนรู้\" ต้องเขียนแบบ IM (นำมาสร้างนวัตกรรม+มูลค่า): \"กทท. นำบทเรียนจากระบบ KM Portal มาต่อยอดสร้าง 'แอปพลิเคชัน LCP Traffic' (นวัตกรรมกระบวนการ) ส่งผลให้ลดระยะเวลาหมุนเวียนรถบรรทุกได้ 66.67% คิดเป็นมูลค่าการลดต้นทุนเชิงพาณิชย์ 10 ล้านบาท ซึ่งดีกว่าท่าเรือคู่เทียบ\""],"crossLinks":[],"good":["กทท. ผ่านระดับ 1 มี KPI และข้อมูลเปรียบเทียบกับท่าเรือสิงคโปร์/มาเลเซีย"],"results":["กำหนดตัวชี้วัดที่สำคัญ (KPI) ขององค์กรเชิงบูรณาการจากหลายแหล่ง (เช่น แผนวิสาหกิจ, MOU สคร., ตัวชี้วัดท่าเรือระดับโลก)","วัดและวิเคราะห์ผลสำเร็จเทียบกับคู่เทียบ (Benchmark) เช่น นำอัตราการเติบโตของตู้สินค้าไปเทียบกับท่าเรือสิงคโปร์ (PSA)","กำหนดแนวทางการเรียนรู้และจัดการความรู้สู่การสร้างนวัตกรรม เช่น การนำปัญหาจราจรมาทำโครงการนวัตกรรม (แอปพลิเคชัน LCP Traffic) แบบ Fast Track ร่วมกับกรมการขนส่งทางบก","ทบทวนระบบงานและจัดเก็บองค์ความรู้ในระบบฐานข้อมูลเทคโนโลยีดิจิทัลขององค์กร (KM Portal)"],"gaps":["ปัญหาการบูรณาการ KM สู่ IM อย่างเป็นระบบ : แม้ กทท. จะอ้างว่าทำถึงระดับ 4 แต่คะแนนที่ได้คือ 1.4500 (สอบตกตั้งแต่ระดับ 2) สาเหตุหลักคือ ผู้ตรวจมองว่า กทท. ยังขาดการนำ \"กระบวนการจัดการความรู้ (KM)\" มาใช้เป็น \"เครื่องมือ\" ในการสร้างนวัตกรรมอย่างแท้จริง","ขาดการถอดบทเรียน (AAR) : ผู้ตรวจระบุ Gap ชัดเจนว่า \"การประยุกต์ใช้ KM ถอดบทเรียนเพื่อพัฒนานวัตกรรมระหว่างสายงานยังไม่เป็นระบบชัดเจน\" หมายความว่า เมื่อ กทท. ทำโครงการนวัตกรรมเสร็จ (เช่น E-complaint หรือ PAT Plus) กทท. ยังขาดการทำ AAR (After Action Review) เพื่อถอดบทเรียนความสำเร็จหรือความล้มเหลว แล้วนำบทเรียนนั้นไปเผยแพร่หรือขยายผลข้ามสายงาน เพื่อให้เกิดนวัตกรรมใหม่ๆ"]},{"id":"5.1","grp":"5","gname":"วัฒนธรรมเพื่อมุ่งเน้นการสร้างนวัตกรรม","gw":7.0,"gs68":1.75,"name":"การปลูกฝังค่านิยมและเสริมสร้างวัฒนธรรมที่มุ่งเน้นนวัตกรรม","w":3.5,"s68":1.75,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"มุ่งเน้นประเมินการสร้าง \"ดีเอ็นเอนวัตกรรม\" ให้ฝังรากลึกในองค์กร ผ่านการกำหนดค่านิยมที่ชัดเจน การออกแบบแผนกิจกรรมและระบบ \"รางวัล/แรงจูงใจ\" ที่ตอบโจทย์พนักงานจริงๆ การสำรวจหาช่องว่าง (Gap) ของวัฒนธรรม และที่สำคัญที่สุดคือ การพิสูจน์ให้เห็นว่า \"พฤติกรรมของพนักงานเปลี่ยนไปในทางที่ดีขึ้นจริง (Behavioral Change)\"","levelSumm":["L1 — การกำหนดค่านิยมที่สะท้อนถึงการใช้ความคิดสร้างสรรค์และการจัดการนวัตกรรมอย่าง","L2 — แผนการปลูกฝังค่านิยมและเสริมสร้างวัฒนธรรมฯ ถูกออกแบบให้ \"สอดคล้องกับบริบทแล","L3 — การดำเนินการตามแผนการปลูกฝังค่านิยมและเสริมสร้างวัฒนธรรมประจำปี \"จนบรรลุตาม","L4 — การ \"สำรวจค่านิยมและวัฒนธรรมองค์กรที่มุ่งเน้นนวัตกรรม\" เพื่อให้ทราบถึงช่องว","L5 — การนำข้อมูลป้อนกลับ (Feedback) จากการสำรวจ ไปใช้ปรับปรุงการปลูกฝังค่านิยมฯ "],"dimLevels":["L1 — การกำหนดค่านิยมที่สะท้อนถึงการใช้ความคิดสร้างสรรค์และการจัดการนวัตกรรมอย่างชัดเจน มีการสื่อสารค่านิยม และจัดทำแผนการปลูกฝังค่านิยมฯ ระยะยาวและประจำปี","L2 — แผนการปลูกฝังค่านิยมและเสริมสร้างวัฒนธรรมฯ ถูกออกแบบให้ \"สอดคล้องกับบริบทและความต้องการ\" ในแต่ละปีที่เปลี่ยนไป (เช่น การจัดสภาพแวดล้อม, การให้ค่าตอบแทน/รางวัล) และมีการถ่ายทอดแผนแก่ผู้เกี่ยวข้อง","L3 — การดำเนินการตามแผนการปลูกฝังค่านิยมและเสริมสร้างวัฒนธรรมประจำปี \"จนบรรลุตามเป้าหมายที่กำหนด\"","L4 — การ \"สำรวจค่านิยมและวัฒนธรรมองค์กรที่มุ่งเน้นนวัตกรรม\" เพื่อให้ทราบถึงช่องว่าง (Gap) ในการปรับปรุง ให้แผนสอดคล้องกับวัฒนธรรมองค์กร","L5 — การนำข้อมูลป้อนกลับ (Feedback) จากการสำรวจ ไปใช้ปรับปรุงการปลูกฝังค่านิยมฯ เพื่อเพิ่มประสิทธิภาพให้ผลสำเร็จ \"ดีกว่าเป้าหมายและดีขึ้นกว่าปีที่ผ่านมา\" และ \"ได้รับการยอมรับจากผู้มีส่วนได้ส่วนเสีย\""],"minReqs":{"1":["คู่มือค่านิยมและวัฒนธรรมองค์กร ที่ระบุค่านิยมด้านนวัตกรรมและ \"พฤติกรรมพึงประสงค์ (Do & Don't)\" ไว้อย่างชัดเจน","แผนแม่บทเสริมสร้างค่านิยมและวัฒนธรรมองค์กร (ระยะยาวและประจำปี)","แผนการสื่อสารและหลักฐานการเผยแพร่ค่านิยมไปยังผู้ที่เกี่ยวข้อง"],"2":["รายงานผลสำรวจความต้องการของบุคลากร (Need Analysis): เอกสารที่ระบุว่าพนักงานต้องการกิจกรรมรูปแบบไหน หรืออยากได้รางวัลแบบไหน","แผนปฏิบัติการที่ระบุกิจกรรมเสริมสร้างสภาพแวดล้อม และระบบแรงจูงใจ (Incentive) ที่อ้างอิงจากผลสำรวจ"],"3":["สรุปผลการดำเนินงานตามแผนปฏิบัติการเสริมสร้างค่านิยมฯ","[แก้ไข Gap สำคัญ] เอกสารแสดงผลสัมฤทธิ์ระดับ Outcome: รายงานผลประเมินตัวชี้วัด \"พฤติกรรมพึงประสงค์ที่เปลี่ยนไป\" ไม่ใช่แค่วัดจำนวนคนเข้าร่วมกิจกรรม"],"4":["รายงานผลการสำรวจค่านิยมและวัฒนธรรมองค์กร (Culture Survey) ประจำปี","บทวิเคราะห์ช่องว่าง (Culture Gap Analysis) เฉพาะมิติด้านนวัตกรรม (Agility)"],"5":["รายงานเปรียบเทียบคะแนนวัฒนธรรมองค์กร (Year-over-Year): ตารางแสดงให้เห็นว่าคะแนนพฤติกรรม A-Agility มีการเติบโตขึ้นอย่างต่อเนื่อง (เช่น จาก 4.51 เป็น 4.55)","บันทึกการทบทวนแผนปฏิบัติการในปีถัดไป (นำ Feedback ไปทำอะไรต่อ)"]},"docsNeeded":[{"level":"L3+","req":"หลักฐานการวัดผลพฤติกรรมระดับผลลัพธ์ (Outcome): เอกสารประเมินที่แสดงให้เห็น \"พฤติกรรมที่เปลี่ยนไป\" อย่างยั่งยืน (ไม่ใช่วัดแค่จำนวนพนักงานที่เข้าร่วมกิจกรรม)"},{"level":"L3+","req":"แผนเสริมสร้างวัฒนธรรมองค์กร: แผนที่ได้จากการนำผลประเมินช่องว่าง (Gap Analysis) ไปเปรียบเทียบกับแนวปฏิบัติที่ดี (Best Practice) แล้ว"}],"actions":["ทำ Benchmark ด้านวัฒนธรรม: ในแผนเสริมสร้างวัฒนธรรมปีหน้า ต้องเขียนระบุให้ชัดเจนว่า กทท. ได้นำผล Gap Analysis ไปเปรียบเทียบกับองค์กรที่เป็น Best Practice (เช่น รฟม. ที่ได้คะแนนด้านนี้ถึง 2.6250 หรือองค์กรเอกชนชั้นนำ) แล้วนำรูปแบบขององค์กรเหล่านั้นมาประยุกต์ใช้","ปรับ KPI การวัดผลให้เป็น Outcome ล้วนๆ: เปลี่ยนการรายงานผลจาก \"มีคนเข้าร่วมกิจกรรมกี่คน\" เป็น \"พฤติกรรมที่เปลี่ยนไป (Behavioral Change)\" เช่น นำผลการประเมินพฤติกรรม (Competency) ด้าน Agility ของพนักงานรายบุคคลที่เพิ่มขึ้น มาโชว์เป็นหลักฐานการเปลี่ยนแปลงพฤติกรรมที่ยั่งยืน"],"crossLinks":[],"good":["กทท. ผ่านระดับ 1–2 บางส่วน มีค่านิยม Agility แผนงาน และปรับกิจกรรมตอบโจทย์พนักงาน","กทท. จัดกิจกรรมเชิงรูปธรรม (เงินรางวัล, Site Visit) เป็นกระบวนการ (Process) ที่ดี"],"results":["ทบทวนและกำหนดค่านิยมองค์กรใหม่เป็น \"SMART PAT\" โดยเน้นที่ตัว A - Agility (พร้อมรับการเปลี่ยนแปลง ด้วยการสร้างสรรค์นวัตกรรมสิ่งใหม่) และมีการสื่อสารผ่านการจัดอบรม สื่อประชาสัมพันธ์ และแผนปฏิบัติการ","มีการสำรวจความต้องการพนักงานเพื่อปรับรูปแบบกิจกรรมให้ตรงใจ เช่น ปรับกิจกรรม PAT DNA เป็นรูปแบบ Non-classroom (ไป Site Visit ดูงานบริษัทเงินติดล้อ และ กฟผ.) และปรับของรางวัลจากทริปดูงานต่างประเทศเป็น \"เงินสด 30,000 บาท ควบคู่การอบรม\" ตามที่พนักงานเรียกร้องสูงสุดถึง 39%","วัดผลลัพธ์การเปลี่ยนพฤติกรรม พบว่าพนักงานมีการปรับเปลี่ยนพฤติกรรม 77.33% (ทะลุเป้า 70%) และสัดส่วนบุคลากรที่ให้ความคิดสร้างสรรค์เพิ่มขึ้นถึง 300%","มีการสำรวจค่านิยมและวัฒนธรรมองค์กรเพื่อหาช่องว่าง (Gap Analysis) โดยพนักงาน 100% รับรู้ค่านิยม SMART PAT และ 85.81% เห็นว่ามีการเปลี่ยนแปลงด้านความคิดสร้างสรรค์"],"gaps":["ขาดการเทียบเคียงกับแนวปฏิบัติที่ดี (Best Practice) : ผู้ตรวจระบุว่า แม้จะมีการประเมินช่องว่าง (Gap Analysis) แล้ว แต่ กทท. ต้องนำผลการวิเคราะห์นั้นไปเทียบกับ \"แนวปฏิบัติที่ดี (Best Practice)\" เพื่อนำไปสู่การจัดทำแผนเสริมสร้างวัฒนธรรมที่ครอบคลุมและมีประสิทธิภาพยิ่งขึ้น","การวัดผลที่ยังไม่สะท้อน Outcome ที่แท้จริง : ผู้ตรวจเน้นย้ำว่า การทบทวนและติดตามผลการดำเนินงานต้องเป็นไปตามเป้าหมายตัวชี้วัดทั้งในระดับผลผลิต (Output) และ ผลลัพธ์ (Outcome) . ในมุมมองผู้ตรวจ ตัวเลขพนักงานส่งไอเดียเพิ่มขึ้น หรือความพึงพอใจต่อกิจกรรม ยังเป็นเพียงผลผลิต (Output) แต่ผลลัพธ์ (Outcome) ที่แท้จริงคือ \"พฤติกรรมการทำงานที่เปลี่ยนไปอย่างยั่งยืนและสร้างมูลค่าได้จริง\""]},{"id":"5.2","grp":"5","gname":"วัฒนธรรมเพื่อมุ่งเน้นการสร้างนวัตกรรม","gw":7.0,"gs68":1.75,"name":"การยกระดับความรู้ความสามารถด้านนวัตกรรม","w":3.5,"s68":1.75,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"มุ่งเน้นประเมินการสร้าง \"ขีดความสามารถ (Capability)\" ของทีมงานขับเคลื่อนนวัตกรรมและพนักงาน โดยเริ่มตั้งแต่การประเมินว่าพนักงานยังขาดทักษะอะไร (Gap Analysis) นำไปสู่การจัดทำแผนพัฒนารายบุคคล (IDP) การจัดอบรม และ \"การนำความก้าวหน้าทางนวัตกรรมไปผูกกับระบบประเมินผล/ความก้าวหน้าในสายอาชีพ (Career Path)\" เพื่อรักษาคนเก่งไว้ในองค์กร","levelSumm":["L1 — การวิเคราะห์และประเมินช่องว่างความรู้ความสามารถและศักยภาพการใช้ความคิดสร้าง","L2 — ถ่ายทอดแผนยกระดับและพัฒนาความรู้ความสามารถและศักยภาพการใช้ความคิดสร้างสรรค์","L3 — การดำเนินการตามแผนยกระดับและพัฒนาความรู้ความสามารถฯ ได้ครบถ้วน และ \"บรรลุตา","L4 — การยกระดับความรู้ความสามารถด้านนวัตกรรม เชื่อมโยงกับ \"ระบบแรงจูงใจและความก้","L5 — การใช้ข้อมูลป้อนกลับ (Feedback) เพื่อปรับปรุงการยกระดับความรู้ความสามารถด้า"],"dimLevels":["L1 — การวิเคราะห์และประเมินช่องว่างความรู้ความสามารถและศักยภาพการใช้ความคิดสร้างสรรค์ (Gap Analysis) และจัดทำ/ทบทวนแผนยกระดับความรู้ความสามารถฯ ระยะยาวและประจำปี","L2 — ถ่ายทอดแผนยกระดับและพัฒนาความรู้ความสามารถและศักยภาพการใช้ความคิดสร้างสรรค์และจัดการนวัตกรรมองค์กรประจำปีแก่ผู้ที่เกี่ยวข้อง","L3 — การดำเนินการตามแผนยกระดับและพัฒนาความรู้ความสามารถฯ ได้ครบถ้วน และ \"บรรลุตามเป้าหมายของแผน\"","L4 — การยกระดับความรู้ความสามารถด้านนวัตกรรม เชื่อมโยงกับ \"ระบบแรงจูงใจและความก้าวหน้าในสายอาชีพ (Career Path)\" ของผู้รับผิดชอบด้านการจัดการนวัตกรรมขององค์กร","L5 — การใช้ข้อมูลป้อนกลับ (Feedback) เพื่อปรับปรุงการยกระดับความรู้ความสามารถด้านนวัตกรรม ให้มีผลสำเร็จดีกว่าเป้าหมาย และดีขึ้นกว่าปีที่ผ่านมา"],"minReqs":{"1":["คู่มือสมรรถนะองค์กร (Competency Dictionary) ที่มีการระบุทักษะด้านนวัตกรรม (Innovation Competency)","รายงานผลการประเมินช่องว่างความรู้ความสามารถ (Gap Analysis Report) ของบุคลากรรายบุคคล","แผนยกระดับและพัฒนาความรู้ความสามารถฯ (ระยะยาวและประจำปี) ที่สอดคล้องกับช่องว่างที่พบ"],"2":["บันทึกแจ้งผลการประเมินสมรรถนะรายบุคคล และการแจ้งแผนพัฒนา (IDP) ให้พนักงานรับทราบ","หลักฐานการสื่อสาร/เผยแพร่แผนพัฒนาสมรรถนะการจัดการนวัตกรรมไปยังผู้บริหารและพนักงานทั่วองค์กร"],"3":["รายงานผลการจัดการฝึกอบรม/การพัฒนาทักษะตามแผนประจำปี","[แก้ไข Gap สำคัญ] สรุปผลการประเมินความสำเร็จของการฝึกอบรม ที่วัดผลสำเร็จเชิงตัวเลข"],"4":["ระเบียบ/คู่มือการบริหารทรัพยากรบุคคล ที่ระบุหลักเกณฑ์ความก้าวหน้าในสายอาชีพ (Career Path) สำหรับ \"กลุ่มตำแหน่งงานด้านนวัตกรรม\"","ประกาศ/เกณฑ์การพิจารณาผลตอบแทน (Incentive) โบนัส หรือการเลื่อนขั้น ที่นำ \"สมรรถนะด้านนวัตกรรม\" หรือ \"ความสำเร็จในการทำโครงการนวัตกรรม\" เข้ามาเป็นส่วนหนึ่งของการพิจารณา"],"5":["รายงาน AAR / รายงานประเมินความพึงพอใจและประสิทธิภาพของหลักสูตรฝึกอบรมนวัตกรรม","ตารางเปรียบเทียบผลสมรรถนะ (Competency Score Year-over-Year): ตารางที่แสดงให้เห็นว่า สมรรถนะด้านนวัตกรรมของทีมงานในปีนี้ \"สูงกว่า\" ปีที่ผ่านมาอย่างเป็นรูปธรรม"]},"docsNeeded":[{"level":"L3+","req":"รายงานผลการวิเคราะห์ช่องว่างทักษะเชิงลึก (Innovation Gap Analysis): แบบประเมินที่เจาะจงทักษะแห่งอนาคตของทีมงานหลัก เช่น ทักษะ AI, Data Literacy และ Design Thinking"},{"level":"L3+","req":"แผนพัฒนารายบุคคล (IDP) ด้านนวัตกรรม: แผนอบรมที่ถูกออกแบบเพื่อปิดช่องว่างทักษะแห่งอนาคตของทีมงาน IM โดยเฉพาะ"}],"actions":["ทำ Innovation Gap Analysis เชิงลึก: เปลี่ยนจากการประเมินสมรรถนะแบบเดิม เป็นการเจาะจงประเมินทักษะแห่งอนาคต (Future Skills) เช่น AI & Data Literacy และ Design Thinking ให้กับทีม Core IM","เชื่อมโยงกับความก้าวหน้า (ปลดล็อกระดับ 4): ต้องให้ฝ่าย HR กำหนดหลักเกณฑ์ให้ชัดเจนว่า หากทีมงานนวัตกรรมสามารถ Upskill ทักษะแห่งอนาคตและสร้างนวัตกรรมได้สำเร็จ จะมีผลต่อ \"ความก้าวหน้าในสายอาชีพ (Career Path)\" หรือ \"ได้รับคะแนนประเมินผลงาน (PMS)\" ที่ดีขึ้นอย่างไร เพื่อสร้างแรงจูงใจที่เป็นรูปธรรม","เรียนรู้จาก Best Practice : รฟม. ได้คะแนนในหมวดนี้สูงถึง 2.6250 เพราะมีการทำ \"Gap Analysis ศักยภาพด้านนวัตกรรมแยกเป็นรายบุคคล\" และทำแผนพัฒนาระยะสั้น/ยาวที่ชัดเจน กทท. ควรถอดแบบกระบวนการนี้มาใช้"],"crossLinks":[],"good":["กทท. ผ่านระดับ 1–2 มี Gap Analysis และจัดทำ IDP พัฒนาบุคลากรได้ครบถ้วน","คะแนน 1.75 สะท้อนความจริง — กทท. ผ่านกระบวนการ 'ประเมิน-จัดอบรม-สอบวัดผล' ครบ"],"results":["มีการกำหนดสมรรถนะ (Competency) จัดทำแผนพัฒนารายบุคคล (IDP) และจัดสัมมนาทบทวนสมรรถนะตามลักษณะงาน (Functional Competency) เพื่อประเมินช่องว่าง (Gap Analysis) ของทีมงานนวัตกรรม โดยบูรณาการร่วมกับฝ่าย HR","มีการจัดทำบันทึกเผยแพร่แผนพัฒนาสมรรถนะด้านนวัตกรรม แจ้งผลการประเมินสมรรถนะ และสื่อสารไปยังผู้บริหารและพนักงานที่เกี่ยวข้อง","ดำเนินการจัดอบรมผ่าน \"โครงการพัฒนาทักษะสู่สมรรถนะแห่งอนาคต\" และบรรลุเป้าหมายที่ตั้งไว้ คือ พนักงานที่รับผิดชอบงานด้านนวัตกรรมมีผลประเมินความรู้ผ่านเกณฑ์ 80%"],"gaps":["คุณภาพของหลักสูตรไม่ตอบโจทย์อนาคต (Gap ระดับ 2 และ 3) : ผู้ตรวจระบุว่า การวิเคราะห์ Training Need ของ กทท. ยังไม่สะท้อนแนวโน้มธุรกิจในอนาคต  กทท. จัดอบรมด้านนวัตกรรมทั่วไป แต่ \"ขาดการวิเคราะห์ช่องว่างทักษะใหม่ๆ ที่จำเป็นต่ออนาคต (เช่น ทักษะด้าน AI, Data Literacy, Design Thinking) ของทีมงานนวัตกรรม\"","ขาดการเชื่อมโยงกับระบบแรงจูงใจ (Gap ระดับ 4) : กทท. ยังไม่มีการนำผลการยกระดับความรู้ความสามารถด้านนวัตกรรม ไปเชื่อมโยงกับระบบแรงจูงใจ (Incentive) หรือความก้าวหน้าในสายอาชีพ (Career Path) ของผู้รับผิดชอบด้านนวัตกรรม ซึ่ง กทท. ก็ยอมรับในกระดาษคำตอบเองว่า \"ยังไม่ดำเนินการ\""]},{"id":"6.1","grp":"6","gname":"กระบวนการนวัตกรรม","gw":15.0,"gs68":1.75,"name":"การออกแบบระบบนวัตกรรมองค์กร","w":4.0,"s68":2.0,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"มุ่งเน้นประเมินการออกแบบ \"ระบบนวัตกรรมองค์กร (Corporate Innovation System: CIS)\" ซึ่งเป็นพิมพ์เขียวภาพใหญ่ขององค์กร โดยต้องมีองค์ประกอบพื้นฐานครบถ้วน ครอบคลุมทั้งนวัตกรรมที่คิดค้นเองภายใน (Closed Innovation) และการดึงเครือข่ายพันธมิตรภายนอกมาร่วมทำ (Open Innovation) รวมถึงต้องมีการจัดพอร์ตโฟลิโอ (Innovation Portfolio) และการบริหารจัดการลิขสิทธิ์/ทรัพย์สินทางปัญญา (IP) อย่างเป็นระบบ","levelSumm":["L1 — การออกแบบระบบนวัตกรรมองค์กร (CIS) ที่สอดคล้องกับบริบทขององค์กร และครอบคลุมอ","L2 — การออกแบบระบบและกระบวนการจัดการนวัตกรรมในรูปแบบต่างๆ ที่ครอบคลุมกระบวนการนำ","L3 — การออกแบบ Innovation Portfolio และกระบวนการบริหารจัดการทรัพย์สินทางปัญญาที่","L4 — ระบบนวัตกรรมองค์กร (Corporate Innovation System: CIS) สอดคล้องกับทิศทางการด","L5 — การใช้ข้อมูลป้อนกลับ (Feedback) จากการประเมิน มาปรับปรุงระบบนวัตกรรมองค์กร "],"dimLevels":["L1 — การออกแบบระบบนวัตกรรมองค์กร (CIS) ที่สอดคล้องกับบริบทขององค์กร และครอบคลุมองค์ประกอบที่สำคัญ","L2 — การออกแบบระบบและกระบวนการจัดการนวัตกรรมในรูปแบบต่างๆ ที่ครอบคลุมกระบวนการนำความคิดสร้างสรรค์ไปสู่การสร้างนวัตกรรม ทั้งในรูปแบบนวัตกรรมแบบปิด (Closed Innovation) และนวัตกรรมแบบเปิด (Open Innovation)","L3 — การออกแบบ Innovation Portfolio และกระบวนการบริหารจัดการทรัพย์สินทางปัญญาที่เกี่ยวข้องกับการจัดการนวัตกรรม รวมทั้งการนำนวัตกรรมไปใช้ประโยชน์เชิงพาณิชย์และเชิงสังคม (Intellectual Property: IP)","L4 — ระบบนวัตกรรมองค์กร (Corporate Innovation System: CIS) สอดคล้องกับทิศทางการดำเนินธุรกิจและการดำเนินงานขององค์กรทั้งในปัจจุบันและในอนาคต และเชื่อมโยงถึงผู้มีส่วนได้ส่วนเสียตามระบบนิเวศธุรกิจ (Business Ecosystem)","L5 — การใช้ข้อมูลป้อนกลับ (Feedback) จากการประเมิน มาปรับปรุงระบบนวัตกรรมองค์กร เพื่อเพิ่มประสิทธิภาพให้ดีกว่าเป้าหมายและดีกว่าปีที่ผ่านมา"],"minReqs":{"1":["แผนภาพ/ผังระบบนวัตกรรมองค์กร (PAT-CIS) ให้ครบทั้ง 7 ด้าน ได้แก่ บทบาทผู้บริหารระดับสูง (Leadership), ยุทธศาสตร์ (Strategy), วัฒนธรรม (Culture), บุคลากร (People), กระบวนการนวัตกรรม (Process), การจัดการความรู้และเทคโนโลยี (KM & IT) , กลไกการติดตามประเมินผล (Monitoring)","คู่มือระบบนวัตกรรมองค์กรที่อธิบายความเชื่อมโยงของแต่ละองค์ประกอบ"],"2":["คู่มือ/ระเบียบการทำ Open Innovation: (เช่น เกณฑ์การคัดเลือกพันธมิตร หรือเงื่อนไขการทำ MOU นวัตกรรม)","ตารางบริหาร Innovation Portfolio: การแบ่งสัดส่วนโครงการนวัตกรรม (เช่น Core 70% / Adjacent 20% / Transformational 10%)","คู่มือ/ระเบียบการจัดการทรัพย์สินทางปัญญา (IP Policy): ระเบียบที่ระบุว่า หากพนักงานคิดค้นนวัตกรรมได้ ใครเป็นเจ้าของลิขสิทธิ์ และมีแนวทางจดสิทธิบัตรอย่างไร"],"3":["รายงานผลการดำเนินงานนวัตกรรมประจำปี ที่ยืนยันว่ามีการใช้งานระบบ PAT-CIS จริง","หลักฐานเชิงประจักษ์ด้าน Open Innovation: เช่น รายงานความสำเร็จของการร่วมมือกับกรมการขนส่งทางบกในการทำแอปพลิเคชันจัดการจราจร (LCP Traffic)","หลักฐานด้าน IP: เอกสารแสดงการยื่นขอจดลิขสิทธิ์/อนุสิทธิบัตรของผลงานนวัตกรรม กทท."],"4":["แผนภาพ Business Ecosystem: แผนภาพที่แสดงให้เห็นว่าระบบ PAT-CIS เชื่อมโยงกับ Stakeholder ภายนอก (เช่น รัฐบาล, คู่แข่ง, คู่ค้า, ชุมชน) อย่างไร","รายงานการประเมินประสิทธิผล (AAR / System Audit) ของการใช้ระบบ PAT-CIS"],"5":["รายงานทบทวนระบบ PAT-CIS ฉบับอัปเดต","ตารางเปรียบเทียบประสิทธิภาพ (Before & After): แสดงตัวชี้วัดกระบวนการ (Process KPI) ที่ดีขึ้น"]},"docsNeeded":[{"level":"L3+","req":"เอกสาร \"หลักเกณฑ์ในการคัดเลือกพันธมิตร\" (Open Innovation Criteria): ข้อนี้สำคัญมาก ต้องมีหลักเกณฑ์เป็นลายลักษณ์อักษรที่ใช้ในการคัดเลือกเครือข่ายระบบนิเวศธุรกิจ (Ecosystem)"},{"level":"L3+","req":"เอกสารระบบ PAT-CIS ฉบับปรับปรุง: แผนภาพและคู่มือที่แสดงความเชื่อมโยงกับระบบนิเวศธุรกิจอย่างชัดเจน"}],"actions":["ขยายความ Business Ecosystem ในคู่มือ PAT-CIS: ปรับปรุงแผนภาพและคำอธิบายในคู่มือให้เห็นชัดเจนว่า กทท. มีการเชื่อมโยงและแลกเปลี่ยนทรัพยากรกับใครบ้างใน Value Chain (เช่น ผู้ส่งมอบ, ลูกค้า, มหาวิทยาลัย, สตาร์ทอัพ)","จัดทำ \"หลักเกณฑ์ในการคัดเลือกพันธมิตร (Partner Selection Criteria)\" เป็นลายลักษณ์อักษร: นี่คือสิ่งที่ผู้ตรวจต้องการเห็นมากที่สุด กทท. ต้องนำเกณฑ์นี้ไปใส่เพิ่มในคู่มือบริหารจัดการนวัตกรรม โดยระบุว่า หากจะทำ Open Innovation กทท. จะพิจารณาคัดเลือกพันธมิตรจากอะไรบ้าง (เช่น ความเชี่ยวชาญด้านเทคโนโลยี, ทรัพยากรที่มี, หรือความสอดคล้องทางยุทธศาสตร์)","เรียนรู้ Best Practice : รฟม. มีจุดเด่นคือ \"ออกแบบระบบครอบคลุมทั้งนวัตกรรมแบบปิด (Closed) และแบบเปิด (Open Innovation) โดยขยายความร่วมมือกับพันธมิตรภายนอกชัดเจน\" กทท. สามารถดูโครงสร้างเอกสารของ รฟม. ในเรื่อง Open Innovation มาปรับใช้ได้เลย"],"crossLinks":[],"good":["กทท. ผ่านระดับ 1 มีโมเดล PAT-CIS และโครงสร้างการทำงานรองรับองค์กรชัดเจน","กทท. ทำได้ดีในการวางโครงสร้างภายในองค์กร (Internal Process)"],"results":["ทบทวนปรับปรุงระบบนวัตกรรมองค์กร (PAT-CIS) โดยกำหนดบทบาทหน้าที่ของคณะกรรมการ คณะทำงาน และผู้รับผิดชอบหลักอย่างชัดเจน และตั้งคณะทำงานต่อยอดนวัตกรรมเพิ่มเติม","ออกแบบกระบวนการจัดการนวัตกรรมครอบคลุมทั้งแบบปิด (Closed Innovation) เช่น โครงการ E-Complain Tracking และแบบเปิด (Open Innovation) เช่น การทำแอปพลิเคชันแก้ปัญหาจราจรร่วมกับกรมการขนส่งทางบก (MOU)","ออกแบบ Innovation Portfolio และกระบวนการบริหารจัดการทรัพย์สินทางปัญญา (IP Management) รวมถึงมีผลงานเชิงพาณิชย์สร้างรายได้แล้ว เช่น ธุรกิจ Free Zone","ระบบ PAT-CIS สอดคล้องกับทิศทางธุรกิจ และมีการระบุการเชื่อมโยงกับพันธมิตรในระบบนิเวศธุรกิจ (Business Ecosystem)"],"gaps":["ปัญหาการกำหนดเกณฑ์คัดเลือกพันธมิตร (Gap ของการทำ Open Innovation) : แม้ กทท. จะบอกว่ามี Open Innovation แต่ผู้ตรวจระบุชัดเจนว่า กทท. ยังขาดการกำหนด \"หลักเกณฑ์ (Criteria) ในการคัดเลือกพันธมิตร\" ที่เป็นระบบและเป็นทางการ (คือไปทำ MOU เลยโดยไม่ได้มีเกณฑ์มาตรฐานกางไว้ก่อนว่าทำไมถึงต้องเลือกพันธมิตรเจ้านี้)","ปัญหาความเชื่อมโยงกับ Business Ecosystem (Gap ระดับ 4) : ผู้ตรวจมองว่าระบบ CIS ของ กทท. ยังขาดความเชื่อมโยงกับระบบนิเวศธุรกิจ (Business Ecosystem) \"อย่างรอบด้าน\" การวาดภาพพันธมิตรไว้ในแผนภาพ CIS ยังไม่เพียงพอ แต่ต้องแสดงให้เห็นกลไกการแลกเปลี่ยนทรัพยากร ความรู้ และเทคโนโลยีกับพันธมิตรในคู่มืออย่างเป็นรูปธรรม"]},{"id":"6.2","grp":"6","gname":"กระบวนการนวัตกรรม","gw":15.0,"gs68":1.75,"name":"กระบวนการใช้ความคิดสร้างสรรค์สู่การสร้างนวัตกรรม","w":4.0,"s68":2.0,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"มุ่งเน้นประเมินความสามารถขององค์กรในช่วง \"ต้นน้ำ\" ของนวัตกรรม (Front End Innovation) ครอบคลุมตั้งแต่การกระตุ้นให้เกิดความคิดสร้างสรรค์ (Idea Generation) การกลั่นกรองและประเมินแนวคิด (Idea Screening and Evaluation) ไปจนถึงการตัดสินใจคัดเลือกไอเดียที่สอดคล้องกับทิศทางธุรกิจเพื่อส่งต่อไปยังขั้นตอนการพัฒนาต่อไป","levelSumm":["L1 — การกำหนดกระบวนการในช่วงแรกของการพัฒนานวัตกรรม (Front End Innovation) ที่เกิ","L2 — การดำเนินการสร้างสรรค์ความคิด (Idea Generation) การกลั่นกรองและประเมินความค","L3 — การพัฒนาแนวความคิด (Product Concept/Concept Definition) เพื่อให้สามารถตอบสน","L4 — การคัดเลือกและพัฒนานวัตกรรม \"สอดคล้องกับทิศทางการดำเนินธุรกิจขององค์กร\"","L5 — การประเมินและปรับปรุงกระบวนการใช้ความคิดสร้างสรรค์สู่การสร้างนวัตกรรม เพื่อ"],"dimLevels":["L1 — การกำหนดกระบวนการในช่วงแรกของการพัฒนานวัตกรรม (Front End Innovation) ที่เกิดจากการมีส่วนร่วมของผู้มีส่วนได้ส่วนเสีย เพื่อให้ได้มาซึ่งความคิดสร้างสรรค์","L2 — การดำเนินการสร้างสรรค์ความคิด (Idea Generation) การกลั่นกรองและประเมินความคิด (Idea Screening and Evaluation) และนำไปสู่การวิเคราะห์คัดเลือกความคิดสร้างสรรค์ที่เป็นประโยชน์","L3 — การพัฒนาแนวความคิด (Product Concept/Concept Definition) เพื่อให้สามารถตอบสนองความต้องการของลูกค้า/ผู้มีส่วนได้ส่วนเสียกลุ่มเป้าหมาย","L4 — การคัดเลือกและพัฒนานวัตกรรม \"สอดคล้องกับทิศทางการดำเนินธุรกิจขององค์กร\"","L5 — การประเมินและปรับปรุงกระบวนการใช้ความคิดสร้างสรรค์สู่การสร้างนวัตกรรม เพื่อให้มีผลสำเร็จที่ดีกว่าเป้าหมายและดีกว่าปีที่ผ่านมา"],"minReqs":{"1":["ผังกระบวนการ (SIPOC / Flowchart) แสดงขั้นตอนการรับไอเดียและการคัดกรอง","คู่มือ/เกณฑ์การคัดกรองไอเดีย (Idea Screening Criteria): เช่น เกณฑ์การตัดสินโครงการ PAT DNA ที่ระบุน้ำหนักคะแนนชัดเจน"],"2":["รายงานสรุปการจัดกิจกรรมสร้างสรรค์ไอเดีย (เช่น รายงานผลการจัดกิจกรรม PAT DNA ที่รวบรวมแนวคิดได้ 46 โครงการ)","ภาพถ่ายกิจกรรมหรือหลักฐานที่แสดงให้เห็นว่า \"บุคลากรทุกระดับ/ทุกสายงาน\" มีส่วนร่วมในการส่งไอเดีย"],"3":["รายงานผลการประเมินและคัดกรองแนวคิด (Idea Evaluation Report) (เช่น มติของคณะทำงานต่อยอดฯ ในการคัดเลือกไอเดีย)","ตารางเปรียบเทียบผลลัพธ์กับเป้าหมาย (KPI Dashboard): เช่น เป้าหมายตั้งไว้ว่าต้องได้ 30 ไอเดีย แต่ทำได้ 46 ไอเดีย (บรรลุเป้าหมาย 100%)"],"4":["ตารางความสอดคล้อง (Alignment Matrix): เอกสารที่นำไอเดีย/โครงการที่ผ่านการคัดเลือก มาจับคู่ (Mapping) กับยุทธศาสตร์องค์กร หรือปัญหาของลูกค้า (Unmet Need)"],"5":["รายงานถอดบทเรียน (AAR) หรือรายงานการประเมินประสิทธิภาพของ \"กระบวนการจัดประกวดและคัดเลือกแนวคิด\"","[แก้ไข Gap สำคัญ] เอกสารติดตามปัญหาและแนวทางปรับปรุง: บันทึกการแก้ไขปัญหาอุปสรรคที่เกิดจากกระบวนการคัดกรอง"]},"docsNeeded":[{"level":"L3+","req":"เกณฑ์คัดกรองโครงการ (Stage-Gate Criteria) ฉบับ Update: ต้องมีเอกสารคู่มือที่เพิ่มเกณฑ์การประเมินในแต่ละ Gate โดยระบุถึง \"ความใหม่ (Newness)\", \"การบริหารทรัพย์สินทางปัญญา (IP Management)\" และความคุ้มค่าทางธุรกิจ (Business Case)"}],"actions":["ปรับปรุงเกณฑ์คัดกรองไอเดีย (Upgrade Stage-Gate Criteria): นำเกณฑ์การประเมินโครงการระยะแรก (Front End) ในคู่มือมาปรับปรุง โดยเพิ่มน้ำหนักคะแนนในช่อง \"ความคุ้มค่าทางการเงิน/ผลประโยชน์เชิงพาณิชย์ (Cost-Benefit)\", \"ความใหม่ (Newness)\" และ \"ความเสี่ยง (Risk)\" ให้ชัดเจนขึ้น","ทำสรุป Lesson Learned แจ้งผู้บริหาร : รวบรวม \"ปัญหาและอุปสรรค\" จากโครงการที่เสนอไอเดียมาแล้วไปต่อไม่ได้ (ตก Gate) ทำเป็นรายงานสรุปว่าทำไมถึงตก (เช่น เทคโนโลยีไม่รองรับ หรืองบไม่พอ) เพื่อแสดงหลักฐานให้ผู้ตรวจเห็นว่า กทท. มีการติดตามปัญหาและนำมาเป็นข้อมูลป้อนกลับแล้ว","เชื่อมโยงข้อมูลเสียงลูกค้า (VOC) เป็นโจทย์ตั้งต้น: ก่อนให้พนักงานคิดไอเดีย ให้ดึงข้อมูล Pain point หรือ Unmet need จากระบบรับฟังลูกค้า (SCM) มาเป็น \"โจทย์บังคับ\" ในการประกวด PAT DNA ปีหน้า เพื่อรับประกันว่าไอเดียที่ได้จะตอบสนองลูกค้าได้จริง"],"crossLinks":[],"good":["กทท. มีช่องทางรวบรวมไอเดียชัดเจนผ่านเวที PAT DNA","กทท. ทำเรื่อง Idea Generation ได้ดีเยี่ยมจากการจัด PAT DNA"],"results":["มีการออกแบบกระบวนการพัฒนานวัตกรรมช่วงแรก (Front End Innovation) เพื่อให้ได้มาซึ่งไอเดีย โดยรับฟังเสียงจากลูกค้า (VOC) และพนักงาน","มีการดำเนินการสร้างสรรค์ความคิด (Idea Generation) และกลั่นกรองความคิด (Idea Screening) โดยในปี 2568 กทท. ได้จัดโครงการ PAT DNA สามารถรวบรวมไอเดียได้ถึง 46 โครงการ และกลั่นกรองตามเกณฑ์จนเหลือ 19 และ 9 ความคิดสร้างสรรค์ เพื่อนำไปจัดสรรทรัพยากรต่อ","มีการพัฒนาแนวความคิด (Concept Definition) นำไอเดียที่ผ่านเกณฑ์ (ผ่าน Gate 3) จำนวน 10 โครงการไปพัฒนาเพื่อตอบสนองกลุ่มเป้าหมาย","ระบุว่าการสร้างนวัตกรรมสอดคล้องกับทิศทางธุรกิจขององค์กร"],"gaps":["เกณฑ์การคัดกรองไอเดียยังไม่คมพอ (Gap ระดับ 2) : ผู้ตรวจระบุว่า กทท. ต้องกำหนดเกณฑ์คัดกรองไอเดีย (Idea Screening) ให้สามารถ \"วัดศักยภาพเชิงพาณิชย์ได้จริง\" รวมถึงควรพิจารณาในเรื่องของความใหม่ (Newness) และการบริหารจัดการทรัพย์สินทางปัญญา (IP) ในการกลั่นกรองตั้งแต่ต้นทาง","ขาดการนำเทคโนโลยีมาเป็นกลไกหลัก (Gap ระดับ 2-3) : ผู้ตรวจให้ข้อเสนอแนะว่า ควรมุ่งเน้นการส่งเสริมแนวคิดที่ต่อยอดได้จริง และ \"ควรแสดงให้เห็นการประยุกต์ใช้เทคโนโลยีเป็นกลไกหลักในการเพิ่มประสิทธิภาพกระบวนการปฏิบัติงาน\" เพื่อให้เกิดนวัตกรรม","ขาดการรวบรวมปัญหาและอุปสรรค (Gap ระดับ 3) : กทท. ยังขาดกระบวนการติดตามปัญหาและอุปสรรคที่เกิดจากการนำกระบวนการนวัตกรรมไปสู่การปฏิบัติอย่างต่อเนื่อง ผู้ตรวจต้องการให้ กทท. นำข้อผิดพลาดหรืออุปสรรคเหล่านี้มาเป็นข้อมูลป้อนกลับ (Feedback Loop) เพื่อนำไปพัฒนากระบวนการใช้ความคิดสร้างสรรค์ในปีต่อไปให้ดีขึ้น"]},{"id":"6.3","grp":"6","gname":"กระบวนการนวัตกรรม","gw":15.0,"gs68":1.75,"name":"การพัฒนานวัตกรรม","w":7.0,"s68":1.7714,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"มุ่งเน้นประเมิน \"การลงมือสร้างนวัตกรรม\" (Development phase) โดยใช้วิธีการบริหารโครงการอย่างเป็นระบบ (เช่น Stage-Gate Model) ตั้งแต่การทำเครื่องมือต้นแบบ (Prototype), การทดสอบ (Testing), การนำเทคโนโลยีดิจิทัลมาประยุกต์ใช้ ไปจนถึงการปล่อยผลงานออกสู่การใช้งานจริง (Launch) ที่ตอบโจทย์ทิศทางธุรกิจขององค์กร","levelSumm":["L1 — การกำหนดกระบวนการพัฒนานวัตกรรมขององค์กรอย่างเป็นระบบ","L2 — การดำเนินการตามกระบวนการพัฒนานวัตกรรมในรูปแบบต่าง ๆ ตามแผนงาน และพิจารณาถึง","L3 — การดำเนินการตามกระบวนการพัฒนานวัตกรรมอย่างเป็นระบบ และ \"บรรลุผลสำเร็จตามเป้","L4 — การพัฒนานวัตกรรม \"สอดคล้องกับทิศทางการดำเนินธุรกิจ\" ขององค์กร","L5 — รัฐวิสาหกิจ \"ปรับปรุง\" การพัฒนานวัตกรรมสู่การปฏิบัติ เพื่อเพิ่มประสิทธิภาพด"],"dimLevels":["L1 — การกำหนดกระบวนการพัฒนานวัตกรรมขององค์กรอย่างเป็นระบบ","L2 — การดำเนินการตามกระบวนการพัฒนานวัตกรรมในรูปแบบต่าง ๆ ตามแผนงาน และพิจารณาถึงการ \"ประยุกต์ใช้เทคโนโลยีดิจิทัล\"","L3 — การดำเนินการตามกระบวนการพัฒนานวัตกรรมอย่างเป็นระบบ และ \"บรรลุผลสำเร็จตามเป้าหมาย\" ที่กำหนดไว้ในแผนงานประจำปี","L4 — การพัฒนานวัตกรรม \"สอดคล้องกับทิศทางการดำเนินธุรกิจ\" ขององค์กร","L5 — รัฐวิสาหกิจ \"ปรับปรุง\" การพัฒนานวัตกรรมสู่การปฏิบัติ เพื่อเพิ่มประสิทธิภาพด้านการจัดการนวัตกรรมให้มี \"ผลสำเร็จที่ดีกว่าเป้าหมายและดีกว่าปีที่ผ่านมา\""],"minReqs":{"1":["คู่มือ/ผังกระบวนการพัฒนานวัตกรรม ที่ระบุขั้นตอนชัดเจนตั้งแต่เริ่มพัฒนาจนถึงนำไปใช้งานจริง (เช่น PAT Stage-Gate 5 ขั้นตอน)"],"2":["รายงานความคืบหน้าการพัฒนานวัตกรรมที่แสดงให้เห็นว่ามีการใช้ระบบดิจิทัลเข้ามาช่วย (เช่น การพัฒนาแอป LCP Traffic)"],"3":["รายงานสรุปผลการดำเนินงานโครงการนวัตกรรม (Project Dashboard)","ตารางเปรียบเทียบผลผลิต (Output KPI): เช่น ปีนี้ตั้งเป้าพัฒนานวัตกรรมให้แล้วเสร็จ 5 โครงการ ก็ต้องมีหลักฐานว่าทำสำเร็จผ่าน Gate สุดท้ายและนำไปใช้งานจริง (Launch) ได้ครบ 5 โครงการ"],"4":["ตารางแสดงความสอดคล้อง (Alignment Matrix) ของโครงการนวัตกรรมที่พัฒนาสำเร็จ กับ Core Business หรือยุทธศาสตร์องค์กร"],"5":["รายงานถอดบทเรียน (AAR) ถึงปัญหาความล่าช้าในกระบวนการพัฒนานวัตกรรม (Stage-Gate)","เอกสารหลักฐานการปรับปรุงกระบวนการ (Process Improvement)"]},"docsNeeded":[{"level":"L3+","req":"กระดานสรุปสถานะโครงการ (Innovation Portfolio / Stage-Gate Tracking): ตารางหรือบอร์ดแสดงสถานะโครงการนวัตกรรมทั้งหมด ว่าผ่านประตูกลั่นกรอง (Gate) ใดบ้าง และโครงการใดถูกผลักดันสู่การใช้งานจริง (Launch) แล้ว"},{"level":"L3+","req":"เอกสารการคำนวณผลประโยชน์เชิงพาณิชย์ (Commercialization Value / ROI): หลักฐานการคำนวณที่แปลงผลลัพธ์ของนวัตกรรมเป็นตัวเงิน เช่น การลดเวลาทำงานได้กี่เปอร์เซ็นต์ คิดเป็นการลดต้นทุนแรงงานหรือได้รายได้กี่บาท"}],"actions":["คำนวณมูลค่าเชิงพาณิชย์ให้ทุกโครงการ (Calculate ROI/Cost-Saving): นำโครงการที่ทำเสร็จแล้ว (เช่น E-Complaint หรือ LCP Traffic) มาคำนวณว่า การลดเวลาได้ 66.67% นั้น คิดเป็นการลดต้นทุนแรงงาน หรือช่วยลดค่าเสียโอกาสให้ กทท. เป็นจำนวนเงินกี่บาท/ปี และนำตัวเลขนี้ใส่ในรายงาน","โชว์กระดาน Stage-Gate Tracking (Portfolio Board): ทำตารางสรุปว่าใน Innovation Portfolio ปัจจุบัน มีกี่โครงการ และแต่ละโครงการเดินหน้าถึง Gate ไหนแล้ว (เช่น Idea -> POC -> Develop -> Launch) เพื่อแสดงให้ผู้ตรวจเห็นว่าเรามีระบบ \"เข็น\" โปรเจกต์ออกสู่ตลาดอย่างเป็นรูปธรรม","เชื่อมโยงกับฝ่ายดิจิทัล (DT): เน้นย้ำให้เห็นชัดเจนว่า เทคโนโลยีดิจิทัลเป็น \"กลไกหลัก (Core Mechanism)\" ในการสร้างนวัตกรรมเหล่านี้ ไม่ใช่แค่ส่วนเสริม"],"crossLinks":[],"good":["กทท. ร่างกระบวนการพัฒนานวัตกรรม PAT-CIS อย่างเป็นระบบแล้ว"],"results":["มีการกำหนดกระบวนการพัฒนานวัตกรรมอย่างเป็นระบบ (PAT-CIS) จำนวน 8 องค์ประกอบ","ดำเนินการพัฒนานวัตกรรมที่มีการประยุกต์ใช้เทคโนโลยีดิจิทัล เช่น โครงการ E-Complaint Tracking ที่พัฒนาเสร็จและนำไปใช้งานจริงต้นปี 2568 สามารถเพิ่มความรวดเร็วได้ 66.67% และทีมงานได้รับรางวัลความสำเร็จ 70,000 บาท","มีโครงการนวัตกรรมที่ต่อยอดแล้วเสร็จในปี 2568 ถึง 7 โครงการ มีการรายงานผลอย่างต่อเนื่อง และโครงการ E-Complaint บรรลุตัวชี้วัด (BSC C1) ตามแผนแม่บทนวัตกรรมที่ตั้งเป้าลดเวลา 65%"],"gaps":["การพิสูจน์ \"ประโยชน์เชิงพาณิชย์และสังคม\" (Gap ระดับ 2-3) : ผู้ตรวจระบุใน Feedback Report ชัดเจนว่า กทท. “ควรแสดงให้เห็นการประยุกต์ใช้เทคโนโลยีเป็นกลไกหลัก... ที่สามารถสร้างประโยชน์เชิงพาณิชย์และ/หรือเชิงสังคมแก่รัฐวิสาหกิจ”  นั่นหมายความว่า การบอกว่าลดเวลาได้ 66.67% ยังไม่พอ แต่ต้องแปลงค่านั้นออกมาเป็น \"ตัวเงิน (Commercial Value)\" หรือ \"ความคุ้มค่าทางเศรษฐศาสตร์\" ให้ชัดเจน","การผลักดันโครงการผ่าน Stage-Gate ทั้งพอร์ต (Gap ระดับ 3) : ข้อเสนอแนะระบุว่า กทท. ต้อง “กำกับดูแลทุกโครงการใน Portfolio ให้ข้ามผ่าน Stage-Gate ไปสู่การใช้งานจริง (Launch)” ผู้ตรวจอาจมองว่าโครงการที่ทำสำเร็จยังเป็นเพียงบางโครงการย่อยๆ แต่ภาพรวมของ Portfolio ยังขาดการแสดงหลักฐานการนำนวัตกรรมเข้าสู่กระบวนการใช้งานจริง (Commercialization) และการติดตามผลลัพธ์เชิงพาณิชย์อย่างเป็นระบบ"]},{"id":"7.1","grp":"7","gname":"ผลลัพธ์ด้านนวัตกรรม","gw":10.0,"gs68":1.8334,"name":"ผลลัพธ์ด้านนวัตกรรมทั้งการเงินและไม่ใช่ทางการเงิน","w":10.0,"s68":1.8334,"status":"ยังไม่เริ่ม","statusNote":"","scopeNote":"มุ่งเน้นประเมิน \"ผลสัมฤทธิ์\" ของการทำนวัตกรรม โดยบังคับว่าต้องกางตัวชี้วัด (KPI) ให้ครบ 4 มิติ ตามหลัก Balanced Scorecard (BSC) และต้องพิสูจน์ด้วยตัวเลขให้ได้ว่า ผลงานนวัตกรรมของ กทท. นั้น ดีกว่าเป้าหมาย ดีกว่าปีที่ผ่านมา และดีกว่าคู่เทียบระดับโลก","levelSumm":["L1 — รัฐวิสาหกิจมีการกำหนดตัวชี้วัดและเป้าหมายที่มี \"ความท้าทาย\"","L2 — รัฐวิสาหกิจมีผลสำเร็จตามตัวชี้วัดทุกด้าน \"ไม่เป็นไปตามเป้าหมาย\" ประจำปีที่ก","L3 — รัฐวิสาหกิจมีผลสำเร็จตามตัวชี้วัดทุกด้าน \"เป็นไปตามเป้าหมาย\" ประจำปีที่กำหน","L4 — รัฐวิสาหกิจมีผลสำเร็จตามตัวชี้วัดทุกด้าน \"ดีกว่าเป้าหมายประจำปีที่กำหนดต่อเ","L5 — ทบทวน และวิเคราะห์ประสิทธิภาพประสิทธิผล จัดเก็บในระบบดิจิทัล และปรับปรุงพัฒ"],"dimLevels":["L1 — รัฐวิสาหกิจมีการกำหนดตัวชี้วัดและเป้าหมายที่มี \"ความท้าทาย\"","L2 — รัฐวิสาหกิจมีผลสำเร็จตามตัวชี้วัดทุกด้าน \"ไม่เป็นไปตามเป้าหมาย\" ประจำปีที่กำหนด","L3 — รัฐวิสาหกิจมีผลสำเร็จตามตัวชี้วัดทุกด้าน \"เป็นไปตามเป้าหมาย\" ประจำปีที่กำหนด","L4 — รัฐวิสาหกิจมีผลสำเร็จตามตัวชี้วัดทุกด้าน \"ดีกว่าเป้าหมายประจำปีที่กำหนดต่อเนื่อง 3 ปี ติดต่อกัน\" และ/หรือ สามารถเทียบเคียงกับคู่แข่ง/คู่เทียบได้","L5 — ทบทวน และวิเคราะห์ประสิทธิภาพประสิทธิผล จัดเก็บในระบบดิจิทัล และปรับปรุงพัฒนาระบบอย่างเป็นรูปธรรม"],"minReqs":{"1":["ตารางสรุปตัวชี้วัด (KPI) ด้านนวัตกรรมขององค์กร ที่มีค่าเป้าหมายชัดเจน เน้น 4 มิติหลัก ได้แก่ มิติด้านการเงิน (Financial: F), มิติด้านลูกค้าและผลิตภัณฑ์/บริการ (Customer: C), มิติด้านกระบวนการภายใน (Internal Process: P) และ มิติด้านการเรียนรู้และการพัฒนา (Learning and Growth: L)"],"2":["รายงานผลการดำเนินงานด้านนวัตกรรมประจำปี (แสดง Actual vs Target) เน้น 4 มิติหลักเหมือนเดิม"],"3":["Dashboard / ตารางรายงานผลสัมฤทธิ์นวัตกรรม: ที่โชว์แถบสีเขียว (ผ่านเกณฑ์) ในทุกตัวชี้วัด (เน้น 4 มิติหลักเหมือนเดิม)"],"4":["ตารางเปรียบเทียบผลลัพธ์ 3 ปี (Trend Analysis): ย้อนหลังปี 66, 67, 68","[แก้ไข Gap สำคัญ] ตารางเปรียบเทียบคู่เทียบ (Benchmarking Report): ที่นำผลลัพธ์นวัตกรรมไปเทียบกับท่าเรืออื่น"],"5":["รายงาน AAR ถอดบทเรียนจากการตั้ง KPI นวัตกรรม","หน้าจอการจัดเก็บผลลัพธ์ลงในระบบฐานข้อมูลดิจิทัล (PAT-CIS / KM Portal)"]},"docsNeeded":[{"level":"L3+","req":"ตารางเปรียบเทียบผลลัพธ์ 4 มิติ (BSC Benchmark Report): ตารางรวมตัวเลขผลสำเร็จ ที่แสดงให้เห็นชัดเจนว่า กทท. มีผลงาน \"ดีกว่าเป้าหมาย + ดีกว่าปีที่ผ่านมา + ดีกว่าคู่เทียบระดับโลก\" (เช่น ท่าเรือสิงคโปร์/มาเลเซีย) อย่างต่อเนื่อง 3 ปีติดต่อกัน"}],"actions":["ตั้ง KPI ให้ท้าทายและเป็นระดับ Outcome: เช่น แทนที่จะวัดว่า \"มีแอป E-complaint ใช้งาน\" ให้เปลี่ยนตัวชี้วัดเป็น \"มูลค่าเงินที่ประหยัดได้จากเวลาที่ลดลง 66.67%\"","ทำรายงาน Benchmark ชนกับคู่เทียบ: ต้องมีตารางที่กางให้เห็นชัดเจนว่า KPI แต่ละตัวของ กทท. (ทั้ง 4 มิติ BSC) มีผลงาน \"ดีกว่าเป้าหมาย + ดีกว่าปีที่ผ่านมา + ดีกว่าคู่เทียบระดับโลก (เช่น PSA สิงคโปร์)\"","กระจายเป้าหมาย (Cascade KPI): ต้องมีเอกสารแสดงให้เห็นว่าเป้าหมาย 10 ล้านบาทนั้น ถูกแบ่งก้อนความรับผิดชอบลงไปที่โครงการไหน และสายงานใดเป็นคนรับผิดชอบตัวเลขนี้อย่างชัดเจน"],"crossLinks":[],"good":["กทท. มี KPI ด้านนวัตกรรมพร้อมเป้าหมาย และมีผลดำเนินงานที่เป็นรูปธรรมออกมาแล้ว"],"results":["มีการกำหนดตัวชี้วัดและเป้าหมายที่ครอบคลุม 4 มิติ ตามหลัก Balanced Scorecard (BSC) ได้แก่ ด้านการเงิน ลูกค้า กระบวนการภายใน และการเรียนรู้","มีการตั้งเป้าหมายด้านการเงินที่ท้าทาย คือ นวัตกรรมต้องสามารถเพิ่มรายได้/ลดค่าใช้จ่ายจำนวน 10 ล้านบาท","กทท. ระบุว่ามีผลสำเร็จตามตัวชี้วัดเป็นไปตามเป้าหมาย (ระดับ 3) เช่น โครงการธุรกิจใหม่ Free Zone สามารถสร้างผลตอบแทนได้ถึง 11.54 ล้านบาท ทะลุเป้าหมายที่ตั้งไว้ และระบบ E-complaint ช่วยลดขั้นตอนได้ 66.67%"],"gaps":["เป้าหมายขาดความท้าทายและการวัดผลลัพธ์ (Outcome) (Gap ระดับ 1): ผู้ตรวจระบุชัดเจนว่า คณะกรรมการ กทท. ควรทบทวนการกำหนดเป้าหมายและตัวชี้วัด ให้มีความท้าทายที่สะท้อนถึงผลการดำเนินงานอย่างแท้จริง ทั้งในระดับผลผลิต (Output) และ \"ผลลัพธ์ (Outcome)\" ให้ครบถ้วนสมบูรณ์และวัดผลได้อย่างเป็นรูปธรรม","ขาดการเปรียบเทียบกับคู่เทียบ (Gap ระดับ 2): ผู้ตรวจเน้นย้ำว่า ผลสำเร็จด้านนวัตกรรมของ กทท. ไม่ใช่แค่บรรลุเป้าหมายของตัวเอง แต่ผลสำเร็จดังกล่าวต้องสะท้อนพัฒนาการที่ \"ดีกว่าคู่แข่ง/คู่เทียบ\" (เช่น ท่าเรือสิงคโปร์ หรือมาเลเซีย) อย่างชัดเจน","ขาดการเชื่อมโยงเชิงบูรณาการ: ผลลัพธ์ที่เกิดขึ้นต้องสนับสนุนวัตถุประสงค์หรือเป้าหมายเชิงยุทธศาสตร์ขององค์กรได้อย่างเป็นรูปธรรมในเชิงบูรณาการ\n (เช่น รายได้ 10 ล้าน ต้องระบุชัดว่าเป็นรายได้จากโครงการนวัตกรรมไหน และใครรับผิดชอบ ไม่ใช่รวมกันหลวมๆ เป็นภาพใหญ่ขององค์กร)"]}]}};
+let focusId=null;
+const targets={im:{}};
+const clChecked={};
+const cgDimRad={};
+const cgChecked={};
+const cgChkSim={};
+const docCk={};
+const feInput={};
+const LS_KEY='im_ck_69';
+const DIM_KEY='im';
+
+DATA.im.subs.forEach(s=>{
+  targets.im[s.id]=0;
+  cgDimRad[s.id]={1:0,2:0,3:0,4:0,5:0};
+  cgChecked[s.id]={};
+  [1,2,3,4,5].forEach(L=>{cgChecked[s.id][L]={};});
+});
+async function loadState(){
+  try{const d=JSON.parse(localStorage.getItem(LS_KEY)||'{}');
+    if(d.ck) Object.assign(cgChecked,d.ck);
+    if(d.rad) Object.keys(d.rad).forEach(id=>{cgDimRad[id]=Object.assign({1:0,2:0,3:0,4:0,5:0},d.rad[id]);});
+    if(d.cl) Object.assign(clChecked,d.cl);
+    if(d.chkSim) Object.assign(cgChkSim,d.chkSim);
+    if(d.docCk) Object.keys(d.docCk).forEach(sid=>{docCk[sid]=d.docCk[sid];});
+    if(d.feInput) Object.keys(d.feInput).forEach(sid=>{feInput[sid]=d.feInput[sid];});
+    if(d.tgt) Object.keys(d.tgt).forEach(id=>{targets.im[id]=Number(d.tgt[id]);});
+  }catch(e){}
+  const remote=await ebFetchDim(DIM_KEY,4000);
+  if(remote&&remote.data&&Object.keys(remote.data).length){
+    try{
+      const d=remote.data;
+      if(d.ck) Object.assign(cgChecked,d.ck);
+      if(d.rad) Object.keys(d.rad).forEach(id=>{cgDimRad[id]=Object.assign({1:0,2:0,3:0,4:0,5:0},d.rad[id]);});
+      if(d.cl) Object.assign(clChecked,d.cl);
+      if(d.chkSim) Object.assign(cgChkSim,d.chkSim);
+      if(d.docCk) Object.keys(d.docCk).forEach(sid=>{docCk[sid]=d.docCk[sid];});
+      if(d.feInput) Object.keys(d.feInput).forEach(sid=>{feInput[sid]=d.feInput[sid];});
+      if(d.tgt) Object.keys(d.tgt).forEach(id=>{targets.im[id]=Number(d.tgt[id]);});
+      localStorage.setItem(LS_KEY,JSON.stringify(d));
+    }catch(e){}
+  }
+}
+function save(){
+  try{localStorage.setItem(LS_KEY,JSON.stringify({ck:cgChecked,rad:cgDimRad,cl:clChecked,tgt:targets.im,chkSim:cgChkSim,docCk:docCk,feInput:feInput}));}catch(e){}
+  syncHomeStatus();
+  ebScheduleSaveDim(DIM_KEY,
+    ()=>JSON.parse(localStorage.getItem(LS_KEY)||'{}'),
+    ()=>{const h=JSON.parse(localStorage.getItem('seam_status_69')||'{}');return h[DIM_KEY]||{};},
+    800);
+}
+function syncHomeStatus(){
+  try{
+    const status={};
+    DATA.im.subs.forEach(s=>{
+      const sid=s.id;
+      const simMax=[5,4,3,2,1].find(L=>cgDimRad[sid]&&cgDimRad[sid][L]>0)||0;
+      const gaps=s.gaps||[];
+      const hasOpenGap=gaps.length>0&&gaps.some((_,i)=>{
+        const fi=feInput[sid];
+        return!(fi&&fi.gapClosed&&fi.gapClosed[i]===true);
+      });
+      status[sid]={level:simMax,hasOpenGap:hasOpenGap,gapCount:gaps.length};
+    });
+    const home=JSON.parse(localStorage.getItem('seam_status_69')||'{}');
+    home.im=status;
+    home._updated=new Date().toISOString();
+    localStorage.setItem('seam_status_69',JSON.stringify(home));
+  }catch(e){}
+}
+function cgGetChk(id,L,k){return !!(cgChecked[id]&&cgChecked[id][L]&&cgChecked[id][L][k]);}
+function cgSetDim(id,L,v){if(!cgDimRad[id])cgDimRad[id]={};cgDimRad[id][L]=Number(v);save();renderAll();}
+function cgToggleMR(id,L,k,v){if(!cgChecked[id])cgChecked[id]={};if(!cgChecked[id][L])cgChecked[id][L]={};cgChecked[id][L][k]=v;save();}
+function exportProgress(){
+  const d=JSON.parse(localStorage.getItem(LS_KEY)||'{}');
+  d._dim='IM'; d._exported=new Date().toISOString(); d._label='CBE Enablers IM 2569';
+  const blob=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;
+  const th=new Date().toLocaleDateString('th-TH',{year:'numeric',month:'2-digit',day:'2-digit'}).replace(/\//g,'');
+  a.download=`IM_progress_${th}.json`;
+  a.click();URL.revokeObjectURL(url);
+}
+function importProgress(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    try{
+      const d=JSON.parse(ev.target.result);
+      if(d._dim&&d._dim!=='IM'){if(!confirm(`ไฟล์นี้เป็นของด้าน "${d._dim}" ไม่ใช่ IM — นำเข้าต่อไปเลยไหม?`))return;}
+      if(d.ck)Object.assign(cgChecked,d.ck);
+      if(d.rad)Object.keys(d.rad).forEach(id=>{cgDimRad[id]=Object.assign({1:0,2:0,3:0,4:0,5:0},d.rad[id]);});
+      if(d.cl)Object.assign(clChecked,d.cl);
+      if(d.chkSim)Object.assign(cgChkSim,d.chkSim);
+      if(d.docCk)Object.keys(d.docCk).forEach(sid=>{docCk[sid]=d.docCk[sid];});
+      if(d.feInput)Object.keys(d.feInput).forEach(sid=>{feInput[sid]=d.feInput[sid];});
+      if(d.tgt)Object.keys(d.tgt).forEach(id=>{targets.im[id]=Number(d.tgt[id]);});
+      save();renderAll();
+      const exp=d._exported?new Date(d._exported).toLocaleString('th-TH'):'ไม่ระบุ';
+      alert(`✅ Import สำเร็จ\nไฟล์ส่งออกเมื่อ: ${exp}`);
+    }catch(err){alert('ไฟล์ไม่ถูกต้อง: '+err.message);}
+    input.value='';
+  };
+  reader.readAsText(file);
+}
+function cgClearAll(){DATA.im.subs.forEach(s=>{cgChecked[s.id]={};[1,2,3,4,5].forEach(L=>{cgChecked[s.id][L]={};});cgDimRad[s.id]={1:0,2:0,3:0,4:0,5:0};delete docCk[s.id];delete feInput[s.id];});try{localStorage.removeItem(LS_KEY);}catch(e){}renderAll();}
+function cgClearOne(sid){cgChecked[sid]={};[1,2,3,4,5].forEach(L=>{cgChecked[sid][L]={};});cgDimRad[sid]={1:0,2:0,3:0,4:0,5:0};delete docCk[sid];delete feInput[sid];save();renderAll();}
+function cgCalcRaw(id){let c=0,g=false;for(let L=1;L<=5;L++){if(g)break;const v=cgDimRad[id]?cgDimRad[id][L]:0;c+=v;if(v<1)g=true;}return c||DATA.im.subs.find(x=>x.id===id).s68;}
+function docGetChk(sid,L,i){return !!(docCk[sid]&&docCk[sid][L]&&docCk[sid][L][i]);}
+function feGet(sid,field,key){return(feInput[sid]&&feInput[sid][field]&&feInput[sid][field][key])||'';}
+function feSet(sid,field,key,val){if(!feInput[sid])feInput[sid]={};if(!feInput[sid][field])feInput[sid][field]={};feInput[sid][field][key]=val;save();}
+function feGapClosed(sid,i){const fi=feInput[sid];if(!fi||!fi.gapClosed)return null;return fi.gapClosed.hasOwnProperty(i)?fi.gapClosed[i]:null;}
+function feCopyOut(outId,btn){
+  const el=document.getElementById(outId);if(!el||!el.value)return;
+  const orig=btn.textContent;
+  if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(el.value).then(()=>{btn.textContent='✓ คัดลอกแล้ว';setTimeout(()=>btn.textContent=orig,1500);}).catch(()=>{el.select();document.execCommand('copy');});}
+  else{el.select();document.execCommand('copy');btn.textContent='✓ คัดลอกแล้ว';setTimeout(()=>btn.textContent=orig,1500);}
+}
+function genScript(sid){
+  const s=DATA.im.subs.find(x=>x.id===sid);if(!s)return'';
+  const fi=feInput[sid]||{};
+  const lvlNotes=fi.lvlNotes||{};const gapClosed=fi.gapClosed||{};const gapNotes=fi.gapNotes||{};
+  const mr=s.minReqs||{};
+  const simMax=[5,4,3,2,1].find(L=>cgDimRad[sid]&&cgDimRad[sid][L]>0)||0;
+  const lines=[];
+  lines.push(`รายงานประเมินตนเอง — เกณฑ์ ${sid} ${s.name}`);
+  lines.push(`ระดับที่ประเมินได้ (คาดการณ์): L${simMax||'—'}`);
+  lines.push('─'.repeat(60));
+  lines.push('');
+  lines.push(`กทท. ได้ดำเนินการตามหลักเกณฑ์ "${s.name}" โดยมีผลการดำเนินงาน ดังนี้`);
+  lines.push('');
+  [1,2,3,4,5].forEach(L=>{
+    const items=mr[L]||[];if(!items.length)return;
+    const isPass=simMax>=L;
+    const dimTitle=s.dimLevels?s.dimLevels[L-1].replace(/^L\d\s*[—-]\s*/,''):'';
+    const tickedDocs=items.filter((_,i)=>docGetChk(sid,L,i)).map(d=>d.replace('[แก้ไข Gap สำคัญ]','').trim());
+    const note=lvlNotes[L]||'';
+    lines.push(`${isPass?'✓':'○'} ระดับ ${L} — ${dimTitle}`);
+    if(note)lines.push(`   ${note}`);
+    if(tickedDocs.length){lines.push(`   หลักฐานที่เตรียมแล้ว (${tickedDocs.length} รายการ):`);tickedDocs.forEach((d,i)=>lines.push(`   (${i+1}) ${d}`));}
+    lines.push('');
+  });
+  const goods=s.good||[];const results=s.results||[];
+  if(goods.length){lines.push('จุดแข็งขององค์กร:');goods.forEach(g=>lines.push(`• ${g}`));lines.push('');}
+  if(results.length){lines.push('ผลการดำเนินงานที่นำเสนอ:');results.forEach((r,i)=>lines.push(`(${i+1}) ${r}`));lines.push('');}
+  const gaps=s.gaps||[];
+  if(gaps.length){
+    lines.push('ช่องว่างที่ได้รับการเสนอแนะ และสถานะการปิด:');
+    gaps.forEach((gap,i)=>{
+      const cl=gapClosed[i];const gNote=gapNotes[i]||'';
+      const st=cl===true?'✓ ปิดได้แล้ว':cl===false?'○ อยู่ระหว่างดำเนินการ':'— ยังไม่ได้ระบุ';
+      lines.push(`• ${gap}`);
+      lines.push(`  → ${st}${gNote?': '+gNote:''}`);
+    });
+  }
+  return lines.join('\n');
+}
+function docToggle(sid,L,i,v){
+  if(!docCk[sid])docCk[sid]={};
+  if(!docCk[sid][L])docCk[sid][L]={};
+  docCk[sid][L][i]=v;
+  save();
+  const inp=document.getElementById(`dck-${sid}-${L}-${i}`);
+  if(inp){const lbl=inp.closest('label');if(lbl){if(v)lbl.classList.add('fb-item-done');else lbl.classList.remove('fb-item-done');}}
+  updateDocProgress(sid);
+}
+function updateDocProgress(sid){
+  const s=DATA.im.subs.find(x=>x.id===sid);
+  if(!s)return;
+  const mr=s.minReqs||{};
+  let total=0,done=0;
+  [1,2,3,4,5].forEach(L=>{
+    const items=mr[L]||[];
+    total+=items.length;
+    const lvlDone=items.filter((_,i)=>docGetChk(sid,L,i)).length;
+    done+=lvlDone;
+    const cntEl=document.getElementById(`fb-cnt-${sid}-${L}`);
+    if(cntEl){
+      const c=lvlDone===items.length&&items.length>0?'#1a7a4a':lvlDone>0?'#92400e':'#0369a1';
+      cntEl.textContent=`${lvlDone}/${items.length}`;
+      cntEl.style.color=c;
+      const hdEl=cntEl.closest('.doc-lvl-hd');
+      if(hdEl)hdEl.style.background=lvlDone===items.length&&items.length>0?'#e4f5e4':lvlDone>0?'#fef8e0':'rgba(2,132,199,.06)';
+    }
+  });
+  const totalEl=document.getElementById(`fb-total-${sid}`);
+  const fillEl=document.getElementById(`fb-prog-fill-${sid}`);
+  if(totalEl){
+    const c=done===total&&total>0?'#1a7a4a':done>0?'#92400e':'#666';
+    totalEl.textContent=`${done}/${total} เอกสารพร้อมแล้ว`;
+    totalEl.style.color=c;
+    if(fillEl){fillEl.style.width=`${total>0?Math.round(done/total*100):0}%`;fillEl.style.background=c;}
+  }
+}
+function fmt(n){return n.toFixed(4);}
+function sClass(st){return st==='เสร็จแล้ว'?'s2':st==='กำลังดำเนินการ'?'s1':'s0';}
+function sIcon(st){return st==='เสร็จแล้ว'?'✓':st==='กำลังดำเนินการ'?'●':'○';}
+function dotColor(id){const t=targets.im[id],s=DATA.im.subs.find(x=>x.id===id);const d=t-s.s68;return d>0.001?'dg':d<-0.001?'dr':'da';}
+
+// ── Expand helper ──────────────────────────────────────────────
+let _eu=0;
+function exp(txt,lim=110){
+  if(!txt||txt.length<=lim) return txt||'';
+  const id='ex'+(_eu++);
+  const b='border:none;background:#e8e0f8;cursor:pointer;color:#5a20a0;font-size:10px;padding:0 5px;border-radius:8px;line-height:1.6;white-space:nowrap;';
+  return `<span id="${id}s">${txt.slice(0,lim)}<span style="color:#bbb;">…</span>&nbsp;<button onclick="document.getElementById('${id}s').style.display='none';document.getElementById('${id}f').style.display='inline';" style="${b}">▼ ดูเพิ่ม</button></span><span id="${id}f" style="display:none;">${txt}&nbsp;<button onclick="document.getElementById('${id}f').style.display='none';document.getElementById('${id}s').style.display='inline';" style="${b}">▲ ย่อ</button></span>`;
+}
+
+// ── Simulator ──────────────────────────────────────────────────
+
+// ── Cross-dimension linkage map ─────────────────
+const CROSS_LINKS={
+  "1.1":{1:["SP","SCM"],2:["HCM"],3:["SP","HCM"],4:["SP","SCM","DT","KM","HCM"],5:["CG","SP"]},
+  "1.2":{1:["HCM"],2:["HCM","CG"],3:["IM6.2","IM6.3"],4:["IM6.1"],5:["CG","HCM"]},
+  "2.1":{1:["SP"],2:["SP","SCM","DT","RM&IC"],3:["SCM"],4:["SP"],5:["SP","IM7.1","IM2.2"]},
+  "2.2":{1:["SP","RM&IC"],2:["SP"],3:["SP"],4:["SP","IM2.1"],5:["IM7.1"]},
+  "3.1":{1:["SCM","DT"],2:["SCM"],3:["DT","KM"],4:["SCM","DT"],5:["SCM","DT"]},
+  "4.1":{1:["KM","SP"],2:["KM","SP"],3:["KM","HCM"],4:["DT","KM"],5:["DT","IM7.1"]},
+  "5.1":{1:["HCM","CG"],2:["HCM","SP"],3:["HCM"],4:["HCM"],5:["HCM"]},
+  "5.2":{1:["HCM","KM"],2:["HCM"],3:["HCM"],4:["HCM"],5:["HCM"]},
+  "6.1":{1:["SP","CG"],2:["DT","SCM"],3:["RM&IC","SP"],4:["SP","SCM","DT"],5:["IM7.1"]},
+  "6.2":{1:["SCM","HCM"],2:["HCM","KM"],3:["SCM"],4:["SP"],5:["IM7.1"]},
+  "6.3":{1:["SP","CG"],2:["DT","SCM"],3:["SP"],4:["SP"],5:["IM7.1","SP"]},
+  "7.1":{1:["SP"],2:["IM6.1","IM6.2","IM6.3"],3:["SP","SCM"],4:["HCM","SP"],5:["DT"]}
+};
+const DIM_COL={"SP":"#1e3a5c","HCM":"#0d7377","SCM":"#b8862f","DT":"#4c51bf","KM":"#276749","CG":"#7b2d3e","RM&IC":"#64748b","IA":"#6b46c1"};
+function dimBadge(d){
+  const key=d.replace(/^IM.*/,'IM');
+  const col=DIM_COL[key]||'#5a3e8c';
+  return `<a href="${LINK_URL}" target="_blank" class="dim-badge" style="background:${col};text-decoration:none;" title="ดูเอกสารเชื่อมโยง ${d}">${d}</a>`;
+}
+// IM-level aggregate dependency count across ALL sub-criteria
+const IM_DEP_TOTAL=(function(){
+  const c={};
+  Object.values(CROSS_LINKS).forEach(lvls=>Object.values(lvls).forEach(dims=>dims.forEach(d=>{
+    const k=d.match(/^IM/)?'IM↺':d;c[k]=(c[k]||0)+1;
+  })));
+  return c;
+})();
+function renderDepTotal(){
+  const order=['SP','HCM','SCM','DT','KM','CG','RM&IC','IM↺'];
+  const maxV=Math.max(...Object.values(IM_DEP_TOTAL));
+  return '<div class="dep-count-bar">'+
+    '<span style="font-size:9px;color:#6a5a8a;font-weight:600;flex-shrink:0;margin-right:2px;">📊 IM พึ่งพา:</span>'+
+    order.filter(k=>IM_DEP_TOTAL[k]).map(k=>{
+      const v=IM_DEP_TOTAL[k];
+      const col=DIM_COL[k]||'#5a3e8c';
+      const barW=Math.round(v/maxV*36);
+      return `<span class="dep-pill" style="background:${col};">${k}<span>×${v}</span><span style="display:inline-block;width:${barW}px;height:4px;background:rgba(255,255,255,.45);border-radius:2px;margin-left:3px;"></span></span>`;
+    }).join('')+
+  '</div>';
+}
+function clExpand(id,i){
+  const el=document.getElementById('cls-'+id+'-'+i);
+  const btn=document.getElementById('clb-'+id+'-'+i);
+  if(!el||!btn)return;
+  const collapsed=el.style.webkitLineClamp!=='unset'&&el.style.webkitLineClamp!=='';
+  el.style.webkitLineClamp=collapsed?'unset':'2';
+  btn.textContent=collapsed?'ย่อ ▲':'อ่านเพิ่ม ▼';
+}
+
+function renderSim(s){
+  const sid=s.id;
+  let gated=false;
+  const lvlSc=[];
+  for(let L=1;L<=5;L++){
+    if(gated){lvlSc.push({rv:0,bl:true});continue;}
+    const rv=(cgDimRad[sid]&&cgDimRad[sid][L])||0;
+    lvlSc.push({rv,bl:false});
+    if(rv<1) gated=true;
+  }
+  const raw=lvlSc.reduce((a,x)=>a+x.rv,0);
+  const wt=raw*(s.w/100);
+  targets.im[sid]=raw;
+  requestAnimationFrame(()=>{
+    const inp=document.getElementById('ti-'+sid);
+    if(inp){inp.value=fmt(targets.im[sid]);inp.style.borderColor=targets.im[sid]>=4?'#2a8a4a':targets.im[sid]>=3?'#5a8a00':targets.im[sid]>=2?'#c07000':'#c03020';}
+  });
+
+  function countMR(L){const mrs=(s.minReqs&&s.minReqs[L])||[];let t=0,c=0;mrs.forEach((_,ri)=>{t++;if(cgGetChk(sid,L,ri))c++;});return{tot:t,chk:c};}
+
+  let lvlHTML='';
+  // Gap level = first level not yet fully passed (based on s68)
+  const gapL=s.s68>0?(s.s68===Math.floor(s.s68)?s.s68+1:Math.ceil(s.s68)):1;
+  // All unique dims across levels for summary
+  const allDimsSet=[];
+  for(let _l=1;_l<=5;_l++){((CROSS_LINKS[sid]&&CROSS_LINKS[sid][_l])||[]).forEach(d=>{if(!allDimsSet.includes(d))allDimsSet.push(d);});}
+  const crossSumm=allDimsSet.length?`<div class="crosslink-summ">🔗&nbsp;<strong style="margin-right:4px;">ต้องร่วมมือ:</strong>${allDimsSet.map(dimBadge).join(' ')}</div>`:'';
+  lvlSc.forEach((ls,i)=>{
+    const L=i+1;
+    const summ=(s.levelSumm&&s.levelSumm[L-1])||'';
+    const detail=(s.dimLevels&&s.dimLevels[L-1])||'';
+    const mrs=(s.minReqs&&s.minReqs[L])||[];
+    const ints=(CROSS_LINKS[sid]&&CROSS_LINKS[sid][L])||[];
+    const traps=(s.subComps&&s.subComps[L])||[];
+    const{tot,chk}=countMR(L);
+    const rv=ls.rv;
+    const hdBg=ls.bl?'#eee8f8':rv>=1?'#e4f5e4':rv>0?'#fef8e8':'#f0ebff';
+    const nBg=ls.bl?'#aaa':rv>=1?'#1a7a4a':rv>0?'#c07000':'#3a1870';
+    const sCol=ls.bl?'#bbb':rv>=1?'#1a7a4a':rv>0?'#c07000':'#9a80c8';
+    const barPct=tot>0?Math.round(chk/tot*100):0;
+    const intB=''; // moved to level header strip
+    const xId=`cgx-${sid}-${L}`;
+    const xBtn=detail?`<button class="cg-toggle" onclick="event.stopPropagation();var e=document.getElementById('${xId}'),b=this;e.classList.toggle('open');b.textContent=e.classList.contains('open')?'▲':'▼';">▼</button>`:'';
+    const xPan=detail?`<div id="${xId}" class="cg-lvl-detail">${detail}</div>`:'';
+
+    let mrH='';
+    if(mrs.length){
+      mrH=`<div class="cg-sect-lbl">🔒 หลักฐานขั้นต่ำ (L${L}) <span style="color:#5a20a0;">${chk}/${tot} (${barPct}%)</span></div>
+      <div class="cg-prog-bar"><div class="cg-prog-fill" style="width:${barPct}%;background:${chk===tot?'#1a7a4a':'#5a20a0'};"></div></div>`;
+      mrs.forEach((txt,ri)=>{
+        const kid=`cgmr-${sid}-${L}-${ri}`;const ck=cgGetChk(sid,L,ri)?'checked':'';const dis=ls.bl?'disabled':'';
+        mrH+=`<div class="cg-req-item"><input type="checkbox" id="${kid}" ${ck} ${dis} onchange="cgToggleMR('${sid}',${L},${ri},this.checked);renderAll();" style="accent-color:#5a20a0;"><label for="${kid}">${txt}</label></div>`;
+      });
+    }
+    const dis=ls.bl?'disabled':'';
+    let dimH=`<div class="cg-sect-lbl" style="margin-top:8px;">📐 มิติที่ประเมิน (L${L})</div><div class="cg-radio-grp">`;
+    [[0,'0 — ไม่ครบตามเกณฑ์'],[0.5,'0.5 — ทำได้บางส่วน'],[1,'1.0 — ครบตามมิติที่ประเมิน']].forEach(([v,lbl])=>{
+      const ck=(rv===v)?'checked':'';const col=v===1?'#1a7a4a':v===0.5?'#c07000':'#c03020';
+      dimH+=`<label style="padding:3px 6px;border-radius:5px;background:${ck?(v===1?'#e0f5e8':v===0.5?'#fef8e0':'#fee8e8'):'transparent'};border:1px solid ${ck?(v===1?'#1a7a4a':v===0.5?'#c07000':'#c03020'):'transparent'};color:${ck?col:'#444'};font-weight:${ck?'700':'400'};cursor:${ls.bl?'not-allowed':'pointer'};"><input type="radio" name="cgdim-${sid}-${L}" value="${v}" ${ck} ${dis} onchange="cgSetDim('${sid}',${L},${v});" style="accent-color:${col};flex-shrink:0;"> ${lbl}</label>`;
+    });
+    dimH+='</div>';
+
+    // Integration links — วางหลัง radio ก่อนจุดดักคะแนน
+    const dimStrip=ints.length?`<div class="lvl-dim-strip">${ints.map(dimBadge).join(' ')}</div>`:'';
+
+    let trapH='';
+    if(traps.length){
+      trapH=`<div class="cg-sect-lbl" style="margin-top:6px;color:#7a2800;">⚠️ จุดดักคะแนน / Critical Blocker</div>`;
+      traps.forEach(t=>{trapH+=`<div class="cg-trap">• ${t}</div>`;});
+    }
+
+    lvlHTML+=`<div class="cg-lvl-row${ls.bl?' blocked':L===gapL?' is-gap':''}">
+      <div class="cg-lvl-hd" style="background:${hdBg};">
+        <span class="cg-lvl-num" style="background:${nBg};">L${L}</span>
+        <span class="cg-lvl-summ"><span class="kt">${summ}</span>${(!ls.bl&&L===gapL)?'&nbsp;<span class="dim-gap-tag">⚠️ ช่องว่าง</span>':'' }</span>
+        <span style="display:flex;gap:3px;align-items:center;flex-shrink:0;">${xBtn}<span style="font-size:10px;font-weight:700;color:${sCol};min-width:28px;text-align:right;">${ls.bl?'—':rv.toFixed(2)}</span></span>
+      </div>
+      ${dimStrip}
+      ${xPan}
+      <div class="cg-lvl-body"${ls.bl?' style="pointer-events:none;opacity:.4;"':''}>
+        ${mrH}${dimH}${trapH}
+      </div>
+    </div>`;
+  });
+
+  return `<div class="cg-sim">
+    <div class="cg-sim-hd">
+      <span style="font-size:11px;padding:2px 8px;border-radius:6px;background:var(--navy);color:#fff;">IM</span>
+      &nbsp;Target Score Simulator — Maturity Gating
+      <span style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+        <button onclick="if(confirm('ล้างข้อมูลทั้งหมด? (radio, checkbox, checklist)'))cgClearAll()" style="font-size:11px;padding:3px 10px;border:1px solid #e0a0a0;border-radius:5px;background:#fee8e8;cursor:pointer;color:#b03020;font-weight:600;">🗑 ล้างข้อมูล</button>
+        <span style="font-size:11px;font-weight:700;color:#2a1558;">${raw.toFixed(4)}/5.0</span>
+      </span>
+    </div>
+    <div class="cg-scope-box">${s.scopeNote||''}</div>
+    ${crossSumm}
+    ${lvlHTML}
+    <div class="cg-total-bar">
+      <span class="cg-total-lbl">คะแนนสะสม (0–5)</span>
+      <span class="cg-raw">${raw.toFixed(4)}</span>
+      <span class="cg-wt">× ${s.w}% = <strong>${wt.toFixed(4)} pts</strong></span>
+    </div>
+  </div>`;
+}
+
+// ── Frame B: checklist เอกสารที่ต้องเตรียม ───────────────────
+function renderFrameB(s){
+  const mr=s.minReqs||{};
+  const sid=s.id;
+  let total=0,done=0;
+  [1,2,3,4,5].forEach(L=>{const items=mr[L]||[];total+=items.length;items.forEach((_,i)=>{if(docGetChk(sid,L,i))done++;});});
+  const progPct=total>0?Math.round(done/total*100):0;
+  const progColor=done===total&&total>0?'#1a7a4a':done>0?'#92400e':'#666';
+
+  let html=`<div class="fb-prog-bar">
+    <span style="font-size:11px;font-weight:600;color:${progColor};" id="fb-total-${sid}">${done}/${total} เอกสารพร้อมแล้ว</span>
+    <div class="fb-prog-track"><div id="fb-prog-fill-${sid}" style="height:100%;width:${progPct}%;background:${progColor};transition:width .3s;"></div></div>
+  </div>`;
+
+  [1,2,3,4,5].forEach(L=>{
+    const items=mr[L]||[];
+    if(!items.length)return;
+    const lvlDone=items.filter((_,i)=>docGetChk(sid,L,i)).length;
+    const bdId=`fb-bd-${sid}-${L}`;
+    const lvlTitle=(s.levelSumm&&s.levelSumm[L-1])||`ระดับ ${L}`;
+    const shortTitle=lvlTitle.length>48?lvlTitle.slice(0,48)+'…':lvlTitle;
+    const lvlColor=lvlDone===items.length?'#1a7a4a':lvlDone>0?'#92400e':'#0369a1';
+    const lvlBg=lvlDone===items.length?'#e4f5e4':lvlDone>0?'#fef8e0':'rgba(2,132,199,.06)';
+
+    const itemsHtml=items.map((item,i)=>{
+      const isGap=item.startsWith('[แก้ไข Gap');
+      const cleanItem=item.replace('[แก้ไข Gap สำคัญ]','').trim();
+      const ckd=docGetChk(sid,L,i);
+      const ckId=`dck-${sid}-${L}-${i}`;
+      return `<label class="fb-item${isGap?' fb-item-gap':''}${ckd?' fb-item-done':''}">
+        <input type="checkbox" id="${ckId}"${ckd?' checked':''} onchange="docToggle('${sid}',${L},${i},this.checked)">
+        ${isGap?'<span class="fb-gap-tag">⚠️ Gap</span>':''}
+        <span class="fb-item-text">${cleanItem}</span>
+      </label>`;
+    }).join('');
+
+    html+=`<div class="doc-lvl-block">
+      <div class="doc-lvl-hd" style="background:${lvlBg};" onclick="var e=document.getElementById('${bdId}');e.classList.toggle('open');">
+        <span class="doc-lvl-badge">L${L}</span>
+        <span class="doc-lvl-title" style="color:${lvlColor};">${shortTitle}</span>
+        <span class="doc-lvl-count" id="fb-cnt-${sid}-${L}" style="color:${lvlColor};font-weight:600;">${lvlDone}/${items.length}</span>
+        <span style="font-size:10px;color:#7080b0;">▼</span>
+      </div>
+      <div class="doc-lvl-body" id="${bdId}">${itemsHtml}</div>
+    </div>`;
+  });
+  return html;
+}
+
+// ── Frame E: Self-Assessment — Input + Gen ────────────────────
+function renderFrameE(s){
+  const sid=s.id;
+  const mr=s.minReqs||{};
+  const gaps=s.gaps||[];
+  const simMax=[5,4,3,2,1].find(L=>cgDimRad[sid]&&cgDimRad[sid][L]>0)||0;
+  const outId=`fe-out-${sid}`;
+
+  // ── Simulator state row ──
+  const pills=[1,2,3,4,5].map(L=>{
+    const pass=simMax>=L&&simMax>0;
+    return `<span style="font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;background:${pass?'#1a7a4a':'#e0ddd8'};color:${pass?'#fff':'#888'};">L${L}</span>`;
+  }).join('');
+  let html=`<div class="fe-sim-row">
+    <span style="font-size:11px;color:var(--text3);">ระดับคาดการณ์ (Simulator):</span>
+    <div style="display:flex;gap:4px;flex-wrap:wrap;">${pills}</div>
+    ${simMax===0?'<span style="font-size:11px;color:#e2554f;">⚠️ ยังไม่ได้กำหนดระดับใน Simulator</span>':''}
+  </div>`;
+
+  // ── Per-level input ──
+  html+=`<div class="fe-sect-lbl">สิ่งที่ดำเนินการ — กรอกต่อระดับที่ทำได้</div>`;
+  [1,2,3,4,5].forEach(L=>{
+    const items=mr[L]||[];if(!items.length)return;
+    const tickedCnt=items.filter((_,i)=>docGetChk(sid,L,i)).length;
+    const isPass=simMax>=L&&simMax>0;
+    const lvlTitle=(s.levelSumm&&s.levelSumm[L-1])||`ระดับ ${L}`;
+    const short=lvlTitle.length>46?lvlTitle.slice(0,46)+'…':lvlTitle;
+    const note=feGet(sid,'lvlNotes',L);
+    const bdId=`fe-bd-${sid}-${L}`;
+    const badgeBg=isPass?'#1a7a4a':'#94a3b8';
+    html+=`<div class="fe-lvl-block${isPass?' fe-lvl-active':''}">
+      <div class="fe-lvl-hd" onclick="var e=document.getElementById('${bdId}');e.classList.toggle('open');">
+        <span class="fe-lvl-badge" style="background:${badgeBg};">L${L}</span>
+        <span class="fe-lvl-title">${short}</span>
+        <span class="fe-doc-ref">📄 ${tickedCnt}/${items.length}</span>
+        <span style="font-size:10px;color:#7080b0;">▼</span>
+      </div>
+      <div class="fe-lvl-body${isPass?' open':''}" id="${bdId}">
+        <textarea class="fe-textarea" rows="3"
+          placeholder="อธิบายสิ่งที่ กทท. ดำเนินการในระดับนี้ (เฉพาะรายละเอียดที่ไม่อยู่ในเอกสาร)..."
+          onchange="feSet('${sid}','lvlNotes',${L},this.value)"
+          onblur="feSet('${sid}','lvlNotes',${L},this.value)">${note}</textarea>
+      </div>
+    </div>`;
+  });
+
+  // ── Gaps section ──
+  if(gaps.length){
+    html+=`<div class="fe-sect-lbl" style="margin-top:12px;">ช่องว่างจาก TRIS — ปิดได้หรือยัง?</div>`;
+    gaps.forEach((gap,i)=>{
+      const cl=feGapClosed(sid,i);
+      const gNote=feGet(sid,'gapNotes',i);
+      html+=`<div class="fe-gap-item">
+        <div class="fe-gap-text">⚠️ ${gap}</div>
+        <div class="fe-gap-status">
+          <label class="fe-radio-lbl">
+            <input type="radio" name="gc-${sid}-${i}" value="1"${cl===true?' checked':''}
+              onchange="feSet('${sid}','gapClosed',${i},true)">
+            ✓ ปิดได้แล้ว
+          </label>
+          <label class="fe-radio-lbl">
+            <input type="radio" name="gc-${sid}-${i}" value="0"${cl===false?' checked':''}
+              onchange="feSet('${sid}','gapClosed',${i},false)">
+            ○ อยู่ระหว่างดำเนินการ
+          </label>
+        </div>
+        <textarea class="fe-textarea" rows="2"
+          placeholder="อธิบายสิ่งที่ทำเพื่อปิด Gap นี้..."
+          onchange="feSet('${sid}','gapNotes',${i},this.value)"
+          onblur="feSet('${sid}','gapNotes',${i},this.value)">${gNote}</textarea>
+      </div>`;
+    });
+  }
+
+  // ── Gen + Output ──
+  html+=`<div style="margin-top:14px;">
+    <button class="fe-gen-btn" onclick="document.getElementById('${outId}').value=genScript('${sid}');">🔄 Gen Script</button>
+    <span style="font-size:11px;color:var(--text3);margin-left:8px;">ระบบจะรวม input ทั้งหมด + เอกสารที่ tick ใน Frame B + Simulator</span>
+  </div>
+  <div style="margin-top:8px;">
+    <textarea class="fe-output" id="${outId}" rows="14"
+      placeholder="กด Gen Script เพื่อสร้างคำตอบ — สามารถแก้ไขก่อน Copy ได้"></textarea>
+    <button class="fe-copy-btn" onclick="feCopyOut('${outId}',this)">📋 Copy ทั้งหมด</button>
+  </div>`;
+  return html;
+}
+
+// ── Right panel ─────────────────────────────────────────────────
+function renderRight(){
+  const body=document.getElementById('rightBody');
+  if(!focusId){body.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#aaa;font-size:13px;">คลิก sub-item ด้านซ้ายเพื่อดูรายละเอียด</div>';return;}
+  const s=DATA.im.subs.find(x=>x.id===focusId);if(!s){body.innerHTML='';return;}
+  const simHTML=s.checkboxMode ? renderCheckboxSim(s) : renderSim(s);
+  const tval=targets.im[s.id];
+
+  // Frame A — ช่องว่าง (กระชับ + expand)
+  const gA=(s.gaps||[]).map((g,i)=>`<div class="box box-red" style="margin-bottom:4px;">• ${exp(g,90)}</div>`).join('');
+
+  // Frame C — กทท. ตอบอะไรไป
+  const rC=(s.results||[]).map(r=>`<div class="match-row m-ok"><span>✓</span><span>${exp(r,80)}</span></div>`).join('');
+  const lC=(s.gaps||[]).slice(0,3).map(g=>`<div class="match-row m-no"><span>✗</span><span style="font-size:10.5px;">${g.split(' —')[0].slice(0,70)}</span></div>`).join('');
+
+  // Frame D — สิ่งที่ต้องทำเพิ่ม (เฉพาะ L1–L3 เพราะ L4–L5 รวมใน B แล้ว)
+  const dD=(s.actions||[]).map(a=>`<div style="display:flex;align-items:flex-start;gap:5px;font-size:11px;color:#333;padding:3px 0;"><span style="color:#5a20a0;flex-shrink:0;">→</span><span>${exp(a,100)}</span></div>`).join('');
+
+  body.innerHTML=`
+    <div style="padding:5px 12px;font-size:11px;background:#ede8f8;border-bottom:1px solid #ccc8dc;display:flex;align-items:center;gap:8px;flex-shrink:0;position:sticky;top:0;z-index:2;">
+      <span style="font-weight:700;color:#2a1558;">ข้อ ${s.id}</span>
+      <span style="color:#555;font-size:10.5px;">${s.name}</span>
+      <span style="margin-left:auto;font-size:10px;background:#e0ddd4;color:#444;padding:1px 7px;border-radius:8px;">ปัจจุบัน ${fmt(s.s68)}</span>
+      <span style="font-size:10px;">→</span>
+      <span style="font-size:10px;background:#c5e8d5;color:#0a4a2a;padding:1px 7px;border-radius:8px;font-weight:700;">คำนวณ ${fmt(tval)}</span>
+      <button onclick="if(confirm('ล้างข้อมูลข้อ ${s.id} ทั้งหมด?'))cgClearOne('${s.id}')" style="font-size:10.5px;padding:3px 12px;border:none;border-radius:20px;background:#e2554f;color:#fff;cursor:pointer;font-weight:800;box-shadow:0 1px 5px rgba(226,85,79,.5);white-space:nowrap;">🗑 ล้างข้อนี้</button>
+    </div>
+    ${simHTML}
+    <div class="frame">
+      <div class="frame-hd fa-hd"><span class="ftag fa-tag">A</span><span style="color:#7a1010;">ช่องว่างที่ต้องปิด (TRIS)</span></div>
+      <div class="frame-bd">${gA||'<div style="color:#999;">—</div>'}</div>
+    </div>
+    <div class="frame">
+      <div class="frame-hd fb-hd"><span class="ftag fb-tag">B</span><span style="color:#102070;">เอกสารลงระบบ — แยกตามระดับ</span>
+        <a href="${DOC_DETAIL_URL}" target="_blank" style="margin-left:auto;font-size:9.5px;padding:2px 9px;border-radius:5px;background:#2a4a9a;color:#fff;text-decoration:none;font-weight:600;">📋 ดูทั้งหมด</a>
+      </div>
+      <div class="frame-bd" style="padding:6px 8px;">${renderFrameB(s)}</div>
+    </div>
+    <div class="frame">
+      <div class="frame-hd fc-hd"><span class="ftag fc-tag">C</span><span style="color:#4a4a00;">กทท. ตอบอะไรไป / จุดแข็ง</span></div>
+      <div class="frame-bd">
+        <div class="box box-gray" style="margin-bottom:6px;font-size:11px;">${exp((s.good||[''])[0]||'—',100)}</div>
+        <div style="font-size:9.5px;color:#888;margin:4px 0 2px;font-weight:600;">ผลที่นำเสนอ:</div>${rC}
+        <div style="font-size:9.5px;color:#888;margin:6px 0 2px;font-weight:600;">ช่องว่างที่ยังขาด:</div>${lC}
+      </div>
+    </div>
+    <div class="frame">
+      <div class="frame-hd fd-hd"><span class="ftag fd-tag">D</span><span style="color:#102848;">สิ่งที่ต้องดำเนินการปี 69 (L1–L3)</span></div>
+      <div class="frame-bd">${dD||'<div style="color:#999;">—</div>'}</div>
+    </div>
+    <div class="frame" style="border-bottom:none;">
+      <div class="frame-hd fe-hd"><span class="ftag fe-tag">E</span><span style="color:#0a4030;">Self-Assessment Script — ร่างคำตอบระบบ สคร.</span></div>
+      <div class="frame-bd" style="padding:6px 8px;">${renderFrameE(s)}</div>
+    </div>`;
+}
+
+// ── Left panel ─────────────────────────────────────────────────
+function renderLeft(){
+  const body=document.getElementById('leftBody');body.innerHTML='';
+  document.getElementById('dimTitle').textContent=DATA.im.dimName;
+  document.getElementById('dimOrig').textContent='ปัจจุบัน '+fmt(DATA.im.orig);
+  document.getElementById('totalLbl').textContent='คะแนนรวม '+DATA.im.dimId;
+  document.getElementById('totalOrig').textContent=fmt(DATA.im.orig);
+  const grps=[...new Set(DATA.im.subs.map(s=>s.grp))];
+  grps.forEach(gid=>{
+    const ss=DATA.im.subs.filter(s=>s.grp===gid);const first=ss[0];
+    const gs=ss.reduce((a,s)=>a+s.w*targets.im[s.id],0)/first.gw;
+    const diff=gs-first.gs68;
+    const assessed=ss.filter(s=>Object.values(cgDimRad[s.id]||{}).some(v=>v>0)||Object.values(cgChkSim[s.id]||{}).some(v=>v)).length;
+    const tot=ss.length;
+    const fillPct=Math.round(gs/5*100);
+    const fillCol=gs>=3.5?'#1f9d6f':gs>=2.5?'#e3a82e':'#e2554f';
+    const chkCls=assessed===tot?'chk-all':assessed>0?'chk-part':'chk-none';
+    const chkLbl=assessed===tot?`✓ ครบ ${tot}/${tot}`:`${assessed}/${tot} ข้อย่อย`;
+    const gDiv=document.createElement('div');gDiv.className='grp';
+    gDiv.innerHTML=`
+      <div class="grp-row1">
+        <span class="grp-id">${gid}</span>
+        <span class="grp-name">${first.gname}</span>
+        <span class="grp-wt">(${first.gw}%)</span>
+        <div class="grp-scores"><span class="chip cn" style="font-size:10px;">${fmt(first.gs68)}</span><span style="color:#999;font-size:10px;">→</span><span class="chip ${diff<-0.001?'cr':diff>0.001?'ct':'cn'}" style="font-size:10px;" id="gs-cg-${gid}">${fmt(gs)}</span></div>
+      </div>
+      <div class="grp-row2">
+        <span class="grp-chk ${chkCls}" id="rollup-chk-${gid}">${chkLbl}</span>
+        <span class="grp-score2"><strong id="rollup-gs-${gid}" style="color:${diff>0.001?'#1a7a4a':diff<-0.001?'#c03020':'#555'};">${gs.toFixed(4)}</strong><span id="rollup-delta-${gid}" style="font-size:9px;color:${diff>0.001?'#1a7a4a':diff<-0.001?'#c03020':'#aaa'};">(${diff>=0?'+':''}${diff.toFixed(4)})</span></span>
+        <div class="grp-prog"><div class="grp-prog-fill" id="rollup-bar-${gid}" style="width:${fillPct}%;background:${fillCol};"></div></div>
+      </div>`;
+    body.appendChild(gDiv);
+    ss.forEach(s=>{
+      const row=document.createElement('div');
+      row.className='sub'+(focusId===s.id?' focus-cg':'');row.id='subrow-'+s.id;
+      row.innerHTML=`<div class="sub-left"><div class="sub-meta"><span class="sub-num">${s.id}</span><span class="sub-name">${s.name}</span><span class="sub-wt">(${s.w}%)</span><span class="sub-now">ปี 68: ${fmt(s.s68)}</span></div></div><div class="sub-target" id="st-${s.id}"><span class="target-lbl">คำนวณ</span><input class="target-inp" id="ti-${s.id}" type="text" value="${fmt(targets.im[s.id])}" readonly style="border-color:#ccc;"><span class="dot ${dotColor(s.id)}" id="dot-${s.id}"></span></div>`;
+      row.addEventListener('click',()=>{focusId=s.id;renderAll();});
+      body.appendChild(row);
+      const strip=document.createElement('div');strip.className='sstrip';
+      strip.innerHTML=`<span class="sbadge ${sClass(s.status)}">${sIcon(s.status)} ${s.status}</span><span style="font-size:10px;color:#999;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-left:6px;">${s.statusNote||'ยังไม่มีข้อมูล'}</span>`;
+      strip.addEventListener('click',()=>{focusId=s.id;renderAll();});
+      body.appendChild(strip);
+    });
+  });
+}
+
+// ── Checklist ──────────────────────────────────────────────────
+function renderChecklist(){
+  if(!focusId){document.getElementById('clTitle').textContent='เลือก sub-item เพื่อดู Action Checklist';document.getElementById('clItems').innerHTML='';return;}
+  const s=DATA.im.subs.find(x=>x.id===focusId);if(!s)return;
+  document.getElementById('clTitle').textContent=`Action Checklist — ข้อ ${s.id} · เป้า ${fmt(targets.im[s.id])}`;
+  if(!clChecked[s.id])clChecked[s.id]=(s.actions||[]).map(()=>false);
+  document.getElementById('clItems').innerHTML=(s.actions||[]).map((a,i)=>{
+    const chk=clChecked[s.id][i];
+    const sty=chk?'display:flex;align-items:flex-start;gap:6px;background:#E6F8F1;border-left:3px solid #51BF8E;border-radius:5px;padding:4px 8px;margin-bottom:4px;':'display:flex;align-items:flex-start;gap:6px;background:#FFF0EE;border-left:3px solid #FF6766;border-radius:5px;padding:4px 8px;margin-bottom:4px;';
+    return `<div class="cl-item" id="clrow-${s.id}-${i}" style="${sty}"><input type="checkbox" id="cl-${s.id}-${i}" ${chk?'checked':''} onchange="toggleCL('${s.id}',${i},this.checked)"><label for="cl-${s.id}-${i}" style="flex:1;"><span id="cls-${s.id}-${i}" class="cl-short" style="-webkit-line-clamp:2;">${a}</span><span id="clb-${s.id}-${i}" class="cl-exp-btn" onclick="event.preventDefault();clExpand('${s.id}',${i})">อ่านเพิ่ม ▼</span></label></div>`;
+  }).join('');
+}
+function toggleCL(id,i,val){
+  if(!clChecked[id])clChecked[id]=[];clChecked[id][i]=val;save();
+  const r=document.getElementById('clrow-'+id+'-'+i);if(!r)return;
+  r.style.cssText=val?'display:flex;align-items:flex-start;gap:6px;background:#E6F8F1;border-left:3px solid #51BF8E;border-radius:5px;padding:4px 8px;margin-bottom:4px;':'display:flex;align-items:flex-start;gap:6px;background:#FFF0EE;border-left:3px solid #FF6766;border-radius:5px;padding:4px 8px;margin-bottom:4px;';
+}
+
+// ── Score totals ────────────────────────────────────────────────
+function updateScores(){
+  const subs=DATA.im.subs;const tw=subs.reduce((a,s)=>a+s.w,0);
+  const total=subs.reduce((a,s)=>a+s.w/tw*targets.im[s.id],0);
+  const delta=total-DATA.im.orig;
+  document.getElementById('totalChip').textContent='คาดการณ์ '+fmt(total);
+  document.getElementById('totalChip').className='chip '+(delta>0?'ct':delta<0?'cr':'cn');
+  document.getElementById('totalFooter').textContent=fmt(total);
+  document.getElementById('totalFooter').className='chip '+(delta>0?'ct':delta<0?'cr':'cn');
+  document.getElementById('deltaChip').textContent=(delta>=0?'+':'')+fmt(delta)+' pts';
+  document.getElementById('deltaChip').style.color=delta>0?'#1a9a50':delta<0?'#c03020':'#888';
+  document.getElementById('deltaFooter').textContent=(delta>=0?'+':'')+fmt(delta);
+  document.getElementById('deltaFooter').style.color=delta>0?'#5fcf8a':delta<0?'#f0806a':'#888';
+  const grps=[...new Set(subs.map(s=>s.grp))];
+  grps.forEach(gid=>{
+    const ss=subs.filter(s=>s.grp===gid);const first=ss[0];
+    const gs=ss.reduce((a,s)=>a+s.w*targets.im[s.id],0)/first.gw;
+    const diff=gs-first.gs68;
+    const el=document.getElementById('gs-cg-'+gid);
+    if(el){el.textContent=fmt(gs);el.className='chip '+(diff<-0.001?'cr':diff>0.001?'ct':'cn');}
+    // update rollup row
+    const gsEl=document.getElementById('rollup-gs-'+gid);
+    if(gsEl){
+      gsEl.textContent=gs.toFixed(4);
+      gsEl.style.color=diff>0.001?'#1a7a4a':diff<-0.001?'#c03020':'#555';
+      const dEl=document.getElementById('rollup-delta-'+gid);
+      if(dEl){dEl.textContent='('+(diff>=0?'+':'')+diff.toFixed(4)+')';dEl.style.color=diff>0.001?'#1a7a4a':diff<-0.001?'#c03020':'#aaa';}
+    }
+    const barEl=document.getElementById('rollup-bar-'+gid);
+    if(barEl){
+      barEl.style.width=Math.round(gs/5*100)+'%';
+      barEl.style.background=gs>=3.5?'#1f9d6f':gs>=2.5?'#e3a82e':'#e2554f';
+    }
+    const chkEl=document.getElementById('rollup-chk-'+gid);
+    if(chkEl){
+      const assessed=ss.filter(s=>Object.values(cgDimRad[s.id]||{}).some(v=>v>0)||Object.values(cgChkSim[s.id]||{}).some(v=>v)).length;
+      const tot=ss.length;
+      chkEl.textContent=assessed===tot?`✓ ครบ ${tot}/${tot}`:`${assessed}/${tot} ข้อย่อย`;
+      chkEl.className='grp-rollup-chk '+(assessed===tot?'chk-all':assessed>0?'chk-part':'chk-none');
+    }
+  });
+  subs.forEach(s=>{const d=document.getElementById('dot-'+s.id);if(d)d.className='dot '+dotColor(s.id);});
+}
+
+function renderAll(){renderLeft();renderRight();renderChecklist();updateScores();}
+(async function init(){
+  await loadState();
+  renderAll();
+  syncHomeStatus();
+})();
+(function(){const el=document.getElementById('depTotalBar');if(el)el.innerHTML=renderDepTotal();})();
+
+// ── Checkbox Simulator (สำหรับ 5.1 และ 5.3) ────────────────────
+// cgChkSim declared above near cgDimRad/cgChecked
+
+function cgGetChkSim(sid, i) {
+  return !!(cgChkSim[sid] && cgChkSim[sid][i]);
+}
+function cgSetChkSim(sid, i, v) {
+  if (!cgChkSim[sid]) cgChkSim[sid] = {};
+  cgChkSim[sid][i] = v;
+  save();
+  renderAll();
+}
+
+// คำนวณ L จาก checkbox ที่เช็คไว้
+function calcLevelFromCheckbox(s) {
+  const sid = s.id;
+  const items = s.checkboxItems || [];
+  const thresholds = s.checkboxThresholds || {};
+  const maxL = s.checkboxMaxLevel || 5;
+  let checked = 0;
+  items.forEach((_, i) => { if (cgGetChkSim(sid, i)) checked++; });
+
+  let score = 0;
+  for (let L = maxL; L >= 1; L--) {
+    if (checked >= (thresholds['L' + L] || 999)) { score = L; break; }
+  }
+  return { checked, score };
+}
+
+function renderCheckboxSim(s) {
+  const sid = s.id;
+  const items = s.checkboxItems || [];
+  const thresholds = s.checkboxThresholds || {};
+  const maxL = s.checkboxMaxLevel || 5;
+  const { checked, score } = calcLevelFromCheckbox(s);
+
+  // ถ้า 5.3 มี L5 แยกเป็น radio
+  const hasL5Radio = s.checkboxMaxLevel === 4;
+  const l5rv = hasL5Radio ? ((cgDimRad[sid] && cgDimRad[sid][5]) || 0) : 0;
+  const raw = score + l5rv;
+  const wt = raw * (s.w / 100);
+  targets.im[sid] = raw;
+  requestAnimationFrame(() => {
+    const inp = document.getElementById('ti-' + sid);
+    if (inp) {
+      inp.value = fmt(targets.im[sid]);
+      inp.style.borderColor = targets.im[sid] >= 4 ? '#2a8a4a' : targets.im[sid] >= 3 ? '#5a8a00' : targets.im[sid] >= 2 ? '#c07000' : '#c03020';
+    }
+  });
+
+  // สร้าง progress bar ตาม thresholds
+  const thKeys = Object.keys(thresholds).sort((a, b) => thresholds[a] - thresholds[b]);
+  let progressHTML = `<div style="margin-bottom:8px;">`;
+  progressHTML += `<div style="display:flex;justify-content:space-between;font-size:9px;color:#7a6a9a;margin-bottom:3px;">`;
+  thKeys.forEach(lk => {
+    const t = thresholds[lk];
+    const pct = Math.min(100, Math.round(checked / items.length * 100));
+    const reached = checked >= t;
+    progressHTML += `<span style="color:${reached ? '#1a7a4a' : '#9a90b8'};font-weight:${reached ? '700' : '400'};">${lk}≥${t}</span>`;
+  });
+  progressHTML += `</div>`;
+  const pct = Math.round(checked / items.length * 100);
+  progressHTML += `<div class="cg-prog-bar"><div class="cg-prog-fill" style="width:${pct}%;background:${score >= maxL ? '#1a7a4a' : '#5a20a0'};"></div></div>`;
+  progressHTML += `<div style="font-size:10px;color:#4a3a6a;margin-top:3px;">เช็คแล้ว <strong>${checked}/${items.length}</strong> ประเด็น → <strong style="color:${score >= maxL ? '#1a7a4a' : '#c07000'}">L${score || '-'}</strong></div>`;
+  progressHTML += `</div>`;
+
+  // Checkbox list
+  let listHTML = `<div style="background:#f0ebff;border:1px solid #c8b8e8;border-radius:6px;padding:8px 10px;margin-bottom:8px;">`;
+  listHTML += `<div class="cg-sect-lbl" style="margin-bottom:6px;">📋 ประเด็นที่เปิดเผยในรายงาน — เช็คทุกประเด็นที่มีอยู่จริง</div>`;
+  items.forEach((item, i) => {
+    const ck = cgGetChkSim(sid, i);
+    const kid = `chksim-${sid}-${i}`;
+    listHTML += `<div class="cg-req-item"><input type="checkbox" id="${kid}" ${ck ? 'checked' : ''} onchange="cgSetChkSim('${sid}',${i},this.checked);" style="accent-color:#5a20a0;"><label for="${kid}" style="font-size:10.5px;">${item}</label></div>`;
+  });
+  listHTML += `</div>`;
+
+  // L5 radio (เฉพาะ 5.3)
+  let l5HTML = '';
+  if (hasL5Radio) {
+    const trap = (s.subComps && s.subComps[5]) || [];
+    l5HTML = `<div class="cg-lvl-row" style="border:1px solid #d4cce8;border-radius:6px;margin-bottom:6px;overflow:hidden;">
+      <div class="cg-lvl-hd" style="background:${l5rv >= 1 ? '#e4f5e4' : l5rv > 0 ? '#fef8e8' : '#f0ebff'};">
+        <span class="cg-lvl-num">L5</span>
+        <span class="cg-lvl-summ"><span class="kt">${s.levelSumm[4]}</span></span>
+        <span style="font-size:10px;font-weight:700;color:${l5rv >= 1 ? '#1a7a4a' : l5rv > 0 ? '#c07000' : '#9a80c8'};">${l5rv.toFixed(2)}</span>
+      </div>
+      <div class="cg-lvl-body">
+        <div class="cg-sect-lbl">📐 มิติที่ประเมิน (L5)</div>
+        <div class="cg-radio-grp">`;
+    [[0, '0 — ไม่ครบตามเกณฑ์'], [0.5, '0.5 — ทำได้บางส่วน'], [1, '1.0 — ครบตามมิติที่ประเมิน']].forEach(([v, lbl]) => {
+      const ck = l5rv === v;
+      const col = v === 1 ? '#1a7a4a' : v === 0.5 ? '#c07000' : '#c03020';
+      l5HTML += `<label style="padding:3px 6px;border-radius:5px;background:${ck ? (v === 1 ? '#e0f5e8' : v === 0.5 ? '#fef8e0' : '#fee8e8') : 'transparent'};border:1px solid ${ck ? col : 'transparent'};color:${ck ? col : '#444'};font-weight:${ck ? '700' : '400'};cursor:pointer;">
+        <input type="radio" name="cgdim-${sid}-5" value="${v}" ${ck ? 'checked' : ''} onchange="cgSetDim('${sid}',5,${v});" style="accent-color:${col};"> ${lbl}</label>`;
+    });
+    l5HTML += `</div>`;
+    if (trap.length) {
+      l5HTML += `<div class="cg-sect-lbl" style="margin-top:6px;color:#7a2800;">⚠️ จุดดักคะแนน</div>`;
+      trap.forEach(t => { l5HTML += `<div class="cg-trap">• ${t}</div>`; });
+    }
+    l5HTML += `</div></div>`;
+  }
+
+  // Integration links
+  const allLinks = [];
+  for (let L = 1; L <= 5; L++) {
+    const ls = (s.integLinks && s.integLinks[L]) || [];
+    ls.forEach(d => { if (!allLinks.includes(d)) allLinks.push(d); });
+  }
+  const intB = allLinks.map(d => `<a href="${LINK_URL}" target="_blank" class="cg-int-link">🔗 ${d}</a>`).join('');
+  const intSection = intB ? `<div style="margin:6px 0;display:flex;gap:4px;flex-wrap:wrap;">${intB}</div>` : '';
+
+  // Traps (5.1)
+  let trapHTML = '';
+  const traps5 = (s.subComps && s.subComps[5]) || [];
+  if (traps5.length && !hasL5Radio) {
+    trapHTML = `<div class="cg-sect-lbl" style="color:#7a2800;">⚠️ จุดดักคะแนน</div>`;
+    traps5.forEach(t => { trapHTML += `<div class="cg-trap">• ${t}</div>`; });
+  }
+
+  return `<div class="cg-sim">
+    <div class="cg-sim-hd">
+      <span style="font-size:11px;padding:2px 8px;border-radius:6px;background:var(--navy);color:#fff;">IM</span>
+      &nbsp;Checkbox Simulator — เช็คประเด็นที่เปิดเผยแล้ว
+      <span style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+        <button onclick="if(confirm('ล้างข้อมูลทั้งหมด? (radio, checkbox, checklist)'))cgClearAll()" style="font-size:11px;padding:3px 10px;border:1px solid #e0a0a0;border-radius:5px;background:#fee8e8;cursor:pointer;color:#b03020;font-weight:600;">🗑 ล้างข้อมูล</button>
+        <span style="font-size:11px;font-weight:700;color:#2a1558;">${raw.toFixed(4)}/5.0</span>
+      </span>
+    </div>
+    <div class="cg-scope-box">${s.scopeNote || ''}</div>
+    ${progressHTML}
+    ${listHTML}
+    ${intSection}
+    ${l5HTML}
+    ${trapHTML}
+    <div class="cg-total-bar">
+      <span class="cg-total-lbl">คะแนนสะสม (0–5)</span>
+      <span class="cg-raw">${raw.toFixed(4)}</span>
+      <span class="cg-wt">× ${s.w}% = <strong>${wt.toFixed(4)} pts</strong></span>
+    </div>
+  </div>`;
+}
+
+</script>
+</body>
+</html>

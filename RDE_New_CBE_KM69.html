@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CBE Enablers — KM การจัดการความรู้ ปี 2569</title>
+<style>
+@font-face{font-family:'Anakotmai';font-weight:300;font-style:normal;src:url('https://pdee-hub.github.io/Enablers-Link-Document-69/Anakotmai/webfont/anakotmai-light.woff2') format('woff2');}
+@font-face{font-family:'Anakotmai';font-weight:500;font-style:normal;src:url('https://pdee-hub.github.io/Enablers-Link-Document-69/Anakotmai/webfont/anakotmai-medium.woff2') format('woff2');}
+@font-face{font-family:'Anakotmai';font-weight:700;font-style:normal;src:url('https://pdee-hub.github.io/Enablers-Link-Document-69/Anakotmai/webfont/anakotmai-bold.woff2') format('woff2');}
+</style>
+<style>
+/* ── PAT Editorial Light ── */
+:root{
+  --bg:#f8f7f4;--bg2:#f1efe9;--card:#ffffff;
+  --border:#e6e3dc;--border-s:#ece9e1;
+  --text:#1c1f24;--text2:#5a5f68;--text3:#9a9da3;
+  --navy:#1e3a5c;--gold:#b8862f;
+  --lv1:#e2554f;--lv2:#ef9483;--lv3:#e3a82e;--lv4:#5bc69a;--lv5:#1f9d6f;
+  --shadow:0 1px 3px rgba(28,31,36,.06);
+  --shadow-h:0 4px 12px rgba(28,31,36,.10);
+  --radius:6px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Anakotmai',sans-serif;font-size:14px;background:var(--bg);color:var(--text);line-height:1.6;}
+.sub-num,.sub-wt,.sub-now,.target-inp,.cg-raw,.cg-wt,.doc-file-code,.grp-id,.grp-wt,.cg-sect-lbl,.doc-grp-lbl,.doc-lvl-count{font-family:'Anakotmai',sans-serif;}
+
+/* TOP NAV */
+.top-nav{background:var(--navy);color:#fff;padding:0 24px;height:48px;display:flex;align-items:center;gap:8px;border-bottom:3px solid var(--gold);}
+.top-nav a{color:rgba(255,255,255,.55);text-decoration:none;font-size:13px;transition:color .15s;}
+.top-nav a:hover{color:#fff;}
+.top-nav h1{font-size:13px;font-weight:600;color:rgba(255,255,255,.9);margin-left:2px;}
+.top-nav .sep{color:rgba(255,255,255,.2);font-size:13px;}
+
+/* DIM HEADER */
+.dim-hd{background:var(--card);border-bottom:1px solid var(--border);padding:10px 24px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;box-shadow:var(--shadow);}
+
+/* CHIPS */
+.chip{font-size:12px;padding:3px 10px;border-radius:20px;font-weight:600;white-space:nowrap;}
+.cn{background:var(--bg2);color:var(--text2);}
+.ct{background:rgba(31,157,111,.12);color:#0f7a55;}
+.cr{background:rgba(226,85,79,.10);color:#b91c1c;}
+
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:46% 54%;height:calc(100vh - 97px);overflow:hidden;}
+
+/* LEFT */
+.left{display:flex;flex-direction:column;overflow:hidden;border-right:1px solid var(--border);background:var(--bg);}
+.left-hd{padding:10px 16px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;flex-shrink:0;background:var(--navy);color:rgba(255,255,255,.9);letter-spacing:.2px;}
+.left-body{flex:1;overflow-y:auto;}
+
+/* GROUP HEADER — 2 rows */
+.grp{display:flex;flex-direction:column;gap:3px;padding:7px 16px;background:var(--bg2);border-bottom:1px solid var(--border);border-top:1px solid var(--border);position:sticky;top:0;z-index:2;}
+.grp-row1{display:flex;align-items:center;gap:6px;}
+.grp-row2{display:flex;align-items:center;gap:6px;padding-left:20px;}
+.grp-id{font-size:12px;font-weight:700;color:var(--navy);min-width:16px;}
+.grp-name{font-size:12px;font-weight:600;flex:1;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.grp-wt{font-size:11px;color:var(--text3);white-space:nowrap;}
+.grp-scores{display:flex;align-items:center;gap:4px;flex-shrink:0;}
+.grp-chk{font-size:9px;font-weight:500;padding:1px 6px;border-radius:10px;white-space:nowrap;flex-shrink:0;}
+.chk-all{background:#e4f5e4;color:#1a7a4a;}
+.chk-part{background:#fef8e0;color:#92400e;}
+.chk-none{background:#ebe8e0;color:var(--text3);}
+.grp-score2{font-size:10px;color:var(--text2);display:flex;align-items:center;gap:4px;flex:1;white-space:nowrap;}
+.grp-prog{width:48px;height:4px;background:#d8d4cc;border-radius:2px;overflow:hidden;flex-shrink:0;}
+.grp-prog-fill{height:100%;border-radius:2px;transition:width .3s;}
+
+/* SUB ROWS */
+.sub{display:flex;align-items:stretch;cursor:pointer;border-bottom:1px solid var(--border-s);transition:background .12s;}
+.sub:hover{background:rgba(30,58,92,.04);}
+.sub.focus-cg{background:rgba(30,58,92,.07);border-left:3px solid var(--navy);}
+.sub.focus-cg .sub-target{border-left-color:var(--navy);}
+.sub-left{display:flex;align-items:center;padding:10px 10px 10px 20px;flex:1;min-width:0;}
+.sub-meta{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;min-width:0;}
+.sub-num{font-size:11px;color:var(--text3);flex-shrink:0;}
+.sub-wt{font-size:11px;color:var(--text3);flex-shrink:0;}
+.sub-now{font-size:11px;color:var(--text2);flex-shrink:0;}
+.sub-name{font-size:13px;color:var(--text);flex:1;min-width:0;line-height:1.4;}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.dg{background:var(--lv5);}.da{background:var(--lv3);}.dr{background:var(--lv1);}
+
+/* TARGET INPUT */
+.sub-target{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px 12px;flex-shrink:0;border-left:2px solid var(--border);width:96px;min-width:96px;background:var(--card);}
+.target-lbl{font-size:10px;color:var(--text3);font-weight:500;letter-spacing:.3px;}
+.target-inp{width:78px;font-size:12px;font-weight:700;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg2);color:var(--navy);text-align:center;transition:border-color .15s,box-shadow .15s;}
+.target-inp:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 2px rgba(30,58,92,.12);background:#fff;}
+
+/* SSTRIP */
+.sstrip{padding:6px 12px 6px 24px;border-bottom:1px solid var(--border-s);display:flex;align-items:center;gap:8px;background:var(--card);cursor:pointer;transition:background .12s;}
+.sstrip:hover{background:var(--bg2);}
+.sbadge{font-size:11px;padding:2px 9px;border-radius:20px;font-weight:600;white-space:nowrap;}
+.s0{background:var(--bg2);color:var(--text3);}
+.s1{background:rgba(227,168,46,.15);color:#92400e;}
+.s2{background:rgba(31,157,111,.12);color:#0f7a55;}
+
+/* CHECKLIST */
+.cl-wrap{padding:12px 16px;border-top:2px solid var(--navy);background:var(--card);flex-shrink:0;box-shadow:0 -2px 8px rgba(28,31,36,.04);}
+.cl-title{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:8px;}
+.cl-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text);margin-bottom:7px;line-height:1.55;}
+.cl-item input{flex-shrink:0;margin-top:3px;accent-color:var(--navy);width:14px;height:14px;}
+.cl-note{font-size:11px;color:var(--text3);padding-top:6px;border-top:1px solid var(--border-s);margin-top:6px;}
+
+/* TOTAL BAR */
+.total{display:flex;align-items:center;gap:8px;padding:10px 16px;background:var(--navy);color:#fff;flex-shrink:0;}
+.total-lbl{font-size:13px;font-weight:600;flex:1;}
+.total-note{font-size:11px;color:rgba(255,255,255,.45);}
+
+/* RIGHT */
+.right{display:flex;flex-direction:column;overflow:hidden;background:var(--card);}
+.right-body{flex:1;overflow-y:auto;display:flex;flex-direction:column;}
+.frame{border-bottom:1px solid var(--border);}
+.frame-hd{padding:8px 16px;font-size:12px;font-weight:700;border-bottom:1px solid rgba(0,0,0,.06);display:flex;align-items:center;gap:8px;}
+.frame-bd{padding:12px 16px;font-size:13px;line-height:1.65;}
+.ftag{font-size:11px;padding:2px 8px;border-radius:20px;font-weight:700;}
+.fa-hd{background:rgba(30,58,92,.06);}.fa-tag{background:rgba(30,58,92,.14);color:var(--navy);}
+.fb-hd{background:rgba(2,132,199,.06);}.fb-tag{background:rgba(2,132,199,.14);color:#0369a1;}
+.fc-hd{background:rgba(184,134,47,.08);}.fc-tag{background:rgba(184,134,47,.18);color:#92400e;}
+.fd-hd{background:rgba(71,85,105,.06);}.fd-tag{background:rgba(71,85,105,.14);color:#475569;}
+.fe-hd{background:rgba(31,157,111,.07);}.fe-tag{background:rgba(31,157,111,.14);color:#0f7a55;}
+
+.box{border-radius:5px;padding:8px 12px;margin-bottom:6px;font-size:13px;line-height:1.55;}
+.box-red{background:rgba(226,85,79,.08);color:#7a1010;border-left:3px solid var(--lv1);}
+.box-gray{background:var(--bg2);color:var(--text2);}
+.match-row{display:flex;align-items:flex-start;gap:6px;font-size:13px;padding:3px 0;}
+.m-ok{color:var(--lv5);}.m-no{color:var(--lv1);}
+.exp-btn{border:1px solid var(--border);background:var(--bg2);cursor:pointer;color:var(--navy);font-size:11px;padding:1px 8px;border-radius:20px;line-height:1.8;white-space:nowrap;transition:background .12s;}
+.exp-btn:hover{background:var(--border);}
+
+/* SIMULATOR */
+.cg-sim{padding:12px 16px;background:var(--bg);border-bottom:1px solid var(--border);}
+.cg-sim-hd{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.cg-scope-box{background:rgba(30,58,92,.05);border-left:3px solid var(--navy);border-radius:0 5px 5px 0;padding:8px 12px;font-size:13px;line-height:1.6;color:var(--text);margin-bottom:10px;}
+.cg-lvl-row{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:8px;overflow:hidden;transition:opacity .2s,box-shadow .15s;background:var(--card);}
+.cg-lvl-row:not(.blocked):hover{box-shadow:var(--shadow-h);}
+.cg-lvl-row.blocked{opacity:.3;pointer-events:none;}
+.cg-lvl-hd{display:flex;align-items:center;gap:8px;padding:8px 12px;cursor:pointer;transition:background .12s;}
+.cg-lvl-hd:hover{background:var(--bg2);}
+.cg-lvl-num{font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;background:var(--navy);color:#fff;flex-shrink:0;}
+.cg-lvl-summ{font-size:13px;color:var(--text);flex:1;line-height:1.4;display:flex;align-items:center;gap:5px;overflow:hidden;min-width:0;}
+.cg-lvl-summ .kt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;max-width:100%;}
+.cg-toggle{background:none;border:1px solid #c0b0e0;border-radius:4px;cursor:pointer;font-size:11px;color:#5a20a0;padding:1px 6px;flex-shrink:0;transition:background .1s;}
+.cg-toggle:hover{background:#ece6ff;}
+.cl-short{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.5;}
+.cl-exp-btn{font-size:9.5px;color:#5a20a0;cursor:pointer;user-select:none;margin-top:2px;display:inline-block;}
+.dep-count-bar{display:flex;flex-wrap:wrap;gap:5px;align-items:center;padding:6px 12px 5px;background:#f8f5ff;border-bottom:1px solid #d8ccee;}
+.dep-pill{display:inline-flex;align-items:center;gap:3px;font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;color:#fff;white-space:nowrap;}
+.dep-pill span{font-weight:400;opacity:.85;}
+.cg-lvl-summ .kt{font-weight:700;color:var(--navy);}
+.cg-lvl-detail{padding:8px 14px 10px;background:rgba(30,58,92,.04);border-top:1px dashed var(--border);font-size:13px;color:var(--text2);line-height:1.7;display:none;}
+.cg-lvl-detail.open{display:block;}
+.cg-lvl-body{padding:8px 12px 12px;background:var(--card);border-top:1px solid var(--border-s);}
+.cg-sect-lbl{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin:10px 0 6px;}
+.cg-req-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text);margin-bottom:6px;line-height:1.55;padding:6px 10px;border-radius:5px;transition:background .1s;}
+.cg-req-item:hover{background:var(--bg2);}
+.cg-req-item input[type=checkbox]{flex-shrink:0;margin-top:2px;accent-color:var(--navy);width:15px;height:15px;cursor:pointer;}
+.cg-int-link{display:inline-flex;align-items:center;gap:3px;font-size:10px;padding:2px 8px;border-radius:20px;background:var(--navy);color:#fff;font-weight:600;text-decoration:none;white-space:nowrap;flex-shrink:0;transition:opacity .15s;}
+.cg-int-link:hover{opacity:.8;}
+.cg-radio-grp{display:flex;flex-direction:column;gap:4px;}
+.cg-radio-grp label{display:flex;align-items:center;gap:8px;font-size:13px;padding:6px 10px;border-radius:5px;cursor:pointer;transition:background .12s;line-height:1.4;}
+.cg-radio-grp label:hover{background:var(--bg2);}
+.cg-radio-grp input[type=radio]{accent-color:var(--navy);flex-shrink:0;width:15px;height:15px;}
+.cg-trap{font-size:13px;color:#7a2800;margin-bottom:6px;padding:5px 10px 5px 12px;border-left:3px solid var(--lv1);border-radius:0 4px 4px 0;background:rgba(226,85,79,.05);line-height:1.55;}
+.cg-prog-bar{height:4px;background:var(--border);border-radius:2px;margin-bottom:8px;}
+.cg-prog-fill{height:4px;border-radius:2px;transition:width .3s ease;}
+.cg-total-bar{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--bg2);border-radius:5px;border:1px solid var(--border);margin-top:8px;}
+.cg-total-lbl{font-size:12px;color:var(--text2);flex:1;}
+.cg-raw{font-size:16px;font-weight:700;color:var(--navy);}
+.cg-wt{font-size:12px;color:var(--text3);}
+
+/* FRAME B — Documents */
+.doc-lvl-block{margin-bottom:10px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+.doc-lvl-hd{display:flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(2,132,199,.06);cursor:pointer;transition:background .12s;}
+.doc-lvl-hd:hover{background:rgba(2,132,199,.10);}
+.doc-lvl-badge{font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;background:#0369a1;color:#fff;flex-shrink:0;}
+.doc-lvl-title{font-size:13px;font-weight:600;color:#0369a1;flex:1;}
+.doc-lvl-count{font-size:11px;color:var(--text3);}
+.doc-lvl-body{padding:8px 12px 12px;display:none;background:var(--bg);border-top:1px solid var(--border);}
+.doc-lvl-body.open{display:block;}
+.doc-grp{margin-bottom:8px;}
+.doc-grp-lbl{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin:6px 0 4px;display:flex;align-items:center;gap:6px;}
+.doc-file{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--text);padding:3px 0 3px 8px;line-height:1.5;}
+.doc-file-code{color:#0369a1;font-weight:700;flex-shrink:0;font-family:'IBM Plex Mono',monospace;font-size:11px;}
+.doc-file-name{color:var(--text2);flex:1;}
+.doc-missing{background:rgba(184,134,47,.08);border:1px dashed rgba(184,134,47,.4);border-radius:5px;padding:8px 12px;font-size:13px;color:#92400e;}
+.doc-missing-req{background:rgba(30,58,92,.05);border:1px solid rgba(30,58,92,.15);border-radius:5px;padding:8px 12px;font-size:13px;color:var(--navy);margin-top:8px;}
+.doc-all-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 12px;border-radius:20px;background:#0369a1;color:#fff;text-decoration:none;font-weight:600;margin-top:8px;cursor:pointer;border:none;transition:opacity .15s;}
+.doc-all-btn:hover{opacity:.85;}
+.fb-prog-bar{display:flex;align-items:center;gap:8px;padding:8px 12px;margin-bottom:8px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);}
+.fb-prog-track{flex:1;height:4px;background:#e0ddd8;border-radius:2px;overflow:hidden;}
+.fb-item{display:flex;align-items:flex-start;gap:8px;padding:5px 8px;border-radius:5px;cursor:pointer;font-size:12.5px;line-height:1.55;margin:2px 0;border:1px solid transparent;transition:background .12s;}
+.fb-item:hover{background:rgba(2,132,199,.05);}
+.fb-item-done{background:#f0faf0 !important;border-color:#c3e6cb !important;}
+.fb-item-done .fb-item-text{color:#1a7a4a;text-decoration:line-through;opacity:.7;}
+.fb-item-gap{border-left:3px solid #d97706;}
+.fb-gap-tag{font-size:10px;font-weight:700;color:#92400e;background:#fef3c7;padding:1px 5px;border-radius:10px;flex-shrink:0;white-space:nowrap;margin-top:1px;}
+.fb-item input[type=checkbox]{margin-top:2px;flex-shrink:0;accent-color:#0369a1;width:14px;height:14px;cursor:pointer;}
+.fb-item-text{color:var(--text2);flex:1;}
+
+/* FRAME E — Self-Assessment Input + Gen */
+.fe-sim-row{display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;flex-wrap:wrap;}
+.fe-sect-lbl{font-size:10.5px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin:10px 0 5px;}
+.fe-lvl-block{margin-bottom:5px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+.fe-lvl-active{border-color:#86efac;}
+.fe-lvl-hd{display:flex;align-items:center;gap:7px;padding:7px 11px;cursor:pointer;transition:background .12s;background:var(--bg2);}
+.fe-lvl-hd:hover{background:rgba(0,0,0,.03);}
+.fe-lvl-badge{font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;color:#fff;flex-shrink:0;}
+.fe-lvl-title{font-size:12px;font-weight:600;color:var(--text);flex:1;}
+.fe-doc-ref{font-size:11px;color:#0369a1;font-weight:600;flex-shrink:0;}
+.fe-lvl-body{padding:8px 11px 10px;display:none;border-top:1px solid var(--border);background:var(--bg);}
+.fe-lvl-body.open{display:block;}
+.fe-textarea{width:100%;box-sizing:border-box;padding:7px 10px;font-size:12.5px;line-height:1.65;border:1px solid var(--border);border-radius:5px;background:var(--card);color:var(--text);font-family:'Anakotmai',sans-serif;resize:vertical;transition:border-color .15s;}
+.fe-textarea:focus{outline:none;border-color:#0369a1;box-shadow:0 0 0 2px rgba(3,105,161,.1);}
+.fe-gap-item{padding:8px 11px 10px;margin-bottom:5px;background:rgba(217,119,6,.05);border:1px solid rgba(217,119,6,.22);border-radius:var(--radius);}
+.fe-gap-text{font-size:12.5px;color:#92400e;margin-bottom:6px;line-height:1.55;}
+.fe-gap-status{display:flex;gap:14px;margin-bottom:7px;}
+.fe-radio-lbl{font-size:12px;cursor:pointer;display:flex;align-items:center;gap:4px;color:var(--text2);}
+.fe-radio-lbl input{accent-color:#1a7a4a;cursor:pointer;}
+.fe-gen-btn{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;padding:8px 20px;border-radius:20px;background:#1e3a5c;color:#fff;font-weight:600;cursor:pointer;border:none;transition:opacity .15s;}
+.fe-gen-btn:hover{opacity:.85;}
+.fe-output{width:100%;box-sizing:border-box;padding:10px 12px;font-size:12px;line-height:1.75;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-family:'Anakotmai',sans-serif;resize:vertical;}
+.fe-copy-btn{display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:5px 14px;border-radius:20px;background:#0369a1;color:#fff;font-weight:600;cursor:pointer;border:none;transition:opacity .15s;margin-top:6px;}
+.fe-copy-btn:hover{opacity:.85;}
+
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--bg2);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:#c9c5bc;}
+
+/* ── Cross-Dimension Linkage Badges ── */
+.dim-badge{display:inline-flex;align-items:center;font-size:8.5px;font-weight:700;padding:1px 6px;border-radius:4px;color:#fff;letter-spacing:.4px;white-space:nowrap;flex-shrink:0;cursor:pointer;transition:opacity .15s;}
+.dim-badge:hover{opacity:.75;}
+.dim-gap-tag{font-size:9px;font-weight:700;color:#b05000;padding:1px 5px;border-radius:3px;background:#fff3e0;border:1px solid #e07000;white-space:nowrap;}
+.crosslink-summ{display:flex;align-items:center;gap:5px;flex-wrap:wrap;padding:5px 12px;background:#f5f0ff;border-bottom:1px solid #d8ccee;font-size:9.5px;color:#4a3a6a;}
+.lvl-dim-strip{display:flex;gap:3px;flex-wrap:wrap;padding:3px 12px 4px;background:rgba(240,235,255,.6);border-bottom:1px solid #e8e0f8;}
+.cg-lvl-row.is-gap>.cg-lvl-hd{border-left:3px solid #e07000;}
+</style>
+
+<style>
+/* ── KM dimension accent: green ── */
+:root{--dim:#276749;--dim-lt:rgba(26,122,74,.12);}
+/* structural: ใช้ navy เหมือน CG — สม่ำเสมอ ไม่ฉูดฉาด */
+/* accent เฉพาะ small elements เท่านั้น */
+.sub.focus-cg{border-left-color:var(--dim)!important;}
+.cg-scope-box{border-left-color:var(--dim)!important;}
+.cg-prog-fill{background:var(--dim)!important;}
+.cg-req-item input[type=checkbox]{accent-color:var(--dim)!important;}
+.cg-radio-grp input[type=radio]{accent-color:var(--dim)!important;}
+.cl-item input{accent-color:var(--dim)!important;}
+/* IM dimension badge in header */
+.left-hd .km-badge{background:var(--dim);color:#fff;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700;}
+</style>
+
+
+<body>
+<div class="top-nav">
+  <a href="index.html">← หน้าหลัก</a>
+  <span class="sep">|</span>
+  <h1>KM — การจัดการความรู้ ปี 2569</h1>
+  <span style="margin-left:auto;display:flex;align-items:center;gap:6px;">
+    <button onclick="exportProgress()" style="font-size:11px;padding:3px 11px;border:1px solid #86efac;border-radius:5px;background:#f0faf4;cursor:pointer;color:#166534;font-weight:600;">📤 Export</button>
+    <label style="font-size:11px;padding:3px 11px;border:1px solid #bfdbfe;border-radius:5px;background:#eff6ff;cursor:pointer;color:#1e40af;font-weight:600;">
+      📥 Import<input type="file" accept=".json" style="display:none;" onchange="importProgress(this)">
+    </label>
+  </span>
+</div>
+<div class="dim-hd">
+  <span id="dimTitle" style="font-size:13px;font-weight:600;"></span>
+  <span class="chip cn" id="dimOrig"></span>
+  <span style="color:var(--text3);font-size:13px;">→</span>
+  <span class="chip ct" id="totalChip">คาดการณ์ —</span>
+  <span style="font-size:11px;font-weight:600;margin-left:auto;" id="deltaChip"></span>
+</div>
+<div id="depTotalBar" style="padding:0 14px 2px;background:#f8f7f4;"></div>
+<div class="layout">
+  <div class="left">
+    <div class="left-hd">
+      <span style="font-size:11px;padding:2px 9px;border-radius:20px;font-weight:700;background:var(--navy);color:#fff;">KM</span>
+      &nbsp;Sequential Gating Simulator &amp; Action Checklist
+    </div>
+    <div class="left-body" id="leftBody"></div>
+    <div class="cl-wrap">
+      <div class="cl-title" id="clTitle">เลือก sub-item เพื่อดู Action Checklist</div>
+      <div id="clItems"></div>
+      <div class="cl-note">คลิก sub-item → checklist และ panel ขวาอัปเดตตาม</div>
+    </div>
+    <div class="total">
+      <span class="total-lbl" id="totalLbl">คะแนนรวม KM</span>
+      <span class="total-note">sub → ข้อ → ด้าน</span>
+      <span class="chip cn" style="font-size:11px;" id="totalOrig"></span>
+      <span style="font-size:14px;color:rgba(255,255,255,.5);">→</span>
+      <span class="chip ct" style="font-size:13px;font-weight:700;" id="totalFooter">—</span>
+      <span style="font-size:12px;color:#5bc69a;font-weight:700;" id="deltaFooter"></span>
+    </div>
+  </div>
+  <div class="right">
+    <div class="right-body" id="rightBody">
+      <div style="display:flex;align-items:center;justify-content:center;height:100%;color:#aaa;font-size:13px;">คลิก sub-item ด้านซ้ายเพื่อดูรายละเอียด</div>
+    </div>
+  </div>
+</div>
+
+<script src="enablers-backend.js"></script>
+<script>
+const LINK_URL='https://pdee-hub.github.io/Enablers-Link-Document-69/';
+const DOC_DETAIL_URL='KM_Documents.html';
+const LS_KEY='km_ck_69';
+const DIM_KEY='km';
+
+// ── DATA ─────────────────────────────────────────────────────────────
+const DATA={ km: {
+  dimId:"KM", dimName:"KM — การจัดการความรู้", orig:2.7575, color:"km",
+  subs:[
+  {id:"1.1",grp:"1",gname:"การนำองค์กร",gw:8.0,gs68:2.925,name:"วิสัยทัศน์ / ทิศทาง / นโยบายด้านการจัดการความรู้",w:4.0,s68:2.925,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมินบทบาทของ “ผู้นำองค์กร” ในการกำหนดทิศทาง เข็มทิศ และเป้าหมายของการจัดการความรู้ (KM) ทั้งในระยะสั้นและระยะยาว การสร้างกลไกขับเคลื่อน (คณะทำงานแบบข้ามสายงาน) การสื่อสารวิสัยทัศน์ให้เข้าถึงพนักงาน การบูรณาการเป้าหมาย KM เข้ากับยุทธศาสตร์หลักขององค์กร และการประเมินเพื่อปรับปรุงนโยบายให้ทันต่อการเปลี่ยนแปลงอย่างสม่ำเสมอ",levelSumm:["ผู้บริหารระดับสูงเป็นผู้กำหนดวิสัยทัศน์ ทิศทาง นโยบาย และเป้าหมายด้าน KM (ทั้งระยะสั้นและระยะยาว) อย่างชัดเจนและเป็นรูปธรรม โดย \"คณะกรรมการรัฐวิสาหกิจ (Board)\" ต้องมีส่วนร่วมในการพิจารณาและ \"ให้ความเห็นชอบ\"","ผู้บริหารระดับสูงแต่งตั้ง \"คณะทำงานด้านการจัดการความรู้\" ซึ่งต้องมีตัวแทนจาก ทุกสายงาน/หน่วยงาน เพื่อขับเคลื่อนการทำงานร่วมกันแบบข้ามสายงาน (Cross-functional) พร้อมกำหนดความรับผิดชอบที่ชัดเจน","ผู้บริหารระดับสูงทำการ \"สื่อสาร\" วิสัยทัศน์ ทิศทาง นโยบาย และเป้าหมายด้าน KM ให้บุคลากรทั่วทั้งองค์กรเกิดความเข้าใจ","นโยบายและการจัดการความรู้ ต้องมีความเชื่อมโยงกับวิสัยทัศน์ พันธกิจ ค่านิยม ยุทธศาสตร์หลักขององค์กร และ \"แผนงานที่สำคัญอื่นๆ\" (เช่น แผนการพัฒนาระบบการเรียนรู้, แผนดิจิทัล, แผนปรับปรุงกระบวนงาน) อย่างเป็นเนื้อเดียวกัน","ผู้บริหารระดับสูงมีการติดตาม ดูแล สนับสนุนอย่างจริงจัง และ ใช้ข้อมูลป้อนกลับ (Feedback) รวมถึงข้อมูลจากแหล่งอื่น มาทบทวนและปรับปรุงทิศทาง นโยบาย และเป้าหมายด้าน KM ให้ทันและสอดคล้องกับการเปลี่ยนแปลง"],good:["ทำได้เต็มใน ระดับ 1 และ 2 เนื่องจากมีการกำหนดทิศทางเชิงนโยบาย แผนงาน และโครงสร้างผู้รับผิดชอบที่ชัดเจนและเป็นรูปธรรม และทำได้บางส่วนใน ระดับ 4 ในมิติของการทำเอกสารแผนผังเชื่อมโยง (Mapping) เข้ากับยุทธศาสตร์หลักขององค์กร","กทท. มีจุดแข็งในเรื่อง \"ระบบเอกสาร โครงสร้าง และการวางแผน (หมวด 1-3)\" ที่ทำได้ค่อนข้างดีอยู่แล้ว"],gaps:["คะแนนถูกตัดและหยุดอยู่ที่ระดับ 2 ปลายๆ เพราะ \"การสื่อสารที่ยังเป็นแบบ One-size-fits-all\" และ \"การขาดบูรณาการข้ามสายงาน (Cross-functional Integration) เชิงปฏิบัติ\" หากต้องการก้าวข้ามไปสู่ระดับ 4 หรือ 5 กทท. ต้องออกแบบสื่อแยกตาม Generation และต้องแสดงหลักฐานการทำงานหรือประชุมร่วมกับฝ่ายอื่นๆ อย่างเป็นรูปธรรม"],results:["คณะกรรมการบริหารจัดการความรู้ฯ ทบทวนแผนแม่บท กำหนดวิสัยทัศน์ นโยบาย 4 ข้อ พร้อมเป้าหมายระยะสั้นและระยะยาว","ผู้บริหารระดับสูงแต่งตั้งคณะทำงาน 3 ระดับ (บอร์ด KM, คณะทำงาน KM, และคณะวิทยากรกระบวนการ) พร้อมกำหนดบทบาทหน้าที่ชัดเจน","สื่อสารนโยบายผ่านช่องทางหลากหลาย เช่น บอร์ด, งาน PAT DNA AWARD, โซเชียลมีเดีย (Line, FB, Intranet) และมีการประเมินการรับรู้ของผู้ปฏิบัติงาน (ผลประเมิน 91.68%)","จัดทำตารางเชื่อมโยงความสอดคล้องระหว่างแผน KM กับแผนวิสาหกิจ, แผน HR, แผนนวัตกรรม (IM), แผน IT, แผนบริหารผู้มีส่วนได้ส่วนเสีย (SCM) และแผนบริหารความเสี่ยง (RM)","รายงานผลการดำเนินงานทุกเดือนและทุกไตรมาสต่อคณะกรรมการฯ มีการจัดสรรทรัพยากร สร้างแรงจูงใจ และใช้ข้อมูลป้อนกลับจากภายในและภายนอก (คู่เทียบ, ผู้เชี่ยวชาญ) มาปรับปรุงการทำงาน"],tris:["การสื่อสารยังไม่ครอบคลุมความหลากหลายของบุคลากร (ฉุดคะแนนระดับ 3): รูปแบบการสื่อสารวิสัยทัศน์และนโยบายด้าน KM ของ กทท. ยังเป็นการสื่อสารแบบเหมารวม ไม่มีความแตกต่างตามพฤติกรรมการรับสื่อของพนักงานแต่ละกลุ่ม (Generation)","ขาดโครงสร้างการสื่อสารที่เจาะจง: ยังไม่มีการกำหนดแนวทางที่ชัดเจนในรูปแบบ สื่อสารให้ใคร สื่อสารอะไร สื่อสารเมื่อใด สื่อสารที่ไหน สื่อสารอย่างไร (5W1H)","ขาดการบูรณาการแผนข้ามสายงานเชิงประจักษ์ (ฉุดคะแนนระดับ 4-5): แม้จะมีการเชื่อมโยงแผน KM กับแผนอื่นๆ ในกระดาษ แต่ผู้ตรวจประเมินยังมองว่า กทท. \"ทำงานแบบ Silo\" ขาดการร่วมมือผลักดันอย่างแท้จริงระหว่างฝ่าย KM กับ HR, IT, หรือ RM"],suggest:["ต้องออกแบบการสื่อสารให้หลากหลายและตรงกับกลุ่มเป้าหมาย (Generation Segmentation) ผู้ตรวจประเมินเสนอแนะว่า กทท. ควรกระจายรูปแบบการสื่อสารให้มีความหลากหลาย เพื่อให้สอดคล้องกับพฤติกรรมในการรับสื่อของบุคลากรแต่ละกลุ่มช่วงวัย","ต้องกำหนดโครงสร้างและกลยุทธ์การสื่อสารให้ชัดเจน กทท. ควรมีแนวทางในการสื่อสารที่ระบุโครงสร้างอย่างชัดเจนว่า จะสื่อสารให้ใคร สื่อสารอะไร สื่อสารเมื่อใด สื่อสารที่ไหน และสื่อสารอย่างไร เพื่อทำให้การสื่อสารวิสัยทัศน์ ทิศทาง นโยบาย และประโยชน์ของการจัดการความรู้ เกิดประสิทธิผลและเป็นไปตามเป้าหมายที่ได้องค์กรกำหนดไว้อย่างแท้จริง"],docs:["แผนการสื่อสารด้าน KM ที่แบ่งกลุ่มเป้าหมาย (Communication Plan with Segmentation): ต้องจัดทำแผนที่ระบุรายละเอียดชัดเจนว่ากลุ่มพนักงาน Gen Y/Z จะใช้เครื่องมืออย่าง Gamification หรือ Social Media และกลุ่ม Gen X จะใช้ Website หรือ Email อย่างไร (ระบุ ใคร ทำอะไร ที่ไหน เมื่อไหร่)","หลักฐานการผลิตสื่อที่ออกแบบเฉพาะกลุ่ม (Targeted Media Evidence): ตัวอย่างสื่อจริงที่ถูกผลิตขึ้นตามแผน เช่น รูปภาพของสื่อ Gamification/บอร์ดเกม, คลิปวิดีโอสั้นแบบ Tiktok, หรือ Infographic สำหรับกลุ่มคนรุ่นใหม่","รายงานการประชุมร่วมข้ามสายงาน (Joint-Meeting Minutes): บันทึกการประชุมร่วมระหว่างคณะทำงาน KM กับฝ่าย HR, IT, นวัตกรรม (IM) และฝ่ายบริหารความเสี่ยง (RM) เพื่อตั้งวาระและข้อตกลงร่วมกัน (SLA) เอกสารนี้จะเป็น \"หลักฐานชิ้นเอก (Audit Trail)\" ที่แสดงให้ สคร. เห็นว่า กทท. ไม่ได้ทำงานแบบ Silo และมีการบูรณาการแผนงานกันจริง","รายงานการวิเคราะห์ช่องว่างการรับรู้ (Feedback Analysis Report): เอกสารแสดงว่าผลประเมินการสื่อสาร (เช่น 91.68%) ถูกนำมาวิเคราะห์หาจุดอ่อนอย่างไร และนำไปปรับเป็นกลยุทธ์การสื่อสารในปีต่อไปอย่างไรเพื่อให้เกิด \"การปรับเปลี่ยนพฤติกรรม (Behavior Change)\" ได้อย่างแท้จริง"],bestprac:["รฟม. ดำเนินการให้ ผู้บริหารทุกระดับและทุกสายงาน มีส่วนร่วมในการทบทวน ให้ข้อเสนอแนะ และ \"พิจารณากลั่นกรองการจัดทำแผนที่ความรู้ (Knowledge Map)\" รวมถึงร่วมจัดลำดับความรู้ เพื่อให้ได้ชุดความรู้ที่สำคัญของแต่ละกระบวนการที่เป็นปัจจุบัน และสามารถนำไปพัฒนาการทำงานในสายงานของตนเองได้อย่างแท้จริง"],minReqs:{"1":["ประกาศนโยบาย/วิสัยทัศน์/ทิศทางด้านการจัดการความรู้ ที่ลงนามโดยผู้บริหารสูงสุด","แผนยุทธศาสตร์ หรือ แผนแม่บทด้าน KM ที่ระบุเป้าหมายระยะสั้น (1 ปี) และระยะยาว (5 ปี) ชัดเจน","รายงานการประชุมคณะกรรมการรัฐวิสาหกิจ (Board) ที่มีวาระการพิจารณาและมีมติ \"เห็นชอบ\" วิสัยทัศน์/นโยบาย/เป้าหมายด้าน KM"],"2":["คำสั่งแต่งตั้งคณะทำงานด้าน KM (เช่น คณะกรรมการบริหารจัดการความรู้ฯ, คณะทำงาน, คณะวิทยากรกระบวนการ)","โครงสร้างคณะทำงานที่มีรายชื่อตัวแทนครอบคลุม \"ทุกฝ่าย/สำนัก\"","เอกสารระบุบทบาทหน้าที่ (Job Description/Role & Responsibilities) ของคณะทำงานแต่ละระดับอย่างชัดเจน"],"3":["แผนการสื่อสารนโยบายด้าน KM (ระบุกลุ่มเป้าหมาย ช่องทาง และความถี่)","หลักฐานเชิงประจักษ์ของการสื่อสารที่ \"นำโดยผู้บริหารระดับสูง\" (เช่น วิดีโอคลิปผู้บริหาร, ภาพถ่ายผู้บริหารมอบนโยบายใน Townhall หรือรายการสื่อสารภายในองค์กร)","รายงานผลการประเมินระดับความรับรู้และความเข้าใจของพนักงานต่อนโยบาย KM (ร้อยละความสำเร็จ)"],"4":["ตารางความเชื่อมโยง (Alignment Matrix / Strategy Map) ที่ Mapping ให้เห็นว่าแผน KM ไปสนับสนุนยุทธศาสตร์ใดขององค์กร","เอกสารหลักฐานที่แสดงให้เห็นการนำ KM ไปบูรณาการร่วมกับแผนงานของ Enablers อื่นๆ (เช่น นำ KM ไปใส่ในแผนแม่บทเทคโนโลยีดิจิทัล, แผนนวัตกรรม, แผนบริหารความเสี่ยง)"],"5":["รายงานผลการดำเนินงานด้าน KM เสนอต่อที่ประชุมผู้บริหารระดับสูง/บอร์ด เป็นประจำ (รายเดือน/รายไตรมาส) พร้อมบันทึกข้อเสนอแนะหรือข้อสั่งการ (Minutes of Meeting)","ตารางความเชื่อมโยงการใช้ข้อมูลป้อนกลับ (Feedback Loop Matrix) ที่ระบุชัดเจนว่า: ข้อมูล/ปัญหาที่พบ (จากทั้งภายในและภายนอก) -> การตัดสินใจของผู้บริหาร -> การนำไปปรับปรุงนโยบาย/เป้าหมาย","นโยบาย/แผนแม่บท KM ฉบับปรับปรุงใหม่ ที่เกิดจากการทบทวน"]},subComps:{"1":["อำนาจที่แท้จริงของบอร์ด (Board Approval): เกณฑ์บังคับว่าคณะกรรมการรัฐวิสาหกิจ (Board) ต้อง \"พิจารณาให้ความเห็นชอบ\" วิสัยทัศน์/นโยบาย KM หากเป็นเพียงวาระ \"เพื่อทราบ (For Information)\" จะถูกตัดคะแนนทันที ต้องเป็นวาระ \"เพื่อพิจารณาอนุมัติ (For Approval)\""],"2":["นัยของคำว่า \"ครอบคลุม\" ในคณะทำงาน: การตั้งคณะทำงาน ไม่ใช่การตั้งแค่ฝ่าย HR หรือ ฝ่ายยุทธศาสตร์มาทำ KM แต่ผู้ตรวจประเมินต้องการเห็นโครงสร้างที่ ทลายไซโล (Silo) โดยในคำสั่งแต่งตั้งต้องปรากฏรายชื่อตัวแทนจาก ทุกสายงาน (Cross-functional Team) อย่างแท้จริง"],"3":["ความละเอียดอ่อนในการสื่อสาร: ถึงแม้เกณฑ์จะเขียนแค่ \"สื่อสารให้เกิดความเข้าใจ\" แต่ในคู่มือและข้อเสนอแนะ สคร. ซ่อนความคาดหวังว่า รัฐวิสาหกิจต้องมีแผนสื่อสารที่แบ่งแยกกลุ่มพนักงานตามหลัก Generation Segmentation (Gen X, Y, Z) และเลือกใช้สื่อที่ตรงจริต (เช่น Gamification, Infographic, VDO สั้น) ไม่ใช่การส่ง Email แจ้งเวียนแบบเหมารวมเพียงอย่างเดียว"],"4":["Integration ที่ไม่ใช่แค่ทำตาราง (Actionable Alignment): การเชื่อมโยงยุทธศาสตร์ หากรัฐวิสาหกิจทำแค่ตาราง Mapping ว่า KM สอดคล้องกับแผนอื่น ผู้ตรวจจะมองว่า \"มีแต่กระดาษ\" สิ่งที่ซ่อนอยู่คือ ต้องมีเอกสารหรือแผนงาน (Joint-Action Plan) ที่แสดงให้เห็นว่า ทีม KM ลงไปทำงานร่วมกับทีม IT หรือ ทีม HR จริงๆ เพื่อบรรลุเป้าหมายร่วมกัน"],"5":["ความครอบคลุมของ Feedback (Inside-Out & Outside-In): การเอาข้อมูลป้อนกลับมาใช้ หากนำมาเฉพาะผลประเมินในบริษัทถือว่ายังไม่ครบ ผู้ตรวจประเมินคาดหวังให้องค์กรมองออกไปข้างนอกด้วย (Outside-in) เช่น การนำข้อมูล Global Trend, คู่เทียบชั้นนำระดับโลก, หรือข้อเสนอแนะจากผู้เชี่ยวชาญ/พันธมิตร มาเป็นปัจจัยในการปรับนโยบาย KM ให้ทันสมัยระดับ World-Class"]},dimScope:{"1":["ผู้บริหารระดับสูงเป็นผู้กำหนดวิสัยทัศน์ ทิศทาง นโยบาย และเป้าหมายด้าน KM (ทั้งระยะสั้นและระยะยาว) อย่างชัดเจนและเป็นรูปธรรม โดย \"คณะกรรมการรัฐวิสาหกิจ (Board)\" ต้องมีส่วนร่วมในการพิจารณาและ \"ให้ความเห็นชอบ\""],"2":["ผู้บริหารระดับสูงแต่งตั้ง \"คณะทำงานด้านการจัดการความรู้\" ซึ่งต้องมีตัวแทนจาก ทุกสายงาน/หน่วยงาน เพื่อขับเคลื่อนการทำงานร่วมกันแบบข้ามสายงาน (Cross-functional) พร้อมกำหนดความรับผิดชอบที่ชัดเจน"],"3":["ผู้บริหารระดับสูงทำการ \"สื่อสาร\" วิสัยทัศน์ ทิศทาง นโยบาย และเป้าหมายด้าน KM ให้บุคลากรทั่วทั้งองค์กรเกิดความเข้าใจ"],"4":["นโยบายและการจัดการความรู้ ต้องมีความเชื่อมโยงกับวิสัยทัศน์ พันธกิจ ค่านิยม ยุทธศาสตร์หลักขององค์กร และ \"แผนงานที่สำคัญอื่นๆ\" (เช่น แผนการพัฒนาระบบการเรียนรู้, แผนดิจิทัล, แผนปรับปรุงกระบวนงาน) อย่างเป็นเนื้อเดียวกัน"],"5":["ผู้บริหารระดับสูงมีการติดตาม ดูแล สนับสนุนอย่างจริงจัง และ ใช้ข้อมูลป้อนกลับ (Feedback) รวมถึงข้อมูลจากแหล่งอื่น มาทบทวนและปรับปรุงทิศทาง นโยบาย และเป้าหมายด้าน KM ให้ทันและสอดคล้องกับการเปลี่ยนแปลง"]},crosslinks:[{"level":"1","dim":"SP"},{"level":"1","dim":"KM2.1"},{"level":"2","dim":"HCM"},{"level":"2","dim":"KM3.3"},{"level":"3","dim":"HCM"},{"level":"3","dim":"KM3.1"},{"level":"4","dim":"SP,HCM,DT,IM,SCM และ RM"},{"level":"4","dim":"KM5.1"},{"level":"5","dim":"ต้องรับ Feedback (Input) จากทุกๆ Enablers"},{"level":"5","dim":"KM6.1"}]},
+  {id:"1.2",grp:"1",gname:"การนำองค์กร",gw:8.0,gs68:2.925,name:"การมีส่วนร่วมของผู้บริหารทุกระดับ",w:4.0,s68:2.925,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมินพฤติกรรมและการกระทำของ \"ผู้บริหารตั้งแต่ระดับต้น ระดับกลาง ไปจนถึงระดับสูง\"ว่ามีความมุ่งมั่น เป็นแบบอย่างที่ดี (Role Model) มีการสร้างแรงจูงใจทั้งแบบเป็นทางการและไม่เป็นทางการ และที่สำคัญที่สุดคือ \"ต้องนำ KM ไปใช้แก้ปัญหาหรือพัฒนาการทำงานในหน่วยงานของตนเองอย่างเป็นรูปธรรม\" พร้อมทั้งรับฟัง Feedback เพื่อปรับปรุงรูปแบบการมีส่วนร่วมของตนเองให้เข้ากับพนักงานแต่ละ Generation",levelSumm:["ผู้บริหารแสดงให้เห็นเป็นที่ประจักษ์ถึงความมุ่งมั่นที่จะขับเคลื่อนการจัดการความรู้ให้บรรลุเป้าหมาย","ผู้บริหารเป็นแบบอย่างที่ดีให้แก่บุคลากร เพื่อสร้างวัฒนธรรมการเรียนรู้อย่างต่อเนื่อง","ผู้บริหารกระตุ้นและสร้างแรงจูงใจ \"ทั้งเป็นทางการและไม่เป็นทางการ\" เพื่อให้เกิดการมีส่วนร่วมของบุคลากรอย่างทั่วถึงทั้งองค์กร","ผู้บริหารระดับกลาง/ต้น ต้องแสดงให้เห็นถึงการนำ KM ไปใช้ประโยชน์ในการแก้ปัญหาและพัฒนาการทำงาน \"ภายในสายงานของตนเอง\"","การใช้ข้อมูลป้อนกลับจากผลการดำเนินงาน และจากแหล่งอื่นๆ มาวิเคราะห์เพื่อ \"ปรับปรุงรูปแบบการมีส่วนร่วมของผู้บริหาร\" ให้สอดคล้องกับวัฒนธรรมหรือความต้องการของพนักงานแต่ละกลุ่ม"],good:["ทำได้คะแนนเต็มใน ระดับ 1 และ 2 เนื่องจากโครงสร้างการกำกับดูแลโดยผู้บริหารระดับสูง (Top Management) มีความชัดเจน มีการมอบหมาย KPI และผู้บริหารระดับสูงได้ลงมาเป็น Role Model เชิงประจักษ์ผ่านการทำสื่อและการปรากฏตัวในงานกิจกรรม","กทท. วางระบบจาก \"บนลงล่าง (Top-Down)\" ได้ดีมาก ผู้บริหารสูงสุดให้ความสำคัญและมี KPI กำกับ"],gaps:["กิจกรรมที่ กทท. ยังขาดและทำให้คะแนนหยุดอยู่ที่ระดับ 3 คือ \"รอยต่อตรงกลาง (Middle Management)\" หายไป ผู้ตรวจมองว่าผู้บริหารระดับกลาง (ผอ.กอง/ผอ.ฝ่าย) และระดับต้น ยังไม่ได้สวมหมวกเป็น \"ผู้นำการเปลี่ยนแปลง (KM Champion)\" หน้างานด้วยความสมัครใจ กทท. จำเป็นต้องสร้างเวทีและแรงจูงใจทางบวกให้กลุ่มนี้ลุกขึ้นมานำทีมทำ CoP หรือแก้ปัญหาหน้างานให้เห็นเป็นรูปธรรม"],results:["มีการแต่งตั้งผู้บริหารระดับสูงและคณะทำงาน 3 ระดับ ได้แก่ คณะกรรมการบริหารจัดการความรู้ฯ, คณะทำงานฯ, และคณะวิทยากรกระบวนการ โดยกำหนดบทบาทหน้าที่ชัดเจน และผู้บริหารระดับสูงมีการติดตามงานทุกเดือนและรายไตรมาส","ผู้อำนวยการการท่าเรือฯ (อทร.) และผู้บริหารระดับรอง เป็นแบบอย่าง (Role Model) ในการเป็นผู้ถ่ายทอดองค์ความรู้ผ่านคลิปวิดีโอ (Explicit Knowledge Clip) และเผยแพร่ผ่าน Social Media รวมถึงเป็นวิทยากรในเวทีต่างๆ","ผู้บริหารสร้างแรงจูงใจด้วยการกำหนดรางวัลในงาน PAT DNA AWARD 2025 และกำหนดตัวชี้วัด (KPI) ด้านการจัดเก็บองค์ความรู้ในสัดส่วนร้อยละ 2 สำหรับผู้บริหารระดับสายงาน","ผู้บริหารนำ KM มาพัฒนางานในสายงานตนเอง ผ่านการปรับปรุงกระบวนการปฏิบัติงาน 18 โครงการ โดยผู้บริหารมีหน้าที่ตรวจสอบและกลั่นกรององค์ความรู้ก่อนเข้าประกวด และมีการจัดทำชุมชนนักปฏิบัติ (CoP)","ใช้ข้อมูลป้อนกลับจากผลประเมินความพึงพอใจ และ Feedback จากหน่วยงานภายนอก มาปรับรูปแบบการมีส่วนร่วม เช่น เพิ่มคลิปวิดีโอสั้นของผู้บริหาร และปรับรูปแบบการสื่อสารให้ดึงดูดมากขึ้น"],tris:["การขาดบทบาทเชิงประจักษ์ของผู้บริหารระดับกลางและระดับต้น: แม้ระดับสูงจะทำได้ดี แต่ผู้ตรวจประเมินระบุว่า \"ยังไม่พบได้อย่างเป็นรูปธรรมว่าผู้บริหารทุกระดับ โดยเฉพาะผู้บริหารระดับกลางและระดับต้น... ได้แสดงให้เห็นถึงความมุ่งมั่นที่จะขับเคลื่อนการจัดการความรู้ขององค์กรให้บรรลุเป้าหมาย รวมถึงการเป็นแบบอย่างที่ดี","แรงจูงใจยังเป็นลักษณะเชิงบังคับ (KPI): การผูกตัวชี้วัด 2% เป็นภาคบังคับ แต่ยังขาดกลไกกระตุ้นหรือแรงจูงใจ \"ที่ไม่ใช่เชิงบังคับ\" เพื่อให้ผู้บริหารระดับกลางและต้นเห็นประโยชน์และเต็มใจทำ KM อย่างแท้จริง"],suggest:["ทำให้ผู้บริหารระดับกลางและระดับต้นเป็นกลุ่มขับเคลื่อนหลัก: ผู้ตรวจประเมินเน้นย้ำว่า กทท. ต้องทำให้ผู้บริหารระดับกลางและระดับต้นเป็นกลุ่มหลักที่สำคัญในการขับเคลื่อน KM โดยต้อง \"ศึกษาแรงจูงใจ เพื่อใช้เป็นกลไก (ที่ไม่ใช่เชิงบังคับ) ในการกระตุ้นให้ผู้บริหารกลุ่มดังกล่าว เห็นประโยชน์และความสำคัญของการจัดการความรู้และเต็มใจที่จะเป็นต้นแบบ\"","กำหนดบทบาทให้ครอบคลุมทุกระดับ: ต้องกำหนดให้ผู้บริหารทุกระดับแสดงให้เห็นถึงความมุ่งมั่นและเป็นแบบอย่างที่ดีในการสร้างวัฒนธรรมการเรียนรู้"],docs:["รายงานการศึกษาและการกำหนดแรงจูงใจ (ที่ไม่ใช่เชิงบังคับ): เอกสารสรุปการวิเคราะห์หาแรงจูงใจรูปแบบใหม่ๆ (เช่น การให้สิทธิพิเศษ, การเชิดชูเกียรติแบบพิเศษ, การนับเป็นชั่วโมงจิตอาสา/เครดิตผลงาน) เพื่อกระตุ้นผู้บริหารระดับกลางและต้นโดยเฉพาะ","หลักฐานเชิงประจักษ์ของการเป็น KM Champion ระดับกลาง/ต้น: ภาพถ่าย รายงาน หรือวิดีโอคลิปที่แสดงให้เห็นว่า ผู้บริหารระดับกลาง/ต้น ลงมาเป็นผู้นำ (Facilitator/Champion) ในการนำกลุ่ม CoP ย่อย เพื่อแก้ปัญหาหน้างาน (Daily Operation) ด้วยตนเอง ไม่ใช่แค่เซ็นอนุมัติเอกสาร","รายงานการประชุมร่วมระดับสายงาน (Joint Meeting Minutes): เอกสารบันทึกการประชุมที่แสดงให้เห็นว่า ผู้บริหารระดับกลาง/ต้น ของสายงานต่างๆ เข้ามามีส่วนร่วมในการขับเคลื่อน KM ในฝ่ายของตน ไม่ใช่ปล่อยให้เป็นหน้าที่ของทีม KM กลางเพียงฝ่ายเดียว เอกสารนี้จะเป็น \"หลักฐานชิ้นเอก (Audit Trail)\" ที่ลบภาพการทำงานแบบ Silo ได้อย่างชัดเจน"],bestprac:["รฟม. มีจุดเด่นในการแก้ปัญหาเรื่องผู้บริหารระดับกลาง/ต้น คือ รฟม. มีการจัดเวทีให้ \"ผู้บริหารที่เป็นต้นแบบในการจัดการความรู้\" มาเล่าประสบการณ์การนำ KM ไปใช้ประโยชน์ในส่วนงานจริง และมีการจัดกิจกรรมในรูปแบบที่ไม่เป็นทางการ เช่น กิจกรรม \"คุยกันฉันพี่น้อง\" เพื่อให้ผู้บริหารทุกสายงานได้ถ่ายทอดความรู้อย่างใกล้ชิดและเป็นรูปธรรม"],minReqs:{"1":["คำสั่งมอบหมายงานด้าน KM ให้บุคลากรในสายงานของตนเองอย่างชัดเจน","หลักฐานการอนุมัติจัดสรรเวลา งบประมาณ หรือทรัพยากรเบื้องต้นให้ลูกน้องทำ KM","รายงานการประชุมระดับสายงาน/ฝ่าย ที่ผู้บริหารมีการบรรจุวาระเรื่อง KM หรือการติดตามความคืบหน้างาน KM ไว้ในการประชุมประจำเดือน"],"2":["ภาพถ่าย/วิดีโอ/หลักฐาน ที่แสดงให้เห็นว่า \"ผู้บริหารลงมาเป็นผู้ถ่ายทอดความรู้ (Instructor/Speaker) ด้วยตนเอง\" (เช่น การเป็นวิทยากรในงาน \"เรื่องเล่า เข้าท่า\" หรือถ่ายทำ Explicit Knowledge Clip)","หลักฐานการเข้าร่วมเป็นคณะกรรมการตัดสิน หรือเข้าร่วมรับฟังในเวทีประกวดนวัตกรรม (เช่น PAT DNA AWARD)"],"3":["แบบเป็นทางการ: เอกสารระบุตัวชี้วัด (KPI) การประเมินผลการปฏิบัติงานด้าน KM ของผู้บริหาร (เช่น ผูก KPI 2% ในการจัดเก็บองค์ความรู้) และของพนักงาน (เช่น วิทยากรกระบวนการ 5%)","แบบไม่เป็นทางการ: ภาพข่าวการมอบรางวัล การกล่าวชมเชยในที่ประชุม การมอบโล่/เสื้อสามารถ หรือการเลี้ยงกาแฟ/ขนม เมื่อทีมงานทำ KM สำเร็จ"],"4":["รายงานผลการจัดตั้ง ชุมชนนักปฏิบัติ (CoP) ที่นำโดยผู้อำนวยการกอง/ฝ่าย เพื่อแก้ปัญหาหน้างานเฉพาะจุด","รายงานการทำ BAR/AAR (Before/After Action Review) ภายใต้การกำกับดูแลของผู้บริหารสายงาน เมื่อเกิดปัญหาหรือข้อผิดพลาดในการปฏิบัติงาน (เช่น ปัญหารถติด, ปัญหาตู้สินค้า) และมีลายเซ็นผู้บริหารรับรองการนำความรู้ไปใช้ปรับปรุงงาน"],"5":["ตาราง Feedback Loop Matrix: ที่ระบุชัดเจนว่า ผู้บริหารได้รับข้อเสนอแนะอะไร (เช่น พนักงาน Gen Y บอกว่าผู้บริหารสื่อสารเป็นทางการเกินไป) → และผู้บริหารปรับตัวอย่างไร (เช่น เปลี่ยนมาจัดเวทีแบบไม่เป็นทางการ \"คุยกันฉันพี่น้อง\" หรือใช้สื่อ Social Media มากขึ้น)","รายงานเปรียบเทียบความพึงพอใจของพนักงานที่มีต่อการมีส่วนร่วมของผู้บริหาร (Before vs After การปรับปรุง)"]},subComps:{"1":["\"ผู้บริหาร\" ไม่ได้แปลว่า \"ผู้บริหารสูงสุด (C-Level)\" เท่านั้น: ในคู่มือ SE-AM นิยามคำว่า \"ผู้บริหาร\" ในข้อนี้หมายถึง ผู้บริหารระดับต้นขึ้นไป (ผู้อำนวยการกอง/หัวหน้าแผนก) กทท. โดนตัดคะแนนปี 68 เพราะรายงานมีแต่ภาพของระดับ รอง ผอ. กทท. แต่ขาดหลักฐานเชิงประจักษ์ว่า ผอ.กอง หรือ หัวหน้าแผนก ลงมาเล่นเรื่องนี้ด้วยตนเอง (Middle Management Gap)"],"2":[],"3":["แรงจูงใจที่ไม่ใช่การบังคับ (Intrinsic Motivation): ใน Level 3 เกณฑ์ระบุว่าต้องมีแรงจูงใจ \"แบบไม่เป็นทางการ\" ซ่อนอยู่ ผู้ตรวจประเมิน สคร. เขียนข้อเสนอแนะชัดเจนว่า กทท. ต้องหาวิธีสร้างกลไกที่ \"ไม่ใช่เชิงบังคับ\" (เช่น ไม่ใช่ทำเพราะกลัวโดนตัด KPI) แต่ทำเพราะผู้บริหารสร้างบรรยากาศแห่งการยอมรับ (Recognition) มีการชมเชย ให้พื้นที่แสดงออก (Psychological Safety)"],"4":["การพิสูจน์การทลาย Silo (Silo-Busting): ใน Level 4 การนำ KM ไปใช้ในสายงาน ซ่อนความคาดหวังว่า ผู้บริหารสายงานหลัก (Operation) ต้องทำงานร่วมกับสายงานสนับสนุน (Back Office) หากผู้บริหารทำ CoP แต่คุยกันเองแค่ในฝ่าย จะยังไม่ถึงขั้นสุดยอด ต้องมีหลักฐานการตั้งกลุ่ม CoP ข้ามสายงาน (Cross-functional CoP) ที่ผู้บริหาร 2 ฝ่ายมาร่วมกันแก้ปัญหา"],"5":["Feedback ของ Level 5 ต้องเจาะจงที่ \"พฤติกรรมผู้บริหาร\": ตาราง Feedback Loop ในข้อนี้ ห้ามเอาเรื่องระบบไอที หรือเรื่องงบประมาณมาตอบเด็ดขาด ต้องเป็น Feedback ที่เกี่ยวกับ \"วิธีการสื่อสาร การเข้าถึงตัว และการเป็นแบบอย่างของผู้บริหาร\" เท่านั้น"]},dimScope:{"1":["ผู้บริหารแสดงให้เห็นเป็นที่ประจักษ์ถึงความมุ่งมั่นที่จะขับเคลื่อนการจัดการความรู้ให้บรรลุเป้าหมาย"],"2":["ผู้บริหารเป็นแบบอย่างที่ดีให้แก่บุคลากร เพื่อสร้างวัฒนธรรมการเรียนรู้อย่างต่อเนื่อง"],"3":["ผู้บริหารกระตุ้นและสร้างแรงจูงใจ \"ทั้งเป็นทางการและไม่เป็นทางการ\" เพื่อให้เกิดการมีส่วนร่วมของบุคลากรอย่างทั่วถึงทั้งองค์กร"],"4":["ผู้บริหารระดับกลาง/ต้น ต้องแสดงให้เห็นถึงการนำ KM ไปใช้ประโยชน์ในการแก้ปัญหาและพัฒนาการทำงาน \"ภายในสายงานของตนเอง\""],"5":["การใช้ข้อมูลป้อนกลับจากผลการดำเนินงาน และจากแหล่งอื่นๆ มาวิเคราะห์เพื่อ \"ปรับปรุงรูปแบบการมีส่วนร่วมของผู้บริหาร\" ให้สอดคล้องกับวัฒนธรรมหรือความต้องการของพนักงานแต่ละกลุ่ม"]},crosslinks:[{"level":"1","dim":"CG"},{"level":"1","dim":"KM2.2"},{"level":"2","dim":"HCM"},{"level":"2","dim":"KM3.2"},{"level":"3","dim":"HCM"},{"level":"3","dim":"KM3.1"},{"level":"4","dim":"RM"},{"level":"4","dim":"SP"},{"level":"4","dim":"KM5.1"},{"level":"5","dim":"HCM"}]},
+  {id:"2.1",grp:"2",gname:"การวางแผนและทรัพยากรสนับสนุน",gw:4.0,gs68:2.65,name:"การวางแผนการจัดการความรู้และการติดตามประเมินผล",w:2.0,s68:2.65,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมินกระบวนการจัดทำแผนยุทธศาสตร์/แผนแม่บทด้าน KM ว่าได้เปิดโอกาสให้ทุกภาคส่วนเข้ามามีส่วนร่วมหรือไม่ มีการนำข้อมูลทั้งภายใน (ปัญหา/ความเสี่ยง) และภายนอก (แนวโน้มโลก/คู่เทียบ) มาวิเคราะห์เพื่อตั้งเป้าหมายที่มี \"ตัวชี้วัดนำ (Leading) และตัวชี้วัดตาม (Lagging)\" ที่ชัดเจนหรือไม่ มีการสื่อสารแผน นำไปปฏิบัติ ติดตามผลอย่างใกล้ชิด และที่สำคัญคือต้องมี \"ความยืดหยุ่น (Agility)\" ในการปรับแผนและทรัพยากรเมื่อสถานการณ์เปลี่ยน",levelSumm:["ผู้บริหารและหน่วยงานที่เกี่ยวข้อง \"มีส่วนร่วม\" ในการจัดทำกลยุทธ์และวางแผนงานด้านการจัดการความรู้","นำข้อมูลสารสนเทศภายในและภายนอกมาวิเคราะห์ เพื่อให้แผนตอบสนองวิสัยทัศน์ และต้องมีการกำหนดเป้าหมายระยะสั้น/ยาว พร้อม \"ตัวชี้วัด (KPIs)\" ที่ชัดเจน","มีการถ่ายทอดแผนไปยัง \"ผู้เกี่ยวข้อง\" ให้นำไปปฏิบัติอย่างทั่วถึงเพื่อให้บรรลุเป้าหมาย","มีการติดตามผลการดำเนินงานตามแผน และ \"ดำเนินการที่จำเป็นหลังการติดตามผล\" เพื่อให้การทบทวนแผนรวดเร็ว ทันการณ์ และตอบสนองต่อการเปลี่ยนแปลง","นำผลจากการทบทวน/ติดตาม มาใช้ในการตัดสินใจ \"ปรับปรุงการดำเนินงาน\" และ/หรือ \"ปรับการจัดสรรทรัพยากร\""],good:["ทำได้คะแนนเต็มใน ระดับ 1, 2 และ 3 เพราะ กทท. มีโครงสร้างการจัดทำแผนแม่บทที่ชัดเจน มีการใช้เครื่องมือวิเคราะห์ (SWOT) และมีการนำแผนไปสื่อสารถ่ายทอดอย่างเป็นรูปธรรม","กทท. ทำระบบพื้นฐานเกี่ยวกับการร่างแผนและรายงานผลได้ครบถ้วนแล้ว"],gaps:["กทท. ยังทำงานแผนแบบ \"Silo\" (ต่างคนต่างทำแผน) และขาดวิสัยทัศน์ระดับ \"World-Class\" หากจะดันคะแนนให้ทะลุระดับ 3 กทท. ต้องนำแผน KM ไปกางบนโต๊ะร่วมกับแผนความเสี่ยง (RM) แผนบุคคล (HR) แผนดิจิทัล (IT) เพื่อหาจุดเชื่อมโยง (Alignment) และต้องหาข้อมูลคู่เทียบ (Benchmark) ท่าเรือต่างประเทศมาวิเคราะห์ใส่ในแผนอย่างชัดเจน"],results:["ผู้บริหารและหน่วยงานมีส่วนร่วมในการจัดทำกลยุทธ์และแผนงานด้าน KM โดยมีการจัดทำและวิพากษ์แผนแม่บท (ทบทวน 67) อย่างเป็นระบบ","นำข้อมูลสารสนเทศทั้งภายในและภายนอก (SWOT, TOWS Matrix) รวมถึงแผนวิสาหกิจ มาเป็นปัจจัยนำเข้า (Input) ในการกำหนดกลยุทธ์ 5 ด้าน","มีการถ่ายทอดแผนไปยังผู้เกี่ยวข้อง ทั้งภายในและภายนอกองค์กร เช่น การสื่อสารทิศทางผ่าน MS Teams ให้ผู้มีส่วนได้ส่วนเสียรับทราบ","มีการติดตามและประเมินผลการดำเนินงาน ทั้งแบบไม่เป็นทางการ (ผ่านกลุ่มไลน์ CoP) และแบบเป็นทางการ (รายงานรายไตรมาสต่อคณะกรรมการบริหารจัดการความรู้ฯ)","นำผลและข้อมูลป้อนกลับ (Feedback) ไปตัดสินใจปรับปรุงการดำเนินงาน เช่น การบูรณาการงาน KM ร่วมกับทีมนวัตกรรมในโครงการ PAT DNA เพื่อลดความซ้ำซ้อน"],tris:["การขาดการบูรณาการแผนข้ามสายงาน (Alignment Strategy): แผนแม่บท KM ยังขาดการบูรณาการร่วมกับแผนแม่บทในระบบงานที่สำคัญอื่นๆ อย่างแท้จริง (เช่น บริหารความเสี่ยง, ลูกค้าและตลาด, เทคโนโลยีสารสนเทศ, บริหารทุนมนุษย์, นวัตกรรม)","ขาดการนำ Best Practice ระดับโลกมาเป็นปัจจัยนำเข้า: การทบทวนแผนแม่บทยังขาดการนำแนวโน้มที่สำคัญ (KM Trend) หรือแนวปฏิบัติที่ดีจากองค์กรชั้นนำระดับโลกที่มีลักษณะธุรกิจใกล้เคียงกัน (Global Ports) มาใช้เป็นข้อมูลพื้นฐานในการยกระดับกลยุทธ์","ตัวชี้วัด (KPIs) ยังไม่สะท้อนผลลัพธ์ที่สมบูรณ์: การกำหนดตัวชี้วัดในแผนแม่บท KM ขาดการระบุตัวชี้วัดนำ (Leading Indicators) และตัวชี้วัดตาม (Lagging Indicators) ที่มุ่งเน้นผลลัพธ์เชิงคุณภาพ (Outcome) อย่างชัดเจน"],suggest:["บูรณาการการจัดทำหรือทบทวนแผนร่วมกับหน่วยงานต่างๆ (Cross-functional Integration) เพื่อให้แผน KM สนับสนุนแผนวิสาหกิจและสอดรับกับแผนแม่บทอื่นๆ (RM, SCM, IT, HCM, IM)","นำ KM Trend หรือแนวปฏิบัติที่ดีจากองค์กรชั้นนำระดับโลกมาเป็นปัจจัยนำเข้า (Input) เพื่อยกระดับกลยุทธ์ด้านการจัดการความรู้ขององค์กรให้สามารถเทียบเคียงได้กับท่าเรือชั้นนำระดับโลก"],docs:["รายงานการศึกษา KM Trend และ Benchmarking (Global Ports Analysis): เอกสารสรุปการวิเคราะห์แนวโน้มด้าน KM และแนวปฏิบัติที่ดีจากท่าเรือชั้นนำระดับโลก (เช่น PSA สิงคโปร์ หรือท่าเรือชั้นนำอื่นๆ) เพื่อแสดงให้เห็นว่าได้นำข้อมูลเหล่านี้มาเป็นปัจจัยนำเข้า (Input) ในการปรับปรุงแผนแม่บท KM","รายงานการประชุมร่วมบูรณาการแผนข้ามสายงาน (Joint-Meeting Minutes for Alignment): บันทึกการประชุมร่วมกันระหว่างทีมจัดทำแผน KM กับทีมแผน RM, SCM, IT, HCM และ IM ที่แสดงให้เห็นการตั้งวาระเพื่อหาจุดเชื่อมโยง (Alignment) และลดความซ้ำซ้อนของแผนปฏิบัติการ","แผนแม่บทและแผนปฏิบัติการ KM ฉบับปรับปรุง (Updated KM Master Plan & Action Plan): ต้องปรับปรุงเอกสารแผนงานโดยระบุ \"ตัวชี้วัดนำ (Leading Indicators)\" และ \"ตัวชี้วัดตาม (Lagging Indicators)\" อย่างชัดเจน โดยเปลี่ยนจากการวัดแค่ร้อยละความสำเร็จของโครงการ เป็นการวัด Outcome เชิงคุณภาพ (เช่น ลดระยะเวลาการทำงาน, ลดต้นทุน, หรือเพิ่มความพึงพอใจ)"],bestprac:["กทท. สามารถดำเนินงานได้ดีกว่าทั้ง รฟม. และ กทพ. ที่ได้คะแนน 2.6000 และ 2.5000 (ตามลำดับ)"],minReqs:{"1":["แผนผังกระบวนการ (SIPOC) ของการจัดทำแผนแม่บท KM ที่ระบุผู้เกี่ยวข้อง","รายงานการประชุม/ภาพถ่าย การจัด Workshop วิพากษ์แผนแม่บท KM ร่วมกับตัวแทนจากฝ่ายต่างๆ","บันทึกขอความเห็นชอบร่างแผนยุทธศาสตร์/แผนแม่บทด้าน KM"],"2":["รายงานการวิเคราะห์สภาพแวดล้อม (SWOT & TOWS Matrix) ด้าน KM","รายงานการศึกษา KM Trend และ Best Practice จากท่าเรือชั้นนำระดับโลก (Global Ports) เพื่อนำมาเป็นปัจจัยนำเข้า","แผนปฏิบัติการ (Action Plan) ประจำปี ที่มีองค์ประกอบครบถ้วน (ผู้รับผิดชอบ, งบประมาณ, กรอบเวลา) และระบุ \"ตัวชี้วัดนำ (Leading Indicators) และตัวชี้วัดตาม (Lagging Indicators)\" ที่เน้นผลลัพธ์เชิงคุณภาพ เช่น ลดเวลา ลดต้นทุน"],"3":["หลักฐานการสื่อสารแผนแม่บท/แผนปฏิบัติการ KM (เช่น ภาพข่าวการถ่ายทอดนโยบายผ่าน MS Teams, บันทึกข้อความแจ้งเวียน)","หลักฐานการสื่อสารไปถึง \"หน่วยงานภายนอก หรือผู้มีส่วนได้ส่วนเสียที่สำคัญ\" (เช่น ผู้ประกอบการ, ชุมชน) ให้รับทราบทิศทางด้าน KM ของ กทท."],"4":["รายงานการติดตามผลการดำเนินงานตามแผนปฏิบัติการ KM เป็นรายไตรมาส (เสนอคณะกรรมการฯ)","หลักฐาน \"การดำเนินการที่จำเป็น\" (Corrective/Agile Action): เอกสารแสดงให้เห็นว่า เมื่อติดตามผลแล้วพบแนวโน้มว่าตัวชี้วัดจะไม่บรรลุเป้าหมาย องค์กรได้ทำอะไรลงไปบ้าง (เช่น การปรับแผนปฏิบัติการระหว่างปี, การเพิ่มงบฉุกเฉิน)"],"5":["ตารางความเชื่อมโยงการใช้ข้อมูลป้อนกลับ (Feedback Loop Matrix) ที่ระบุความสัมพันธ์: ผลการติดตามรายไตรมาส -> การตัดสินใจของผู้บริหาร -> การปรับแผน/ปรับการจัดสรรทรัพยากร","หลักฐานรูปธรรม เช่น รายงานการประชุมที่มีมติ \"ปรับเพิ่มงบประมาณให้โครงการพัฒนาระบบ KM แบบกลางปีงบประมาณ\" หรือ \"ปรับย้ายทีมงาน\" เพื่อแก้ปัญหาคอขวด"]},subComps:{"1":[],"2":["ความหมายที่แท้จริงของ \"ปัจจัยภายนอก (External Factors)\": ใน Level 2 การวิเคราะห์ภายนอก ไม่ใช่แค่ดูนโยบายรัฐบาล หรือเทคโนโลยีทั่วไป แต่ผู้ตรวจ (TRIS) เน้นย้ำชัดเจนในข้อเสนอแนะว่า กทท. ต้องนำ \"KM Trend ระดับโลก\" หรือ \"Best Practice จาก ท่าเรือชั้นนำ (Global Ports)\" มาเป็นปัจจัยนำเข้า (Input) เชิงประจักษ์ เพื่อให้แผน KM มีวิสัยทัศน์ระดับสากล ไม่ใช่แค่การมองปัญหาภายใน","\"ตัวชี้วัด (KPIs)\" ต้องเป็นสมการไม่ใช่แค่ร้อยละความสำเร็จ: จุดที่ กทท. โดนตัดคะแนนหนักมากคือ ตัวชี้วัดแผนมีแต่เชิงปริมาณ (เช่น จัดทำแผนสำเร็จ 100%, อบรมครบกี่คน) ผู้ตรวจต้องการเห็น Leading Indicators (ตัวชี้วัดนำ เช่น จำนวนนวัตกรรมที่ถูกทดลอง) และ Lagging Indicators (ตัวชี้วัดตาม เช่น มูลค่าต้นทุนที่ลดได้, ระยะเวลา SLA ที่สั้นลง) การขาด Leading/Lagging ทำให้แผนดูไม่มีประสิทธิภาพในการสร้างมูลค่าเพิ่ม (Value Creation)","Cross-functional Alignment (บูรณาการข้ามสายงาน): แผนแม่บท KM จะต้องไม่เป็นแผนที่ทำขึ้นมาโดดๆ (Silo) แต่ต้องมีหลักฐานว่า ไปสอดคล้อง (Align) หรือช่วยสนับสนุนแผนยุทธศาสตร์ย่อยของ HR (แผนพัฒนาคน), IT (แผนดิจิทัล), นวัตกรรม (แผน IM), และ แผนบริหารความเสี่ยง (RM) อย่างชัดเจน"],"3":[],"4":["\"ดำเนินการที่จำเป็น\" (Agility) ใน Level 4: คำนี้ซ่อนนัยยะของระบบ Early Warning System (EWS) ผู้ตรวจไม่ได้ต้องการเห็นแค่การรายงานว่า \"ทำได้ 50% แล้ว\" แต่ต้องการเห็นว่า \"เมื่อพบว่าโครงการมีความเสี่ยงจะล่าช้า ผู้บริหารได้มีข้อสั่งการเพื่ออัดฉีดทรัพยากร หรือปรับเปลี่ยนวิธีการทำงานทันทีอย่างไรบ้าง\""],"5":[]},dimScope:{"1":["ผู้บริหารและหน่วยงานที่เกี่ยวข้อง \"มีส่วนร่วม\" ในการจัดทำกลยุทธ์และวางแผนงานด้านการจัดการความรู้"],"2":["นำข้อมูลสารสนเทศภายในและภายนอกมาวิเคราะห์ เพื่อให้แผนตอบสนองวิสัยทัศน์ และต้องมีการกำหนดเป้าหมายระยะสั้น/ยาว พร้อม \"ตัวชี้วัด (KPIs)\" ที่ชัดเจน"],"3":["มีการถ่ายทอดแผนไปยัง \"ผู้เกี่ยวข้อง\" ให้นำไปปฏิบัติอย่างทั่วถึงเพื่อให้บรรลุเป้าหมาย"],"4":["มีการติดตามผลการดำเนินงานตามแผน และ \"ดำเนินการที่จำเป็นหลังการติดตามผล\" เพื่อให้การทบทวนแผนรวดเร็ว ทันการณ์ และตอบสนองต่อการเปลี่ยนแปลง"],"5":["นำผลจากการทบทวน/ติดตาม มาใช้ในการตัดสินใจ \"ปรับปรุงการดำเนินงาน\" และ/หรือ \"ปรับการจัดสรรทรัพยากร\""]},crosslinks:[{"level":"1","dim":"SP"},{"level":"2","dim":"RM&IC"},{"level":"2","dim":"HCM"},{"level":"2","dim":"DT"},{"level":"2","dim":"IM"},{"level":"3","dim":"SCM"},{"level":"3","dim":"KM3.1"},{"level":"3","dim":"KM4.2"},{"level":"4","dim":"SP"},{"level":"5","dim":"KM2.2"}]},
+  {id:"2.2",grp:"2",gname:"การวางแผนและทรัพยากรสนับสนุน",gw:4.0,gs68:2.65,name:"การจัดสรรทรัพยากร",w:2.0,s68:2.65,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมินความสามารถขององค์กรในการวิเคราะห์และจัดสรรทรัพยากรทั้ง 3 ด้าน ได้แก่ 1. งบประมาณ (Financial) 2. บุคลากร (Human) และ 3. ระบบสนับสนุน/เทคโนโลยี (IT/Facility) โดยต้องมี \"เกณฑ์การให้คะแนน\" ที่เป็นวิทยาศาสตร์ในการจัดลำดับความสำคัญ ทรัพยากรต้องครอบคลุมกระบวนการสำคัญ และที่สำคัญที่สุดคือ ต้องมีความยืดหยุ่นในการปรับย้ายทรัพยากรระหว่างปี และมีแผนสำรองรองรับภาวะขาดแคลน",levelSumm:["มีการกำหนดหลักเกณฑ์/แนวทางในการจัดสรร งบประมาณ บุคลากร และระบบสนับสนุนอื่นๆ อย่างชัดเจน เป็นรูปธรรม และต้อง \"สื่อสาร\" ให้หน่วยงานที่เกี่ยวข้องรับทราบอย่างทั่วถึง","นำความต้องการขององค์กรและหน่วยงาน มาพิจารณาผ่านหลักเกณฑ์ เพื่อ \"จัดลำดับความสำคัญ\" ของการจัดสรรทรัพยากร","ทรัพยากรที่จัดสรร ต้อง \"ครอบคลุม\" การดำเนินการจัดการความรู้ที่สำคัญขององค์กร","การจัดสรรทรัพยากรทำได้สอดคล้องกับแผนงาน เพื่อให้การดำเนินงาน \"สำเร็จตามเป้าหมาย\"","(กทท. ต้องเน้นข้อนี้เพื่อปิด Gap) การปรับการจัดสรรทรัพยากรระหว่างการดำเนินงาน โดยพิจารณาจากผลการประเมิน เพื่อให้มั่นใจว่ามีทรัพยากรเพียงพอ และ ต้องมีแผนสำรองรองรับกรณีขาดแคลนทรัพยากร"],good:["ทำได้เต็มใน ระดับ 1, 2 และ 3 เพราะ กทท. มีการระบุจำนวนงบประมาณและอัตรากำลังคนที่ชัดเจน มีการใช้ตารางวิเคราะห์ความจำเป็น และมีการสำรวจความต้องการจากทุกหน่วยงาน","กทท. มีระบบการตั้งงบประมาณและขอคนที่ดีแล้ว รวมถึงมีไหวพริบในการปรับแก้ปัญหาระหว่างปี (กลางปีงบประมาณ) ได้ดี"],gaps:["ผู้ตรวจมองว่าการจัดลำดับความสำคัญยังใช้ดุลพินิจมากเกินไป กทท. ต้องสร้างเกณฑ์ตัวเลขขึ้นมาตัดสิน และต้องเขียนแผนรับมือความเสี่ยงด้านงบประมาณ/คนขาดแคลนให้ชัดเจน"],results:["มีการกำหนดหลักเกณฑ์การจัดสรรทรัพยากร 4 ด้าน ได้แก่ บุคลากร, งบประมาณ (ระบุชัดเจนว่าตั้งงบประมาณด้าน KM 2,000,000 บาท), อุปกรณ์/เทคโนโลยีสารสนเทศ, และสถานที่ (Co-working space) พร้อมแต่งตั้งวิทยากรกระบวนการ (KM Facilitator) 18 คน และส่วนกลาง 1 คน","ใช้ข้อมูลจาก SWOT, TOWS Matrix และตารางวิเคราะห์ความจำเป็น (RMA) ในการจัดลำดับความสำคัญตามความเร่งด่วนและความเชื่อมโยงกับยุทธศาสตร์","มีการสำรวจความเพียงพอของทรัพยากรผ่านวิทยากรกระบวนการพื้นที่ เพื่อรวบรวมข้อมูลเสนอต่อวิทยากรกระบวนการกลางในการจัดสรรให้ครอบคลุมการทำงานที่สำคัญ","จัดสรรทรัพยากรให้สอดคล้องกับเป้าหมายที่กำหนดไว้ในแผนปฏิบัติการและตัวชี้วัดความสำเร็จขององค์กร","มีการเก็บข้อมูลจากแบบสอบถามความเพียงพอ เพื่อทบทวนและปรับการจัดสรรทรัพยากรแบบ \"กลางปีงบประมาณ\" ทันที เช่น การประสานฝ่ายเทคโนโลยีสารสนเทศจัดหาอุปกรณ์/ซอฟต์แวร์เพิ่มเติมเมื่อพบว่าไม่เพียงพอ"],tris:["ขาดเกณฑ์การให้คะแนนที่เป็นรูปธรรม: แม้จะมีตาราง RMA จัดลำดับความสำคัญ แต่ผู้ตรวจมองว่า \"หลักเกณฑ์ วิธีการให้คะแนน และการคำนวณ\" ยังไม่เป็นรูปธรรมเชิงตัวเลขที่ชัดเจน","ขาดแผนสำรองกรณีทรัพยากรขาดแคลน: กทท. ยังไม่สามารถแสดงให้เห็นได้อย่างชัดเจนว่า หากองค์กรเกิดภาวะทรัพยากรขาดแคลน (เช่น งบถูกตัด หรือคนไม่พอ) จะมีแผนบริหารจัดการ (Contingency Plan) รับมืออย่างไร","การจัดสรรยังไม่แยกเป็นระยะสั้นและระยะยาวที่ชัดเจน: ผู้ตรวจต้องการเห็นการจัดสรรทรัพยากรที่แยกเป็นภาพระยะยาว (ตามรอบแผนแม่บท) และระยะสั้น (รายปี) ควบคู่กัน","การนำข้อมูลป้อนกลับมาใช้ยังไม่สมบูรณ์: การทบทวนแผนจัดสรรทรัพยากรยังขาดการนำ \"ผลสำเร็จของการจัดสรรในแต่ละปีที่ผ่านมา\" มาเป็นปัจจัยนำเข้า (Input) อย่างชัดเจน"],suggest:["กทท. ควรทบทวนการจัดสรรทรัพยากรทั้งในแง่ของหลักเกณฑ์ วิธีการให้คะแนน และการคำนวณที่เป็นรูปธรรม โดยให้ความสำคัญกับความต้องการและความจำเป็นขององค์กรเป็นลำดับแรก","กทท. ต้องสามารถแสดงให้เห็นได้ว่า \"หากองค์กรเกิดความขาดแคลนทรัพยากร\" จะมีแนวทางในการบริหารจัดการที่ชัดเจนอย่างไร","การจัดสรรทรัพยากรต้องมีทั้งภาพ \"ระยะยาว\" และ \"ระยะสั้น\" และนำข้อมูลป้อนกลับจากผลสำเร็จของการจัดสรรในแต่ละปีมาเป็นปัจจัยนำเข้าเพื่อทบทวนเสมอ"],docs:["คู่มือหรือหลักเกณฑ์การจัดสรรทรัพยากรด้าน KM ฉบับปรับปรุง (Updated Resource Allocation Guideline): ต้องระบุตารางเกณฑ์ \"วิธีการให้คะแนน (Scoring Matrix)\" และ \"สูตรการคำนวณ\" (เช่น ความเร่งด่วน x ผลกระทบต่อยุทธศาสตร์ = คะแนน) อย่างเป็นรูปธรรมเพื่อลดการใช้ดุลพินิจ","แผนรองรับสถานการณ์ฉุกเฉินด้านทรัพยากร KM (Resource Contingency Plan): เอกสารระบุแนวทางปฏิบัติชัดเจนว่า หากงบประมาณด้าน KM ถูกตัด หรือทีมงาน/วิทยากรกระบวนการลาออก กทท. มีแผนบริหารจัดการอย่างไรเพื่อให้งานเดินหน้าต่อได้","รายงานวิเคราะห์การจัดสรรทรัพยากรระยะสั้นและระยะยาว (Short-term & Long-term Resource Plan): เอกสารแผนการใช้คนและงบประมาณที่แบ่งสัดส่วนชัดเจนว่า ส่วนใดสนับสนุนแผนระดับ 1 ปี และส่วนใดสนับสนุนแผนแม่บทระดับ 5 ปี","รายงานการนำผลสำเร็จของการจัดสรรทรัพยากรปีก่อนมาทบทวน (Feedback-Loop Analysis Report): เอกสารที่แสดงหลักฐานว่า กทท. ได้ประเมิน \"ความคุ้มค่าและผลสำเร็จ\" ของงบ 2 ล้านบาทในปี 68 อย่างไร และนำข้อมูลเหล่านั้นมาเป็นปัจจัยนำเข้า (Input) ในการตั้งงบประมาณและขอคนในปี 69 อย่างไร"],bestprac:["กทท. สามารถดำเนินงานได้ดีกว่าทั้ง รฟม. และ กทพ. ที่ได้คะแนน 2.6000 และ 2.5000 (ตามลำดับ)"],minReqs:{"1":["คู่มือ/หลักเกณฑ์การจัดสรรทรัพยากรด้าน KM ที่ระบุสมการหรือ \"วิธีการให้คะแนน (Scoring Matrix)\" ในการพิจารณาให้ทรัพยากรอย่างชัดเจน (เช่น น้ำหนักความสอดคล้องยุทธศาสตร์ x ผลกระทบ = ลำดับการได้งบ)","เอกสาร/บันทึกข้อความที่แสดงการสื่อสารหลักเกณฑ์นี้ไปยังทุกฝ่าย/สำนัก"],"2":["ตารางวิเคราะห์ความจำเป็น (Resource Management Analysis : RMA) ที่แสดงรายการคำขอทรัพยากรจากทุกฝ่าย พร้อมผลคะแนนการจัดลำดับ (Ranking) ว่าโครงการใดได้ทรัพยากร โครงการใดถูกตัดงบ หรือโครงการใดต้องชะลอไว้ก่อน","รายงานการประชุมคณะกรรมการ/คณะทำงาน KM ที่มีมติอนุมัติตารางจัดลำดับความสำคัญ"],"3":["ตาราง Mapping สรุปภาพรวมที่แสดงให้เห็นว่า กระบวนการทำงานที่สำคัญ (Core Processes) ทั้งหมด (เช่น ของ กทท. คือ บริการร่องน้ำ, บริการเรือ, สินค้าและตู้สินค้า ฯลฯ ) ได้รับการจัดสรรงบประมาณ คน หรือระบบ IT เพื่อทำ KM อย่างครบถ้วน ไม่มีกระบวนการใดตกหล่น"],"4":["รายงานผลการเบิกจ่ายงบประมาณ (Budget Execution Report) ด้าน KM","รายงานผลการดำเนินงานโครงการด้าน KM ที่ยืนยันว่า \"เพราะได้รับทรัพยากรตามที่ขอ จึงทำให้โครงการสำเร็จตามเป้าหมาย (KPIs)\" (มีการเทียบแผน vs ผล)"],"5":["รายงานการประชุมที่มีมติ \"อนุมัติปรับย้าย/เพิ่มทรัพยากร (Re-allocation)\" แบบกลางปีงบประมาณ (เช่น มีการขอโยกงบจากกิจกรรม A ไปกิจกรรม B เพราะพบว่า B จำเป็นกว่า)","แผนสำรองกรณีทรัพยากรขาดแคลน (Resource Contingency Plan): เอกสารระบุแนวทางชัดเจน เช่น หากงบประมาณ KM ปีนี้ถูกตัด 50% กทท. จะดึงระบบ IT ฟรีมาใช้แทนอย่างไร หรือหากวิทยากรกระบวนการลาออก จะมีแผนทดแทนคน (Succession) อย่างไร"]},subComps:{"1":["ตารางจัดลำดับต้องเป็น \"คณิตศาสตร์\" ไม่ใช่ \"ความรู้สึก\": ใน Level 1 และ 2 รัฐวิสาหกิจมักถูกตัดคะแนนเพราะบอกว่า \"ให้งบตามความสำคัญ\" แต่ผู้ตรวจประเมินต้องการเห็น \"ตาราง Scoring\" ที่เป็นตัวเลข เช่น (ความเชื่อมโยงยุทธศาสตร์ 40% + ผลกระทบต่อลูกค้า 30% + ความเป็นไปได้ 30%) = คะแนนรวม โครงการไหนคะแนนเกิน 80 ได้งบเต็ม โครงการไหนต่ำกว่า 60 ถูกปัดตก","\"ระบบสนับสนุนอื่นๆ\" สำคัญเท่ากับเงิน: ทรัพยากรไม่ได้แปลว่า \"งบประมาณ\" เท่านั้น สคร. เน้นย้ำคำว่า เทคโนโลยีดิจิทัล (DT) ดังนั้นในรายงานจัดสรรทรัพยากร ทีม KM ต้องระบุให้ชัดว่า มีการจัดสรร \"Google Workspace, NotebookLM (AI), หรือพื้นที่ Co-working space\" ให้แต่ละหน่วยงานอย่างไร"],"2":["ตารางจัดลำดับต้องเป็น \"คณิตศาสตร์\" ไม่ใช่ \"ความรู้สึก\": ใน Level 1 และ 2 รัฐวิสาหกิจมักถูกตัดคะแนนเพราะบอกว่า \"ให้งบตามความสำคัญ\" แต่ผู้ตรวจประเมินต้องการเห็น \"ตาราง Scoring\" ที่เป็นตัวเลข เช่น (ความเชื่อมโยงยุทธศาสตร์ 40% + ผลกระทบต่อลูกค้า 30% + ความเป็นไปได้ 30%) = คะแนนรวม โครงการไหนคะแนนเกิน 80 ได้งบเต็ม โครงการไหนต่ำกว่า 60 ถูกปัดตก"],"3":[],"4":[],"5":["ความเชื่อมโยงกับ BCM (แผนความต่อเนื่องทางธุรกิจ): ใน Level 5 การทำแผนสำรองกรณีขาดแคลนทรัพยากร (Contingency Plan) ทีม KM ไม่ควรคิดขึ้นเองลอยๆ แต่ควรนำหลักการบริหารความเสี่ยง (RM) หรือแผน BCM ขององค์กรมาประยุกต์ใช้ เพื่อแสดงให้เห็นการบูรณาการข้ามสายงานอย่างแท้จริง"]},dimScope:{"1":["มีการกำหนดหลักเกณฑ์/แนวทางในการจัดสรร งบประมาณ บุคลากร และระบบสนับสนุนอื่นๆ อย่างชัดเจน เป็นรูปธรรม และต้อง \"สื่อสาร\" ให้หน่วยงานที่เกี่ยวข้องรับทราบอย่างทั่วถึง"],"2":["นำความต้องการขององค์กรและหน่วยงาน มาพิจารณาผ่านหลักเกณฑ์ เพื่อ \"จัดลำดับความสำคัญ\" ของการจัดสรรทรัพยากร"],"3":["ทรัพยากรที่จัดสรร ต้อง \"ครอบคลุม\" การดำเนินการจัดการความรู้ที่สำคัญขององค์กร"],"4":["การจัดสรรทรัพยากรทำได้สอดคล้องกับแผนงาน เพื่อให้การดำเนินงาน \"สำเร็จตามเป้าหมาย\""],"5":["(กทท. ต้องเน้นข้อนี้เพื่อปิด Gap) การปรับการจัดสรรทรัพยากรระหว่างการดำเนินงาน โดยพิจารณาจากผลการประเมิน เพื่อให้มั่นใจว่ามีทรัพยากรเพียงพอ และ ต้องมีแผนสำรองรองรับกรณีขาดแคลนทรัพยากร"]},crosslinks:[{"level":"1","dim":"HCM"},{"level":"1","dim":"DT"},{"level":"2","dim":"SP"},{"level":"3","dim":"KM5.1"},{"level":"4","dim":"SP"},{"level":"4","dim":"KM2.1"},{"level":"5","dim":"RK&IC"},{"level":"5","dim":"HCM"}]},
+  {id:"3.1",grp:"3",gname:"บุคลากร",gw:8.0,gs68:2.9375,name:"ความตระหนัก ความเข้าใจ การมีส่วนร่วม และการสร้างแรงจูงใจด้านการจัดการความรู้",w:3.0,s68:3.0,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมินความสามารถขององค์กรในการ \"สื่อสาร\" ให้พนักงานเข้าใจและเห็นประโยชน์ของ KM การ \"สร้างเวที/พื้นที่\" ให้พนักงานได้มีส่วนร่วม การ \"ยกย่องชมเชย\" และที่สำคัญที่สุดคือ การ \"สร้างแรงจูงใจ\" โดยต้องผูกพันกับการประเมินผลงาน (KPI) และความก้าวหน้าในสายอาชีพ (Career Path) รวมถึงการนำ Feedback มาปรับปรุงวิธีการสื่อสารให้ตรงกับกลุ่มเป้าหมาย (Segmentation)",levelSumm:["มีการสื่อสาร สร้างความเข้าใจกับบุคลากรทุกระดับ ถึงความสำคัญ ประโยชน์ ทิศทาง และเป้าหมายของ KM เพื่อให้บุคลากรมีส่วนร่วมตามบทบาทหน้าที่ รวมถึงมี \"การสร้างแรงจูงใจ\" พื้นฐาน","การสร้างความตระหนัก ความเข้าใจ และแรงจูงใจ โดย \"เชื่อมโยงการจัดการความรู้กับการพัฒนาศักยภาพบุคลากร การประเมินผลงานของบุคลากร และ/หรือ ความก้าวหน้าในสายอาชีพ (Career Path)\"","การสร้างเวที/กิจกรรมที่เปิดโอกาสให้บุคลากรมีส่วนร่วมตามบทบาทได้อย่างทั่วถึง","การยกย่องชมเชย \"ต่อสาธารณะ\" ให้แก่บุคลากรที่มีส่วนร่วมในการจัดการความรู้ เพื่อให้ KM เกิดขึ้นทั่วทั้งองค์กร","การประเมินและปรับปรุงวิธีการในการสื่อสาร สร้างความเข้าใจ สร้างการมีส่วนร่วม และสร้างแรงจูงใจ \"เพื่อให้เกิดประสิทธิผลสูงสุด\" (ใช้ Feedback)"],good:["ทำได้คะแนนเต็มใน ระดับ 1 และ 2 เนื่องจาก กทท. มีการอัดฉีดงบประมาณเป็นเงินรางวัลที่ชัดเจน มีเวทีที่ยิ่งใหญ่อย่าง PAT DNA และสามารถผูก KPI เข้ากับผู้บริหารและวิทยากรได้เป็นรูปธรรม","กทท. ทำได้ดีมากในเรื่อง \"การสร้างเวที (Event)\" และ \"การใช้เงินรางวัลจูงใจ (Extrinsic Reward)\""],gaps:["มุมมองของเกณฑ์ SE-AM การจะดันคะแนนให้ทะลุระดับ 3 ไปสู่ระดับ 4-5 ได้ องค์กรจะต้องสร้าง \"แรงจูงใจภายใน (Intrinsic Reward)\" ด้วย นั่นคือพนักงานต้องรู้สึกว่าการทำ KM ทำให้พวกเขาเติบโตในสายอาชีพ (Career Path)","การสื่อสารของ กทท. ต้องทำงานร่วมกับฝ่าย HR อย่างใกล้ชิด เพื่อแยกแยะกลุ่มพนักงาน (Gen X, Y, Z) แล้วเสิร์ฟสื่อให้ตรงใจกลุ่มนั้นๆ"],results:["มีการสื่อสารนโยบายและแผนแม่บทผ่านช่องทางที่หลากหลาย เช่น PAT DNA AWARD, PAT CARE U DAY, Intranet, Social Media (Line, FB), และรายการ \"เรื่องเล่า เข้าท่า\" รวมถึงมีการจัดทำ e-Learning และสร้างแรงจูงใจด้วยเงินรางวัลรวม 100,000 บาท พร้อมโล่เชิดชูเกียรติและเสื้อสามารถ","มีการเชื่อมโยง KM กับการประเมินผล โดยกำหนดเป็นตัวชี้วัด (KPI) 2% สำหรับผู้บริหารระดับสายงาน และ 5% สำหรับวิทยากรกระบวนการ เพื่อใช้พิจารณาค่าตอบแทนหรือเลื่อนตำแหน่ง","มีการจัดเวที/กิจกรรมให้พนักงานมีส่วนร่วม เช่น งาน PAT DNA AWARD 2025 ที่มีผู้เข้าร่วมถึง 308 คน, การจัดกิจกรรมชุมชนนักปฏิบัติ (CoP), และให้วิทยากรกระบวนการเป็นผู้ถ่ายทอดความรู้","ยกย่องชมเชยต่อสาธารณะ โดยประธานกรรมการฯ กล่าวยกย่อง และมีการมอบเกียรติบัตรให้แก่บุคคลต้นแบบ (Role Model) ด้าน KM จำนวน 3 คน พร้อมเผยแพร่ผ่าน Facebook KM","นำข้อมูลป้อนกลับมาประเมินและปรับปรุงวิธีการสื่อสาร โดยปรับจาก One-Way เป็น Two-Way Communication และขยายช่องทางผ่านแพลตฟอร์มดิจิทัล KM"],tris:["การสื่อสารยังไม่ตอบโจทย์ความแตกต่างของแต่ละกลุ่ม (Segmentation Gap): แม้จะมีหลายช่องทาง แต่รูปแบบการสื่อสารยังเป็นแบบเหมารวม (One-size-fits-all) ยังไม่ได้ถูกออกแบบให้ตรงกับจริตหรือพฤติกรรมของพนักงานแต่ละช่วงวัย (Generation) อย่างแท้จริง","แรงจูงใจและการเชื่อมโยงความก้าวหน้ายังไม่ทั่วถึง (Career Path Integration Gap): แม้จะมีการผูก KPI กับผู้บริหาร แต่ในระดับพนักงานทั่วไป การเชื่อมโยง KM เข้ากับ \"ความก้าวหน้าในสายอาชีพ (Career Path)\" และการทำ \"แผนพัฒนารายบุคคล (IDP)\" ยังไม่ถูกนำมาใช้อย่างเป็นระบบและทั่วถึงทั้งองค์กร"],suggest:["ต้องออกแบบการสื่อสารให้เหมาะสมกับกลุ่มเป้าหมาย (Targeted Communication): ผู้ตรวจแนะนำให้ กทท. ออกแบบสื่อให้สอดคล้องกับพฤติกรรมผู้รับสื่อ เช่น ใช้ Gamification, Infographic หรือ Social Media สำหรับกลุ่ม Gen Y และ Gen Z และใช้ Website หรือ Email สำหรับกลุ่ม Gen X โดยต้องกำหนดแนวทางให้ชัดเจนว่า \"สื่อสารให้ใคร สื่อสารอะไร สื่อสารเมื่อใด สื่อสารที่ไหน สื่อสารอย่างไร (5W1H)\"","เชื่อมโยงกับความก้าวหน้าในสายอาชีพ (Career Path): กทท. ต้องนำการดำเนินงานด้าน KM ไปเชื่อมโยงกับการพัฒนาศักยภาพบุคลากร การประเมินผลงาน และความก้าวหน้าในสายอาชีพ (Career Path) อย่างเป็นรูปธรรมและทั่วถึงทั้งองค์กร"],docs:["แผนการสื่อสาร KM เชิงรุกแบบแบ่งกลุ่มเป้าหมาย (Segmented Communication Plan with 5W1H): เอกสารระบุแผนชัดเจนว่า สื่อประเภท Gamification จะถูกส่งให้ Gen Y/Z ผ่านช่องทางใด เมื่อไหร่ และสื่อประเภท e-Newsletter จะส่งให้ Gen X อย่างไร","หลักฐานการเชื่อมโยง KM กับแผนพัฒนารายบุคคล (KM-IDP Integration): เอกสารแสดงให้เห็นว่า พนักงานที่เข้าร่วมโครงการ PAT DNA หรือเป็นวิทยากร CoP จะได้รับการบันทึกทักษะเหล่านี้ลงในแผนพัฒนารายบุคคล (IDP) และส่งผลบวกต่อเส้นทางความก้าวหน้าในสายอาชีพ (Career Path) อย่างเป็นรูปธรรม","รายงานการประเมินประสิทธิผลของการสื่อสารรายกลุ่ม (Targeted Communication Feedback Report): เอกสารแสดงผลสำรวจว่าพนักงานแต่ละ Generation มีความพึงพอใจและมีความตระหนักรู้เพิ่มขึ้นหรือไม่ หลังจากที่ กทท. ได้ปรับเปลี่ยนรูปแบบการสื่อสารให้ตรงใจพวกเขามากขึ้น"],bestprac:["กทท. สามารถดำเนินงานได้ดีกว่าทั้ง รฟม. และ กทพ. ที่ได้คะแนน 2.5750 และ 2.4563 (ตามลำดับ)"],minReqs:{"1":["แผนการสื่อสารและเสริมสร้างวัฒนธรรมด้าน KM ประจำปี (ระบุช่องทาง เช่น Intranet, Social Media, e-Learning)","หลักฐานการจัดกิจกรรมสื่อสาร (เช่น ภาพถ่ายงาน PAT CARE U DAY, รายการเรื่องเล่าเข้าท่า)","ประกาศ/หลักเกณฑ์การให้แรงจูงใจพื้นฐาน (เช่น เงินรางวัล 100,000 บาท, โล่เชิดชูเกียรติ, เสื้อสามารถ)"],"2":["เอกสารกำหนดตัวชี้วัด (KPI) ด้าน KM ในระบบประเมินผลการปฏิบัติงาน (เช่น ผูก KPI 2% ให้ผู้บริหาร และ 5% ให้วิทยากรกระบวนการ)","หลักฐานการนำผลงานด้าน KM ไปกำหนดลงใน \"แผนพัฒนารายบุคคล (IDP)\" หรือใช้เป็นเกณฑ์ประกอบการพิจารณาเลื่อนตำแหน่ง"],"3":["รายงานผลการจัดเวทีประกวด/นำเสนอผลงาน (เช่น งาน PAT DNA AWARD) พร้อมรายชื่อผู้เข้าร่วมจากทุกฝ่าย","รายงานการจัดตั้งและการประชุม \"ชุมชนนักปฏิบัติ (CoP)\" เพื่อระดมสมองแก้ปัญหาหน้างาน"],"4":["ภาพข่าว/ข่าวประชาสัมพันธ์ การมอบรางวัลจากผู้บริหารระดับสูง","การประกาศยกย่อง \"บุคคลต้นแบบ (Role Model)\" ด้าน KM ผ่านสื่อ Social Media (Facebook, Line) หรือบอร์ดประชาสัมพันธ์ขององค์กร"],"5":["ตาราง Feedback Loop Matrix: ที่แสดงการปรับปรุง เช่น ผลสำรวจพบว่าพนักงาน Gen Y/Z ไม่ชอบอ่านอีเมลยาวๆ -> ปรับปรุงโดยใช้ Gamification หรือคลิปวิดีโอสั้น VDO Shorts","รายงานสรุปผลการประเมินประสิทธิผล \"หลังการปรับปรุง\" ว่ามีอัตราการเข้าร่วมกิจกรรม หรือความพึงพอใจเพิ่มขึ้น"]},subComps:{"1":[],"2":["Career Path Integration (มากกว่าแค่ประเมิน KPI): ใน Level 2 การเชื่อมโยงกับ HR รัฐวิสาหกิจส่วนใหญ่มักทำแค่การตั้ง KPI แต่ผู้ตรวจมองหาคำว่า \"ความก้าวหน้าในสายอาชีพ (Career Path)\" หมายความว่า กทท. ต้องมีหลักฐานที่แสดงว่า \"หากพนักงานคนนี้เป็นวิทยากร KM ที่ดี หรือชนะงาน PAT DNA จะได้รับการบันทึกทักษะลงใน IDP และมีโอกาสเติบโต (Promote) ได้เร็วกว่าปกติ\""],"3":[],"4":["กลไกที่ไม่ใช่เชิงบังคับ (Intrinsic Motivation): ใน Level 4 การยกย่องชมเชย สคร. ซ่อนความคาดหวังว่า องค์กรต้องลดการบังคับ (เช่น ขู่ตัด KPI) แต่ต้องเพิ่ม \"พื้นที่แห่งความภาคภูมิใจ\" การมอบเสื้อสามารถหรือให้ผู้บริหารกล่าวชมเชย คือการสร้าง Intrinsic Motivation ที่ยั่งยืนกว่า"],"5":["\"Segmentation\" ในการสื่อสาร (จุดชี้ชะตาระดับ 5): สคร. ติง กทท. ในปี 68 ว่าการสื่อสารยังเป็นแบบเหมารวม (One-size-fits-all) สิ่งที่ซ่อนอยู่ใน Level 5 คือ ผู้ตรวจประเมินต้องการเห็น \"การออกแบบสื่อตามกลุ่มเป้าหมาย (Generation Segmentation)\" เช่น มีหลักฐานว่าทีม KM จัดทำ Infographic/Gamification สำหรับ Gen Y/Z และมี Website/Email สำหรับ Gen X อย่างชัดเจน"]},dimScope:{"1":["มีการสื่อสาร สร้างความเข้าใจกับบุคลากรทุกระดับ ถึงความสำคัญ ประโยชน์ ทิศทาง และเป้าหมายของ KM เพื่อให้บุคลากรมีส่วนร่วมตามบทบาทหน้าที่ รวมถึงมี \"การสร้างแรงจูงใจ\" พื้นฐาน"],"2":["การสร้างความตระหนัก ความเข้าใจ และแรงจูงใจ โดย \"เชื่อมโยงการจัดการความรู้กับการพัฒนาศักยภาพบุคลากร การประเมินผลงานของบุคลากร และ/หรือ ความก้าวหน้าในสายอาชีพ (Career Path)\""],"3":["การสร้างเวที/กิจกรรมที่เปิดโอกาสให้บุคลากรมีส่วนร่วมตามบทบาทได้อย่างทั่วถึง"],"4":["การยกย่องชมเชย \"ต่อสาธารณะ\" ให้แก่บุคลากรที่มีส่วนร่วมในการจัดการความรู้ เพื่อให้ KM เกิดขึ้นทั่วทั้งองค์กร"],"5":["การประเมินและปรับปรุงวิธีการในการสื่อสาร สร้างความเข้าใจ สร้างการมีส่วนร่วม และสร้างแรงจูงใจ \"เพื่อให้เกิดประสิทธิผลสูงสุด\" (ใช้ Feedback)"]},crosslinks:[{"level":"1","dim":"KM1.1"},{"level":"1","dim":"HCM"},{"level":"2","dim":"HCM"},{"level":"3","dim":"KM5.1"},{"level":"4","dim":"HCM"},{"level":"5","dim":"HCM"}]},
+  {id:"3.2",grp:"3",gname:"บุคลากร",gw:8.0,gs68:2.9375,name:"วัฒนธรรมและสภาพแวดล้อมการทำงาน",w:3.0,s68:3.0,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมินความสามารถขององค์กรในการสร้างสภาพแวดล้อมที่เอื้อต่อการเรียนรู้ ทั้งในมิติ \"กายภาพ (Physical)\" เช่น พื้นที่ Co-working space/ระบบ IT และมิติ \"จิตวิทยา (Psychological)\" เช่น การสร้างพื้นที่ปลอดภัยให้พนักงานกล้าคิดกล้าทำ รวมถึงการกำหนดพฤติกรรมพึงประสงค์ (ค่านิยมองค์กร) การประเมินวัฒนธรรมองค์กรเพื่อหาช่องว่าง (Gap) และการนำ Feedback มาปรับปรุงสภาพแวดล้อมอย่างเป็นระบบ",levelSumm:["สร้างสภาพแวดล้อมการทำงานที่เอื้อต่อการแลกเปลี่ยนเรียนรู้และความร่วมมือของบุคลากรทั่วทั้งองค์กรและองค์กรภายนอก รวมทั้งกระตุ้นให้ \"กล้าคิด กล้าทำ สร้างสรรค์สิ่งใหม่\"","การกำหนดและส่งเสริมให้บุคลากรมี \"พฤติกรรมที่พึงประสงค์\" ที่นำไปสู่วัฒนธรรมการเรียนรู้อย่างยั่งยืน","วัฒนธรรมองค์กรและสภาพแวดล้อมที่สนับสนุนให้เกิด KM \"ถูกสร้างขึ้นและนำไปปฏิบัติให้ครอบคลุมทั่วทั้งองค์กร\"","การ \"สำรวจหรือประเมิน\" วัฒนธรรมองค์กรและสภาพแวดล้อมในการทำงาน เพื่อให้ทราบถึง \"ช่องว่าง (Gap) ในการปรับปรุง\"","ใช้ข้อมูลป้อนกลับจากการสำรวจ หรือข้อมูลจากแหล่งอื่นๆ มา \"ปรับปรุงวัฒนธรรมและสภาพแวดล้อม\" ในการทำงานที่สนับสนุน KM"],good:["ทำได้คะแนนเต็มใน ระดับ 1 และ 2 เนื่องจากมีการจัดสรรพื้นที่ทางกายภาพ (Co-working space) และมีตัวชี้วัดเชิงพฤติกรรมตามค่านิยม SMART PAT ที่แบ่งแยกตามระดับตำแหน่งงานอย่างชัดเจน","กทท. ทำได้ดีมากในการต่อยอดค่านิยม SMART PAT และสร้างพื้นที่ Co-working space"],gaps:["คะแนนยังไม่เต็มเพราะผู้ตรวจประเมินมองว่า \"เครื่องมือวัดผลยังไม่คมพอ\" แบบสอบถามที่ใช้วัดพฤติกรรมอาจจะวัดแค่ว่าพนักงานทำหรือไม่ทำ แต่ไม่ได้เจาะลึกไปถึงระดับ \"ความตระหนักรู้\" หรือ \"ความเข้าใจที่แท้จริง\"","การสร้างพื้นที่ปลอดภัยทางจิตวิทยา (Psychological Safety) ให้คนกล้าคิดกล้าแชร์ความรู้ ยังต้องทำให้เป็นระบบชัดเจนและทั่วถึงมากขึ้น"],results:["จัดพื้นที่ Co-working space ที่ศูนย์อาหารของ กทท. เพื่อเป็นศูนย์กลางการแลกเปลี่ยนเรียนรู้ และจัดกิจกรรมชุมชนนักปฏิบัติ (CoP) รวมถึงการประกวด PAT DNA","ต่อยอดค่านิยมองค์กรเป็น \"SMART PAT\" โดยจัดทำวิดีโอเผยแพร่ และออกแบบแบบสำรวจเพื่อกำหนดพฤติกรรมพึงประสงค์/ไม่พึงประสงค์ด้าน KM ใน 3 มิติ (A - Agility, P - Performance, A - Alignment) โดยแยกกลุ่มพนักงานและผู้บริหารชัดเจน","ขับเคลื่อนองค์กรด้วยค่านิยมผ่านการสัมมนา ผู้บริหารทำตัวเป็นแบบอย่าง (Role Model) มีการให้รางวัลจูงใจ และผูกตัวชี้วัด (KPI) สำหรับพนักงานที่ทำหน้าที่วิทยากรกระบวนการ","ดำเนินการสำรวจและประเมินพฤติกรรมด้าน KM โดยพบว่าผลการประเมินค่านิยม 3 มิติ (A-P-A) มีค่าเฉลี่ยเพิ่มขึ้นจากปี 2567 และอยู่ในระดับ \"มากที่สุด\"","นำผลสำรวจ (Feedback) มาวิเคราะห์หาช่องว่าง เช่น พบว่าค่านิยม Agility มีคะแนนต่ำกว่าค่าเฉลี่ย จึงนำไปออกแบบกิจกรรมเชิงรุก จัดสัมมนาสร้างความตระหนัก และใช้แพลตฟอร์มดิจิทัลเผยแพร่ความรู้"],tris:["การสำรวจค่านิยมยังไม่ลึกซึ้งพอ (Evaluation Gap): แม้จะมีการสำรวจพฤติกรรม แต่เครื่องมือที่ใช้สำรวจค่านิยมยังไม่ครอบคลุม 3 มิติเชิงลึก ได้แก่ การรับรู้และเข้าใจ (Understanding), ความตระหนัก (Awareness), และการปรับเปลี่ยนพฤติกรรม (Behavior Change) ทำให้เห็นช่องว่างในการพัฒนาไม่ชัดเจน","สภาพแวดล้อมเชิงจิตวิทยายังไม่ครอบคลุม (Psychological Environment Gap): แม้ กทท. จะทำสภาพแวดล้อมทางกายภาพ (Physical) ได้ดี แต่การสร้างสภาพแวดล้อมเชิงจิตวิทยา (Psychological) เช่น การสร้างพื้นที่ปลอดภัยให้บุคลากรกล้าแสดงออก ยังไม่ถูกสร้างขึ้นให้ครอบคลุมทั่วทั้งองค์กรอย่างเป็นระบบ"],suggest:["ยกระดับการสำรวจวัฒนธรรมองค์กร: ผู้ตรวจประเมินแนะนำให้ กทท. ทบทวนแบบสำรวจพฤติกรรมให้ครอบคลุมอย่างน้อย 3 มิติ ได้แก่ การรับรู้และเข้าใจ (Understanding), ความตระหนัก (Awareness), และการปรับเปลี่ยนพฤติกรรม (Behavior Change) เพื่อให้นำไปสู่การปรับปรุงในแต่ละมิติที่ตรงประเด็นยิ่งขึ้น","สร้างสภาพแวดล้อมแบบองค์รวม: เร่งสร้างสภาพแวดล้อมในการทำงานทั้งในส่วนที่เป็นกายภาพ (Physical) และจิตวิทยา (Psychological) ที่จะสนับสนุนให้เกิดการจัดการความรู้ครอบคลุมทั่วทั้งองค์กรอย่างเป็นระบบ"],docs:["แบบสำรวจวัฒนธรรมองค์กรด้าน KM ฉบับปรับปรุง (3-Dimensional Cultural Survey): ต้องออกแบบแบบสำรวจใหม่ที่แยกการประเมินออกเป็น 3 ส่วนอย่างชัดเจน ได้แก่ 1. แบบประเมินการรับรู้และเข้าใจ (Understanding) 2. แบบประเมินความตระหนัก (Awareness) และ 3. แบบประเมินการปรับเปลี่ยนพฤติกรรม (Behavior Change)","แผนงานสร้างสภาพแวดล้อมเชิงจิตวิทยา (Psychological Safety & Environment Plan): เอกสารแผนงาน/โครงการเชิงจิตวิทยาที่มุ่งเน้นการสร้างพื้นที่ปลอดภัยให้พนักงานกล้าทดลอง กล้าเสนอไอเดียใหม่ และกล้าผิดพลาด (Fail Fast, Learn Fast) เพื่อสนับสนุนให้เกิดนวัตกรรม ควบคู่ไปกับการทำ Co-working space","รายงานวิเคราะห์ช่องว่างวัฒนธรรม 3 มิติและการปรับปรุง (Cultural Gap Analysis & Action Plan): รายงานที่นำผลจากแบบสำรวจ 3 มิติในข้อแรก มาวิเคราะห์หาช่องว่าง และกำหนดเป็นแผนปรับปรุงเชิงรุก เพื่อแสดงให้ สคร. เห็นว่า กทท. นำข้อมูลป้อนกลับมาใช้แก้ปัญหาได้อย่างตรงจุด"],bestprac:["กทท. สามารถดำเนินงานได้ดีกว่าทั้ง รฟม. และ กทพ. ที่ได้คะแนน 2.5750 และ 2.4563 (ตามลำดับ)"],minReqs:{"1":["หลักฐานการจัดพื้นที่ทางกายภาพ: รายงานการจัดตั้งและเปิดใช้พื้นที่ Co-working space ของศูนย์อาหาร และในระดับหน่วยงานย่อย","หลักฐานทางสังคม/กิจกรรม: รายงานการจัดเวทีประกวดนวัตกรรม (PAT DNA) และการจัดตั้งชุมชนนักปฏิบัติ (CoP)","หลักฐานสภาพแวดล้อมดิจิทัล: หน้าจอระบบ KM Portal / Google Workspace"],"2":["คู่มือ/ประกาศค่านิยมองค์กร (SMART PAT) ที่มีการระบุพฤติกรรมที่พึงประสงค์ (Do) และไม่พึงประสงค์ (Don't) ในด้านการจัดการความรู้ แยกตามระดับตำแหน่งงาน (ผู้บริหาร/พนักงาน) อย่างชัดเจน","หลักฐานการส่งเสริมพฤติกรรม เช่น โปสเตอร์ Role Model ของผู้บริหาร, ภาพถ่ายการสัมมนารณรงค์ค่านิยม"],"3":["รายงานสรุปสถิติผู้เข้าร่วมกิจกรรม/การใช้พื้นที่ Co-working space / ระบบ Intranet ที่มีข้อมูลแสดงให้เห็นว่า \"มีผู้แทน/พนักงานจากทุกฝ่าย/ทุกสำนัก\" เข้ามามีส่วนร่วมอย่างครบถ้วน ไม่มีหน่วยงานใดตกหล่น"],"4":["แบบสำรวจวัฒนธรรมองค์กรด้าน KM (ฉบับปรับปรุงเชิงลึก): ต้องมีคำถามที่ประเมินครอบคลุม 3 มิติ ได้แก่ 1. การรับรู้และเข้าใจ (Understanding), 2. ความตระหนัก (Awareness) และ 3. การปรับเปลี่ยนพฤติกรรม (Behavior Change)","รายงานผลการสำรวจพร้อมบทวิเคราะห์ ช่องว่าง (Gap Analysis) ว่าหน่วยงานใด/พฤติกรรมใด (เช่น Agility) ที่ได้คะแนนต่ำกว่าค่าเฉลี่ย"],"5":["ที่ระบุความสัมพันธ์ชัดเจน เช่น ผลสำรวจพบว่าพฤติกรรม Agility มีคะแนนต่ำสุด -> นำไปสู่การตัดสินใจของผู้บริหารให้จัดสัมมนาเชิงรุกและทำ CoP -> ผลประเมินปีถัดมาคะแนนพฤติกรรม Agility เพิ่มขึ้น","หลักฐานการนำรูปแบบ \"พื้นที่ปลอดภัยทางจิตวิทยา (Psychological Safety)\" มาปรับปรุงบรรยากาศการทำงานให้กล้าแสดงออกมากขึ้น"]},subComps:{"1":["สภาพแวดล้อมมี 2 มิติเสมอ (Physical vs Psychological): กทท. ทำเรื่องกายภาพ (Physical) ได้ดีมากคือมี Co-working space แต่ผู้ตรวจประเมินต้องการเห็นหลักฐานของมิติ จิตวิทยา (Psychological Safety) ด้วย คือต้องมีนโยบายหรือกิจกรรมที่ผู้บริหารประกาศให้ทีมงาน \"กล้าทดลอง กล้าเสนอไอเดีย และยอมรับความล้มเหลว (Fail Fast, Learn Fast)\" โดยไม่ถูกตำหนิ"],"2":["Cross-Reference กับ Best Practice คู่เทียบ (กทพ.): จากข้อมูลที่ถอดรหัสมา กทพ. มี Best Practice ในหัวข้อนี้คือ การนำเกณฑ์ด้าน KM ไปรวมเป็นหนึ่งในคุณสมบัติการคัดเลือก \"พนักงานต้นแบบ (SMART EXAT)\" ดังนั้น กทท. สามารถตั้งวาระรับ-ส่งเอกสารกับ HCM เพื่อผลักดันให้การส่งประกวด PAT DNA หรือการเป็นวิทยากร KM ถือเป็นคะแนนบวกในการคัดเลือก \"พนักงานดีเด่น\" ขององค์กรได้"],"3":[],"4":["นัยของคำว่า \"ครอบคลุม 3 มิติเชิงลึก\": ใน Level 4 การประเมินวัฒนธรรมองค์กร กทท. โดนติงว่าแบบสอบถามวัดแค่ผิวเผิน เกณฑ์ใหม่ในปี 69 กทท. ต้องปรับคำถามให้แยกออกเป็น: Understanding: คุณเข้าใจไหมว่า KM คืออะไร? Awareness: คุณตระหนักไหมว่า KM สำคัญต่องานของคุณ? Behavior Change: คุณได้นำ KM ไปลงมือปฏิบัติหรือแบ่งปันให้เพื่อนร่วมงานจริงหรือไม่?"],"5":["สภาพแวดล้อมมี 2 มิติเสมอ (Physical vs Psychological): กทท. ทำเรื่องกายภาพ (Physical) ได้ดีมากคือมี Co-working space แต่ผู้ตรวจประเมินต้องการเห็นหลักฐานของมิติ จิตวิทยา (Psychological Safety) ด้วย คือต้องมีนโยบายหรือกิจกรรมที่ผู้บริหารประกาศให้ทีมงาน \"กล้าทดลอง กล้าเสนอไอเดีย และยอมรับความล้มเหลว (Fail Fast, Learn Fast)\" โดยไม่ถูกตำหนิ"]},dimScope:{"1":["สร้างสภาพแวดล้อมการทำงานที่เอื้อต่อการแลกเปลี่ยนเรียนรู้และความร่วมมือของบุคลากรทั่วทั้งองค์กรและองค์กรภายนอก รวมทั้งกระตุ้นให้ \"กล้าคิด กล้าทำ สร้างสรรค์สิ่งใหม่\""],"2":["การกำหนดและส่งเสริมให้บุคลากรมี \"พฤติกรรมที่พึงประสงค์\" ที่นำไปสู่วัฒนธรรมการเรียนรู้อย่างยั่งยืน"],"3":["วัฒนธรรมองค์กรและสภาพแวดล้อมที่สนับสนุนให้เกิด KM \"ถูกสร้างขึ้นและนำไปปฏิบัติให้ครอบคลุมทั่วทั้งองค์กร\""],"4":["การ \"สำรวจหรือประเมิน\" วัฒนธรรมองค์กรและสภาพแวดล้อมในการทำงาน เพื่อให้ทราบถึง \"ช่องว่าง (Gap) ในการปรับปรุง\""],"5":["ใช้ข้อมูลป้อนกลับจากการสำรวจ หรือข้อมูลจากแหล่งอื่นๆ มา \"ปรับปรุงวัฒนธรรมและสภาพแวดล้อม\" ในการทำงานที่สนับสนุน KM"]},crosslinks:[{"level":"1","dim":"DT"},{"level":"1","dim":"HCM"},{"level":"2","dim":"HCM"},{"level":"3","dim":"KM3.1"},{"level":"3","dim":"KM4.1"},{"level":"4","dim":"HCM"},{"level":"5","dim":"SP"},{"level":"5","dim":"SCM"}]},
+  {id:"3.3",grp:"3",gname:"บุคลากร",gw:8.0,gs68:2.9375,name:"ความสามารถและความรับผิดชอบของทีมงานการจัดการความรู้",w:2.0,s68:2.9375,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมินกระบวนการ \"คัดเลือกและพัฒนา\" บุคลากรที่จะมาเป็นทีมงาน KM (เช่น คณะทำงานฯ และวิทยากรกระบวนการ/Facilitator) การกำหนดบทบาทหน้าที่ที่ชัดเจน การใช้เครื่องมือ \"KM Audit เชิงป้องกัน\" การที่ทีมงานลงไปช่วยพัฒนาศักยภาพให้คนในองค์กรและ Stakeholder การที่ทีมงานพัฒนาทักษะตนเอง (IDP) อย่างต่อเนื่อง และการนำ Feedback มาปรับปรุงการทำงานของทีม KM เอง",levelSumm:["การคัดเลือกและพัฒนาทีมงานการจัดการความรู้ เพ่ือให้มีความรู้และความสามารถเพียงพอในการดำเนินงาน","การกำหนดหน้าที่ของทีมงานอย่างชัดเจน และ การกำหนดแนวทาง/วธิีการในการสอบทานการดำเนินงานของกระบวนการที่สำคัญด้าน KM (KM Audit)","ทีมงานสามารถพัฒนาศักยภาพบุคลากร และส่งเสริมให้ \"ผู้มีส่วนได้ส่วนเสียที่เกี่ยวข้อง (Stakeholders)\" มีส่วนร่วมในการจัดการความรู้","ทีมงานมีการพัฒนาตนเองอย่างต่อเนื่อง (มีแผน IDP เฉพาะของทีม) เพื่อให้การทำหน้าที่สนับสนุน KM บรรลุผล","ใช้ข้อมูลป้อนกลับจากการดำเนินงานของทีม KM เอง รวมถึงแหล่งอื่นๆ มา \"ปรับปรุงการดำเนินงานของทีม\""],good:["ทำได้เต็มและยอดเยี่ยมใน ระดับ 1, 3 และ 4 เนื่องจากมีการแต่งตั้งทีมงานที่ครอบคลุม มีการทำงานเชิงรุกในการผลักดัน CoP และ e-Learning รวมถึงมีแผน Roadmap ในการพัฒนาตัวเองที่ชัดเจน","ทีมงาน KM ของ กทท. มีความเข้มแข็งมากและมีผลงานเป็นที่ประจักษ์ในการช่วยพนักงานทำนวัตกรรม"],gaps:["จุดที่ทำให้คะแนนยังไม่ทะลุ 3.0000 คือความเข้าใจคลาดเคลื่อนในคำว่า \"KM Audit\" ผู้ตรวจประเมินไม่ได้ต้องการให้ทีม KM ไปทำหน้าที่จับผิด หรือแค่ทำ Checklist ธรรมดา แต่ต้องการให้ทีม KM ทำงานร่วมกับฝ่ายตรวจสอบภายใน (IA) หรือบริหารความเสี่ยง (RM) ลงไปดูหน้างานใน \"จุดเสี่ยงตาย (Critical Steps)\" แล้วเอาความรู้ไปอุดช่องโหว่นั้นแบบ \"ป้องกันล่วงหน้า (Preventive)\" ไม่ให้เกิดปัญหา"],results:["มีการกำหนดหลักเกณฑ์และคัดเลือกวิทยากรกระบวนการ (KM Facilitators) จากทุกฝ่าย/สำนัก ไม่ต่ำกว่าหน่วยงานละ 2-7 คน โดยอิงตามสมรรถนะบ่งชี้ด้าน KM","กำหนดบทบาทหน้าที่ของวิทยากรกระบวนการกลางและวิทยากรกระบวนการพื้นที่ชัดเจน พร้อมทั้งจัดทำคู่มือกำหนดเกณฑ์การคัดเลือกกระบวนการสำคัญ 10 กระบวนการเพื่อทำ การสอบทานด้านการจัดการความรู้ (KM Audit) โดยมีการนำร่องสอบทานกระบวนการบำรุงรักษาเรือ (เพิ่ม Checklist) ซึ่งช่วยลดอัตราเรือจอดซ่อมได้ 37.5%","ทีมงาน KM เป็นแกนนำในการพัฒนาศักยภาพบุคลากรผ่าน e-Learning, ให้คำปรึกษา, นำกลุ่มชุมชนนักปฏิบัติ (CoP), และยังได้ถ่ายทอดความรู้ให้ผู้มีส่วนได้ส่วนเสียภายนอก เช่น เรื่อง ASEAN Ship Waste Management","มีการจัดทำแผนพัฒนาทีมงาน KM (Roadmap) ทั้งระยะสั้นและระยะยาว เช่น อบรม Design Thinking และ Analysis Tools รวมถึงมีการดำเนินโครงการคู่ความร่วมมือแลกเปลี่ยนเรียนรู้กับ กฟภ.","มีการใช้ข้อมูลป้อนกลับจากผลประเมินสมรรถนะทีมงานและจากการศึกษาดูงานภายนอก มาปรับปรุงหลักสูตรให้เป็น e-Learning และปรับบทบาททีมงานให้บูรณาการร่วมกับทีมนวัตกรรม (PAT DNA)"],tris:["นิยามและวิธีการของ KM Audit ยังไม่ตรงตามเกณฑ์ (KM Audit Gap): แม้ กทท. จะมีการทำ KM Audit ในกระบวนการซ่อมเรือ แต่ผู้ตรวจประเมินมองว่า \"วิธีการในการสอบทาน (KM Audit)\" ยังไม่เป็นไปตามเกณฑ์ที่ SE-AM กำหนดอย่างแท้จริง เพราะตามคู่มือ SE-AM นิยามของ KM Audit ต้องมุ่งเน้นที่ \"การสอบทานเชิงป้องกัน (Preventive Approach)\" ในจุดวิกฤต (Critical Steps) เพื่อไม่ให้เกิดข้อผิดพลาด","ขาดแผนพัฒนารายบุคคล (IDP) ที่เป็นระบบสำหรับทีม KM: การพัฒนาทีมงานยังเป็นลักษณะการจัดอบรมรวม (Training) แต่ยังขาดการจัดทำแผนพัฒนารายบุคคล (IDP) ที่เจาะจงปิดช่องว่าง (Gap) สมรรถนะของวิทยากรแต่ละคนอย่างเป็นรูปธรรม"],suggest:["\"กำหนดแนวทาง/วิธีการในการสอบทานการดำเนินงานของกระบวนการที่สำคัญด้าน KM (KM Audit) ที่ถูกต้องตามเกณฑ์ประเมินผลที่ได้กำหนดไว้\" (หมายถึงต้องปรับวิธีการทำ KM Audit ให้เป็นแบบ \"เชิงป้องกัน\" ตามนิยามคู่มือ SE-AM)"],docs:["คู่มือและแผนการสอบทานด้านการจัดการความรู้เชิงป้องกัน (Preventive KM Audit Plan): ปรับปรุงคู่มือ KM Audit ใหม่ โดยเน้นคำว่า \"เชิงป้องกัน (Preventive Approach)\" ลงไปในเอกสารให้ชัดเจน และเลือกกระบวนการสำคัญมาสอบทานว่ามี \"ความรู้\" เพียงพอที่จะป้องกันความผิดพลาดในจุด Critical Steps หรือไม่","รายงานการประชุมและทำงานร่วมกันระหว่างทีม KM กับทีม IA / RM (Joint KM-IA/RM Audit Report): เป็นหลักฐานชิ้นสำคัญที่แสดงการบูรณาการข้ามสายงาน (Cross-functional) เพื่อยืนยันว่าการสอบทานความเสี่ยงด้านความรู้ได้มาตรฐานและสอดคล้องกับระบบบริหารความเสี่ยงขององค์กร","แผนพัฒนารายบุคคลสำหรับทีมงาน KM (KM Facilitator IDP): เอกสารแสดงการวิเคราะห์ช่องว่างทักษะ (Skill Gap Analysis) ของวิทยากรกระบวนการรายบุคคล และจัดทำแผนพัฒนา (IDP) ที่เฉพาะเจาะจง เช่น บางคนต้องไปเรียน Design Thinking บางคนต้องไปเรียน Data Analytics แทนการอบรมแบบเหมารวม"],bestprac:["กทท. สามารถดำเนินงานได้ดีกว่าทั้ง รฟม. และ กทพ. ที่ได้คะแนน 2.5750 และ 2.4563 (ตามลำดับ)"],minReqs:{"1":["เอกสารกำหนดสมรรถนะ (Competency) หรือคุณสมบัติของผู้ที่จะมาเป็นวิทยากรกระบวนการ (KM Facilitator)","หลักเกณฑ์และสัดส่วนการคัดเลือกตัวแทนจากทุกฝ่าย/สำนัก (เช่น ไม่ต่ำกว่าหน่วยงานละ 2-7 คน)","รายงานการประเมินช่องว่างสมรรถนะ (Competency Gap) ของทีมงานที่ได้รับคัดเลือก"],"2":["คำสั่งแต่งตั้งทีมงาน/วิทยากรกระบวนการ ที่ระบุบทบาทหน้าที่ (Job Description) ชัดเจน แบ่งเป็นส่วนกลางและระดับพื้นที่","คู่มือ/แนวทางการทำ KM Audit เชิงป้องกัน: ต้องมีหลักเกณฑ์คัดเลือกกระบวนการสำคัญมาสอบทาน และมี Checklist เชิงป้องกัน (เช่น การนำร่องสอบทานกระบวนการบำรุงรักษาเรือ)","รายงานผลการทำ KM Audit ประจำปี"],"3":["รายงานการลงพื้นที่ของวิทยากรกระบวนการ เพื่อจัดกิจกรรมชุมชนนักปฏิบัติ (CoP) หรือให้คำปรึกษาในแต่ละสายงาน","หลักฐานเชิงประจักษ์ในการถ่ายทอดความรู้ให้หน่วยงานภายนอก: (เช่น รายงานการที่ทีม KM กทท. ถ่ายทอดเรื่องการจัดการของเสียจากเรือในอาเซียน (ASEAN Ship Waste Management) ให้แก่ประเทศสมาชิก)"],"4":["แผนพัฒนารายบุคคล (IDP) หรือ แผนปฏิบัติการพัฒนาทีมงาน KM (Roadmap): ที่ระบุการพัฒนาทักษะเฉพาะ เช่น การใช้ AI (Generative AI), Design Thinking, Analysis Tools","รายงานการแลกเปลี่ยนเรียนรู้กับองค์กรเครือข่าย (เช่น คู่ความร่วมมือระหว่าง กทท. กับ กฟภ. ด้าน KM)"],"5":["ตาราง Feedback Loop Matrix (เฉพาะของทีม KM): เช่น พนักงานประเมินว่าระบบ KM Portal ใช้งานยาก -> ทีม KM นำ Feedback ไปเปลี่ยนบทบาทตัวเองจากการบังคับเก็บเอกสาร มาเป็นผู้พัฒนาระบบ Google NotebookLM -> พนักงานพึงพอใจการทำงานของทีม KM เพิ่มขึ้น","รายงานการทบทวนและปรับปรุงเนื้อหาหลักสูตร e-Learning หรือคู่มือที่ทีม KM เป็นผู้รับผิดชอบ"]},subComps:{"1":[],"2":["KM Audit ไม่ใช่ Internal Audit: ผู้ตรวจประเมิน สคร. ย้ำชัดเจนในคู่มือว่า KM Audit ต้องมุ่งเน้น \"การสอบทานเชิงป้องกัน (Preventive Approach)\" หมายความว่า ทีม KM ไม่ได้ไปตรวจจับผิดว่าใครไม่ทำ KM แต่เป็นการลงไปตรวจ \"จุดวิกฤต (Critical Steps)\" หน้างานว่า พนักงานมีคู่มือที่ถูกต้องไหม? มีความรู้เพียงพอไหม? เพื่อป้องกันความผิดพลาดก่อนเกิดเหตุ (กทท. ทำได้ดีแล้วในเรื่องการซ่อมเรือ แต่ต้องขยายผลให้ครอบคลุมกระบวนการหลักอื่นๆ ด้วย"],"3":["ทีม KM ต้องไม่ใช่ผู้เล่น (Player) แต่ต้องเป็นโค้ช (Coach): สิ่งที่ซ่อนอยู่ใน Level 3 คือ ทีม KM ต้องไม่ทำ KM แทนหน่วยงานอื่น แต่ต้องมีหลักฐานว่าลงไป \"เป็นพี่เลี้ยง\" จัดเวที CoP ให้หน่วยงานอื่นคิดนวัตกรรมขึ้นมาเองได้"],"4":["IDP ของ Facilitator คือจุดตายระดับ 4: สคร. คอมเมนต์ กทท. ไว้ว่า \"ทีมงานยังพัฒนาศักยภาพ Stakeholder ได้ไม่ชัดเจน\" และต้องการเห็นการอัปสกิล ดังนั้น ในระบบเอกสาร ทีม KM กลางจะต้องแยก \"แผนพัฒนาพนักงานทั่วไป\" ออกจาก \"แผนพัฒนาวิทยากรกระบวนการ (Facilitator IDP)\" อย่างชัดเจน โดย IDP ของทีม KM ควรมีหลักสูตรล้ำๆ เช่น Prompt Engineering (การสั่งงาน AI) หรือ Data Analytics"],"5":[]},dimScope:{"1":["การคัดเลือกและพัฒนาทีมงานการจัดการความรู้ เพ่ือให้มีความรู้และความสามารถเพียงพอในการดำเนินงาน"],"2":["การกำหนดหน้าที่ของทีมงานอย่างชัดเจน และ การกำหนดแนวทาง/วธิีการในการสอบทานการดำเนินงานของกระบวนการที่สำคัญด้าน KM (KM Audit)"],"3":["ทีมงานสามารถพัฒนาศักยภาพบุคลากร และส่งเสริมให้ \"ผู้มีส่วนได้ส่วนเสียที่เกี่ยวข้อง (Stakeholders)\" มีส่วนร่วมในการจัดการความรู้"],"4":["ทีมงานมีการพัฒนาตนเองอย่างต่อเนื่อง (มีแผน IDP เฉพาะของทีม) เพื่อให้การทำหน้าที่สนับสนุน KM บรรลุผล"],"5":["ใช้ข้อมูลป้อนกลับจากการดำเนินงานของทีม KM เอง รวมถึงแหล่งอื่นๆ มา \"ปรับปรุงการดำเนินงานของทีม\""]},crosslinks:[{"level":"1","dim":"HCM"},{"level":"2","dim":"IA"},{"level":"2","dim":"RM&IC"},{"level":"2","dim":"KM5.1"},{"level":"2","dim":"KM5.2"},{"level":"3","dim":"SCM"},{"level":"3","dim":"KM3.1"},{"level":"4","dim":"HCM"},{"level":"5","dim":"DT"}]},
+  {id:"4.1",grp:"4",gname:"กระบวนการจัดการความรู้",gw:8.0,gs68:2.85,name:"กระบวนการจัดการความรู้ที่เป็นระบบและการนำเทคโนโลยีมาประยุกต์ใช้",w:6.0,s68:2.8,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมินความครบถ้วนของกระบวนการ KM ทั้ง 7 ขั้นตอน (บ่งชี้ แสวงหา จัดเก็บ เข้าถึง แลกเปลี่ยน นำไปใช้ และประเมินผล) การประยุกต์ใช้ทฤษฎีเกลียวความรู้ (SECI Model) การสื่อสารขั้นตอนให้พนักงานเข้าใจ การนำไปปฏิบัติจนเกิดผลลัพธ์ และ การนำเทคโนโลยี (AI/Digital Platform) มาสนับสนุน พร้อมด้วยการกำหนด แผนที่ความรู้ (Knowledge Map) ที่เน้นความรู้ที่สำคัญ (Critical Knowledge)",levelSumm:["องค์กรมีการกำหนดกระบวนการ KM อย่างเป็นระบบ ครอบคลุมการจัดการทั้งความรู้ชัดแจ้ง (Explicit) และความรู้ฝังลึก (Tacit) และอธิบายการประยุกต์ใช้ SECI Model","กระบวนการจัดการความรู้ ถูกสื่อสารให้กับบุคลากร \"ทุกระดับ\" เพื่อให้เกิดความเข้าใจในแต่ละขั้นตอนได้อย่างถูกต้อง","กระบวนการจัดการความรู้ ถูกนำไปดำเนินการและ \"ปฏิบัติให้เกิดขึ้นได้จริงในทุกขั้นตอน\"","การนำเทคโนโลยีมาสนับสนุนในแต่ละขั้นตอนอย่างเหมาะสม รวมถึง \"การกำหนดความรู้ที่สำคัญ (Critical Knowledge)\" และพัฒนาบุคลากรให้มีความสามารถใช้เทคโนโลยีได้","ใช้ข้อมูลป้อนกลับจากการดำเนินงาน และข้อมูลจากแหล่งอื่นๆ ในการ \"ปรับปรุงกระบวนการจัดการความรู้\" อย่างสม่ำเสมอ เพื่อให้เกิดประสิทธิภาพสูงสุด"],good:["ทำได้คะแนนเต็มใน ระดับ 1, 2 และ 3 เพราะ กทท. มีระเบียบขั้นตอนการทำ KM ที่ชัดเจน มีการสื่อสารอบรม และมีการปฏิบัติจริงจนเกิดการปรับปรุงกระบวนงานถึง 11 กระบวนงาน","กทท. มีความพยายามที่ดีมากในการนำ AI อย่าง Google Notebook LM เข้ามาใช้"],gaps:["แต่ในมุมของผู้ตรวจประเมินมองว่า \"พื้นฐานโครงสร้างข้อมูล (Data Structure)\" ของ กทท. ยังไม่เป็นระเบียบพอ (เช่น ยังไม่มี Knowledge Map หรือการแยก Category ที่ชัดเจน) การเอา AI มาสวมทับข้อมูลที่ยังกระจัดกระจายจากการย้ายระบบ จึงยังไม่เกิดประสิทธิผลสูงสุด กทท. จำเป็นต้องจัดระเบียบโครงสร้างคลังความรู้ใหม่ให้ชัดเจนก่อน"],results:["มีการกำหนดกระบวนการจัดการความรู้ 7 ขั้นตอน โดยจัดแบ่งตามกระบวนงานสำคัญ 5 กระบวนงาน (เช่น การบริการร่องน้ำ, การบริการเรือ, สินค้าและตู้สินค้า ฯลฯ) มีการสร้าง/แสวงหา รวบรวม จัดเก็บ แลกเปลี่ยน และนำไปใช้","สื่อสารกระบวนการ KM ให้บุคลากรผ่านการประชุมคณะทำงาน, อบรมเชิงปฏิบัติการให้วิทยากรกระบวนการพื้นที่, ประชาสัมพันธ์ผ่าน Intranet, e-Learning และมีกิจกรรม CoP รวมถึงมีการประเมินการรับรู้ของบุคลากร","นำกระบวนการไปปฏิบัติจริง มีการจัดเก็บ OPK OPL ในระบบ Intranet/Google site แลกเปลี่ยนเรียนรู้ผ่าน CoP และจัดเวที KM Award และนำความรู้ไปปรับปรุงได้ 11 กระบวนงาน","นำเทคโนโลยีมาสนับสนุนกระบวนการ KM เช่น ใช้ Google/Chat GPT แสวงหาความรู้, จัดเก็บใน KMS/Intranet, และที่สำคัญคือการริเริ่มนำ Google Notebook LM (AI) มาช่วยสรุปและตอบคำถามจาก Knowledge Tank","ใช้ข้อมูลป้อนกลับเพื่อปรับปรุงกระบวนการ เช่น การพบข้อจำกัดของระบบเดิม จึงปรับปรุงมาใช้ Google Site และนำ AI มาประยุกต์ใช้เพื่อรองรับการค้นหาและโต้ตอบแบบเรียลไทม์ และจัดกิจกรรม KM Day เพื่อสร้าง Engagement"],tris:["ช่วงรอยต่อของการเปลี่ยนผ่านเทคโนโลยี (Technology Transition Gap): กทท. กำลังถ่ายโอนข้อมูลจากระบบเดิม (KM Portal) ไปสู่ Google Workspace ผู้ตรวจประเมินมองว่าช่วงรอยต่อนี้ ทำให้การสืบค้นองค์ความรู้สำคัญ \"ยังไม่ครอบคลุม\" กระบวนการหลักและกระบวนการสนับสนุนทั้งหมด","แผนที่ความรู้ยังไม่สมบูรณ์ (Knowledge Map & Category Gap): กทท. ยังขาดการจัดกลุ่มความรู้ (Knowledge Category) ที่สะท้อน \"ความรู้ที่สำคัญ (Critical Knowledge)\" และยังไม่มี \"แผนที่ความรู้ (Knowledge Map)\" ที่แบ่งแยกความรู้ฝังลึก (Tacit) และความรู้ชัดแจ้ง (Explicit) อย่างเป็นระบบและครอบคลุมทุกสายงาน"],suggest:["จัดทำ Knowledge Map ที่ครอบคลุม: กทท. ควรกำหนดและแบ่งกลุ่มความรู้ (Knowledge Category) ให้สะท้อนถึงความรู้ที่สำคัญ (Critical Knowledge) ทั้งระดับองค์กรและระดับสายงาน รวมถึงต้องจัดทำแผนที่ความรู้ (Knowledge Map) ที่ครอบคลุมทั้ง Tacit และ Explicit Knowledge เพื่อให้การระบุและเข้าถึงเป็นระบบ","ประเมินประสิทธิผลเทคโนโลยี: ขั้นตอนในกระบวนการจัดการความรู้ ต้องแสดงให้เห็นถึงการเลือกใช้ระบบเทคโนโลยีให้เหมาะสมในทุกขั้นตอน และสามารถ ประเมินประสิทธิผลของการใช้ระบบดิจิทัล เพื่อนำไปสู่การปรับปรุง","ก้าวสู่ Knowledge Graphs: สำหรับการพัฒนาระดับสูง ผู้ตรวจเสนอแนะให้รัฐวิสาหกิจใช้ Knowledge Graphs / Semantic Networks เพื่อจัดโครงสร้างข้อมูลที่ซับซ้อนให้ AI (LLMs) สามารถค้นหาเชิงบริบท (Predictive Analytics) ได้"],docs:["แผนที่ความรู้ระดับองค์กรและสายงาน (Enterprise Knowledge Map): เอกสารชิ้นสำคัญที่ กทท. ต้องทำ คือตารางแผนที่ความรู้ที่จัดกลุ่ม (Categorize) อย่างชัดเจนว่า ความรู้ไหนคือ Explicit ความรู้ไหนคือ Tacit ความรู้อยู่ที่กระบวนการใด ใครคือผู้เชี่ยวชาญ (Expert) และจัดเก็บอยู่ที่ใดใน Google Workspace","รายงานประเมินประสิทธิผลการใช้เทคโนโลยีและ AI (KM Technology Evaluation Report): เอกสารรายงานผลการใช้งาน Google Notebook LM หรือระบบอื่นๆ ว่ามีสถิติการใช้งานเท่าไหร่ ช่วยลดระยะเวลาการค้นหาข้อมูลได้กี่นาที/ชั่วโมง เพื่อยืนยันว่าการนำเทคโนโลยีมาใช้เกิด \"ประสิทธิผล\" จริง","การออกแบบสถาปัตยกรรมข้อมูลเพื่อ AI (Knowledge Graphs Conceptual Design): แม้จะยังทำไม่สมบูรณ์ 100% แต่ควรมีเอกสารเชิงเทคนิค หรือผังงาน (Flowchart) ที่แสดงให้ผู้ตรวจเห็นว่า กทท. มีวิสัยทัศน์ในการจัดโครงสร้างข้อมูลแบบ Semantic Networks/Knowledge Graphs เพื่อรองรับการค้นหาเชิงบริบทของ LLMs ในอนาคต"],bestprac:["รฟม. มีความโดดเด่นในการแก้ปัญหาเรื่อง แผนที่ความรู้ โดย รฟม. \"ใช้ GenAI เข้ามาช่วยวิเคราะห์ข้อมูลภายในองค์กร เพื่อจัดทำแผนที่ความรู้ (Knowledge Map) โดยเฉพาะ\" และใช้ Chatbot เพื่อเก็บคำถามที่พบบ่อย (FAQ) นำไปต่อยอดเป็นองค์ความรู้ใหม่","กทพ. มีการประยุกต์ใช้ Generative AI อย่างเป็นรูปธรรมและหลากหลายมาก ไม่ใช่แค่ค้นหาข้อมูล แต่รวมถึง \"โปรแกรมออกแบบ Infographic ด้วย Canva AI, โปรแกรมสร้างเสียง SUNO AI, และโปรแกรมสร้างวิดีโอ Runway ML\" เพื่อนำมาประยุกต์ใช้ในการผลิตสื่อ KM ให้เข้าถึงง่าย"],minReqs:{"1":["ตารางกระบวนการ KM 7 ขั้นตอน ที่เชื่อมโยงกับ \"กระบวนงานที่สำคัญ (Core Processes)\" (เช่น ของ กทท. มี 5 กระบวนงานหลัก ได้แก่ บริการร่องน้ำ, บริการเรือ, บริการสินค้าและตู้สินค้า, ให้เอกชนร่วมลงทุน, เช่าอสังหาฯ)","แผนภาพ/คู่มือ อธิบายการประยุกต์ใช้ SECI Model (Socialization, Externalization, Combination, Internalization) เข้ากับกระบวนการขององค์กร"],"2":["หลักฐานการสื่อสารขั้นตอน KM ผ่านช่องทางต่างๆ เช่น การประชุมคณะทำงาน, การฝึกอบรมเชิงปฏิบัติการให้วิทยากรกระบวนการพื้นที่, ระบบ Intranet หรือ e-Learning","รายงานผลการประเมินการรับรู้ (Awareness Assessment): สถิติและคะแนนที่พิสูจน์ว่าพนักงานเข้าใจกระบวนการ KM"],"3":["เอกสาร/รายงานผลการนำองค์ความรู้มาพัฒนาและปรับปรุงกระบวนงานจริง (เช่น รายงานการแก้ปัญหาจราจรติดขัดท่าเรือแหลมฉบัง, กระบวนการเก็บโฉนดท่าเรือเชียงแสน)","ตารางสรุปผลลัพธ์กระบวนงาน 7 ขั้นตอน ว่ามีการสร้าง แสวงหา จัดเก็บ และถูกนำไปใช้จริงกี่เรื่อง"],"4":["แผนที่ความรู้ระดับองค์กร (Enterprise Knowledge Map): ที่จัดกลุ่มความรู้ (Knowledge Category) และระบุความรู้ที่สำคัญ (Critical Knowledge) อย่างเป็นหมวดหมู่","หลักฐานการนำเทคโนโลยีมาใช้ (เช่น หน้าจอระบบ Google Workspace, Google Notebook LM, PAT Chatbot AI)","หลักฐานการจัดอบรม/คู่มือการพัฒนาบุคลากรให้ใช้งานระบบสารสนเทศด้าน KM (เช่น สถิติผู้ใช้งาน e-Learning/Google Site)"],"5":["ตาราง Feedback Loop Matrix: ที่แสดงความสัมพันธ์ เช่น พนักงานพบว่าระบบคลังความรู้เดิม (KM Portal) ค้นหาข้อมูลยาก -> ผู้บริหารตัดสินใจย้ายระบบและนำ AI (Google Notebook LM) มาใช้ช่วยสรุปเอกสารใน Knowledge Tank -> สถิติการเข้าถึงและแก้ปัญหาของพนักงานรวดเร็วขึ้น","หลักฐานการปรับปรุงกิจกรรมเพื่อกระตุ้นการใช้งาน เช่น จัดกิจกรรม \"KM Day\" หรือ \"KM Sharing\" เชิงรุก"]},subComps:{"1":["SECI Model ต้องเห็นเป็น \"วงจร (Spiral)\": ใน Level 1 การอ้างถึง SECI Model ไม่ใช่แค่แปะรูปทฤษฎี แต่ต้องอธิบายให้ได้ว่า กทท. มีกระบวนการวนลูปอย่างไร เช่น ให้ผู้เชี่ยวชาญเกษียณอายุมาเล่าประสบการณ์ (Socialization) -> ถอดเทปเป็นคู่มือ (Externalization) -> นำคู่มือเก่าใหม่มารวมกันใน Google Site (Combination) -> ให้พนักงานใหม่ไปอ่านและลงมือทำหน้างาน (Internalization) และวนลูปเรื่อยๆ"],"2":[],"3":[],"4":["จุดตายเรื่อง \"แผนที่ความรู้ (Knowledge Map)\": กทท. ได้นำ Google Notebook LM มาใช้ซึ่งถือว่าล้ำหน้ามาก แต่ สคร. มองเห็นจุดอ่อน (Gap) ว่าในช่วงรอยต่อของการเปลี่ยนผ่านระบบ ทำให้โครงสร้างข้อมูลเดิมกระจัดกระจาย สิ่งที่ซ่อนอยู่ใน Level 4 คือ AI จะเก่งได้ โครงสร้างข้อมูลต้องเป็นระเบียบ กทท. จึงต้องจัดทำเอกสาร \"แผนที่ความรู้ (Knowledge Map)\" ที่ระบุหมวดหมู่ความรู้ชัดแจ้ง (Explicit) และความรู้ฝังลึก (Tacit) ให้ชัดเจนก่อนนำ AI ไปจับ","การแยกแยะ \"ความรู้ทั่วไป\" กับ \"ความรู้ที่สำคัญ (Critical Knowledge)\": ใน Level 4 ผู้ตรวจประเมินไม่ต้องการเห็นการนำคู่มือทั่วไปมาใส่ระบบ แต่ต้องการเห็นการวิเคราะห์ว่า \"อะไรคือ Critical Knowledge ที่ส่งผลต่อยุทธศาสตร์โดยตรง\" (เช่น ความรู้ด้านการจัดการสินค้าอันตราย, ความรู้การซ่อมบำรุงเรือ) และต้องเน้นเอาเทคโนโลยีไปจับที่ความรู้กลุ่มนี้เป็นพิเศษ"],"5":[]},dimScope:{"1":["องค์กรมีการกำหนดกระบวนการ KM อย่างเป็นระบบ ครอบคลุมการจัดการทั้งความรู้ชัดแจ้ง (Explicit) และความรู้ฝังลึก (Tacit) และอธิบายการประยุกต์ใช้ SECI Model"],"2":["กระบวนการจัดการความรู้ ถูกสื่อสารให้กับบุคลากร \"ทุกระดับ\" เพื่อให้เกิดความเข้าใจในแต่ละขั้นตอนได้อย่างถูกต้อง"],"3":["กระบวนการจัดการความรู้ ถูกนำไปดำเนินการและ \"ปฏิบัติให้เกิดขึ้นได้จริงในทุกขั้นตอน\""],"4":["การนำเทคโนโลยีมาสนับสนุนในแต่ละขั้นตอนอย่างเหมาะสม รวมถึง \"การกำหนดความรู้ที่สำคัญ (Critical Knowledge)\" และพัฒนาบุคลากรให้มีความสามารถใช้เทคโนโลยีได้"],"5":["ใช้ข้อมูลป้อนกลับจากการดำเนินงาน และข้อมูลจากแหล่งอื่นๆ ในการ \"ปรับปรุงกระบวนการจัดการความรู้\" อย่างสม่ำเสมอ เพื่อให้เกิดประสิทธิภาพสูงสุด"]},crosslinks:[{"level":"1","dim":"SP"},{"level":"2","dim":"KM3.1"},{"level":"3","dim":"KM5.1"},{"level":"4","dim":"DT"},{"level":"5","dim":"DT"}]},
+  {id:"4.2",grp:"4",gname:"กระบวนการจัดการความรู้",gw:8.0,gs68:2.85,name:"สารสนเทศ/ความรู้จากหน่วยงานภายนอก",w:2.0,s68:3.0,status:"ยังไม่เริ่ม",statusNote:"",scope:"ขอบเขตของเกณฑ์นี้มุ่งเน้นประเมิน \"ระบบนิเวศการเรียนรู้ภายนอกองค์กร (Ecosystem KM)\" ตั้งแต่ความสามารถในการระบุตัวตนของผู้มีส่วนได้ส่วนเสียที่ถูกต้อง → การดึงความรู้ที่ซ่อนอยู่จากภายนอกเข้ามา (Inbound) → การถ่ายทอดองค์ความรู้ขององค์กรกลับไปสู่ภายนอก (Outbound) เพื่อเป็นแบบอย่างที่ดี → และที่สำคัญที่สุดคือ การนำความรู้เหล่านั้นมาบูรณาการสร้างมูลค่าเพิ่มและนวัตกรรมแบบเปิด (Open Innovation) เพื่อยกระดับความสามารถในการแข่งขันขององค์กร",levelSumm:["มิติความสอดคล้องและความครอบคลุม ประเมินว่ากลุ่ม Stakeholder ที่ระบุในด้าน KM สอดคล้องกับที่ระบุไว้ในระดับองค์กร (ด้าน SCM) หรือไม่ และความรู้ที่ต้องการนั้นมีความจำเป็นต่อยุทธศาสตร์องค์กรจริงหรือไม่","มิติความเหมาะสมและประสิทธิผล ประเมินว่าวิธีการและช่องทางการแลกเปลี่ยนถูกออกแบบมาอย่าง เฉพาะเจาะจง (Tailored) ให้เข้ากับพฤติกรรมของ Stakeholder แต่ละกลุ่มหรือไม่ (ไม่ใช่การใช้ช่องทางเดียวแบบหว่านแห)","การถ่ายทอด แลกเปลี่ยนสารสนเทศ/ความรู้ สามารถดำเนินการได้ครบถ้วนตามแนวทางที่กำหนดไว้","การนำความรู้ที่ได้มาสร้างคุณค่าเพิ่มผ่านความร่วมมือ, การแลกเปลี่ยนวิธีปฏิบัติที่ดี (Good Practices), การเทียบเคียง (Benchmarking) หรือวิธีการอื่นๆ","ใช้ข้อมูลป้อนกลับจากการดำเนินงาน และข้อมูลจากแหล่งอื่น ๆ ในการ \"ปรับปรุงแนวทางการถ่ายทอด แลกเปลี่ยนสารสนเทศ/ความรู้\" ให้สอดคล้องกับการเปลี่ยนแปลง"],good:["ทำได้เต็มใน ระดับ 1, 2, 3 และ 4 กทท. มีผลงานเชิงประจักษ์ในการเชื่อมโยงกับหน่วยงานภายนอกได้โดดเด่นมาก โดยเฉพาะการเทียบเคียงกับท่าเรือระดับโลก (PSA) และความร่วมมือข้ามรัฐวิสาหกิจ (รฟท., กฟภ.) ที่สามารถแปลงเป็น Application ใช้งานได้จริงและลดเวลาได้มหาศาล","กทท. ทำคะแนนได้สูงมากและลบจุดอ่อนของปี 67 เรื่องการขาด Benchmark ไปได้อย่างหมดจด"],gaps:["ขาดการจำแนกช่องทางตามกลุ่มเป้าหมาย (Segmentation Gap): แม้ช่องทางจะหลากหลาย แต่รูปแบบและวิธีการแลกเปลี่ยนความรู้กับกลุ่มภายนอกยัง \"ไม่มีความแตกต่างกันตามกลุ่ม\" (One-size-fits-all)","ยังไม่ยกระดับสู่ Open Innovation: การแลกเปลี่ยนความรู้ส่วนใหญ่ยังเป็นการดึงข้อมูลมาใช้ฝั่งเดียว แต่ผู้ตรวจคาดหวังให้ กทท. ก้าวไปสู่การทำ \"นวัตกรรมแบบเปิด (Open Innovation)\" ที่จับมือพัฒนานวัตกรรมร่วมกับ Stakeholder เพื่อสร้าง \"คุณค่าร่วม (Shared Values)\" อย่างแท้จริง","เกณฑ์ข้อนี้คาดหวัง \"ความละเอียดอ่อน\" ที่มากขึ้น กทท. จึงต้องเลิกเหวี่ยงแหสื่อสารแบบรวมๆ แต่ต้องออกแบบช่องทางแยกเฉพาะ (เช่น เอเยนต์เรือใช้ช่องทางหนึ่ง, ชุมชนใช้ช่องทางหนึ่ง) และในปีต่อไป กทท. ต้องเปลี่ยนสถานะจาก \"ผู้ไปศึกษาดูงาน\" เป็น \"ผู้สร้างนวัตกรรมร่วมกัน (Co-creator)\" กับ Stakeholder ครับ"],results:["รวบรวมสารสนเทศและความรู้ที่ผู้มีส่วนได้ส่วนเสียต้องการผ่านแบบสอบถาม (VOC) และกำหนดเป็นตารางความต้องการสารสนเทศอย่างชัดเจน","กำหนดช่องทางถ่ายทอดที่หลากหลาย เช่น การจัดอบรม/ศึกษาดูงาน, ประชุมแลกเปลี่ยน (Knowledge Sharing), และผ่านสื่อ Social Media (Facebook, Line) รวมถีงการนำ Google Notebook LM มาช่วยโต้ตอบ","มีการดำเนินการจริง เช่น การประชุมแก้ปัญหาจราจรท่าเรือแหลมฉบังร่วมกับผู้ประกอบการและภาครัฐ, การทดลองใช้ระบบ e-285 Plus กับกรมเจ้าท่า, และงานด้านจัดการของเสียอาเซียน","มีการนำ Best Practice และการทำ Benchmarking มาสร้างมูลค่าเพิ่ม (Value Creation) เช่น การเทียบเคียงกับ PSA สิงคโปร์ ด้านระบบ Container Tracking, การแลกเปลี่ยนเรียนรู้กับ รฟท. เพื่อทำลาน CY, และโครงการคู่ความร่วมมือกับ กฟภ. จนนำมาสู่การสร้าง Application \"CFS TRACKING\" ลดเวลาค้นหาสินค้าจาก 5 นาทีเหลือ 1 นาที","ใช้ข้อมูลป้อนกลับจากหน่วยงานภายนอก (เช่น กฟภ. และเครือข่าย) มาปรับปรุงแนวทางการดำเนินงาน ทั้งแผนระยะสั้นและระยะยาวให้ทันต่อการเปลี่ยนแปลง"],tris:[],suggest:["\"ออกแบบช่องทางการแลกเปลี่ยนความรู้ให้เหมาะสมกับผู้มีส่วนได้ส่วนเสียแต่ละกลุ่ม\" เพื่อให้เกิดความแตกต่างและตรงใจ","\"ใช้ Open Innovation (นวัตกรรมแบบเปิด) เพื่อสร้างคุณค่าร่วม (Shared Values)\" ระหว่าง กทท. และหน่วยงานภายนอก"],docs:["ตารางช่องทางการแลกเปลี่ยนความรู้จำแนกตามกลุ่ม (Segmented External KM Matrix): เอกสารนี้ต้องระบุให้ชัดเจนว่า Stakeholder แต่ละกลุ่ม (เช่น สายเดินเรือ, ชุมชน, คู่เทียบ, หน่วยงานรัฐ) กทท. ใช้วิธีการ แพลตฟอร์ม และความถี่ในการแลกเปลี่ยนความรู้ที่ \"แตกต่างกัน\" อย่างไร","รายงานโครงการพัฒนานวัตกรรมร่วมกับบุคคลภายนอก (Open Innovation / Co-Creation Project Report): เป็นรายงานผลลัพธ์ของโครงการที่ กทท. ดึง Stakeholder (เช่น ลูกค้า คู่ค้า หรือสถาบันการศึกษา) เข้ามาร่วมคิดค้นและพัฒนานวัตกรรมตั้งแต่ต้นน้ำ เพื่อยืนยันการทำ Open Innovation ตามที่ สคร. แนะนำ","รายงานการวิเคราะห์และนำเสียงของผู้มีส่วนได้ส่วนเสียภายนอก (VOC) มาปรับปรุงกระบวนงาน: เอกสารที่แสดงความเชื่อมโยงว่า เสียงสะท้อนหรือข้อเสนอแนะจากวงเสวนาภายนอก ถูกนำมาเข้าสู่ระบบ KM ภายใน และแปลงเป็นมาตรฐานการปฏิบัติงาน (Standard Procedure) ใหม่ของ กทท. อย่างไรครับ"],bestprac:["การดำเนินงานของ รฟม. ถือเป็นต้นแบบที่ตอบโจทย์เรื่อง Open Innovation ได้ดีที่สุด โดย รฟม. มีการใช้เครื่องมือการแลกเปลี่ยนแบบ Real-time ผ่านการตั้งกลุ่ม \"Line KNEX (Knowledge Network Exchange)\" เพื่อแลกเปลี่ยนความรู้เชิงลึกด้านนวัตกรรมระหว่างรัฐวิสาหกิจ รวมถึงมีการระบุยุทธศาสตร์ที่มุ่งเน้นการจัดการความรู้ข้ามหน่วยงาน (Cross-Functional & Ecosystem KM) ที่เน้นการสร้างนวัตกรรมตามกรอบ \"Open Innovation\" เพื่อสร้างคุณค่าร่วม (Shared Values) ซึ่งตรงกับข้อเสนอแนะที่ สคร. แนะนำให้ กทท. ทำในปี 69 พอดี"],minReqs:{"1":["เอกสารระบุ/จัดกลุ่มผู้มีส่วนได้ส่วนเสีย (Stakeholder) ที่สำคัญขององค์กร พร้อมตารางวิเคราะห์ระบุให้ชัดเจนว่า \"องค์กรต้องการสารสนเทศ/องค์ความรู้อะไรจาก Stakeholder แต่ละกลุ่ม\" (เช่น ความรู้จากคู่เทียบ, VOC จากลูกค้า, ความรู้ด้านเทคโนโลยีจากคู่ค้า)"],"2":["ตารางแผนการถ่ายทอด/แลกเปลี่ยนความรู้ ที่ระบุช่องทาง \"แยกตามกลุ่มเป้าหมาย (Segmented Channels)\" อย่างชัดเจน เช่น จัด Workshop สำหรับคู่ค้า, ใช้ระบบ e-Learning สำหรับคู่ความร่วมมือ, หรือใช้ Line Group สำหรับลูกค้า"],"3":["รายงานผลการดำเนินการแลกเปลี่ยนสารสนเทศตามแผนที่กำหนดไว้ (เช่น รายงานผลการจัดประชุม/สัมมนา/ศึกษาดูงาน) พร้อมทั้งหลักฐาน ผลการประเมินความเข้าใจและความพึงพอใจ ของผู้มีส่วนได้ส่วนเสียที่มีต่อช่องทางการแลกเปลี่ยนนั้น","ตัวอย่างหลักฐานเชิงประจักษ์ของ กทท.: รายงานการประชุมแก้ปัญหาจราจรท่าเรือแหลมฉบังร่วมกับผู้ประกอบการ/ภาครัฐ, รายงานการถ่ายทอดเรื่องการจัดการของเสียจากเรือในอาเซียน (ASEAN Ship Waste Management), การทดลองปฏิบัติระบบ e-285 Plus กับกรมเจ้าท่า"],"4":["หลักฐานเชิงประจักษ์ที่แสดง การสร้างคุณค่าเพิ่ม (Value Creation) จากความรู้ที่ได้รับมา ได้แก่ รายงานผลการเทียบเคียง (Benchmarking), การแลกเปลี่ยนวิธีปฏิบัติที่ดี (Good Practices), หรือโครงการความร่วมมือ (Collaboration) ที่นำไปสู่การพัฒนางาน เช่น การเทียบเคียงกับท่าเรือสิงคโปร์ (PSA) เพื่อปรับปรุงระบบ Container Tracking"],"5":["ตาราง Feedback Loop Matrix: ที่แสดงความสัมพันธ์ เช่น รับฟัง VOC จากคู่ความร่วมมือ -> นำมาปรับรูปแบบการสื่อสารจากเดิมที่เป็นเอกสาร มาเป็นการใช้เวที CoP หรือ Digital Platform ร่วมกัน -> ทำให้การถ่ายทอดความรู้รวดเร็วขึ้น"]},subComps:{"1":[],"2":["ความแตกต่างและความเฉพาะเจาะจงของช่องทางสื่อสาร (Tailored Channels): จาก Feedback Report (Gap ปี 68 ของ กทท.) ผู้ตรวจตัดคะแนนเพราะ \"รูปแบบแลกเปลี่ยนความรู้กับ Stakeholder ไม่แตกต่างกันตามกลุ่ม\" องค์ประกอบที่ซ่อนอยู่คือ องค์กรต้องวิเคราะห์พฤติกรรม (Persona) ของแต่ละกลุ่ม เพื่อเลือกใช้ช่องทางที่ต่างกันอย่างมีนัยสำคัญ"],"3":[],"4":["การเชื่อมโยงเสียงของลูกค้าสู่ Open Innovation: เกณฑ์ต้องการเห็นการดึงเสียงของลูกค้า (Voice of Customer: VOC) และสารสนเทศเชิงลึก มาสร้างนวัตกรรมร่วมกัน (Shared Values) ไม่ใช่แค่การรับฟังเพื่อแก้ข้อร้องเรียนเพียงอย่างเดียว","บทบาทองค์กรในการเป็นผู้ให้ (Role Model): นอกจากรับความรู้เข้ามาแล้ว องค์กรต้องแสดงให้เห็นถึงบทบาท \"ผู้ให้\" ด้วยการเผยแพร่องค์ความรู้ที่เป็น Best Practice หรือถ่ายทอดเทคโนโลยีขององค์กรกลับสู่เครือข่ายภายนอก (Two-way sharing)"],"5":[]},dimScope:{"1":["มิติความสอดคล้องและความครอบคลุม ประเมินว่ากลุ่ม Stakeholder ที่ระบุในด้าน KM สอดคล้องกับที่ระบุไว้ในระดับองค์กร (ด้าน SCM) หรือไม่ และความรู้ที่ต้องการนั้นมีความจำเป็นต่อยุทธศาสตร์องค์กรจริงหรือไม่"],"2":["มิติความเหมาะสมและประสิทธิผล ประเมินว่าวิธีการและช่องทางการแลกเปลี่ยนถูกออกแบบมาอย่าง เฉพาะเจาะจง (Tailored) ให้เข้ากับพฤติกรรมของ Stakeholder แต่ละกลุ่มหรือไม่ (ไม่ใช่การใช้ช่องทางเดียวแบบหว่านแห)"],"3":["การถ่ายทอด แลกเปลี่ยนสารสนเทศ/ความรู้ สามารถดำเนินการได้ครบถ้วนตามแนวทางที่กำหนดไว้"],"4":["การนำความรู้ที่ได้มาสร้างคุณค่าเพิ่มผ่านความร่วมมือ, การแลกเปลี่ยนวิธีปฏิบัติที่ดี (Good Practices), การเทียบเคียง (Benchmarking) หรือวิธีการอื่นๆ"],"5":["ใช้ข้อมูลป้อนกลับจากการดำเนินงาน และข้อมูลจากแหล่งอื่น ๆ ในการ \"ปรับปรุงแนวทางการถ่ายทอด แลกเปลี่ยนสารสนเทศ/ความรู้\" ให้สอดคล้องกับการเปลี่ยนแปลง"]},crosslinks:[{"level":"1","dim":"SCM"},{"level":"1","dim":"KM"},{"level":"2","dim":"SCM"},{"level":"2","dim":"KM"},{"level":"3","dim":"SCM"},{"level":"3","dim":"KM3.1"},{"level":"4","dim":"IM"},{"level":"4","dim":"SP"},{"level":"4","dim":"KM5.1"},{"level":"4","dim":"KM6.1"},{"level":"5","dim":"SCM"},{"level":"5","dim":"KM2.1"}]},
+  {id:"5.1",grp:"5",gname:"กระบวนการปฏิบัติงาน",gw:4.0,gs68:2.7,name:"การปฏิบัติงานโดยใช้ความรู้เป็นฐาน",w:2.0,s68:2.7,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมินการนำองค์ความรู้และเครื่องมือด้านการจัดการความรู้ (KM) มาเป็นกลไกประยุกต์ใช้ในการพัฒนาและปรับปรุงการปฏิบัติงานประจำวัน (Daily Operation) ทั้งกระบวนการหลักและกระบวนการสนับสนุนอย่างเป็นระบบและต่อเนื่อง เพื่อลดข้อผิดพลาด ลดต้นทุน หรือเพิ่มประสิทธิภาพในการทำงาน โดยต้องดำเนินการให้สอดคล้องกับยุทธศาสตร์องค์กร และต้องมีกระบวนการนำข้อมูลป้อนกลับ (Feedback) มาใช้ในการยกระดับกระบวนการทำงานให้เป็นรูปธรรม",levelSumm:["มีการกำหนดกระบวนการทำงานที่สำคัญ ทั้งกระบวนการหลักและกระบวนการสนับสนุน (Key and Support Processes) พร้อมระบุตัววัดที่สำคัญ (KPIs)","การกำหนดกระบวนการทำงานที่สำคัญใน Level 1 นั้น ต้องเกิดจากการมีส่วนร่วมของผู้บริหาร และมีแนวคิด/วิธีการ/หลักเกณฑ์ในการกำหนดที่มีความเป็นเหตุเป็นผลและมีที่มาที่ไปอย่างชัดเจน","มีการพัฒนาและการปรับปรุงการปฏิบัติงานประจำวัน (Daily Operation) ของกระบวนการหลักและกระบวนการสนับสนุนอย่างมีประสิทธิผลและต่อเนื่อง โดยการใช้ \"เครื่องมือในการปรับปรุงกระบวนการต่าง ๆ\" (เช่น LEAN, Kaizen) ควบคู่กับการใช้ \"การจัดการความรู้ (KM)\" เป็นกลไกในการพัฒนา","กระบวนการทำงานที่สำคัญ ต้องมีความสอดคล้องกับยุทธศาสตร์ขององค์กร และสอดรับกับการกำหนด \"ความรู้ที่สำคัญ (Critical Knowledge)\" และการสร้าง/แสวงหาความรู้ขององค์กร","การพัฒนาและการปรับปรุงการปฏิบัติงาน มีการใช้ข้อมูลป้อนกลับ (Feedback) จากการดำเนินงาน รวมถึงข้อมูลจากแหล่งอ่ืน ๆ ทั้งภายในและ/หรือภายนอกองค์กร มาใช้เพื่อให้เกิดการปรับปรุงกระบวนการทำงานที่สำคัญอย่างเป็นรูปธรรม"],good:["ทำได้คะแนนเต็มใน ระดับ 1 และ 2 เนื่องจากมีการแบ่งกระบวนงานหลักและกระบวนงานสนับสนุนที่ชัดเจน มีตัวชี้วัดกำกับ และเกิดจากการมีส่วนร่วมของฝ่ายบริหาร","กทท. ทำโครงการนำร่องและใช้เครื่องมือ KM แก้ปัญหาหน้างานได้ดีมาก (มีผลงาน 18 โครงการเป็นที่ประจักษ์)"],gaps:["ผู้ตรวจเกณฑ์ SE-AM การได้คะแนนระดับ 4-5 หมายถึง KM ต้องกลายเป็น \"ลมหายใจของการทำงานประจำวัน\" (Daily Operation) ไม่ใช่เป็นเพียง \"โครงการ (Project-based)\" กทท. จึงต้องทำให้การทำ AAR/BAR หรือ Knowledge Mapping กลายเป็นมาตรฐานที่ทุกหน่วยงานต้องทำเป็นปกติ (100%) เมื่อเกิดปัญหาหน้างาน"],results:["กำหนดกระบวนการทำงานที่สำคัญ 5 กระบวนงานหลัก (เช่น บริการร่องน้ำ, บริการเรือ, บริการสินค้าและตู้สินค้า) และกระบวนการสนับสนุน พร้อมตัวชี้วัดที่สำคัญอย่างชัดเจน","การกำหนดกระบวนการทำงานเกิดจากการมีส่วนร่วมของผู้บริหาร โดยพิจารณาจากข้อกำหนดลูกค้า การเปลี่ยนแปลงเทคโนโลยี และการสนับสนุนวิสัยทัศน์เชิงยุทธศาสตร์","นำเครื่องมือ KM มาปรับปรุงการปฏิบัติงานประจำวัน (Daily Operation) เช่น การทำ Knowledge Mapping, การใช้ BAR/AAR ในการแก้ปัญหา (เช่น การจราจรในท่าเรือ), และการตั้งชุมชนนักปฏิบัติ (CoP) จนเกิดการปรับปรุงกระบวนงาน 18 โครงการ","นำกระบวนการทำงานที่สำคัญไปผูกกับยุทธศาสตร์องค์กร และความรู้ที่สำคัญ (Critical Knowledge) เช่น ยุทธศาสตร์พัฒนาการบริหารจัดการท่าเรือ สอดคล้องกับความรู้เรื่องการขุดลอกร่องน้ำ","ใช้ข้อมูลป้อนกลับจากผลการดำเนินงาน (เช่น ผลจาก PAT DNA AWARD 2025, BAR/AAR) และข้อมูลภายนอก (เช่น ความร่วมมือกับกรมการขนส่งทางบกเรื่อง Big Data) มาปรับปรุงกระบวนการทำงานให้เป็นรูปธรรม"],tris:["ขาดประสิทธิผลที่ครอบคลุม \"ทุก\" กระบวนการอย่างต่อเนื่อง: แม้ กทท. จะมีการนำเครื่องมือ KM มาใช้ปรับปรุงงานได้ถึง 18 โครงการ (เช่น ลดเวลาหาตู้สินค้า LCL) แต่ผู้ตรวจประเมินมองว่า ยังไม่เห็นความชัดเจนว่ามีการนำเครื่องมือ KM ไปฝังเป็นกลไกใน Daily Operation จนเกิดประสิทธิผลที่ดีขึ้นใน \"ทุกกระบวนการอย่างต่อเนื่อง\" ไม่ใช่แค่เฉพาะในโครงการพิเศษ","ยังพบได้ไม่ชัดเจนว่าการพัฒนาและการปรับปรุงการปฏิบัติงานประจำวัน (Daily Operation) มีการใช้เครื่องมือในการปรับปรุงกระบวนการต่างๆ และใช้การจัดการความรู้ เป็นกลไกหนึ่งในการพัฒนาและการปรับปรุงการปฏิบัติงาน จนเกิดประสิทธิผลที่ดีขึ้นในทุกกระบวนการอย่างต่อเนื่อง"],suggest:["กทท. ควรนำข้อมูลป้อนกลับจากการดำเนินงานอย่างต่อเนื่อง และนำความรู้ภายใน/ภายนอกองค์กรมาใช้ เพื่อให้เกิดการปรับปรุงการปฏิบัติงานประจำวันอย่างเป็นรูปธรรมและยั่งยืน"],docs:["รายงาน BAR/AAR ในระดับงานประจำวัน (Daily Operation AAR Reports): ต้องแสดงหลักฐานว่าทุกครั้งที่มีกิจกรรมสำคัญ หรือเกิดปัญหาหน้างาน (เช่น ปัญหารถติด ปัญหาตู้สินค้า) ทุกหน่วยงานมีการทำ AAR ถอดบทเรียนทันที และแปลงเป็น \"องค์ความรู้ใหม่ (Lesson Learned / Best Practice)\" โดยไม่จำเป็นต้องรอให้เป็นโครงการเข้าประกวด","รายงานการปรับปรุงกระบวนงานด้วยเครื่องมือ SIPOC และ AAR แบบบูรณาการ (SIPOC-AAR Process Improvement Report): เอกสารที่แสดงการนำหลักการ SIPOC มาใช้วิเคราะห์กระบวนงานร่วมกับ AAR แบบเดียวกับ กทพ. เพื่อปรับปรุงระยะเวลาการให้บริการ (SLA) ให้สั้นลง หรือลดข้อผิดพลาดลงอย่างเป็นรูปธรรมในทุกสายงาน","คู่มือปฏิบัติงานมาตรฐานที่ระบุการใช้ความรู้ (Knowledge-Embedded SOPs): คู่มือมาตรฐานการทำงานของแต่ละฝ่ายต้องมีการระบุชัดเจนว่า ในจุดใดที่เป็น \"ขั้นตอนวิกฤต (Critical Steps)\" พนักงานจะต้องใช้ \"องค์ความรู้หรือคู่มือเรื่องใด\" เข้ามาช่วยตัดสินใจ เพื่อสะท้อนการปฏิบัติงานที่ใช้ความรู้เป็นฐานอย่างแท้จริง"],bestprac:["กทพ. มีความโดดเด่นในการ \"นำ AAR และ SIPOC Model มาประยุกต์ใช้ร่วมกันในการประเมินประสิทธิผลของกระบวนการทำงาน\" โดยประสานงานทุกฝ่ายให้จัดทำข้อมูลที่แสดงถึงขั้นตอนการทำงานที่สำคัญ จุดควบคุม ระยะเวลาการดำเนินงาน (SLA) และนำข้อมูลเหล่านี้มาถอดบทเรียนเพื่อปรับปรุงรอบเวลา SLA ทันที ทำให้เห็นการนำ KM ไปปรับปรุงงานประจำวันอย่างเป็นระบบ"],minReqs:{"1":["เอกสารตารางรายชื่อกระบวนการทำงานที่สำคัญ โดยแบ่งแยกหมวดหมู่อย่างชัดเจนว่าเป็น \"กระบวนการหลัก (Core Process)\" หรือ \"กระบวนการสนับสนุน (Support Process)\"","เอกสารระบุตัวชี้วัด (KPIs) ความสำเร็จของแต่ละกระบวนการ"],"2":["รายงานการประชุม / SIPOC / หลักฐานยืนยันว่าผู้บริหารหน่วยงานต่างๆ เข้ามามีส่วนร่วมพิจารณาข้อกำหนดในการเลือกกระบวนการทำงานที่สำคัญ","เอกสารชี้แจงแนวคิดและเกณฑ์ที่ใช้คัดเลือกกระบวนการทำงาน (เช่น สอดคล้องกับทิศทางธุรกิจ, สร้างโอกาสในการแข่งขัน, ตอบสนองผู้มีส่วนได้ส่วนเสีย)"],"3":["รายงานผลลัพธ์จากการใช้เครื่องมือพัฒนาองค์กร เช่น LEAN Zigma, Kaizen, PAR (Process Assessment Report)","รายงาน/หลักฐานการใช้เครื่องมือ KM เข้ามาแก้ปัญหาและปรับปรุงงานประจำวัน เช่น การทำแผนที่ความรู้ (Knowledge Mapping), รายงานการถอดบทเรียน (BAR/AAR), และการจัดทำชุมชนนักปฏิบัติ (CoP)"],"4":["ตารางแสดงความเชื่อมโยง (Alignment Matrix) ที่ผูกให้เห็นความสัมพันธ์ระหว่าง: กระบวนการทำงานที่สำคัญ <-> ยุทธศาสตร์องค์กร <-> หมวดหมู่งาน/องค์ความรู้ที่สำคัญ (Critical Knowledge)","โครงสร้างระบบจัดเก็บองค์ความรู้ที่แยกตามหมวดหมู่กระบวนการทำงานที่สำคัญ"],"5":["ตารางความเชื่อมโยงการใช้ข้อมูลป้อนกลับ (Feedback Loop Matrix) ที่แสดงถึงกระบวนการ: ระบุแหล่งข้อมูลป้อนกลับ -> การวิเคราะห์ -> การปรับปรุงกระบวนการ -> ผลลัพธ์ที่ดีขึ้นเชิงประจักษ์","หลักฐานการนำผลจากการถอดบทเรียน (Lesson Learned) จากปัจจัยภายในและคู่เทียบ/ผู้เชี่ยวชาญภายนอกมาปรับปรุงแนวทางการดำเนินงาน (Daily Operation)"]},subComps:{"1":[],"2":[],"3":["ต้องประยุกต์ใช้เครื่องมือ 2 ส่วนร่วมกัน เกณฑ์ระบุชัดเจนว่าต้องใช้ เครื่องมือปรับปรุงกระบวนการ (Quality Tools) (เช่น Lean, ISO, Kaizen) ควบคู่ไปกับ เครื่องมือจัดการความรู้ (KM Tools) (เช่น CoP, Knowledge Map, AAR/BAR) หากใช้เพียงอย่างใดอย่างหนึ่งอาจถูกหักคะแนน","การแสดงประสิทธิผลต้องเห็นครอบคลุม \"ทุก\" กระบวนการ : จุดที่ผู้ตรวจ (TRIS) มักหักคะแนนคือ รัฐวิสาหกิจมักนำเสนอโครงการตัวอย่างแค่ 1-2 โครงการ แต่เกณฑ์ต้องการให้สะท้อนให้เห็นว่า KM ถูกฝังเข้าไปเป็นกลไกใน Daily Operation อย่างเป็นรูปธรรมใน ทุกกระบวนการอย่างต่อเนื่อง ไม่ใช่แค่เฉพาะกิจ"],"4":[],"5":["ผลลัพธ์เชิงประจักษ์ (Measurable Outcomes): การพัฒนาปรับปรุงงานควรต้องสามารถแปลงผลลัพธ์ออกมาเป็นตัวเลขที่จับต้องได้ เช่น สามารถลดเวลาค้นหาข้อมูลได้กี่นาที ลดอัตราข้อผิดพลาดลงได้กี่เปอร์เซ็นต์ หรือประหยัดต้นทุนการทำงานได้เท่าใด"]},dimScope:{"1":["มีการกำหนดกระบวนการทำงานที่สำคัญ ทั้งกระบวนการหลักและกระบวนการสนับสนุน (Key and Support Processes) พร้อมระบุตัววัดที่สำคัญ (KPIs)"],"2":["การกำหนดกระบวนการทำงานที่สำคัญใน Level 1 นั้น ต้องเกิดจากการมีส่วนร่วมของผู้บริหาร และมีแนวคิด/วิธีการ/หลักเกณฑ์ในการกำหนดที่มีความเป็นเหตุเป็นผลและมีที่มาที่ไปอย่างชัดเจน"],"3":["มีการพัฒนาและการปรับปรุงการปฏิบัติงานประจำวัน (Daily Operation) ของกระบวนการหลักและกระบวนการสนับสนุนอย่างมีประสิทธิผลและต่อเนื่อง โดยการใช้ \"เครื่องมือในการปรับปรุงกระบวนการต่าง ๆ\" (เช่น LEAN, Kaizen) ควบคู่กับการใช้ \"การจัดการความรู้ (KM)\" เป็นกลไกในการพัฒนา"],"4":["กระบวนการทำงานที่สำคัญ ต้องมีความสอดคล้องกับยุทธศาสตร์ขององค์กร และสอดรับกับการกำหนด \"ความรู้ที่สำคัญ (Critical Knowledge)\" และการสร้าง/แสวงหาความรู้ขององค์กร"],"5":["การพัฒนาและการปรับปรุงการปฏิบัติงาน มีการใช้ข้อมูลป้อนกลับ (Feedback) จากการดำเนินงาน รวมถึงข้อมูลจากแหล่งอ่ืน ๆ ทั้งภายในและ/หรือภายนอกองค์กร มาใช้เพื่อให้เกิดการปรับปรุงกระบวนการทำงานที่สำคัญอย่างเป็นรูปธรรม"]},crosslinks:[{"level":"2","dim":"CG"},{"level":"3","dim":"KM3.1"},{"level":"4","dim":"SP"},{"level":"4","dim":"KM4.1"},{"level":"5","dim":"KM2.1"},{"level":"5","dim":"IM"}]},
+  {id:"5.2",grp:"5",gname:"กระบวนการปฏิบัติงาน",gw:4.0,gs68:2.7,name:"การสร้างความตระหนักเรื่องความเสี่ยงในกระบวนการปฏิบัติงานโดยใช้ความรู้เป็นฐาน",w:2.0,s68:2.7,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมินการนำองค์ความรู้มาใช้เป็นเครื่องมือในการวิเคราะห์และระบุจุดวิกฤต (Critical Step) หรือจุดที่ต้องควบคุมในการปฏิบัติงาน รวมถึงการป้องกันการเข้าถึงข้อมูลโดยมิชอบ โดยต้องมีการสื่อสารและถ่ายทอดความรู้เพื่อสร้างความตระหนักด้านความเสี่ยงให้แก่บุคลากรอย่างทั่วถึง และที่สำคัญที่สุดคือ ต้องบูรณาการ \"การจัดการความรู้ (KM)\" เข้ากับ \"ระบบบริหารความเสี่ยงองค์กร (ERM)\" อย่างเป็นรูปธรรม และมีการนำข้อมูลป้อนกลับมาปรับปรุงกระบวนการอย่างสม่ำเสมอ",levelSumm:["การวิเคราะห์และระบุจุดที่ต้องควบคุม ระมัดระวัง หรือจุดสำคัญ/วิกฤต (Critical Step) ในขั้นตอนการปฏิบัติงาน รวมถึงการป้องกันไม่ให้มีการเปลี่ยนแปลงข้อมูลโดยไม่ได้รับอนุญาต หรือมีการนำข้อมูลไปใช้อย่างไม่ถูกต้อง","การสื่อสาร แลกเปลี่ยน และถ่ายโอนความรู้ที่เกี่ยวข้องกับการควบคุมจุดที่ต้องควบคุม ระมัดระวังหรือจุดสำคัญ/วิกฤติ (Critical Step) ให้แก่บุคลากรที่เกี่ยวข้องเพื่อสร้างความเข้าใจและความระมัดระวัง","การสร้างความตระหนักเรื่องความเสี่ยงในกระบวนการปฏิบัติงานที่สำคัญทั้งกระบวนการหลักและกระบวนการสนับสนุน (Key and Support Processes) แก่บุคลากรที่เกี่ยวข้องอย่างทั่วถึงและต่อเนื่อง","การสร้างความตระหนักเรื่องความเสี่ยงในกระบวนการปฏิบัติงานโดยใช้ความรู้เป็นฐาน มีความเชื่อมโยงกับการบริหารความเสี่ยงขององค์กร","การใช้ข้อมูลป้อนกลับจากการดำเนินงาน รวมถึงข้อมูลจากแหล่งอื่น ๆ ในการปรับปรุงการสร้างความตระหนักเรื่องความเสี่ยงในกระบวนการปฏิบัติงานให้สอดคล้องกับการเปลี่ยนแปลงอยู่เสมอ"],good:["กทท. ทำได้ใน ระดับ 1 และ 2 เนื่องจาก กทท. มีการระบุจุด Critical Steps ลงในคู่มือ และมีการจัดอบรม e-Learning เพื่อให้ความรู้ในเรื่องความเสี่ยงที่สำคัญอย่างชัดเจนและเป็นรูปธรรม","กทท. มีคู่มือ มีการอบรม"],gaps:["ปัญหาของ กทท. ในข้อนี้คือการมี \"กระบวนการ\" แต่ขาด \"การพิสูจน์ผลลัพธ์\"","ผู้ตรวจต้องการเห็นว่า เมื่ออบรมแล้ว พนักงานระวังตัวมากขึ้นไหม ข้อผิดพลาด (Human Error) ที่หน้างานลดลงกี่เปอร์เซ็นต์ นอกจากนี้ การทำงานระหว่างทีม KM และทีมความเสี่ยง (สสค.) ยังดูแยกส่วนกันอยู่ (Silo) ต้องนำทั้งสองทีมมานั่งวิเคราะห์ร่วมกันและจัดทำเอกสารหลักฐานที่เกิดจากการทำงานร่วมกัน"],results:["วิเคราะห์และระบุจุดควบคุม (Control Points) และจุดวิกฤต (Critical Steps) ในคู่มือปฏิบัติงาน และมีการจัดทำแบบการประมวลผลข้อมูลส่วนบุคคล (RoPA) เพื่อป้องกันการเข้าถึง/เปลี่ยนแปลงข้อมูลโดยไม่ได้รับอนุญาต","สื่อสารและถ่ายโอนความรู้ในจุด Critical Steps ผ่าน e-Learning เช่น กฎหมายคุ้มครองข้อมูลส่วนบุคคล (PDPA), ความมั่นคงปลอดภัยทางไซเบอร์ (Cybersecurity), กฎหมายสินค้าอันตราย รวมถึงการแลกเปลี่ยนเรียนรู้การแก้ปัญหาจราจรท่าเรือแหลมฉบัง","กำหนดให้ทุกหน่วยงานจัดทำรายงานการประเมินผลการควบคุมด้วยตนเอง (CSA) ส่งให้สำนักบริหารความเสี่ยงฯ (สสค.) หากพบความเสี่ยงที่เกี่ยวกับองค์ความรู้ จะประสานวิทยากรกระบวนการกลางไปจัดเก็บความรู้","บูรณาการ “การจัดการความรู้ (KM)” กับ “การบริหารความเสี่ยง (ERM)” โดยถอดบทเรียน (Lesson Learned) จากเหตุการณ์จริงหรือความผิดพลาด มาพัฒนาเป็นความรู้เชิงป้องกัน (Preventive Knowledge) นำไปปรับปรุงคู่มือ","ใช้ข้อมูลป้อนกลับจากผลการตรวจสอบภายใน รายงานควบคุมภายใน และข้อเสนอแนะจากผู้เชี่ยวชาญ มาจัดทำตารางเชื่อมโยงเพื่อปรับปรุงกระบวนการสร้างความตระหนัก"],tris:["ขาดหลักฐานเชิงพฤติกรรม (Behavioral Change Evidence): แม้จะมีการอบรมและทำคู่มือ แต่ กทท. ยังไม่สามารถพิสูจน์ให้เห็นได้อย่างชัดเจนว่า \"ความเข้าใจและความระมัดระวังของบุคลากรเพิ่มมากขึ้นจริง\" หรือมีสถิติข้อผิดพลาดที่ลดลงจากการนำความรู้ไปใช้","การบูรณาการวิเคราะห์ปัจจัยเสี่ยงด้านความรู้ยังไม่สมบูรณ์: ผู้ตรวจประเมินมองว่า ทีม KM ยังไม่ได้ทำงานร่วมกับทีมบริหารความเสี่ยง (สสค.) ในการลงลึกเพื่อวิเคราะห์ \"ปัจจัยเสี่ยงด้านความรู้ (Knowledge Risk)\" อย่างแท้จริงตามแนวทางเกณฑ์"],suggest:["ต้องแสดงประสิทธิผลให้เห็นการเปลี่ยนแปลง: กทท. ควรแสดงให้เห็นชัดเจนถึงความเข้าใจและความระมัดระวังของบุคลากรที่เพิ่มมากขึ้น จากการสื่อสาร แลกเปลี่ยน และถ่ายโอนความรู้ที่เกี่ยวข้องกับการควบคุมจุดวิกฤติ (Critical Steps)","บูรณาการการวิเคราะห์ข้ามสายงาน: หน่วยงานที่รับผิดชอบด้าน KM ควรหารือและทำงานร่วมกับหน่วยงานที่รับผิดชอบด้านบริหารความเสี่ยง เพื่อใช้เครื่องมือในการวิเคราะห์ \"ปัจจัยเสี่ยงด้านความรู้\" ให้ถูกต้องและเป็นไปในทิศทางเดียวกัน"],docs:["รายงานการทำงานร่วมกันระหว่างทีม KM และทีมความเสี่ยง (Joint KM & RM Analysis Report): เอกสารรายงานการประชุม/การวิเคราะห์ร่วมกันระหว่างทีม KM และทีม สสค. เพื่อระบุ \"ปัจจัยเสี่ยงด้านความรู้ (Knowledge Risk)\" โดยเฉพาะ เช่น ความเสี่ยงที่องค์ความรู้สำคัญจะสูญหาย หรือการนำความรู้ไปใช้ผิดวิธี พร้อมระบุแผนป้องกัน","รายงานประเมินการเปลี่ยนแปลงพฤติกรรมและการลดข้อผิดพลาด (Behavioral & Error Reduction Report): เอกสารสรุปสถิติเปรียบเทียบ (Before/After) ที่แสดงให้เห็นว่า หลังจากที่ กทท. นำความรู้ (เช่น Lesson Learned) ไปถ่ายทอดให้พนักงานแล้ว อัตราการเกิดอุบัติเหตุ อัตราการทำงานผิดพลาด หรือความถี่ของการฝ่าฝืนกฎระเบียบในจุด Critical Steps ลดลงอย่างมีนัยสำคัญ เพื่อพิสูจน์ว่าพนักงาน \"มีความระมัดระวังมากขึ้นจริง\"","คู่มือปฏิบัติงานมาตรฐานที่บูรณาการความเสี่ยง (Risk-Integrated SOPs): การปรับปรุงคู่มือปฏิบัติงานของ กทท. ต้องทำแบบ กทพ. คือ ในหน้าคู่มือตรงจุดที่เป็น Critical Step ต้องมีการไฮไลท์ระบุความเสี่ยงอย่างชัดเจน และแนบลิงก์ (หรือระบุชื่อ) องค์ความรู้ / คู่มือการแก้ปัญหา ที่พนักงานต้องเข้าไปอ่านก่อนปฏิบัติงาน เพื่อป้องกันความผิดพลาดครับ"],bestprac:["กทพ. (Best Practice): กทพ. มีความโดดเด่นในการ \"ผนวกการจัดการความรู้เข้ากับกระบวนการเสริมสร้างวัฒนธรรมการบริหารความเสี่ยง (Risk Culture)\" โดยกำหนดให้ทุกหน่วยงานต้องทบทวนและปรับปรุงคู่มือปฏิบัติงานของตนเอง โดยใช้ข้อมูล \"ความรู้ที่สำคัญขององค์กร\" เป็นฐาน เพื่อใช้คู่มือเหล่านั้นเป็นเครื่องมือสร้างความตระหนักและเป็นกรอบแนวปฏิบัติที่ลดความเสี่ยงอย่างเป็นรูปธรรม"],minReqs:{"1":["คู่มือการปฏิบัติงาน (Work Manual / SOP) ที่ระบุจุดควบคุม (Control Point) และจุดวิกฤต (Critical Step) ในแต่ละขั้นตอนอย่างชัดเจน","เอกสารหรือระเบียบที่แสดงถึงมาตรการควบคุมสิทธิ์การเข้าถึงข้อมูล เช่น เอกสารการประมวลผลข้อมูลส่วนบุคคล (RoPA) หรือระบบการควบคุมการเข้าถึง (Access Control)"],"2":["หลักฐานการสื่อสารหรือการฝึกอบรม (เช่น กิจกรรมแลกเปลี่ยนเรียนรู้, e-Learning) ที่ถ่ายทอดความรู้เกี่ยวกับจุดควบคุมความเสี่ยงนั้นๆ เช่น การอบรมเรื่อง PDPA, Cybersecurity หรือ กฎหมาย/ระเบียบข้อบังคับใหม่"],"3":["รายงานการประเมินผลการควบคุมด้วยตนเอง (Control Self-Assessment: CSA) ประจำปีของหน่วยงานต่างๆ ที่ครอบคลุมกระบวนการหลักและสนับสนุน","หลักฐานการจัดการเรียนรู้ร่วมกัน เช่น การสรุปและถ่ายทอด \"บทเรียนจากเหตุการณ์ความเสี่ยง\" (Lesson Learned)"],"4":["เอกสาร/ตารางที่แสดงให้เห็นถึงการบูรณาการระหว่างแผนบริหารความเสี่ยงองค์กร (ERM) กับการจัดทำองค์ความรู้ เช่น การนำ Risk Correlation Map หรือ Risk Profile มาเป็นหัวข้อบังคับในการถอดบทเรียน","หลักฐานการเปลี่ยนความผิดพลาดที่เกิดขึ้นจริงให้เป็น \"ความรู้เชิงป้องกัน\" (Preventive Knowledge)"],"5":["ตารางความเชื่อมโยงการใช้ข้อมูลป้อนกลับ (Feedback Loop Matrix) ที่นำผลจากเหตุการณ์ความเสี่ยง (Incident Report), รายงานการควบคุมภายใน หรือผลตรวจสอบภายใน มาดำเนินการปรับปรุงคู่มือปฏิบัติงาน หรือยกระดับมาตรการความเสี่ยงให้ทันสมัย"]},subComps:{"1":["ความเชื่อมโยงเรื่องข้อมูลส่วนบุคคลและ Cyber : เกณฑ์ระบุถึงการ \"ป้องกันไม่ให้มีการเปลี่ยนแปลงข้อมูลโดยไม่ได้รับอนุญาต\" ซึ่งบังคับกลายๆ ให้องค์กรต้องนำเรื่อง PDPA และ Cybersecurity มาเป็นส่วนหนึ่งขององค์ความรู้ด้านความเสี่ยงพื้นฐานที่พนักงานต้องตระหนัก"],"2":[],"3":[],"4":["ความเสี่ยงด้านองค์ความรู้ (Knowledge Risk): เกณฑ์ในหมวดนี้ซ่อนข้อบังคับที่คณะทำงาน KM ต้องวิเคราะห์ความเสี่ยงที่เกี่ยวกับ \"ความรู้\" โดยตรง ใน 3 มิติ คือ 1.ความเสี่ยงจากปฏิบัติงาน (เช่น การสูญเสียความรู้สำคัญให้กับ Outsource, การระบุ Critical Knowledge ผิดพลาด) / 2. ความเสี่ยงจากบุคลากร (เช่น การเกษียณ/ลาออกของผู้เชี่ยวชาญ, การหวงแหนไม่ยอมแบ่งปันความรู้, การยึดติดความรู้เดิม) / 3. ความเสี่ยงด้าน IT (เช่น ระบบ KM ล่ม, ข้อมูลถูกเจาะ หรือระบบไม่ตอบสนองการใช้งาน)","การถอดบทเรียนความเสี่ยง (Lesson Learned): องค์กรไม่สามารถทำเพียงแค่ประเมินความเสี่ยงตามรอบปกติได้ แต่ต้องนำ \"เหตุการณ์เฉียดพลาดหรือความผิดพลาดจริง\" มาผ่านกระบวนการจัดการความรู้ (เช่น AAR) เพื่อสร้างเป็นมาตรฐานปฏิบัติ (Standard Procedure) ใหม่ ป้องกันไม่ให้เกิดซ้ำ"],"5":[]},dimScope:{"1":["การวิเคราะห์และระบุจุดที่ต้องควบคุม ระมัดระวัง หรือจุดสำคัญ/วิกฤต (Critical Step) ในขั้นตอนการปฏิบัติงาน รวมถึงการป้องกันไม่ให้มีการเปลี่ยนแปลงข้อมูลโดยไม่ได้รับอนุญาต หรือมีการนำข้อมูลไปใช้อย่างไม่ถูกต้อง"],"2":["การสื่อสาร แลกเปลี่ยน และถ่ายโอนความรู้ที่เกี่ยวข้องกับการควบคุมจุดที่ต้องควบคุม ระมัดระวังหรือจุดสำคัญ/วิกฤติ (Critical Step) ให้แก่บุคลากรที่เกี่ยวข้องเพื่อสร้างความเข้าใจและความระมัดระวัง"],"3":["การสร้างความตระหนักเรื่องความเสี่ยงในกระบวนการปฏิบัติงานที่สำคัญทั้งกระบวนการหลักและกระบวนการสนับสนุน (Key and Support Processes) แก่บุคลากรที่เกี่ยวข้องอย่างทั่วถึงและต่อเนื่อง"],"4":["การสร้างความตระหนักเรื่องความเสี่ยงในกระบวนการปฏิบัติงานโดยใช้ความรู้เป็นฐาน มีความเชื่อมโยงกับการบริหารความเสี่ยงขององค์กร"],"5":["การใช้ข้อมูลป้อนกลับจากการดำเนินงาน รวมถึงข้อมูลจากแหล่งอื่น ๆ ในการปรับปรุงการสร้างความตระหนักเรื่องความเสี่ยงในกระบวนการปฏิบัติงานให้สอดคล้องกับการเปลี่ยนแปลงอยู่เสมอ"]},crosslinks:[{"level":"1","dim":"DT"},{"level":"2","dim":"HCM"},{"level":"3","dim":"RM&IC"},{"level":"4","dim":"RM&IC"},{"level":"5","dim":"IA"},{"level":"5","dim":"RM&IC"}]},
+  {id:"6.1",grp:"6",gname:"ผลลัพธ์ของการจัดการความรู้",gw:8.0,gs68:2.4,name:"ผลการดำเนินการด้านต่างๆ ที่เกี่ยวข้องหรือเกิดจากการจัดการความรู้",w:8.0,s68:2.4,status:"ยังไม่เริ่ม",statusNote:"",scope:"ประเมินผลลัพธ์ที่เกิดขึ้นจริงจากการดำเนินการจัดการความรู้ในทุกมิติ (ตั้งแต่การนำองค์กร, การวางแผน, บุคลากร, กระบวนการ จนถึงการปฏิบัติงาน) โดยต้องแสดงให้เห็นถึงผลลัพธ์ทั้งเชิงปริมาณ (Output) และเชิงคุณภาพ (Outcome) ที่มีประสิทธิภาพ มีแนวโน้มที่ดีขึ้นอย่างต่อเนื่อง และสามารถนำไปต่อยอดขยายผลเพื่อสร้างสรรค์ \"นวัตกรรม\" ที่สร้างมูลค่าเพิ่ม (Value Creation) ให้กับองค์กรได้อย่างมีนัยสำคัญ",levelSumm:["มีผลการดำเนินการด้านการจัดการความรู้ที่เชื่อมโยงกับวิสัยทัศน์ ทิศทางการดำเนินงาน นโยบาย รวมถึงเป้าหมายการจัดการความรู้ที่ตั้งไว้ (สอดคล้องกับหมวด 1 และ 2)","มีผลการดำเนินการด้านการจัดการความรู้ที่เกี่ยวข้องกับบุคลากร (สอดคล้องกับหมวด 3)","มีผลการปรับปรุงกระบวนการและการพัฒนาที่เกิดจากการจัดการความรู้ และเกิดผลลัพธ์จากการบูรณาการการจัดการความรู้ทั่วองค์กร (เช่น การหมุนเวียนบุคลากรแล้วทำงานต่อได้ทันที, ข้อผิดพลาดในการทำงานลดลง) (สอดคล้องกับหมวด 4 และ 5)","มีนวัตกรรมซึ่งเกิดจากการใช้เครื่องมือการจัดการความรู้โดยตรง การใช้เครื่องมือปรับปรุงองค์กรอื่นๆ หรือมาจากระบบ/กระบวนการที่ใช้ความรู้เป็นฐาน","นวัตกรรมองค์กรที่ได้คิดค้นขึ้น ได้รับการพิสูจน์แล้วว่ามาจากเครื่องมือจัดการความรู้ และสามารถ สร้างมูลค่าเพิ่ม (Value Creation) ให้กับองค์กรได้อย่างมีนัยสำคัญ"],good:[],gaps:[],results:["มีผลการดำเนินงานที่เชื่อมโยงกับวิสัยทัศน์และนโยบาย โดยทบทวนแผนแม่บทระยะ 5 ปี และแผนปฏิบัติการ 1 ปี พร้อมจัดตั้งศูนย์ส่งเสริมและพัฒนาความรู้ (COE) และผูกตัวชี้วัดผู้บริหาร 2%"],tris:[],suggest:[],docs:[],bestprac:[],minReqs:{"1":["รายงานสรุปผลการดำเนินงานตามแผนปฏิบัติการ KM ประจำปี เทียบกับเป้าหมายที่ตั้งไว้ (ต้องมีตัวชี้วัดระดับองค์กรที่เชื่อมโยงกับวิสัยทัศน์)"],"2":["รายงานผลลัพธ์ด้านบุคลากร เช่น ผลการพัฒนาศักยภาพทีม KM, สรุปผลการปรับเปลี่ยนพฤติกรรมตามค่านิยมองค์กร, และผลสัมฤทธิ์จากกิจกรรมส่งเสริมแรงจูงใจ (เช่น จำนวนผลงานที่เข้าประกวด/จำนวนคนที่เข้าร่วม CoP)"],"3":["เอกสาร/รายงานการปรับปรุงกระบวนการ (Before/After) ที่แสดงให้เห็นการลดเวลา ลดขั้นตอน ลดข้อผิดพลาด (Defect/Error) ซึ่งเกิดจากการนำฐานความรู้ไปใช้จริง"],"4":["เอกสารสรุปผลงานนวัตกรรมขององค์กร (เช่น โครงการที่ได้รับรางวัลนวัตกรรม) ที่มีเส้นทางการพัฒนา (Audit Trail) ชัดเจนว่าจุดเริ่มต้นมาจากกระบวนการ KM (เช่น ได้ไอเดียจากการทำ AAR หรือพัฒนาจาก CoP)"],"5":["รายงานการพิสูจน์มูลค่าเพิ่ม (Value Creation Report) หรือตารางประเมินผลตอบแทนจากการลงทุน (ROI) ที่คำนวณออกมาเป็น \"ตัวเลขทางการเงิน\" หรือการประหยัดต้นทุนที่องค์กรได้รับจากการเกิดนวัตกรรมนั้นๆ"]},subComps:{"1":["ตัวชี้วัดต้องครอบคลุม Leading & Lagging Indicators: จุดที่ผู้ตรวจมักหักคะแนนคือ รัฐวิสาหกิจมักรายงานแค่ Output เชิงปริมาณ (เช่น เก็บความรู้ได้ 500 เรื่อง, มีคนใช้งาน 1,000 ครั้ง) แต่เกณฑ์ต้องการ Outcome เชิงคุณภาพด้วย (เช่น นำความรู้ไปใช้จริงแล้วลดเวลาทำงานได้กี่นาที, ประหยัดต้นทุนได้กี่บาท)"],"2":[],"3":[],"4":["การพิสูจน์ \"KM to Innovation\": ในระดับ 4 และ 5 คุณไม่สามารถนำนวัตกรรมของฝ่าย IT หรือฝ่ายอื่นๆ มาเคลมลอยๆ ได้ แต่ต้องมีร่องรอยหลักฐานว่า นวัตกรรมนั้นถูก \"ต่อยอด\" มาจากเครื่องมือ KM โดยตรง เช่น การดึง Pain Point มาแก้ผ่าน CoP แล้วพัฒนาเป็นนวัตกรรมบริการ"],"5":["การพิสูจน์ \"KM to Innovation\": ในระดับ 4 และ 5 คุณไม่สามารถนำนวัตกรรมของฝ่าย IT หรือฝ่ายอื่นๆ มาเคลมลอยๆ ได้ แต่ต้องมีร่องรอยหลักฐานว่า นวัตกรรมนั้นถูก \"ต่อยอด\" มาจากเครื่องมือ KM โดยตรง เช่น การดึง Pain Point มาแก้ผ่าน CoP แล้วพัฒนาเป็นนวัตกรรมบริการ","มูลค่าเพิ่มเชิงประจักษ์ (Financial Value Creation): การจะผ่านระดับ 5 ได้ ต้องแสดงให้ผู้ตรวจเห็นตัวเลขทางการเงินที่จับต้องได้ว่า นวัตกรรมที่มาจาก KM นั้น สร้างรายได้เพิ่มขึ้นเท่าไหร่ หรือลดต้นทุน (Cost Saving) ให้องค์กรได้กี่บาทต่อปี นี่คือข้อสังเกตหลักที่ผู้ตรวจจาก สคร. มักจะเน้นย้ำ"]},dimScope:{"1":["มีผลการดำเนินการด้านการจัดการความรู้ที่เชื่อมโยงกับวิสัยทัศน์ ทิศทางการดำเนินงาน นโยบาย รวมถึงเป้าหมายการจัดการความรู้ที่ตั้งไว้ (สอดคล้องกับหมวด 1 และ 2)"],"2":["มีผลการดำเนินการด้านการจัดการความรู้ที่เกี่ยวข้องกับบุคลากร (สอดคล้องกับหมวด 3)"],"3":["มีผลการปรับปรุงกระบวนการและการพัฒนาที่เกิดจากการจัดการความรู้ และเกิดผลลัพธ์จากการบูรณาการการจัดการความรู้ทั่วองค์กร (เช่น การหมุนเวียนบุคลากรแล้วทำงานต่อได้ทันที, ข้อผิดพลาดในการทำงานลดลง) (สอดคล้องกับหมวด 4 และ 5)"],"4":["มีนวัตกรรมซึ่งเกิดจากการใช้เครื่องมือการจัดการความรู้โดยตรง การใช้เครื่องมือปรับปรุงองค์กรอื่นๆ หรือมาจากระบบ/กระบวนการที่ใช้ความรู้เป็นฐาน"],"5":["นวัตกรรมองค์กรที่ได้คิดค้นขึ้น ได้รับการพิสูจน์แล้วว่ามาจากเครื่องมือจัดการความรู้ และสามารถ สร้างมูลค่าเพิ่ม (Value Creation) ให้กับองค์กรได้อย่างมีนัยสำคัญ"]},crosslinks:[{"level":"1","dim":"CG"},{"level":"2","dim":"HCM"},{"level":"4","dim":"IM"},{"level":"5","dim":"IM"}]}
+  ]
+}};
+const CROSS_LINKS={
+"1.1":{"1":["SP","KM2.1"],"2":["HCM","KM3.3"],"3":["HCM","KM3.1"],"4":["SP,HCM,DT,IM,SCM และ RM","KM5.1"],"5":["ต้องรับ Feedback (Input) จากทุกๆ Enablers","KM6.1"]},
+"1.2":{"1":["CG","KM2.2"],"2":["HCM","KM3.2"],"3":["HCM","KM3.1"],"4":["RM","SP","KM5.1"],"5":["HCM"]},
+"2.1":{"1":["SP"],"2":["RM&IC","HCM","DT","IM"],"3":["SCM","KM3.1","KM4.2"],"4":["SP"],"5":["KM2.2"]},
+"2.2":{"1":["HCM","DT"],"2":["SP"],"3":["KM5.1"],"4":["SP","KM2.1"],"5":["RK&IC","HCM"]},
+"3.1":{"1":["KM1.1","HCM"],"2":["HCM"],"3":["KM5.1"],"4":["HCM"],"5":["HCM"]},
+"3.2":{"1":["DT","HCM"],"2":["HCM"],"3":["KM3.1","KM4.1"],"4":["HCM"],"5":["SP","SCM"]},
+"3.3":{"1":["HCM"],"2":["IA","RM&IC","KM5.1","KM5.2"],"3":["SCM","KM3.1"],"4":["HCM"],"5":["DT"]},
+"4.1":{"1":["SP"],"2":["KM3.1"],"3":["KM5.1"],"4":["DT"],"5":["DT"]},
+"4.2":{"1":["SCM","KM"],"2":["SCM","KM"],"3":["SCM","KM3.1"],"4":["IM","SP","KM5.1","KM6.1"],"5":["SCM","KM2.1"]},
+"5.1":{"2":["CG"],"3":["KM3.1"],"4":["SP","KM4.1"],"5":["KM2.1","IM"]},
+"5.2":{"1":["DT"],"2":["HCM"],"3":["RM&IC"],"4":["RM&IC"],"5":["IA","RM&IC"]},
+"6.1":{"1":["CG"],"2":["HCM"],"4":["IM"],"5":["IM"]}
+};
+const DIM_COL={"SP":"#1e3a5c","HCM":"#0d7377","SCM":"#b8862f","DT":"#4c51bf","KM":"#276749","CG":"#7b2d3e","RM&IC":"#64748b","IA":"#6b46c1","IM":"#c2610f","CM":"#0a8a7a"};
+
+// ── STATE ────────────────────────────────────────────────────────────
+let kmMrChk={};   // kmMrChk[sid][L][ri] = bool — minReqs gating
+let kmScChk={};   // kmScChk[sid][L][si] = bool — subComps partial credit
+let kmDimMlt={};  // kmDimMlt[sid][L] = 0|0.5|1.0 — fallback when no subComps
+let docCk={};let feInput={};let clChecked={};
+let targets={km:{}};let focusId=null;
+
+DATA.km.subs.forEach(s=>{
+  kmMrChk[s.id]={};kmScChk[s.id]={};kmDimMlt[s.id]={};
+  targets.km[s.id]=s.s68;
+  for(let L=1;L<=5;L++){
+    kmMrChk[s.id][L]={};
+    kmScChk[s.id][L]=(s.subComps&&s.subComps[L])?s.subComps[L].map(()=>false):[];
+    kmDimMlt[s.id][L]=0;
+  }
+});
+
+// ── LOAD ─────────────────────────────────────────────────────────────
+async function loadState(){
+  try{
+    const d=JSON.parse(localStorage.getItem(LS_KEY)||'{}');
+    if(d.mr)Object.assign(kmMrChk,d.mr);
+    if(d.sc)Object.assign(kmScChk,d.sc);
+    if(d.dm)Object.assign(kmDimMlt,d.dm);
+    if(d.cl)Object.assign(clChecked,d.cl);
+    if(d.dc)Object.assign(docCk,d.dc);
+    if(d.fe)Object.assign(feInput,d.fe);
+  }catch(e){}
+  const remote=await ebFetchDim(DIM_KEY,4000);
+  if(remote&&remote.data&&Object.keys(remote.data).length){
+    try{
+      const d=remote.data;
+      if(d.mr)Object.assign(kmMrChk,d.mr);
+      if(d.sc)Object.assign(kmScChk,d.sc);
+      if(d.dm)Object.assign(kmDimMlt,d.dm);
+      if(d.cl)Object.assign(clChecked,d.cl);
+      if(d.dc)Object.assign(docCk,d.dc);
+      if(d.fe)Object.assign(feInput,d.fe);
+      localStorage.setItem(LS_KEY,JSON.stringify(d));
+    }catch(e){}
+  }
+  DATA.km.subs.forEach(s=>{targets.km[s.id]=kmCalcRaw(s.id)||s.s68;});
+}
+
+// ── SAVE / EXPORT / IMPORT ───────────────────────────────────────────
+function save(){
+  try{localStorage.setItem(LS_KEY,JSON.stringify({mr:kmMrChk,sc:kmScChk,dm:kmDimMlt,cl:clChecked,dc:docCk,fe:feInput}));}catch(e){}
+  syncHomeStatus();
+  ebScheduleSaveDim(DIM_KEY,
+    ()=>JSON.parse(localStorage.getItem(LS_KEY)||'{}'),
+    ()=>{const h=JSON.parse(localStorage.getItem('seam_status_69')||'{}');return h[DIM_KEY]||{};},
+    800);
+}
+function exportProgress(){
+  const payload=JSON.parse(localStorage.getItem(LS_KEY)||'{}');
+  payload._exported=new Date().toISOString();payload._dim='KM';
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='KM_progress_'+new Date().toLocaleDateString('th-TH').replace(/\//g,'')+'.json';
+  a.click();
+}
+function importProgress(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const d=JSON.parse(e.target.result);
+      const exp=d._exported?new Date(d._exported).toLocaleString('th-TH'):'ไม่ระบุ';
+      if(!confirm('นำเข้าข้อมูล KM (ส่งออกเมื่อ '+exp+')\nจะทับข้อมูลปัจจุบัน — ยืนยัน?'))return;
+      delete d._exported;delete d._dim;
+      localStorage.setItem(LS_KEY,JSON.stringify(d));
+      loadState();renderAll();
+    }catch(err){alert('ไฟล์ไม่ถูกต้อง');}
+  };
+  reader.readAsText(file);input.value='';
+}
+function syncHomeStatus(){
+  try{
+    const home=JSON.parse(localStorage.getItem('seam_status_69')||'{}');
+    if(!home[DIM_KEY])home[DIM_KEY]={};
+    DATA.km.subs.forEach(s=>{
+      const score=kmCalcRaw(s.id);
+      const gc=(s.gaps||[]).length;
+      home[DIM_KEY][s.id]={level:score,hasOpenGap:gc>0,gapCount:gc};
+    });
+    localStorage.setItem('seam_status_69',JSON.stringify(home));
+  }catch(e){}
+}
+
+// ── SCORING ──────────────────────────────────────────────────────────
+function kmCalcLevel(sid,L){
+  const s=DATA.km.subs.find(x=>x.id===sid);if(!s)return 0;
+  const mrs=(s.minReqs&&s.minReqs[L])||[];
+  const passedMR=mrs.length===0||mrs.every((_,i)=>!!(kmMrChk[sid]&&kmMrChk[sid][L]&&kmMrChk[sid][L][i]));
+  if(!passedMR)return 0;
+  const scs=(s.subComps&&s.subComps[L])||[];
+  if(scs.length>0){
+    const checked=((kmScChk[sid]&&kmScChk[sid][L])||[]).filter(Boolean).length;
+    return checked/scs.length;
+  }
+  return(kmDimMlt[sid]&&kmDimMlt[sid][L])||0;
+}
+function kmCalcRaw(sid){
+  let total=0;
+  for(let L=1;L<=5;L++){
+    const lScore=kmCalcLevel(sid,L);
+    total+=lScore;
+    if(lScore===0)break;
+  }
+  return Math.min(5,total);
+}
+
+// ── SETTERS ──────────────────────────────────────────────────────────
+function kmToggleMR(sid,L,ri,val){
+  if(!kmMrChk[sid])kmMrChk[sid]={};
+  if(!kmMrChk[sid][L])kmMrChk[sid][L]={};
+  kmMrChk[sid][L][ri]=val;
+  targets.km[sid]=kmCalcRaw(sid);save();renderAll();
+}
+function kmToggleSC(sid,L,si,val){
+  if(!kmScChk[sid])kmScChk[sid]={};
+  if(!kmScChk[sid][L])kmScChk[sid][L]=[];
+  kmScChk[sid][L][si]=val;
+  targets.km[sid]=kmCalcRaw(sid);save();renderAll();
+}
+function kmSetDim(sid,L,val){
+  if(!kmDimMlt[sid])kmDimMlt[sid]={};
+  kmDimMlt[sid][L]=parseFloat(val);
+  targets.km[sid]=kmCalcRaw(sid);save();renderAll();
+}
+function kmClearAll(){
+  DATA.km.subs.forEach(s=>{
+    kmMrChk[s.id]={};kmScChk[s.id]={};kmDimMlt[s.id]={};
+    [1,2,3,4,5].forEach(L=>{kmMrChk[s.id][L]={};kmScChk[s.id][L]=[];kmDimMlt[s.id][L]=0;});
+    delete docCk[s.id];delete feInput[s.id];delete clChecked[s.id];
+  });
+  try{localStorage.removeItem(LS_KEY);}catch(e){}
+  DATA.km.subs.forEach(s=>{targets.km[s.id]=s.s68;});
+  renderAll();
+}
+function kmClearOne(sid){
+  const s=DATA.km.subs.find(x=>x.id===sid);if(!s)return;
+  kmMrChk[sid]={};kmScChk[sid]={};kmDimMlt[sid]={};
+  [1,2,3,4,5].forEach(L=>{kmMrChk[sid][L]={};kmScChk[sid][L]=[];kmDimMlt[sid][L]=0;});
+  delete docCk[sid];delete feInput[sid];delete clChecked[sid];
+  targets.km[sid]=s.s68;
+  save();renderAll();
+}
+
+// ── UTILITIES ────────────────────────────────────────────────────────
+function docGetChk(sid,L,i){return !!(docCk[sid]&&docCk[sid][L]&&docCk[sid][L][i]);}
+function feGet(sid,field,key){return(feInput[sid]&&feInput[sid][field]&&feInput[sid][field][key])||'';}
+function feSet(sid,field,key,val){if(!feInput[sid])feInput[sid]={};if(!feInput[sid][field])feInput[sid][field]={};feInput[sid][field][key]=val;save();}
+function feGapClosed(sid,i){const fi=feInput[sid];if(!fi||!fi.gapClosed)return null;return fi.gapClosed.hasOwnProperty(i)?fi.gapClosed[i]:null;}
+function feCopyOut(outId,btn){
+  const el=document.getElementById(outId);if(!el)return;
+  const orig=btn.textContent;
+  if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(el.value).then(()=>{btn.textContent='✓ คัดลอกแล้ว';setTimeout(()=>btn.textContent=orig,1500);}).catch(()=>{el.select();document.execCommand('copy');});}
+  else{el.select();document.execCommand('copy');btn.textContent='✓ คัดลอกแล้ว';setTimeout(()=>btn.textContent=orig,1500);}
+}
+function docToggle(sid,L,i,v){
+  if(!docCk[sid])docCk[sid]={};if(!docCk[sid][L])docCk[sid][L]={};
+  docCk[sid][L][i]=v;save();
+  const inp=document.getElementById(`dck-${sid}-${L}-${i}`);
+  if(inp){const lbl=inp.closest('label');if(lbl){if(v)lbl.classList.add('fb-item-done');else lbl.classList.remove('fb-item-done');}}
+  updateDocProgress(sid);
+}
+function updateDocProgress(sid){
+  const s=DATA.km.subs.find(x=>x.id===sid);if(!s)return;
+  const mr=s.minReqs||{};let total=0,done=0;
+  [1,2,3,4,5].forEach(L=>{
+    const items=mr[L]||[];total+=items.length;
+    const lvlDone=items.filter((_,i)=>docGetChk(sid,L,i)).length;done+=lvlDone;
+    const cntEl=document.getElementById(`fb-cnt-${sid}-${L}`);
+    if(cntEl){
+      const c=lvlDone===items.length&&items.length>0?'#1a7a4a':lvlDone>0?'#92400e':'#0369a1';
+      cntEl.textContent=`${lvlDone}/${items.length}`;cntEl.style.color=c;
+      const hdEl=cntEl.closest('.doc-lvl-hd');
+      if(hdEl)hdEl.style.background=lvlDone===items.length&&items.length>0?'#e4f5e4':lvlDone>0?'#fef8e0':'rgba(2,132,199,.06)';
+    }
+  });
+  const totalEl=document.getElementById(`fb-total-${sid}`);const fillEl=document.getElementById(`fb-prog-fill-${sid}`);
+  if(totalEl){const c=done===total&&total>0?'#1a7a4a':done>0?'#92400e':'#666';totalEl.textContent=`${done}/${total} เอกสารพร้อมแล้ว`;totalEl.style.color=c;if(fillEl){fillEl.style.width=`${total>0?Math.round(done/total*100):0}%`;fillEl.style.background=c;}}
+}
+let _eu=0;
+function exp(txt,lim=110){
+  if(!txt||txt.length<=lim) return txt||'';
+  const id='ex'+(_eu++);
+  const b='border:none;background:#e8e0f8;cursor:pointer;color:#5a20a0;font-size:10px;padding:0 5px;border-radius:8px;line-height:1.6;white-space:nowrap;';
+  return `<span id="${id}s">${txt.slice(0,lim)}<span style="color:#bbb;">…</span>&nbsp;<button onclick="document.getElementById('${id}s').style.display='none';document.getElementById('${id}f').style.display='inline';" style="${b}">▼ ดูเพิ่ม</button></span><span id="${id}f" style="display:none;">${txt}&nbsp;<button onclick="document.getElementById('${id}f').style.display='none';document.getElementById('${id}s').style.display='inline';" style="${b}">▲ ย่อ</button></span>`;
+}
+function clExpand(id,i){const el=document.getElementById('cls-'+id+'-'+i);const btn=document.getElementById('clb-'+id+'-'+i);if(!el||!btn)return;const collapsed=el.style.webkitLineClamp!=='unset'&&el.style.webkitLineClamp!=='';el.style.webkitLineClamp=collapsed?'unset':'2';btn.textContent=collapsed?'ย่อ ▲':'อ่านเพิ่ม ▼';}
+function fmt(n){return n.toFixed(4);}
+function sClass(st){return st==='เสร็จแล้ว'?'s2':st==='กำลังดำเนินการ'?'s1':'s0';}
+function sIcon(st){return st==='เสร็จแล้ว'?'✓':st==='กำลังดำเนินการ'?'●':'○';}
+function dotColor(s){
+  const t=kmCalcRaw(s.id);const diff=t-s.s68;
+  if(diff>0.5)return 'dg';if(diff>0.01)return 'da';return 'dr';
+}
+function dimBadge(d){
+  const key=d.replace(/^(SP|HCM|SCM|DT|KM|CG|RM&IC|IA|IM|CM).*/,'$1');
+  const col=DIM_COL[key]||'#5a3e8c';
+  return `<a href="${LINK_URL}" target="_blank" class="dim-badge" style="background:${col};text-decoration:none;" title="ดูเอกสารเชื่อมโยง ${d}">${d}</a>`;
+}
+const KM_DEP_TOTAL=(function(){
+  const c={};
+  Object.values(CROSS_LINKS).forEach(lvls=>Object.values(lvls).forEach(dims=>dims.forEach(d=>{
+    const k=d;c[k]=(c[k]||0)+1;
+  })));
+  return c;
+})();
+function renderDepTotal(){
+  const order=['SP','HCM','SCM','DT','CG','RM&IC','IA','IM','CM'];
+  const vals=order.filter(k=>KM_DEP_TOTAL[k]);
+  if(!vals.length)return '';
+  const maxV=Math.max(...vals.map(k=>KM_DEP_TOTAL[k]));
+  return '<div class="dep-count-bar"><span style="font-size:9px;color:#276749;font-weight:600;flex-shrink:0;margin-right:2px;">📊 KM พึ่งพา:</span>'+
+    vals.map(k=>{
+      const v=KM_DEP_TOTAL[k];const col=DIM_COL[k]||'#5a3e8c';const barW=Math.round(v/maxV*36);
+      return `<span class="dep-pill" style="background:${col};">${k}<span>×${v}</span><span style="display:inline-block;width:${barW}px;height:4px;background:rgba(255,255,255,.45);border-radius:2px;margin-left:3px;"></span></span>`;
+    }).join('')+'</div>';
+}
+
+// ── genScript ─────────────────────────────────────────────────────────
+function genScript(sid){
+  const s=DATA.km.subs.find(x=>x.id===sid);if(!s)return'';
+  const fi=feInput[sid]||{};const lvlNotes=fi.lvlNotes||{};const gapClosed=fi.gapClosed||{};const gapNotes=fi.gapNotes||{};
+  const mr=s.minReqs||{};
+  const simMax=[5,4,3,2,1].find(L=>kmCalcLevel(sid,L)>=1)||0;
+  const lines=[];
+  lines.push(`รายงานประเมินตนเอง — เกณฑ์ ${sid} ${s.name}`);
+  lines.push(`ระดับที่ผ่านครบ (คาดการณ์): L${simMax||'—'}`);
+  lines.push(`คะแนนดิบสะสม: ${kmCalcRaw(sid).toFixed(4)}/5.0`);
+  lines.push('─'.repeat(60));lines.push('');
+  lines.push(`กทท. ได้ดำเนินการตามหลักเกณฑ์ "${s.name}" โดยมีผลการดำเนินงาน ดังนี้`);lines.push('');
+  [1,2,3,4,5].forEach(L=>{
+    const items=mr[L]||[];if(!items.length)return;
+    const lScore=kmCalcLevel(sid,L);const isPass=lScore>=1;const isPartial=lScore>0&&lScore<1;
+    const lvlTitle=(s.levelSumm&&s.levelSumm[L-1])||`ระดับ ${L}`;
+    const tickedDocs=items.filter((_,i)=>docGetChk(sid,L,i)).map(d=>d.replace('[แก้ไข Gap สำคัญ]','').trim());
+    const note=lvlNotes[L]||'';
+    const scs=(s.subComps&&s.subComps[L])||[];
+    const scChecked=scs.length>0?((kmScChk[sid]&&kmScChk[sid][L])||[]).filter(Boolean).length:null;
+    lines.push(`${isPass?'✓':isPartial?'◐':'○'} ระดับ ${L} — ${lvlTitle}`);
+    if(scChecked!==null)lines.push(`   ประเด็นที่เปิดเผย: ${scChecked}/${scs.length} (${(lScore*100).toFixed(0)}%)`);
+    if(note)lines.push(`   ${note}`);
+    if(tickedDocs.length){lines.push(`   หลักฐานที่เตรียมแล้ว (${tickedDocs.length} รายการ):`);tickedDocs.forEach((d,i)=>lines.push(`   (${i+1}) ${d}`));}
+    lines.push('');
+  });
+  const goods=s.good||[];const results=s.results||[];
+  if(goods.length){lines.push('จุดแข็งขององค์กร:');goods.forEach(g=>lines.push(`• ${g}`));lines.push('');}
+  if(results.length){lines.push('ผลการดำเนินงานที่นำเสนอ:');results.forEach((r,i)=>lines.push(`(${i+1}) ${r}`));lines.push('');}
+  const gaps=s.gaps||[];
+  if(gaps.length){
+    lines.push('ช่องว่างที่ได้รับการเสนอแนะ และสถานะการปิด:');
+    gaps.forEach((gap,i)=>{
+      const cl=gapClosed[i];const gNote=gapNotes[i]||'';
+      const st=cl===true?'✓ ปิดได้แล้ว':cl===false?'○ อยู่ระหว่างดำเนินการ':'— ยังไม่ได้ระบุ';
+      lines.push(`• ${gap}`);lines.push(`  → ${st}${gNote?': '+gNote:''}`);
+    });
+  }
+  return lines.join('\n');
+}
+
+// ── renderSim (SM Sequential Gating) ────────────────────────────────
+function renderSim(s){
+  const sid=s.id;
+  const lvlSc=[];let gated=false;
+  for(let L=1;L<=5;L++){
+    if(gated){lvlSc.push({rv:0,bl:true,passedMR:false,hasSC:false});continue;}
+    const mrs=(s.minReqs&&s.minReqs[L])||[];
+    const passedMR=mrs.length===0||mrs.every((_,i)=>!!(kmMrChk[sid]&&kmMrChk[sid][L]&&kmMrChk[sid][L][i]));
+    const scs=(s.subComps&&s.subComps[L])||[];
+    let rv=0;
+    if(passedMR){
+      if(scs.length>0){
+        const checked=((kmScChk[sid]&&kmScChk[sid][L])||[]).filter(Boolean).length;
+        rv=checked/scs.length;
+      }else{
+        rv=(kmDimMlt[sid]&&kmDimMlt[sid][L])||0;
+      }
+    }
+    lvlSc.push({rv,bl:false,passedMR,hasSC:scs.length>0});
+    if(rv===0)gated=true;
+  }
+  const raw=lvlSc.reduce((a,x)=>a+x.rv,0);
+  const wt=raw*(s.w/100);
+  targets.km[sid]=raw;
+  requestAnimationFrame(()=>{
+    const inp=document.getElementById('ti-'+sid);
+    if(inp){inp.value=fmt(targets.km[sid]);inp.style.borderColor=raw>=4?'#2a8a4a':raw>=3?'#5a8a00':raw>=2?'#c07000':'#c03020';}
+  });
+
+  function countMR(L){const mrs=(s.minReqs&&s.minReqs[L])||[];let t=0,c=0;mrs.forEach((_,ri)=>{t++;if(kmMrChk[sid]&&kmMrChk[sid][L]&&kmMrChk[sid][L][ri])c++;});return{tot:t,chk:c};}
+
+  const allDimsSet=[];
+  for(let _l=1;_l<=5;_l++){((CROSS_LINKS[sid]&&CROSS_LINKS[sid][_l])||[]).forEach(d=>{if(!allDimsSet.includes(d))allDimsSet.push(d);});}
+  const crossSumm=allDimsSet.length?`<div class="crosslink-summ">🔗&nbsp;<strong style="margin-right:4px;">ต้องร่วมมือ:</strong>${allDimsSet.map(dimBadge).join(' ')}</div>`:'';
+  const gapL=s.s68>0?(s.s68===Math.floor(s.s68)?s.s68+1:Math.ceil(s.s68)):1;
+
+  let lvlHTML='';
+  lvlSc.forEach((ls,i)=>{
+    const L=i+1;
+    const summ=(s.levelSumm&&s.levelSumm[L-1])||'';
+    const detail=(s.dimLevels&&s.dimLevels[L-1])||'';
+    const mrs=(s.minReqs&&s.minReqs[L])||[];
+    const scs=(s.subComps&&s.subComps[L])||[];
+    const ints=(CROSS_LINKS[sid]&&CROSS_LINKS[sid][L])||[];
+    const{tot,chk}=countMR(L);
+    const rv=ls.rv;
+    const hdBg=ls.bl?'#eee8f8':rv>=1?'#e4f5e4':rv>0?'#fef8e8':'#f0fffa';
+    const nBg=ls.bl?'#aaa':rv>=1?'#1a7a4a':rv>0?'#2a8a50':'#1a5a3a';
+    const sCol=ls.bl?'#bbb':rv>=1?'#1a7a4a':rv>0?'#2a8a50':'#6aaa88';
+    const barPct=tot>0?Math.round(chk/tot*100):0;
+    const xId=`cgx-${sid}-${L}`;
+    const xBtn=detail?`<button class="cg-toggle" onclick="event.stopPropagation();var e=document.getElementById('${xId}'),b=this;e.classList.toggle('open');b.textContent=e.classList.contains('open')?'▲':'▼';">▼</button>`:'';
+    const xPan=detail?`<div id="${xId}" class="cg-lvl-detail">${detail}</div>`:'';
+    let mrH='';
+    if(mrs.length){
+      mrH=`<div class="cg-sect-lbl">🔒 หลักฐานขั้นต่ำ (L${L}) <span style="color:#1a7a4a;">${chk}/${tot} (${barPct}%)</span></div>
+      <div class="cg-prog-bar"><div class="cg-prog-fill" style="width:${barPct}%;background:${chk===tot?'#1a7a4a':'#2a8a50'};"></div></div>`;
+      mrs.forEach((txt,ri)=>{
+        const kid=`cgmr-${sid}-${L}-${ri}`;const ck=kmMrChk[sid]&&kmMrChk[sid][L]&&kmMrChk[sid][L][ri]?'checked':'';const dis=ls.bl?'disabled':'';
+        mrH+=`<div class="cg-req-item"><input type="checkbox" id="${kid}" ${ck} ${dis} onchange="kmToggleMR('${sid}',${L},${ri},this.checked);" style="accent-color:#1a7a4a;"><label for="${kid}">${txt}</label></div>`;
+      });
+    }
+    let dimH='';
+    if(scs.length>0){
+      const scChecked=((kmScChk[sid]&&kmScChk[sid][L])||[]).filter(Boolean).length;
+      const scPct=Math.round(scChecked/scs.length*100);
+      dimH=`<div class="cg-sect-lbl" style="margin-top:8px;">📊 ประเด็นที่เปิดเผย (L${L}) — <span style="color:#1a7a4a;">${scChecked}/${scs.length} = ${rv.toFixed(4)}</span></div>
+      <div class="cg-prog-bar"><div class="cg-prog-fill" style="width:${scPct}%;background:${scChecked===scs.length?'#1a7a4a':'#2a8a50'};"></div></div>`;
+      scs.forEach((txt,si)=>{
+        const kid=`cgsc-${sid}-${L}-${si}`;const ck=kmScChk[sid]&&kmScChk[sid][L]&&kmScChk[sid][L][si]?'checked':'';const dis=ls.bl||!ls.passedMR?'disabled':'';
+        dimH+=`<div class="cg-req-item"><input type="checkbox" id="${kid}" ${ck} ${dis} onchange="kmToggleSC('${sid}',${L},${si},this.checked);" style="accent-color:#1a7a4a;"><label for="${kid}">${txt}</label></div>`;
+      });
+    }else{
+      const dis=ls.bl?'disabled':'';
+      dimH=`<div class="cg-sect-lbl" style="margin-top:8px;">📐 มิติที่ประเมิน (L${L})</div><div class="cg-radio-grp">`;
+      [[0,'0 — ไม่ครบตามเกณฑ์'],[0.5,'0.5 — ทำได้บางส่วน'],[1,'1.0 — ครบตามมิติที่ประเมิน']].forEach(([v,lbl])=>{
+        const ck=(rv===v)?'checked':'';const col=v===1?'#1a7a4a':v===0.5?'#c07000':'#c03020';
+        dimH+=`<label style="padding:3px 6px;border-radius:5px;background:${ck?(v===1?'#e0f5e8':v===0.5?'#fef8e0':'#fee8e8'):'transparent'};border:1px solid ${ck?col:'transparent'};color:${ck?col:'#444'};font-weight:${ck?'700':'400'};cursor:${ls.bl?'not-allowed':'pointer'};"><input type="radio" name="cgdim-${sid}-${L}" value="${v}" ${ck} ${dis} onchange="kmSetDim('${sid}',${L},${v});" style="accent-color:${col};flex-shrink:0;"> ${lbl}</label>`;
+      });
+      dimH+='</div>';
+    }
+    const dimStrip=ints.length?`<div class="lvl-dim-strip">${ints.map(dimBadge).join(' ')}</div>`:'';
+    lvlHTML+=`<div class="cg-lvl-row${ls.bl?' blocked':L===gapL?' is-gap':''}">
+      <div class="cg-lvl-hd" style="background:${hdBg};">
+        <span class="cg-lvl-num" style="background:${nBg};">L${L}</span>
+        <span class="cg-lvl-summ"><span class="kt">${summ}</span>${(!ls.bl&&L===gapL)?'&nbsp;<span class="dim-gap-tag">⚠️ ช่องว่าง</span>':''}</span>
+        <span style="display:flex;gap:3px;align-items:center;flex-shrink:0;">${xBtn}<span style="font-size:10px;font-weight:700;color:${sCol};min-width:28px;text-align:right;">${ls.bl?'—':rv.toFixed(2)}</span></span>
+      </div>
+      ${dimStrip}${xPan}
+      <div class="cg-lvl-body">
+        ${mrH}<div${!ls.passedMR&&mrs.length?' style="pointer-events:none;opacity:.5;"':''}>${dimH}</div>
+      </div>
+    </div>`;
+  });
+
+  return `<div class="cg-sim">
+    <div class="cg-sim-hd">
+      <span style="font-size:11px;padding:2px 8px;border-radius:6px;background:var(--navy);color:#fff;">KM</span>
+      &nbsp;Sequential Gating Simulator — minReqs + SubComps
+      <span style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+        <button onclick="if(confirm('ล้างข้อมูลทั้งหมด?'))kmClearAll()" style="font-size:11px;padding:3px 10px;border:1px solid #e0a0a0;border-radius:5px;background:#fee8e8;cursor:pointer;color:#b03020;font-weight:600;">🗑 ล้างข้อมูล</button>
+        <span style="font-size:11px;font-weight:700;color:#0a4a2a;">${raw.toFixed(4)}/5.0</span>
+      </span>
+    </div>
+    <div class="cg-scope-box">${s.scopeNote||''}</div>
+    ${crossSumm}
+    ${lvlHTML}
+    <div class="cg-total-bar">
+      <span class="cg-total-lbl">คะแนนดิบสะสม (0–5)</span>
+      <span class="cg-raw">${raw.toFixed(4)}</span>
+      <span class="cg-wt">× ${s.w}% = <strong>${wt.toFixed(4)} pts</strong></span>
+    </div>
+  </div>`;
+}
+
+// ── renderFrameB ────────────────────────────────────────────────────
+function renderFrameB(s){
+  const mr=s.minReqs||{};const sid=s.id;
+  let total=0,done=0;
+  [1,2,3,4,5].forEach(L=>{const items=mr[L]||[];total+=items.length;items.forEach((_,i)=>{if(docGetChk(sid,L,i))done++;});  });
+  const progPct=total>0?Math.round(done/total*100):0;
+  const progColor=done===total&&total>0?'#1a7a4a':done>0?'#92400e':'#666';
+  let html=`<div class="fb-prog-bar"><span style="font-size:11px;font-weight:600;color:${progColor};" id="fb-total-${sid}">${done}/${total} เอกสารพร้อมแล้ว</span><div class="fb-prog-track"><div id="fb-prog-fill-${sid}" style="height:100%;width:${progPct}%;background:${progColor};transition:width .3s;"></div></div></div>`;
+  [1,2,3,4,5].forEach(L=>{
+    const items=mr[L]||[];if(!items.length)return;
+    const lvlDone=items.filter((_,i)=>docGetChk(sid,L,i)).length;
+    const bdId=`fb-bd-${sid}-${L}`;
+    const lvlTitle=(s.levelSumm&&s.levelSumm[L-1])||`ระดับ ${L}`;
+    const shortTitle=lvlTitle.length>48?lvlTitle.slice(0,48)+'…':lvlTitle;
+    const lvlColor=lvlDone===items.length?'#1a7a4a':lvlDone>0?'#92400e':'#0369a1';
+    const lvlBg=lvlDone===items.length?'#e4f5e4':lvlDone>0?'#fef8e0':'rgba(2,132,199,.06)';
+    const itemsHtml=items.map((item,i)=>{
+      const isGap=item.startsWith('[แก้ไข Gap');const cleanItem=item.replace('[แก้ไข Gap สำคัญ]','').trim();
+      const ckd=docGetChk(sid,L,i);const ckId=`dck-${sid}-${L}-${i}`;
+      return `<label class="fb-item${isGap?' fb-item-gap':''}${ckd?' fb-item-done':''}"><input type="checkbox" id="${ckId}"${ckd?' checked':''} onchange="docToggle('${sid}',${L},${i},this.checked)">${isGap?'<span class="fb-gap-tag">⚠️ Gap</span>':''}<span class="fb-item-text">${cleanItem}</span></label>`;
+    }).join('');
+    html+=`<div class="doc-lvl-block"><div class="doc-lvl-hd" style="background:${lvlBg};" onclick="var e=document.getElementById('${bdId}');e.classList.toggle('open');"><span class="doc-lvl-badge">L${L}</span><span class="doc-lvl-title" style="color:${lvlColor};">${shortTitle}</span><span class="doc-lvl-count" id="fb-cnt-${sid}-${L}" style="color:${lvlColor};font-weight:600;">${lvlDone}/${items.length}</span><span style="font-size:10px;color:#7080b0;">▼</span></div><div class="doc-lvl-body" id="${bdId}">${itemsHtml}</div></div>`;
+  });
+  return html;
+}
+
+// ── renderFrameE ────────────────────────────────────────────────────
+function renderFrameE(s){
+  const sid=s.id;const mr=s.minReqs||{};const gaps=s.gaps||[];const outId=`fe-out-${sid}`;
+  const simMax=[5,4,3,2,1].find(L=>kmCalcLevel(sid,L)>=1)||0;
+  const rawScore=kmCalcRaw(sid);
+  const pills=[1,2,3,4,5].map(L=>{
+    const lv=kmCalcLevel(sid,L);
+    const pass=lv>=1;const partial=lv>0&&lv<1;
+    return `<span style="font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;background:${pass?'#1a7a4a':partial?'#e3a82e':'#e0ddd8'};color:${pass||partial?'#fff':'#888'};">L${L}${partial?' ('+Math.round(lv*100)+'%)':''}</span>`;
+  }).join('');
+  let html=`<div class="fe-sim-row"><span style="font-size:11px;color:var(--text3);">คะแนนดิบ (Simulator):</span><div style="display:flex;gap:4px;flex-wrap:wrap;">${pills}</div><span style="font-size:11px;font-weight:700;color:#1a7a4a;margin-left:auto;">${rawScore.toFixed(4)}/5.0</span></div>`;
+  html+=`<div class="fe-sect-lbl">สิ่งที่ดำเนินการ — กรอกต่อระดับที่ทำได้</div>`;
+  [1,2,3,4,5].forEach(L=>{
+    const items=mr[L]||[];if(!items.length)return;
+    const tickedCnt=items.filter((_,i)=>docGetChk(sid,L,i)).length;
+    const lScore=kmCalcLevel(sid,L);const isPass=lScore>=1;const isPartial=lScore>0;
+    const lvlTitle=(s.levelSumm&&s.levelSumm[L-1])||`ระดับ ${L}`;
+    const short=lvlTitle.length>46?lvlTitle.slice(0,46)+'…':lvlTitle;
+    const note=feGet(sid,'lvlNotes',L);const bdId=`fe-bd-${sid}-${L}`;
+    const badgeBg=isPass?'#1a7a4a':isPartial?'#e3a82e':'#94a3b8';
+    html+=`<div class="fe-lvl-block${isPass?' fe-lvl-active':''}"><div class="fe-lvl-hd" onclick="var e=document.getElementById('${bdId}');e.classList.toggle('open');"><span class="fe-lvl-badge" style="background:${badgeBg};">L${L}</span><span class="fe-lvl-title">${short}</span><span class="fe-doc-ref">📄 ${tickedCnt}/${items.length}</span><span style="font-size:10px;color:#7080b0;">▼</span></div><div class="fe-lvl-body${isPass?' open':''}" id="${bdId}"><textarea class="fe-textarea" rows="3" placeholder="อธิบายสิ่งที่ กทท. ดำเนินการในระดับนี้..." onchange="feSet('${sid}','lvlNotes',${L},this.value)" onblur="feSet('${sid}','lvlNotes',${L},this.value)">${note}</textarea></div></div>`;
+  });
+  if(gaps.length){
+    html+=`<div class="fe-sect-lbl" style="margin-top:12px;">ช่องว่างจาก TRIS — ปิดได้หรือยัง?</div>`;
+    gaps.forEach((gap,i)=>{
+      const cl=feGapClosed(sid,i);const gNote=feGet(sid,'gapNotes',i);
+      html+=`<div class="fe-gap-item"><div class="fe-gap-text">⚠️ ${gap}</div><div class="fe-gap-status"><label class="fe-radio-lbl"><input type="radio" name="gc-${sid}-${i}" value="1"${cl===true?' checked':''} onchange="feSet('${sid}','gapClosed',${i},true)">✓ ปิดได้แล้ว</label><label class="fe-radio-lbl"><input type="radio" name="gc-${sid}-${i}" value="0"${cl===false?' checked':''} onchange="feSet('${sid}','gapClosed',${i},false)">○ อยู่ระหว่างดำเนินการ</label></div><textarea class="fe-textarea" rows="2" placeholder="อธิบายสิ่งที่ทำเพื่อปิด Gap นี้..." onchange="feSet('${sid}','gapNotes',${i},this.value)" onblur="feSet('${sid}','gapNotes',${i},this.value)">${gNote}</textarea></div>`;
+    });
+  }
+  html+=`<div style="margin-top:14px;"><button class="fe-gen-btn" onclick="document.getElementById('${outId}').value=genScript('${sid}');">🔄 Gen Script</button><span style="font-size:11px;color:var(--text3);margin-left:8px;">รวม Simulator + เอกสาร Frame B + Notes ทั้งหมด</span></div><div style="margin-top:8px;"><textarea class="fe-output" id="${outId}" rows="14" placeholder="กด Gen Script เพื่อสร้างคำตอบ — แก้ไขได้ก่อน Copy"></textarea><button class="fe-copy-btn" onclick="feCopyOut('${outId}',this)">📋 Copy ทั้งหมด</button></div>`;
+  return html;
+}
+
+// ── renderRight ──────────────────────────────────────────────────────
+function renderRight(){
+  const body=document.getElementById('rightBody');
+  if(!focusId){body.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#aaa;font-size:13px;">คลิก sub-item ด้านซ้ายเพื่อดูรายละเอียด</div>';return;}
+  const s=DATA.km.subs.find(x=>x.id===focusId);if(!s){body.innerHTML='';return;}
+  const simHTML=renderSim(s);const tval=targets.km[s.id];
+  const gA=(s.gaps||[]).map(g=>`<div class="box box-red" style="margin-bottom:4px;">• ${exp(g,90)}</div>`).join('');
+  const rC=(s.results||[]).map(r=>`<div class="match-row m-ok"><span>✓</span><span>${exp(r,80)}</span></div>`).join('');
+  const lC=(s.gaps||[]).slice(0,3).map(g=>`<div class="match-row m-no"><span>✗</span><span style="font-size:10.5px;">${g.split(' —')[0].slice(0,70)}</span></div>`).join('');
+  const dD=(s.actions||[]).map(a=>`<div style="display:flex;align-items:flex-start;gap:5px;font-size:11px;color:#333;padding:3px 0;"><span style="color:#1a7a4a;flex-shrink:0;">→</span><span>${exp(a,100)}</span></div>`).join('');
+  body.innerHTML=`
+    <div style="padding:5px 12px;font-size:11px;background:#e8f5ee;border-bottom:1px solid #c0dac8;display:flex;align-items:center;gap:8px;flex-shrink:0;position:sticky;top:0;z-index:2;">
+      <span style="font-weight:700;color:#0a4a2a;">ข้อ ${s.id}</span>
+      <span style="color:#555;font-size:10.5px;">${s.name}</span>
+      <span style="margin-left:auto;font-size:10px;background:#e0ddd4;color:#444;padding:1px 7px;border-radius:8px;">ปัจจุบัน ${fmt(s.s68)}</span>
+      <span style="font-size:10px;">→</span>
+      <span style="font-size:10px;background:#c5e8d5;color:#0a4a2a;padding:1px 7px;border-radius:8px;font-weight:700;">คำนวณ ${fmt(tval)}</span>
+      <button onclick="if(confirm('ล้างข้อมูลข้อ ${s.id} ทั้งหมด?'))kmClearOne('${s.id}')" style="font-size:10.5px;padding:3px 12px;border:none;border-radius:20px;background:#e2554f;color:#fff;cursor:pointer;font-weight:800;box-shadow:0 1px 5px rgba(226,85,79,.5);white-space:nowrap;">🗑 ล้างข้อนี้</button>
+    </div>
+    ${simHTML}
+    <div class="frame"><div class="frame-hd fa-hd"><span class="ftag fa-tag">A</span><span style="color:#7a1010;">ช่องว่างที่ต้องปิด (TRIS)</span></div><div class="frame-bd">${gA||'<div style="color:#999;">—</div>'}</div></div>
+    <div class="frame"><div class="frame-hd fb-hd"><span class="ftag fb-tag">B</span><span style="color:#102070;">เอกสารลงระบบ — แยกตามระดับ</span><a href="${DOC_DETAIL_URL}" target="_blank" style="margin-left:auto;font-size:9.5px;padding:2px 9px;border-radius:5px;background:#2a4a9a;color:#fff;text-decoration:none;font-weight:600;">📋 ดูทั้งหมด</a></div><div class="frame-bd" style="padding:6px 8px;">${renderFrameB(s)}</div></div>
+    <div class="frame"><div class="frame-hd fc-hd"><span class="ftag fc-tag">C</span><span style="color:#4a4a00;">กทท. ตอบอะไรไป / จุดแข็ง</span></div><div class="frame-bd"><div class="box box-gray" style="margin-bottom:6px;font-size:11px;">${exp((s.good||[''])[0]||'—',100)}</div><div style="font-size:9.5px;color:#888;margin:4px 0 2px;font-weight:600;">ผลที่นำเสนอ:</div>${rC}<div style="font-size:9.5px;color:#888;margin:6px 0 2px;font-weight:600;">ช่องว่างที่ยังขาด:</div>${lC}</div></div>
+    <div class="frame"><div class="frame-hd fd-hd"><span class="ftag fd-tag">D</span><span style="color:#102848;">สิ่งที่ต้องดำเนินการปี 69</span></div><div class="frame-bd">${dD||'<div style="color:#999;">—</div>'}</div></div>
+    <div class="frame" style="border-bottom:none;"><div class="frame-hd fe-hd"><span class="ftag fe-tag">E</span><span style="color:#0a4030;">Self-Assessment Script — ร่างคำตอบระบบ สคร.</span></div><div class="frame-bd" style="padding:6px 8px;">${renderFrameE(s)}</div></div>`;
+}
+
+// ── renderLeft ───────────────────────────────────────────────────────
+function renderLeft(){
+  const body=document.getElementById('leftBody');body.innerHTML='';
+  document.getElementById('dimTitle').textContent=DATA.km.dimName;
+  document.getElementById('dimOrig').textContent='ปัจจุบัน '+fmt(DATA.km.orig);
+  document.getElementById('totalLbl').textContent='คะแนนรวม '+DATA.km.dimId;
+  document.getElementById('totalOrig').textContent=fmt(DATA.km.orig);
+  const grps=[...new Set(DATA.km.subs.map(s=>s.grp))];
+  grps.forEach(gid=>{
+    const ss=DATA.km.subs.filter(s=>s.grp===gid);const first=ss[0];
+    const gs=ss.reduce((a,s)=>a+s.w*targets.km[s.id],0)/first.gw;
+    const diff=gs-first.gs68;
+    const assessed=ss.filter(s=>kmCalcRaw(s.id)>0).length;
+    const tot=ss.length;const fillPct=Math.round(gs/5*100);
+    const fillCol=gs>=3.5?'#1f9d6f':gs>=2.5?'#e3a82e':'#e2554f';
+    const chkCls=assessed===tot?'chk-all':assessed>0?'chk-part':'chk-none';
+    const chkLbl=assessed===tot?`✓ ครบ ${tot}/${tot}`:`${assessed}/${tot} ข้อย่อย`;
+    const gDiv=document.createElement('div');gDiv.className='grp';
+    gDiv.innerHTML=`<div class="grp-row1"><span class="grp-id">${gid}</span><span class="grp-name">${first.gname}</span><span class="grp-wt">(${first.gw}%)</span><div class="grp-scores"><span class="chip cn" style="font-size:10px;">${fmt(first.gs68)}</span><span style="color:#999;font-size:10px;">→</span><span class="chip ${diff<-0.001?'cr':diff>0.001?'ct':'cn'}" style="font-size:10px;" id="gs-cg-${gid}">${fmt(gs)}</span></div></div><div class="grp-row2"><span class="grp-chk ${chkCls}" id="rollup-chk-${gid}">${chkLbl}</span><span class="grp-score2"><strong id="rollup-gs-${gid}" style="color:${diff>0.001?'#1a7a4a':diff<-0.001?'#c03020':'#555'};">${gs.toFixed(4)}</strong><span id="rollup-delta-${gid}" style="font-size:9px;color:${diff>0.001?'#1a7a4a':diff<-0.001?'#c03020':'#aaa'};">(${diff>=0?'+':''}${diff.toFixed(4)})</span></span><div class="grp-prog"><div class="grp-prog-fill" id="rollup-bar-${gid}" style="width:${fillPct}%;background:${fillCol};"></div></div></div>`;
+    body.appendChild(gDiv);
+    ss.forEach(s=>{
+      const row=document.createElement('div');row.className='sub'+(focusId===s.id?' focus-cg':'');row.id='subrow-'+s.id;
+      row.innerHTML=`<div class="sub-left"><div class="sub-meta"><span class="sub-num">${s.id}</span><span class="sub-name">${s.name}</span><span class="sub-wt">(${s.w}%)</span><span class="sub-now">ปี 68: ${fmt(s.s68)}</span></div></div><div class="sub-target" id="st-${s.id}"><span class="target-lbl">คำนวณ</span><input class="target-inp" id="ti-${s.id}" type="text" value="${fmt(targets.km[s.id])}" readonly style="border-color:#ccc;"><span class="dot ${dotColor(s)}" id="dot-${s.id}"></span></div>`;
+      row.addEventListener('click',()=>{focusId=s.id;renderAll();});body.appendChild(row);
+      const strip=document.createElement('div');strip.className='sstrip';
+      strip.innerHTML=`<span class="sbadge ${sClass(s.status)}">${sIcon(s.status)} ${s.status}</span><span style="font-size:10px;color:#999;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-left:6px;">${s.statusNote||'ยังไม่มีข้อมูล'}</span>`;
+      strip.addEventListener('click',()=>{focusId=s.id;renderAll();});body.appendChild(strip);
+    });
+  });
+}
+
+// ── renderChecklist ──────────────────────────────────────────────────
+function renderChecklist(){
+  if(!focusId){document.getElementById('clTitle').textContent='เลือก sub-item เพื่อดู Action Checklist';document.getElementById('clItems').innerHTML='';return;}
+  const s=DATA.km.subs.find(x=>x.id===focusId);if(!s)return;
+  document.getElementById('clTitle').textContent=`Action Checklist — ข้อ ${s.id} · ปัจจุบัน ${fmt(targets.km[s.id])}`;
+  if(!clChecked[s.id])clChecked[s.id]=(s.actions||[]).map(()=>false);
+  document.getElementById('clItems').innerHTML=(s.actions||[]).map((a,i)=>{
+    const chk=clChecked[s.id][i];
+    const sty=chk?'display:flex;align-items:flex-start;gap:6px;background:#E6F8F1;border-left:3px solid #51BF8E;border-radius:5px;padding:4px 8px;margin-bottom:4px;':'display:flex;align-items:flex-start;gap:6px;background:#FFF0EE;border-left:3px solid #FF6766;border-radius:5px;padding:4px 8px;margin-bottom:4px;';
+    return `<div class="cl-item" id="clrow-${s.id}-${i}" style="${sty}"><input type="checkbox" id="cl-${s.id}-${i}" ${chk?'checked':''} onchange="toggleCL('${s.id}',${i},this.checked)"><label for="cl-${s.id}-${i}" style="flex:1;"><span id="cls-${s.id}-${i}" class="cl-short" style="-webkit-line-clamp:2;">${a}</span><span id="clb-${s.id}-${i}" class="cl-exp-btn" onclick="event.preventDefault();clExpand('${s.id}',${i})">อ่านเพิ่ม ▼</span></label></div>`;
+  }).join('');
+}
+function toggleCL(id,i,val){
+  if(!clChecked[id])clChecked[id]=[];clChecked[id][i]=val;save();
+  const r=document.getElementById('clrow-'+id+'-'+i);if(!r)return;
+  r.style.cssText=val?'display:flex;align-items:flex-start;gap:6px;background:#E6F8F1;border-left:3px solid #51BF8E;border-radius:5px;padding:4px 8px;margin-bottom:4px;':'display:flex;align-items:flex-start;gap:6px;background:#FFF0EE;border-left:3px solid #FF6766;border-radius:5px;padding:4px 8px;margin-bottom:4px;';
+}
+
+// ── updateScores ─────────────────────────────────────────────────────
+function updateScores(){
+  const subs=DATA.km.subs;const tw=subs.reduce((a,s)=>a+s.w,0);
+  const total=subs.reduce((a,s)=>a+s.w/tw*kmCalcRaw(s.id),0);
+  const delta=total-DATA.km.orig;
+  document.getElementById('totalChip').textContent='คาดการณ์ '+fmt(total);
+  document.getElementById('totalChip').className='chip '+(delta>0?'ct':delta<0?'cr':'cn');
+  document.getElementById('totalFooter').textContent=fmt(total);
+  document.getElementById('totalFooter').className='chip '+(delta>0?'ct':delta<0?'cr':'cn');
+  document.getElementById('deltaChip').textContent=(delta>=0?'+':'')+fmt(delta)+' pts';
+  document.getElementById('deltaChip').style.color=delta>0?'#1a9a50':delta<0?'#c03020':'#888';
+  document.getElementById('deltaFooter').textContent=(delta>=0?'+':'')+fmt(delta);
+  document.getElementById('deltaFooter').style.color=delta>0?'#5fcf8a':delta<0?'#f0806a':'#888';
+  const grps=[...new Set(subs.map(s=>s.grp))];
+  grps.forEach(gid=>{
+    const ss=subs.filter(s=>s.grp===gid);const first=ss[0];
+    const gs=ss.reduce((a,s)=>a+s.w*targets.km[s.id],0)/first.gw;
+    const diff=gs-first.gs68;
+    const el=document.getElementById('gs-cg-'+gid);
+    if(el){el.textContent=fmt(gs);el.className='chip '+(diff<-0.001?'cr':diff>0.001?'ct':'cn');}
+    const gsEl=document.getElementById('rollup-gs-'+gid);
+    if(gsEl){gsEl.textContent=gs.toFixed(4);gsEl.style.color=diff>0.001?'#1a7a4a':diff<-0.001?'#c03020':'#555';const dEl=document.getElementById('rollup-delta-'+gid);if(dEl){dEl.textContent='('+(diff>=0?'+':'')+diff.toFixed(4)+')';dEl.style.color=diff>0.001?'#1a7a4a':diff<-0.001?'#c03020':'#aaa';}}
+    const barEl=document.getElementById('rollup-bar-'+gid);if(barEl){barEl.style.width=Math.round(gs/5*100)+'%';barEl.style.background=gs>=3.5?'#1f9d6f':gs>=2.5?'#e3a82e':'#e2554f';}
+    const chkEl=document.getElementById('rollup-chk-'+gid);
+    if(chkEl){const assessed=ss.filter(s=>kmCalcRaw(s.id)>0).length;const tot=ss.length;chkEl.textContent=assessed===tot?`✓ ครบ ${tot}/${tot}`:`${assessed}/${tot} ข้อย่อย`;chkEl.className='grp-rollup-chk '+(assessed===tot?'chk-all':assessed>0?'chk-part':'chk-none');}
+  });
+  subs.forEach(s=>{const d=document.getElementById('dot-'+s.id);if(d)d.className='dot '+dotColor(s);});
+}
+
+function renderAll(){renderLeft();renderRight();renderChecklist();updateScores();}
+(async function init(){
+  await loadState();
+  renderAll();
+  syncHomeStatus();
+})();
+(function(){const el=document.getElementById('depTotalBar');if(el)el.innerHTML=renderDepTotal();})();
+</script>
+</body>
+</html>
