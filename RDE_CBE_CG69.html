@@ -107,6 +107,12 @@ body{
 .dg{background:var(--lv5);}.da{background:var(--lv3);}.dr{background:var(--lv1);}
 
 /* ITEM HEADER (readiness-first, score de-emphasized) */
+/* Sticky mini-header — stays visible while scrolling through Evidence/Answer
+   Builder so you never lose track of which item you're working on
+   (2026-08-18: "ลืมว่า Builder นี้ของข้ออะไร" when scrolled deep). Sits in
+   normal flow right above .item-hd, so it's invisible until you scroll past
+   the full header, then sticks to the top of .main. */
+.sticky-mini{position:sticky;top:0;z-index:6;background:var(--paper);border-bottom:1px solid var(--border-s);padding:8px 20px;font-size:12.5px;font-weight:800;color:var(--text);}
 .item-hd{display:flex;flex-wrap:wrap;align-items:center;gap:9px 12px;padding:18px 20px;border-bottom:1px solid var(--border-s);background:var(--paper);}
 .item-hd-title{font-size:19px;font-weight:800;color:var(--text);width:100%;}
 .readiness-phrase{font-size:14.5px;font-weight:700;color:#1a7a4a;width:100%;}
@@ -200,7 +206,8 @@ body{
 .ev-table td{padding:8px 8px;border-bottom:1px solid var(--border-s);vertical-align:top;}
 .ev-status{font-size:10.5px;padding:2px 9px;border-radius:20px;font-weight:700;white-space:nowrap;}
 .ev-status.ok{background:#e4f5e4;color:#1a7a4a;}
-.ev-status.missing{background:#fdecea;color:#b8291c;}
+.ev-status.pending{background:#fef3d9;color:#92600e;}
+.ev-status.gray{background:var(--canvas);color:var(--text3);}
 .doc-lvl-badge{font-size:11px;font-weight:800;padding:2px 9px;border-radius:20px;background:var(--gold);color:var(--text);flex-shrink:0;border:1.5px solid var(--border);}
 .doc-lvl-title{font-size:12.5px;font-weight:700;color:var(--text);flex:1;}
 .doc-lvl-count{font-size:11px;color:var(--text3);}
@@ -932,10 +939,18 @@ function renderEvidenceCard(s){
   const lvlCounts={};evRows.forEach(r=>{lvlCounts[r.L]=(lvlCounts[r.L]||0)+1;});
   const evTabs=`<button class="ev-tab active" onclick="evFilter('${sid}','all',this)">ทั้งหมด ${evRows.length}</button>`+
     [1,2,3,4,5].filter(L=>lvlCounts[L]).map(L=>`<button class="ev-tab" onclick="evFilter('${sid}',${L},this)">L${L} ${lvlCounts[L]}</button>`).join('');
+  // Semantic colors (2026-08-18 fix): red is reserved for confirmed gaps/warnings/
+  // destructive actions elsewhere in this UI — "พบไฟล์" (file exists, not yet
+  // confirmed as evidence) is a neutral/in-progress state, not a warning, so it
+  // must NOT share the red "missing" styling. Only a genuinely absent file stays
+  // a (gray, not red) warning; confirmed evidence is green; found-but-unconfirmed
+  // is amber ("pending" review), matching ok/pending/gray below.
   const evRow=(r,extra)=>{
     const fid=`evck-${sid}-${r.L}-${r.code}`.replace(/[^a-zA-Z0-9_-]/g,'_');
-    const chkCell=r.ok?`<input type="checkbox" class="doc-chk" id="${fid}" ${r.ck?'checked':''} onchange="cgToggleDoc('${sid}',${r.L},'${r.code}',this.checked)">`:'';
-    return `<tr data-lvl="${r.L}"${extra?' class="ev-extra" style="display:none;"':''}><td>L${r.L}</td><td>${chkCell} ${r.code!=='—'?`<span class="doc-file-code">${r.code}</span> `:''}${exp(r.name,50)}</td><td><span class="ev-status ${r.ok?(r.ck?'ok':'missing'):'missing'}">${r.ok?(r.ck?'ยืนยันแล้ว':'พบไฟล์'):'ต้องจัดทำเพิ่ม'}</span></td></tr>`;
+    const chkCell=r.ok?`<input type="checkbox" class="doc-chk" id="${fid}" ${r.ck?'checked':''} onchange="cgToggleDoc('${sid}',${r.L},'${r.code}',this.checked)">`:'<span style="color:var(--text3);">—</span>';
+    const statusCls=r.ok?(r.ck?'ok':'pending'):'gray';
+    const statusTxt=r.ok?(r.ck?'ยืนยันแล้ว':'พบไฟล์ · รอตรวจ'):'ต้องจัดทำเพิ่ม';
+    return `<tr data-lvl="${r.L}"${extra?' class="ev-extra" style="display:none;"':''}><td>L${r.L}</td><td>${r.code!=='—'?`<span class="doc-file-code">${r.code}</span> `:''}${exp(r.name,50)}</td><td style="text-align:center;">${chkCell}</td><td><span class="ev-status ${statusCls}">${statusTxt}</span></td></tr>`;
   };
   const shownEv=evRows.slice(0,5),restEv=evRows.slice(5);
   const evRowsHTML=shownEv.map(r=>evRow(r,false)).join('')+restEv.map(r=>evRow(r,true)).join('');
@@ -945,7 +960,7 @@ function renderEvidenceCard(s){
       <a href="${DOC_DETAIL_URL}" target="_blank" style="margin-left:auto;font-size:10.5px;padding:3px 11px;border-radius:20px;background:var(--navy);color:#fff;text-decoration:none;font-weight:700;">📋 ดูทั้งหมด</a>
     </div>
     <div class="card-bd" style="padding:10px 16px 14px;">
-      ${evRows.length?`<div class="ev-tabs">${evTabs}</div><div style="overflow-x:auto;"><table class="ev-table"><thead><tr><th>ระดับ</th><th>ไฟล์ / เอกสาร</th><th>สถานะ</th></tr></thead><tbody id="evtbody-${sid}">${evRowsHTML}</tbody></table></div>${moreBtn}`:'<div style="color:var(--text3);">— ยังไม่มีข้อมูลหลักฐาน —</div>'}
+      ${evRows.length?`<div class="ev-tabs">${evTabs}</div><div style="overflow-x:auto;"><table class="ev-table"><thead><tr><th>ระดับ</th><th>ไฟล์ / เอกสาร</th><th style="text-align:center;" title="ติ๊กเมื่อตรวจไฟล์แล้วและใช้เป็นหลักฐานยืนยันของข้อนี้ได้จริง">✓ ยืนยันแล้ว</th><th>สถานะ</th></tr></thead><tbody id="evtbody-${sid}">${evRowsHTML}</tbody></table></div>${moreBtn}`:'<div style="color:var(--text3);">— ยังไม่มีข้อมูลหลักฐาน —</div>'}
     </div>
   </div>`;
 }
@@ -979,6 +994,10 @@ function renderRight(){
   const phrase=status.passedLevel>=5?'ผ่านครบ L5 — ระดับสูงสุด'
     :status.passedLevel===0?`ยังไม่ผ่านระดับใด → กำลังทำ L${status.activeLevel}`
     :`พร้อมถึง L${status.passedLevel} → กำลังตรวจ L${status.activeLevel}`;
+  // Compact form for badges/sticky bars that don't have room for the full phrase.
+  const shortPhrase=status.passedLevel>=5?'ผ่านครบ L5'
+    :status.passedLevel===0?`กำลังทำ L${status.activeLevel}`
+    :`พร้อมถึง L${status.passedLevel}`;
 
   const linkDims=[];
   Object.values(s.integLinks||{}).forEach(arr=>(arr||[]).forEach(d=>{if(!linkDims.includes(d))linkDims.push(d);}));
@@ -1096,12 +1115,13 @@ function renderRight(){
   </div>`:'';
 
   body.innerHTML=`
+    <div class="sticky-mini">CG ${sid} · ${shortPhrase}</div>
     <div class="item-hd">
       <span class="item-hd-title">ข้อ ${sid} · ${s.name}</span>
       <span class="readiness-phrase">${phrase}</span>
       <span class="item-tag">คะแนนปี 68: ${fmt(s.s68)}</span>
       <span class="item-tag">น้ำหนัก: ${s.w}%</span>
-      <span class="item-tag rde">RDE Readiness</span>
+      <span class="item-tag rde" title="เป็นประมาณการความพร้อมจากข้อมูลที่กรอก ไม่ใช่คะแนนประเมินอย่างเป็นทางการ">RDE Readiness · ${shortPhrase} ⓘ</span>
       ${linkTagsHTML}
       <button class="clear-btn" style="margin-left:auto;" onclick="if(confirm('ล้างข้อมูลข้อ ${sid} ทั้งหมด?'))cgClearOne('${sid}')">🗑 ล้างข้อนี้</button>
     </div>
@@ -1157,14 +1177,19 @@ function updateScores(){
   const subs=DATA.cg.subs;const tw=subs.reduce((a,s)=>a+s.w,0);
   const total=subs.reduce((a,s)=>a+s.w/tw*targets.cg[s.id],0);
   const delta=total-DATA.cg.orig;
-  document.getElementById('totalChip').textContent='คาดการณ์ '+fmt(total);
-  document.getElementById('totalChip').className='chip '+(delta>0?'ct':delta<0?'cr':'cn');
-  document.getElementById('totalFooter').textContent=fmt(total);
-  document.getElementById('totalFooter').className='chip '+(delta>0?'ct':delta<0?'cr':'cn');
-  document.getElementById('deltaChip').textContent=(delta>=0?'+':'')+fmt(delta)+' pts';
-  document.getElementById('deltaChip').style.color=delta>0?'#1a9a50':delta<0?'#c03020':'#888';
-  document.getElementById('deltaFooter').textContent=(delta>=0?'+':'')+fmt(delta);
-  document.getElementById('deltaFooter').style.color=delta>0?'#5fcf8a':delta<0?'#f0806a':'#888';
+  // Before anyone has ticked anything, total is mechanically 0 and delta is a
+  // scary "-2.8315" that reads as "your score just got zeroed out" — it never
+  // meant that, it meant "nothing entered yet". Say that plainly instead of
+  // showing a misleading negative number (2026-08-18 feedback).
+  const started=total>0.00005;
+  document.getElementById('totalChip').textContent=started?('คาดการณ์ '+fmt(total)):'ยังไม่ประเมิน';
+  document.getElementById('totalChip').className='chip '+(started?(delta>0?'ct':delta<0?'cr':'cn'):'cn');
+  document.getElementById('totalFooter').textContent=started?fmt(total):'ยังไม่ประเมิน';
+  document.getElementById('totalFooter').className='chip '+(started?(delta>0?'ct':delta<0?'cr':'cn'):'cn');
+  document.getElementById('deltaChip').textContent=started?((delta>=0?'+':'')+fmt(delta)+' pts'):'';
+  document.getElementById('deltaChip').style.color=started?(delta>0?'#1a9a50':delta<0?'#c03020':'#888'):'';
+  document.getElementById('deltaFooter').textContent=started?((delta>=0?'+':'')+fmt(delta)):'';
+  document.getElementById('deltaFooter').style.color=started?(delta>0?'#5fcf8a':delta<0?'#f0806a':'#888'):'';
   const grps=[...new Set(subs.map(s=>s.grp))];
   grps.forEach(gid=>{
     const ss=subs.filter(s=>s.grp===gid);const first=ss[0];
@@ -1229,10 +1254,10 @@ function renderDepTotal(){
   if(!dims.length){el.innerHTML='';return;}
   const chips=dims.map(d=>{
     const col=DIM_COL[d]||'#8a8578';
-    return `<span class="dep-chip" style="background:${col};">${d} <b>×${counts[d]}</b></span>`;
+    return `<span class="dep-chip" style="background:${col};" title="มีจุดเชื่อมข้อมูลกับ ${d} ${counts[d]} จุดในเกณฑ์ CG">${d} <b>×${counts[d]}</b></span>`;
   }).join('');
   el.className='deptotal';
-  el.innerHTML=`<span class="dt-lbl">🔗 พึ่งพาข้ามด้าน:</span>${chips}`;
+  el.innerHTML=`<span class="dt-lbl">🔗 ภาพรวมจุดเชื่อมข้อมูล:</span>${chips}`;
 }
 function renderAll(){renderLeft();renderRight();updateScores();renderDepTotal();}
 // NOTE: renderChecklist()/clTitle/clItems intentionally not used in V2 — the old
