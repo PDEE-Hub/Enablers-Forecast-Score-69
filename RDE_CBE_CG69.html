@@ -329,6 +329,14 @@ const cgDimRad={};
 const cgChecked={};
 const cgSubChecked={};
 const cgDocChecked={};
+// Moved up from near init() (2026-08-18 fix): loadState() reads both of these
+// synchronously (before its first await), but they used to be declared AFTER
+// the init() IIFE that calls loadState() — a real TDZ ReferenceError for any
+// returning user with saved chkSim/feIn data, silently swallowed by
+// loadState()'s try/catch. Confirmed empirically (pre-populated localStorage,
+// both came back empty after init() with the old declaration order).
+const cgChkSim = {}; // { sid: { itemIdx: bool } }
+const feInput = {};  // { sid: { lvlNotes:{L:str}, gapClosed:{i:bool}, gapNotes:{i:str} } }
 const LS_KEY='cg_ck_69';
 const DIM_KEY='cg';
 
@@ -381,8 +389,13 @@ function syncHomeStatus(){
     if(!home[DIM_KEY])home[DIM_KEY]={};
     DATA.cg.subs.forEach(s=>{
       const score=cgCalcRaw(s.id);
-      const gc=(s.gaps||[]).length;
-      home[DIM_KEY][s.id]={level:score,hasOpenGap:gc>0,gapCount:gc};
+      // Was: gc = total gaps count, ignoring feInput.gapClosed entirely — so
+      // Home kept showing a sub as red/"open gap" forever even after the
+      // owner marked every gap "ปิดแล้ว" in the Answer Builder (2026-08-18 fix).
+      // Only gaps NOT explicitly marked closed (=== true) still count as open.
+      const gaps=s.gaps||[];
+      const openCount=gaps.filter((_,i)=>feGapClosed(s.id,i)!==true).length;
+      home[DIM_KEY][s.id]={level:score,hasOpenGap:openCount>0,gapCount:openCount};
     });
     localStorage.setItem('seam_status_69',JSON.stringify(home));
   }catch(e){}
@@ -401,13 +414,17 @@ function cgGetSC(id,L,k){return !!(cgSubChecked[id]&&cgSubChecked[id][L]&&cgSubC
 // L5" for this sub. Deliberately scoped to this exact (sid, L) pair — do NOT
 // change the fractional default for subComps generally, other subs/levels may
 // legitimately need partial credit.
-// Regression watchlist (2026-08-18, do NOT auto-add without checking each
-// one's Manual text — source-locked, no pattern-matching from 6.5): 5.2, 6.4,
-// 6.6, 6.7 all have the exact same 2-item "(Evaluation)"+"(Improvement)" L5
-// subComps shape as 6.5. They are plausibly the same bug, but each must be
-// confirmed against its own Manual wording ("ต้องครบทั้ง Evaluation+Improvement
-// จึงได้ L5 จริงหรือไม่") before being added here — never assume by shape alone.
-const ALL_OR_NOTHING_SC={'6.5':new Set([5])};
+// Watchlist resolved 2026-08-18: 5.2, 6.4, 6.6, 6.7 individually confirmed
+// against their own Manual 69 text (not pattern-matched from 6.5's shape) —
+// each genuinely requires both Evaluation AND Improvement to count L5 as
+// passed. All five are now source-locked confirmed, not assumptions.
+const ALL_OR_NOTHING_SC={
+  '5.2':new Set([5]),
+  '6.4':new Set([5]),
+  '6.5':new Set([5]),
+  '6.6':new Set([5]),
+  '6.7':new Set([5])
+};
 function isAllOrNothingSC(id,L){const s=ALL_OR_NOTHING_SC[id];return !!(s&&s.has(Number(L)));}
 function cgToggleSC(id,L,k,v){
   if(!cgSubChecked[id])cgSubChecked[id]={};if(!cgSubChecked[id][L])cgSubChecked[id][L]={};
@@ -1262,6 +1279,7 @@ function importProgress(input){
       if(d.cl)Object.assign(clChecked,d.cl);
       if(d.chkSim)Object.assign(cgChkSim,d.chkSim);
       if(d.tgt)Object.keys(d.tgt).forEach(id=>{targets.cg[id]=Number(d.tgt[id]);});
+      if(d.feIn)Object.assign(feInput,d.feIn); // was missing (2026-08-18) — save() already exports feIn, import silently dropped it
       save();renderAll();
       const exp=d._exported?new Date(d._exported).toLocaleString('th-TH'):'ไม่ระบุ';
       alert(`✅ Import สำเร็จ\nไฟล์ส่งออกเมื่อ: ${exp}`);
@@ -1299,8 +1317,7 @@ function renderAll(){renderLeft();renderRight();updateScores();renderDepTotal();
 })();
 
 // ── Checkbox Simulator (สำหรับ 5.1 และ 5.3) ────────────────────
-const cgChkSim = {}; // { sid: { itemIdx: bool } }
-const feInput = {};  // { sid: { lvlNotes:{L:str}, gapClosed:{i:bool}, gapNotes:{i:str} } }
+// (cgChkSim/feInput declarations moved up near the other state maps — see note there)
 
 function cgGetChkSim(sid, i) {
   return !!(cgChkSim[sid] && cgChkSim[sid][i]);
